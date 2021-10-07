@@ -1,0 +1,24 @@
+﻿<ResourceDictionary
+    xmlns:Components="clr-namespace:chkam05.VisualPlayer.Components" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style
+        x:Key="MainMenuListViewStyle"
+        BasedOn="{StaticResource MaterialDesignListView}"
+        TargetType="ListView">
+
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+    </Style>
+
+    <Style
+        x:Key="MainMenuListViewItemStyle"
+        BasedOn="{StaticResource MaterialDesignListBoxItem}"
+        TargetType="Components:MenuListViewItem">
+
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="MinWidth" Value="192"/>
+    </Style>
+    
+</ResourceDictionary>
