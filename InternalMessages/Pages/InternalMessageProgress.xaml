@@ -32,7 +32,7 @@
 
     <Border
         x:Name="ContentBorder"
-        Background="{fw:AcrylicBrush NoiseOpacity=0.02, TintColor=#FF000000, TintOpacity=0.8}"
+        Background="#C0000000"
         BorderBrush="White"
         BorderThickness="1"
         CornerRadius="8,8,8,8">

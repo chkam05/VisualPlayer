@@ -12,14 +12,15 @@
     BorderThickness="0"
     Foreground="White"
     Height="auto"
-    Padding="2,4"
+    Padding="2,2"
     Style="{StaticResource MaterialDesignRaisedButton}"
     Width="auto"
     
-    Click="Button_Click">
+    Click="Button_Click" Loaded="Button_Loaded">
 
     <Button.Content>
-        <StackPanel>
+        <StackPanel
+            Orientation="Vertical">
 
             <materialDesign:PackIcon
                 x:Name="PackIcon"

@@ -4,8 +4,10 @@ using chkam05.Visualisations.Base;
 using chkam05.VisualPlayer.Base;
 using chkam05.VisualPlayer.Components;
 using chkam05.VisualPlayer.Components.EventArgs;
+using chkam05.VisualPlayer.Data;
 using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Data.Files;
+using chkam05.VisualPlayer.Data.Lists;
 using chkam05.VisualPlayer.Data.States;
 using chkam05.VisualPlayer.Pages;
 using chkam05.VisualPlayer.Utilities;
@@ -18,6 +20,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -31,6 +34,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace chkam05.VisualPlayer.Windows
 {
@@ -265,6 +269,58 @@ namespace chkam05.VisualPlayer.Windows
 
             if (result ?? false)
                 LoadFiles(openFileDialog.FileNames);
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Load playlist as current using open file dialog. </summary>
+        private void LoadPlayListByOpenFileDialog()
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Playlist File|*vpl|XML File|*xml|All Files|*.*";
+            openFileDialog.InitialDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
+            openFileDialog.Multiselect = true;
+            openFileDialog.Title = "Open playlist.";
+
+            var result = openFileDialog.ShowDialog();
+
+            if (result ?? false)
+            {
+                var serializedData = XElement.Load(openFileDialog.FileName);
+                var playlist = PlayerCore.Instance.PlayList;
+                playlist.DeserializeFromXML(serializedData);
+
+                var information = InternalMessages.ShowInfo(
+                    "Loading playlist",
+                    $"Playlist has been loaded. There are now {playlist.Count} songs.");
+
+                information.Icon = PackIconKind.PlaylistAdd;
+            }
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Save playlist to file using save file dialog. </summary>
+        /// <typeparam name="T"> Playlist file type. </typeparam>
+        /// <param name="playlist"> Playlist to save. </param>
+        private void SavePlayListBySaveFileDialog<T>(IPlayList<T> playlist) where T : BaseFile
+        {
+            if (typeof(ISerializable).IsAssignableFrom(playlist.GetType()))
+            {
+                var saveFileDialog = new SaveFileDialog();
+                saveFileDialog.DefaultExt = ".vpl";
+                saveFileDialog.Filter = "Playlist File|*vpl|XML File|*xml|All Files|*.*";
+                saveFileDialog.InitialDirectory = Environment.GetEnvironmentVariable("USERPROFILE");
+                saveFileDialog.Title = "Save playlist";
+
+                var result = saveFileDialog.ShowDialog();
+
+                if (result ?? false)
+                {
+                    (playlist as ISerializable).SerializeToXML().Save(saveFileDialog.FileName);
+                    InternalMessages.ShowInfo(
+                        "Saving playlist", 
+                        $"Playlist has been saved to{Environment.NewLine}\"{saveFileDialog.FileName}\".");
+                }
+            }
         }
 
         #endregion FILES MANAGEMENT METHODS
@@ -1023,6 +1079,7 @@ namespace chkam05.VisualPlayer.Windows
         private void SettingsMainMenuListViewItem_Selected(object sender, RoutedEventArgs e)
         {
             LoadSettingsPage();
+            ChangeSideBarState(SideBarState.COLLAPSED);
         }
 
         //  --------------------------------------------------------------------------------
@@ -1135,6 +1192,8 @@ namespace chkam05.VisualPlayer.Windows
 
         #region PLAYLIST INTERACTION METHODS
 
+        //  PLAYLIST
+
         //  --------------------------------------------------------------------------------
         /// <summary> Method called after double clicking item in playlist. </summary>
         /// <param name="sender"> Object that invoked event. </param>
@@ -1152,23 +1211,48 @@ namespace chkam05.VisualPlayer.Windows
             }
         }
 
+        //  PLAYLIST CONTROL BUTTONS
+
         //  --------------------------------------------------------------------------------
-        /// <summary> Method called after clicking playlist clear context menu item. </summary>
+        /// <summary> Method called after clicking load playlist control button. </summary>
         /// <param name="sender"> Object that invoked event. </param>
         /// <param name="e"> Routed event arguments. </param>
-        private void ClearPlayListContextMenuItem_Click(object sender, RoutedEventArgs e)
+        private void LoadPlayListControlButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPlayListByOpenFileDialog();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method called after clicking save playlist control button. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Routed event arguments. </param>
+        private void SavePlayListControlButton_Click(object sender, RoutedEventArgs e)
+        {
+            SavePlayListBySaveFileDialog(PlayerCore.Instance.PlayList);
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method called after clicking clear playlist control button. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Routed event arguments. </param>
+        private void ClearPlayListControlButton_Click(object sender, RoutedEventArgs e)
         {
             PlayerCore.Instance.PlayList.Clear();
         }
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Method called after clicking playlist load files context menu item. </summary>
+        /// <summary> Method called after clicking playlist sort control button. </summary>
         /// <param name="sender"> Object that invoked event. </param>
         /// <param name="e"> Routed event arguments. </param>
-        private void LoadFilesPlayListContextMenuItem_Click(object sender, RoutedEventArgs e)
+        private void SortPlayListControlButton_Click(object sender, RoutedEventArgs e)
         {
-            LoadFilesByOpenFileDialog();
+            var button = (ControlButton)sender;
+
+            button.ContextMenu.DataContext = button.DataContext;
+            button.ContextMenu.IsOpen = true;
         }
+
+        //  PLAYLIST CONTEXT MENU
 
         //  --------------------------------------------------------------------------------
         /// <summary> Method called after clicking playlist play context menu item. </summary>
@@ -1187,13 +1271,30 @@ namespace chkam05.VisualPlayer.Windows
         }
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Method called after clicking playlist remove file context menu item. </summary>
+        /// <summary> Method called after clicking playlist load files context menu item. </summary>
         /// <param name="sender"> Object that invoked event. </param>
         /// <param name="e"> Routed event arguments. </param>
-        private void RemoveFilePlayListContextMenuItem_Click(object sender, RoutedEventArgs e)
+        private void LoadFilesPlayListContextMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            if (PlayListView.SelectedItem != null)
-                PlayerCore.Instance.PlayList.RemoveAt(PlayListView.SelectedIndex);
+            LoadFilesByOpenFileDialog();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method called after clicking playlist load playlist context menu item. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Routed event arguments. </param>
+        private void LoadPlayListContextMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            LoadPlayListByOpenFileDialog();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method called after clicking playlist save playlist context menu item. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Routed event arguments. </param>
+        private void SavePlayListContextMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SavePlayListBySaveFileDialog(PlayerCore.Instance.PlayList);
         }
 
         //  --------------------------------------------------------------------------------
@@ -1212,6 +1313,25 @@ namespace chkam05.VisualPlayer.Windows
         private void SortByTitleDescendingPlayListContextMenuItem_Click(object sender, RoutedEventArgs e)
         {
             PlayerCore.Instance.PlayList.SortBy(p => p.Title, SortOrder.DESCENDING);
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method called after clicking playlist remove file context menu item. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Routed event arguments. </param>
+        private void RemoveFilePlayListContextMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (PlayListView.SelectedItem != null)
+                PlayerCore.Instance.PlayList.RemoveAt(PlayListView.SelectedIndex);
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method called after clicking playlist clear context menu item. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Routed event arguments. </param>
+        private void ClearPlayListContextMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            PlayerCore.Instance.PlayList.Clear();
         }
 
         #endregion PLAYLIST INTERACTION METHODS

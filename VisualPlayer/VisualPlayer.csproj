@@ -103,6 +103,7 @@
     <Compile Include="Data\Files\IPlayableFile.cs" />
     <Compile Include="Data\Files\SongFile.cs" />
     <Compile Include="Data\Configuration\IAppConfig.cs" />
+    <Compile Include="Data\ISerializable.cs" />
     <Compile Include="Data\Lists\IPlayList.cs" />
     <Compile Include="Data\Lists\NowPlaying.cs" />
     <Compile Include="Data\Lists\PlayList.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Utilities\Files\EventArgs\FilesLoaderDataRelay.cs" />
     <Compile Include="Utilities\Files\EventArgs\FilesLoaderOnCompleteEventArgs.cs" />
     <Compile Include="Utilities\Files\EventArgs\FilesLoaderOnLoadEventArgs.cs" />
+    <Compile Include="Utilities\ImageTools.cs" />
     <Compile Include="Utilities\LinkQueryBuilder.cs" />
     <Compile Include="Utilities\Maths\Permutation.cs" />
     <Compile Include="Utilities\Pages\IPagesManager.cs" />

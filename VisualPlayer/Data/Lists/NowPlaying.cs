@@ -3,17 +3,27 @@ using chkam05.VisualPlayer.Data.States;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Xml.Linq;
 
 namespace chkam05.VisualPlayer.Data.Lists
 {
-    public class NowPlaying<T> : IPlayList<T> where T : BaseFile
+    public class NowPlaying<T> : ISerializable, IPlayList<T> where T : BaseFile
     {
+
+        //  CONST
+
+        private static readonly string _serializePostfix = "_PLAYLIST";
+        private static readonly string _serializeDataName = "DATA";
+        private static readonly string _serializeVersionName = "VERSION";
+
 
         //  EVENTS
 
@@ -308,6 +318,75 @@ namespace chkam05.VisualPlayer.Data.Lists
         }
 
         #endregion PLAYLIST METHODS
+
+        #region SERIALIZATION METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Serialize object to XML. </summary>
+        /// <returns> Serialized XElement object. </returns>
+        public XElement SerializeToXML()
+        {
+            var app = (App)Application.Current;
+            var xmlName = app.ApplicationName + _serializePostfix;
+
+            XElement root = new XElement(xmlName);
+            root.Add(new XAttribute(nameof(DataType), DataType.Name));
+            root.Add(new XAttribute(_serializeVersionName, app.Version));
+
+            XElement data = new XElement(_serializeDataName);
+
+            if (typeof(ISerializable).IsAssignableFrom(DataType))
+            {
+                foreach (var item in _dataContainer)
+                {
+                    var serializedObject = item.SerializeToXML();
+                    data.Add(serializedObject);
+                }
+            }
+
+            root.Add(data);
+
+            return root;
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Deserialize and set object data from XML. </summary>
+        /// <param name="xmlObject"> Serialized XML object. </param>
+        public void DeserializeFromXML(XElement xmlObject)
+        {
+            var app = (App)Application.Current;
+            var xmlName = app.ApplicationName + _serializePostfix;
+
+            if (xmlObject.Name != xmlName)
+                throw new ArgumentException("XML object does not represents this kind of playlist object.");
+
+            if (xmlObject.Attribute(nameof(DataType)).Value != DataType.Name)
+                throw new ArgumentException("XML data does not represents kind of playlist data objects.");
+
+            //  Remove current data from playlist.
+            Clear();
+
+            var data = xmlObject.Element(_serializeDataName);
+
+            if (typeof(ISerializable).IsAssignableFrom(DataType) && data.HasElements)
+            {
+                foreach (var serializedObject in data.Elements())
+                {
+                    T item = (T) typeof(T).GetMethod("FromXML").Invoke(null, new object[] { serializedObject });
+
+                    if (item.Exists)
+                        Add(item);
+                }
+            }
+
+            if (_dataContainer.Any(f => (f as IPlayableFile).IsPlaying))
+            {
+                _selectedItem = _dataContainer.FirstOrDefault(f => (f as IPlayableFile).IsPlaying);
+                FixSelection();
+            }
+        }
+
+        #endregion SERIALIZATION METHODS
 
         #region SORTING METHODS
 

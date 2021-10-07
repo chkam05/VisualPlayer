@@ -69,6 +69,12 @@ namespace chkam05.VisualPlayer.Components
             set => PackIcon.Kind = value;
         }
 
+        public Thickness IconMargin
+        {
+            get => PackIcon.Margin;
+            set => PackIcon.Margin = value;
+        }
+
         public Size IconSize
         {
             get => new Size(PackIcon.ActualWidth, PackIcon.ActualHeight);
@@ -116,7 +122,11 @@ namespace chkam05.VisualPlayer.Components
         public string Title
         {
             get => TitleTextBlock.Text;
-            set => TitleTextBlock.Text = value;
+            set
+            {
+                TitleTextBlock.Text = value;
+                ShowHideTitle();
+            }
         }
 
         #endregion GETTERS & SETTERS
@@ -135,6 +145,15 @@ namespace chkam05.VisualPlayer.Components
             //  Create copy of current background and foreground.
             _backgroundBrush = Background;
             _foregroundBrush = Foreground;
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Mathod called after loading button. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Routed event arguments. </param>
+        private void Button_Loaded(object sender, RoutedEventArgs e)
+        {
+            ShowHideTitle();
         }
 
         #endregion CLASS METHODS
@@ -206,5 +225,20 @@ namespace chkam05.VisualPlayer.Components
         }
 
         #endregion INTERACTION INTERFACE METHODS
+
+        #region INTERFACE MANAGEMENT METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Show or hide title textblock depends on text iside. </summary>
+        private void ShowHideTitle()
+        {
+            if (!string.IsNullOrEmpty(TitleTextBlock.Text))
+                TitleTextBlock.Visibility = Visibility.Visible;
+            else
+                TitleTextBlock.Visibility = Visibility.Collapsed;
+        }
+
+        #endregion INTERFACE MANAGEMENT METHODS
+
     }
 }

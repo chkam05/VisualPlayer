@@ -398,8 +398,8 @@
                     <Grid
                         x:Name="PlayListGrid"
                         Grid.Column="1"
-                        Width="0"
-                        Visibility="Collapsed">
+                        Width="320"
+                        Visibility="Visible">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -409,14 +409,166 @@
                         <Grid
                             x:Name="PlayListContainerGrid"
                             Background="#C0000000"
+                            Grid.Column="0"
                             Margin="0,0,0,0">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid
+                                x:Name="PlayListHeaderGrid"
+                                Background="#C0000000"
+                                Grid.Row="0">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock
+                                    x:Name="PlayListTitleTextBlock"
+                                    FontSize="22"
+                                    FontWeight="Bold"
+                                    Margin="8"
+                                    Grid.Row="0"
+                                    VerticalAlignment="Center"
+                                    TextAlignment="Center">
+                                ▶ Now Playing
+                                </TextBlock>
+
+                                <StackPanel
+                                    x:Name="PlayListButtonsStackPanel"
+                                    Grid.Row="1"
+                                    Height="48"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,0"
+                                    Orientation="Horizontal">
+
+                                    <components:ControlButton
+                                        x:Name="LoadFilesPlayListControlButton"
+                                        Background="{Binding Path=Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
+                                        Icon="MusicNoteAdd"
+                                        IconMargin="0"
+                                        Margin="4,4,2,4"
+                                        Style="{StaticResource ControlButtonStyle}"
+                                        ToolTip="Load files"
+                                        Title=""
+                                        Width="40"
+                                        Click="LoadFilesPlayListContextMenuItem_Click"/>
+
+                                    <components:ControlButton
+                                        x:Name="LoadPlayListControlButton"
+                                        Background="{Binding Path=Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
+                                        Icon="PlaylistAdd"
+                                        IconMargin="0"
+                                        Margin="4,4,2,4"
+                                        Style="{StaticResource ControlButtonStyle}"
+                                        ToolTip="Open Playlist"
+                                        Title=""
+                                        Width="40"
+                                        Click="LoadPlayListContextMenuItem_Click"/>
+
+                                    <components:ControlButton
+                                        x:Name="SavePlayListControlButton"
+                                        Background="{Binding Path=Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
+                                        Icon="ContentSave"
+                                        IconMargin="0"
+                                        Margin="2,4,2,4"
+                                        Style="{StaticResource ControlButtonStyle}"
+                                        ToolTip="Save Playlist"
+                                        Title=""
+                                        Width="40"
+                                        Click="SavePlayListContextMenuItem_Click"/>
+
+                                    <components:ControlButton
+                                        x:Name="ClearPlayListControlButton"
+                                        Background="{Binding Path=Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
+                                        Icon="Clear"
+                                        IconMargin="0"
+                                        Margin="2,4,2,4"
+                                        Style="{StaticResource ControlButtonStyle}"
+                                        ToolTip="Clear Playlist"
+                                        Title=""
+                                        Width="40"
+                                        Click="ClearPlayListContextMenuItem_Click"/>
+
+                                    <Separator
+                                        Style="{StaticResource ControlSeparatorStyle}"
+                                        Width="8"/>
+
+                                    <components:ControlButton
+                                        x:Name="SortPlayListControlButton"
+                                        Background="{Binding Path=Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
+                                        Icon="Sort"
+                                        IconMargin="0"
+                                        Margin="2,4,4,4"
+                                        Style="{StaticResource ControlButtonStyle}"
+                                        ToolTip="Sort Playlist"
+                                        Title=""
+                                        Width="40"
+                                        Click="SortPlayListControlButton_Click">
+
+                                        <components:ControlButton.ContextMenu>
+                                                <fw:AcrylicContextMenu
+                                                ItemContainerStyle="{StaticResource NowPlayListContextMenuItemStyle}"
+                                                Style="{StaticResource NowPlayListContextMenuStyle}"
+                                                Width="192">
+
+                                                <MenuItem
+                                                    Style="{StaticResource NowPlayListContextMenuItemStyle}"
+                                                    Click="SortByTitleAscendingPlayListContextMenuItem_Click">
+                                                    <MenuItem.Header>
+                                                        <TextBlock
+                                                            Text="Title Ascending"
+                                                            Style="{StaticResource NowPlayListContextMenuItemTextStyle}" />
+                                                    </MenuItem.Header>
+                                                    <MenuItem.Icon>
+                                                        <materialDesign:PackIcon
+                                                            Kind="SortAlphabeticalAscending" />
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+
+                                                <MenuItem
+                                                    Style="{StaticResource NowPlayListContextMenuItemStyle}"
+                                                    Click="SortByTitleDescendingPlayListContextMenuItem_Click">
+                                                    <MenuItem.Header>
+                                                        <TextBlock
+                                                            Text="Title Descending"
+                                                            Style="{StaticResource NowPlayListContextMenuItemTextStyle}" />
+                                                    </MenuItem.Header>
+                                                    <MenuItem.Icon>
+                                                        <materialDesign:PackIcon
+                                                            Kind="SortAlphabeticalDescending" />
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+
+                                            </fw:AcrylicContextMenu>
+                                        </components:ControlButton.ContextMenu>
+
+                                    </components:ControlButton>
+
+                                </StackPanel>
+
+                                <Border
+                                    x:Name="HeaderSeparationBorder"
+                                    Background="#80FFFFFF"
+                                    BorderBrush="{x:Null}"
+                                    BorderThickness="0"
+                                    Grid.Row="1"
+                                    Margin="1,0,0,0"
+                                    Height="1"
+                                    VerticalAlignment="Bottom"/>
+
+                            </Grid>
 
                             <ListView
                                 x:Name="PlayListView"
                                 AllowDrop="true"
                                 BorderBrush="Transparent"
                                 Foreground="white"
-                                Grid.Column="0"
+                                Grid.Row="2"
                                 ItemContainerStyle="{StaticResource NowPlayListViewItemStyle}"
                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                 ScrollViewer.VerticalScrollBarVisibility="Visible"
@@ -450,6 +602,10 @@
                                             </MenuItem.Icon>
                                         </MenuItem>
 
+                                        <Separator
+                                            Style="{StaticResource NowPlayListContextMenuSeparatorStyle}"
+                                            Margin="0,4,0,4" />
+
                                         <MenuItem
                                             Style="{StaticResource NowPlayListContextMenuItemStyle}"
                                             Click="LoadFilesPlayListContextMenuItem_Click">
@@ -460,7 +616,35 @@
                                             </MenuItem.Header>
                                             <MenuItem.Icon>
                                                 <materialDesign:PackIcon
-                                                    Kind="FolderOpen" />
+                                                    Kind="MusicNoteAdd" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+
+                                        <MenuItem
+                                            Style="{StaticResource NowPlayListContextMenuItemStyle}"
+                                            Click="LoadPlayListContextMenuItem_Click">
+                                            <MenuItem.Header>
+                                                <TextBlock
+                                                    Text="Load Playlist"
+                                                    Style="{StaticResource NowPlayListContextMenuItemTextStyle}" />
+                                            </MenuItem.Header>
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon
+                                                    Kind="PlaylistAdd" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+
+                                        <MenuItem
+                                            Style="{StaticResource NowPlayListContextMenuItemStyle}"
+                                            Click="SavePlayListContextMenuItem_Click">
+                                            <MenuItem.Header>
+                                                <TextBlock
+                                                    Text="Save Playlist"
+                                                    Style="{StaticResource NowPlayListContextMenuItemTextStyle}" />
+                                            </MenuItem.Header>
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon
+                                                    Kind="ContentSave" />
                                             </MenuItem.Icon>
                                         </MenuItem>
 
