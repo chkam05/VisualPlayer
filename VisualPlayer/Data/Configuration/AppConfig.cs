@@ -26,6 +26,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
         public bool PlayerKeepPlayListOnRestart { get; set; }
         public bool PlayerOSDEnabled { get; set; }
         public double PlayerOSDTime { get; set; }
+        public int PlayerRepeat { get; set; }
+        public bool PlayerShuffle { get; set; }
 
         public double PlayListWidth { get; set; }
         public SideBarState SideBarState { get; set; }
@@ -34,6 +36,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
         public Color ThemeColor { get; set; }
         public List<Color> UsedThemeColors { get; set; }
 
+        public ColorMode VisualisationColorMode { get; set; }
+        public Color VisualisationColor { get; set; }
+        public List<Color> UsedVisualisationColors { get; set; }
         public bool VisualisationEnabled { get; set; }
         public bool VisualisationLogoEnabled { get; set; }
         public VisualisationType VisualisationType { get; set; }
@@ -62,6 +67,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         public AppConfig()
         {
             UsedThemeColors = new List<Color>();
+            UsedVisualisationColors = new List<Color>();
         }
 
         //  --------------------------------------------------------------------------------
@@ -80,11 +86,16 @@ namespace chkam05.VisualPlayer.Data.Configuration
                     PlayerKeepPlayListOnRestart = false,
                     PlayerOSDEnabled = true,
                     PlayerOSDTime = 5000,
+                    PlayerRepeat = 0,
+                    PlayerShuffle = false,
                     PlayListWidth = 320,
                     SideBarState = SideBarState.COLLAPSED,
                     UseSystemColor = false,
                     ThemeColor = defaultThemeColor,
                     UsedThemeColors = new List<Color>() { defaultThemeColor },
+                    VisualisationColorMode = ColorMode.APPLICATION,
+                    VisualisationColor = defaultThemeColor,
+                    UsedVisualisationColors = new List<Color>() { defaultThemeColor },
                     VisualisationEnabled = true,
                     VisualisationLogoEnabled = false,
                     VisualisationType = VisualisationType.StripesVisualisation,

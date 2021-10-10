@@ -123,6 +123,7 @@
       <DependentUpon>VolumeSlider.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\Configuration\AppConfig.cs" />
+    <Compile Include="Data\States\ColorMode.cs" />
     <Compile Include="Data\States\RepeatMode.cs" />
     <Compile Include="Data\States\SideBarState.cs" />
     <Compile Include="Data\States\SortOrder.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Utilities\Maths\Permutation.cs" />
     <Compile Include="Utilities\Pages\IPagesManager.cs" />
     <Compile Include="Utilities\Pages\SinglePagesManager.cs" />
+    <Compile Include="Utilities\RainbowColorGenerator.cs" />
     <Compile Include="Utilities\SystemInfo.cs" />
     <Compile Include="Utilities\WindowUtils.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">

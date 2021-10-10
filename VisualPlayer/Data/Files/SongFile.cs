@@ -101,7 +101,9 @@ namespace chkam05.VisualPlayer.Data.Files
         /// <summary> Update file item icon. </summary>
         private void UpdateIcon()
         {
-            if (IsPlaying)
+            if (!Exists)
+                Icon = PackIconKind.MusicNoteOff;
+            else if (IsPlaying)
                 Icon = PackIconKind.Play;
             else if (_cover != null)
                 Icon = PackIconKind.None;

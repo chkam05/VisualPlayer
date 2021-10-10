@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -20,6 +21,8 @@ namespace chkam05.VisualPlayer
         private bool _foceClose = false;
         private Mutex _mutex;
 
+        private string _configurationPath = string.Empty;
+
         public string ApplicationName { get; private set; }
         public ConfigManager ConfigManager { get; private set; }
         public ExceptionsHandler ExceptionsHandler { get; private set; }
@@ -28,6 +31,11 @@ namespace chkam05.VisualPlayer
 
 
         #region GETTERS & SETTERS
+
+        public string ConfigurationPath
+        {
+            get => GetOrCreateConfigurationPath();
+        }
 
         public string Version
         {
@@ -54,6 +62,11 @@ namespace chkam05.VisualPlayer
 
             //  Initialize extensions handler.
             ExceptionsHandler = ExceptionsHandler.Create(ApplicationName);
+
+            //  Initialize files & paths.
+            _configurationPath = Path.Combine(
+                Environment.GetEnvironmentVariable("APPDATA"),
+                ApplicationName);
         }
 
         #endregion CLASS METHODS
@@ -166,6 +179,21 @@ namespace chkam05.VisualPlayer
         }
 
         #endregion EXCEPTIONS HANDLING METHODS
+
+        #region FILES & PATHS MANAGEMENT METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Get configuration path, or create and get if not exists. </summary>
+        /// <returns> Configuration path. </returns>
+        private string GetOrCreateConfigurationPath()
+        {
+            if (!Directory.Exists(_configurationPath))
+                Directory.CreateDirectory(_configurationPath);
+
+            return _configurationPath;
+        }
+
+        #endregion FILES & PATHS MANAGEMENT METHODS
 
         #region UTILITY METHODS
 

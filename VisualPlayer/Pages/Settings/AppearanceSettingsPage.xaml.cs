@@ -54,6 +54,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
             var config = ConfigManager.Instance.Config;
 
             SystemColorCheckBox.IsChecked = config.UseSystemColor;
+            ShowCustomColorSelection(!config.UseSystemColor);
             SetSelectedColors(config.UsedThemeColors);
         }
 
@@ -94,6 +95,8 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
                 if (checkBox == SystemColorCheckBox)
                 {
+                    ShowCustomColorSelection(!checkedValue);
+
                     //  Update configuration.
                     configManager.Config.UseSystemColor = checkedValue;
                     configManager.InvokeConfigUpdate<AppConfig>("UseSystemColor");
@@ -123,7 +126,18 @@ namespace chkam05.VisualPlayer.Pages.Settings
                 var configManager = ConfigManager.Instance;
                 configManager.Config.ThemeColor = color;
                 configManager.InvokeConfigUpdate<AppConfig>("ThemeColor");
+
+                SaveSelectedColors(configManager);
             }
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method called after clicking add custom color control button to select custom theme color. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Routed event arguments. </param>
+        private void AddCustomColorControlButton_Click(object sender, RoutedEventArgs e)
+        {
+            //
         }
 
         #endregion INTERFACE INTERACTION METHODS
@@ -131,11 +145,23 @@ namespace chkam05.VisualPlayer.Pages.Settings
         #region INTERFACE MANAGEMENT METHODS
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Show/Hide custom color selection components. </summary>
+        /// <param name="showed"> Show/Hide option. </param>
+        private void ShowCustomColorSelection(bool showed)
+        {
+            UsedColorsTextBlock.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
+            UsedColorsWrapPanel.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
+            PalleteColorsTextBlock.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
+            PalleteColorsWrapPanel.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        //  --------------------------------------------------------------------------------
         /// <summary> Add new color to used colors in interface. </summary>
         /// <param name="color"> New color to add. </param>
         private void AddSelectedColor(Color color)
         {
-            Brush prevBrush = new SolidColorBrush(color);
+            Brush thisBrush = new SolidColorBrush(color);
+            Brush prevBrush = thisBrush;
 
             foreach (var border in _usedColors)
             {
@@ -143,6 +169,16 @@ namespace chkam05.VisualPlayer.Pages.Settings
                 var brush = border.Background;
                 border.Background = prevBrush;
                 prevBrush = brush;
+
+                try
+                {
+                    if (prevBrush != null && (prevBrush as SolidColorBrush).Color == (thisBrush as SolidColorBrush).Color)
+                        return;
+                }
+                catch
+                {
+                    continue;
+                }
             }
         }
 
@@ -164,6 +200,34 @@ namespace chkam05.VisualPlayer.Pages.Settings
                 border.Background = brush;
 
                 counter++;
+            }
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Save selected colors to list. </summary>
+        /// <param name="configManager"> Configuration manager instance. </param>
+        private void SaveSelectedColors(ConfigManager configManager)
+        {
+            configManager.Config.UsedThemeColors.Clear();
+
+            foreach (var border in _usedColors)
+            {
+                //  Get brush.
+                var brush = border.Background;
+
+                //  Try save color.
+                try
+                {
+                    if (brush != null)
+                    {
+                        var color = (brush as SolidColorBrush).Color;
+                        configManager.Config.UsedThemeColors.Add(color);
+                    }
+                }
+                catch
+                {
+                    //  Continue
+                }
             }
         }
 

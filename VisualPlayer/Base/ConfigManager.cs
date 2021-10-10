@@ -29,30 +29,10 @@ namespace chkam05.VisualPlayer.Base
 
         private static ConfigManager _instance;
 
+        private App _application;
         private string _configFilePath;
-        private string _configPath;
 
         public AppConfig Config { get; private set; }
-
-
-        #region GETTERS & SETTERS
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Get current configuration files path. </summary>
-        public string ConfigurationPath
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_configPath))
-                    _configPath = Path.Combine(
-                        Environment.GetEnvironmentVariable("APPDATA"),
-                        (Application.Current as App).ApplicationName);
-
-                return _configPath;
-            }
-        }
-
-        #endregion GETTERS & SETTERS
 
 
         //  METHODS
@@ -63,6 +43,9 @@ namespace chkam05.VisualPlayer.Base
         /// <summary> ConfigManager class constructor. </summary>
         private ConfigManager()
         {
+            //  Get current application.
+            _application = (App) Application.Current;
+
             //  Prepare basic configuration of the application. 
             var setupComplete = Setup();
 
@@ -138,8 +121,6 @@ namespace chkam05.VisualPlayer.Base
             try
             {
                 //  Check and create configuration directory if does not exists.
-                CheckConfigurationPath();
-
                 using (var fileStream = File.Open(_configFilePath, FileMode.Create))
                 {
                     using (var streamWriter = new StreamWriter(fileStream))
@@ -234,21 +215,11 @@ namespace chkam05.VisualPlayer.Base
         /// <summary> Prepare basic configuration of the application. </summary>
         private bool Setup()
         {
-            var application = (chkam05.VisualPlayer.App) Application.Current;
-
-            //  Setup configuration directory path.
-            _configPath = Path.Combine(
-                Environment.GetEnvironmentVariable("APPDATA"),
-                application.ApplicationName);
-
             //  Setup main configuration file path.
-            _configFilePath = Path.Combine(_configPath, _configFileName);
+            _configFilePath = Path.Combine(_application.ConfigurationPath, _configFileName);
 
-            //  Check and create configuration files and directory if does not exists.
-            var pathExist = CheckConfigurationPath();
-            var fileExist = CheckConfigurationFile();
-
-            return pathExist && fileExist;
+            //  Check and create configuration files if does not exists.
+            return CheckConfigurationFile();
         }
 
         #endregion SETUP METHODS
@@ -270,19 +241,6 @@ namespace chkam05.VisualPlayer.Base
             }
 
             return fileExists;
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Create configuration files directory if does not exists. </summary>
-        /// <returns> True - configuration files directory exists; False - otherwise. </returns>
-        private bool CheckConfigurationPath()
-        {
-            var directoryExists = Directory.Exists(ConfigurationPath);
-
-            if (!directoryExists)
-                Directory.CreateDirectory(ConfigurationPath);
-
-            return directoryExists;
         }
 
         //  --------------------------------------------------------------------------------

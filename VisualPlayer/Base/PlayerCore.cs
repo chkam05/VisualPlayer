@@ -417,13 +417,14 @@ namespace chkam05.VisualPlayer.Base
         //  --------------------------------------------------------------------------------
         /// <summary> Select song file from playlist and start playing. </summary>
         /// <param name="index"> Index of song file from playlist. </param>
+        /// <param name="start"> Start playing after load. </param>
         /// <returns> Selected song file. </returns>
-        public SongFile SelectFromPlayList(int index)
+        public SongFile SelectFromPlayList(int index, bool start = true)
         {
             var selectedSong = PlayList.SelectItem(index);
 
             if (selectedSong != null)
-                LoadFile(selectedSong.FilePath, AutoPlayAfterLoad);
+                LoadFile(selectedSong.FilePath, start && AutoPlayAfterLoad);
 
             return selectedSong;
         }

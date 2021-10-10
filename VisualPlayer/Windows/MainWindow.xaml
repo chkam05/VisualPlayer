@@ -413,7 +413,7 @@
                             Margin="0,0,0,0">
 
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="96"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
@@ -424,26 +424,27 @@
 
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
 
+                                <!-- ▶ -->
                                 <TextBlock
                                     x:Name="PlayListTitleTextBlock"
-                                    FontSize="22"
-                                    FontWeight="Bold"
-                                    Margin="8"
+                                    FontSize="24"
+                                    FontWeight="SemiBold"
+                                    Margin="16,8,8,8"
                                     Grid.Row="0"
                                     VerticalAlignment="Center"
-                                    TextAlignment="Center">
-                                ▶ Now Playing
+                                    TextAlignment="Left">
+                                    Now Playing
                                 </TextBlock>
 
                                 <StackPanel
                                     x:Name="PlayListButtonsStackPanel"
                                     Grid.Row="1"
                                     Height="48"
-                                    HorizontalAlignment="Center"
-                                    Margin="0,0"
+                                    HorizontalAlignment="Left"
+                                    Margin="8,0,0,0"
                                     Orientation="Horizontal">
 
                                     <components:ControlButton
@@ -451,7 +452,7 @@
                                         Background="{Binding Path=Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
                                         Icon="MusicNoteAdd"
                                         IconMargin="0"
-                                        Margin="4,4,2,4"
+                                        Margin="0,4,2,4"
                                         Style="{StaticResource ControlButtonStyle}"
                                         ToolTip="Load files"
                                         Title=""
@@ -463,7 +464,7 @@
                                         Background="{Binding Path=Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
                                         Icon="PlaylistAdd"
                                         IconMargin="0"
-                                        Margin="4,4,2,4"
+                                        Margin="2,4,2,4"
                                         Style="{StaticResource ControlButtonStyle}"
                                         ToolTip="Open Playlist"
                                         Title=""
@@ -482,10 +483,28 @@
                                         Width="40"
                                         Click="SavePlayListContextMenuItem_Click"/>
 
+                                    <Separator
+                                        Style="{StaticResource ControlSeparatorStyle}"
+                                        Width="8"/>
+
+                                    <components:ControlButton
+                                        x:Name="KeepPlayListControlButton"
+                                        Background="{Binding Path=Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
+                                        Icon="VectorArrangeBelow"
+                                        IconMargin="0"
+                                        Margin="0,4,2,4"
+                                        Mode="PRESSABLE"
+                                        Pressed="false"
+                                        Style="{StaticResource ControlButtonStyle}"
+                                        ToolTip="Keep PlayList on top"
+                                        Title=""
+                                        Width="40"
+                                        Click="KeepPlayListControlButton_Click"/>
+
                                     <components:ControlButton
                                         x:Name="ClearPlayListControlButton"
                                         Background="{Binding Path=Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
-                                        Icon="Clear"
+                                        Icon="DeleteSweep"
                                         IconMargin="0"
                                         Margin="2,4,2,4"
                                         Style="{StaticResource ControlButtonStyle}"
@@ -494,16 +513,12 @@
                                         Width="40"
                                         Click="ClearPlayListContextMenuItem_Click"/>
 
-                                    <Separator
-                                        Style="{StaticResource ControlSeparatorStyle}"
-                                        Width="8"/>
-
                                     <components:ControlButton
                                         x:Name="SortPlayListControlButton"
                                         Background="{Binding Path=Background, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Control, AncestorLevel=1}}"
                                         Icon="Sort"
                                         IconMargin="0"
-                                        Margin="2,4,4,4"
+                                        Margin="2,4,0,4"
                                         Style="{StaticResource ControlButtonStyle}"
                                         ToolTip="Sort Playlist"
                                         Title=""
@@ -570,6 +585,7 @@
                                 Foreground="white"
                                 Grid.Row="2"
                                 ItemContainerStyle="{StaticResource NowPlayListViewItemStyle}"
+                                SelectionMode="Single"
                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                 ScrollViewer.VerticalScrollBarVisibility="Visible"
                                 MouseDoubleClick="PlayListView_MouseDoubleClick"
@@ -711,7 +727,7 @@
                                             </MenuItem.Header>
                                             <MenuItem.Icon>
                                                 <materialDesign:PackIcon
-                                                    Kind="Delete" />
+                                                    Kind="FileRemove" />
                                             </MenuItem.Icon>
                                         </MenuItem>
 
@@ -720,12 +736,12 @@
                                             Click="ClearPlayListContextMenuItem_Click">
                                             <MenuItem.Header>
                                                 <TextBlock
-                                                    Text="Clear"
+                                                    Text="Clear PlayList"
                                                     Style="{StaticResource NowPlayListContextMenuItemTextStyle}" />
                                             </MenuItem.Header>
                                             <MenuItem.Icon>
                                                 <materialDesign:PackIcon
-                                                    Kind="Clear" />
+                                                    Kind="DeleteSweep" />
                                             </MenuItem.Icon>
                                         </MenuItem>
 

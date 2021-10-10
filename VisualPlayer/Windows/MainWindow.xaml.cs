@@ -35,6 +35,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml.Linq;
+using Path = System.IO.Path;
 
 namespace chkam05.VisualPlayer.Windows
 {
@@ -43,7 +44,8 @@ namespace chkam05.VisualPlayer.Windows
 
         //  CONST
 
-        private const int PLAYLIST_MIN_WIDTH = 256;
+        private readonly string PLAYLIST_KEEP_FILE_NAME = "playlist.vpl";
+        private const int PLAYLIST_MIN_WIDTH = 320;
         private const string TRACK_TIME_FORMAT = @"hh\:mm\:ss";
         private const int VOLUME_SLIDER_MAX_HEIGHT = 224;
 
@@ -59,6 +61,7 @@ namespace chkam05.VisualPlayer.Windows
         private int _interfaceUpdaterBreak = 100;
         private CancellationTokenSource _interfaceUpdaterTokenSource;
 
+        private bool _keppPlayListOnTop = false;
         private bool _playListDragging = false;
         private Point _playListDragPoint;
         private bool _playListSplitterGrabbed = false;
@@ -219,6 +222,8 @@ namespace chkam05.VisualPlayer.Windows
 
         #region FILES MANAGEMENT METHODS
 
+        //  FILES
+
         //  --------------------------------------------------------------------------------
         /// <summary> Load files into nowplaying playlist. </summary>
         /// <param name="filesPaths"> Array of files paths to load. </param>
@@ -271,6 +276,59 @@ namespace chkam05.VisualPlayer.Windows
                 LoadFiles(openFileDialog.FileNames);
         }
 
+        //  PLAYLIST - KEEP PLAYLIST ON RESTART
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Load last played playlist if keep playlist on restart option is enabled. </summary>
+        private void LoadPlayListAtStartup()
+        {
+            var config = ConfigManager.Instance.Config;
+
+            if (config.PlayerKeepPlayListOnRestart)
+            {
+                var app = (App)Application.Current;
+                var playerCore = PlayerCore.Instance;
+                string playListFilePath = Path.Combine(app.ConfigurationPath, PLAYLIST_KEEP_FILE_NAME);
+
+                if (File.Exists(playListFilePath))
+                {
+                    var serializedData = XElement.Load(playListFilePath);
+                    playerCore.PlayList.DeserializeFromXML(serializedData);
+                }
+
+                if (playerCore.PlayList.SelectedItem != null)
+                {
+                    var selectedSong = playerCore.SelectFromPlayList(
+                        playerCore.PlayList.SelectedItemIndex, false);
+
+                    OnPlayFile(playerCore, selectedSong);
+                }
+            }
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Save current playlist to kepp in memory on restart. </summary>
+        private void SavePlayListAtShutdown()
+        {
+            var app = (App)Application.Current;
+            var config = ConfigManager.Instance.Config;
+            string playListFilePath = Path.Combine(app.ConfigurationPath, PLAYLIST_KEEP_FILE_NAME);
+
+            if (config.PlayerKeepPlayListOnRestart)
+            {
+                var playerCore = PlayerCore.Instance;
+
+                playerCore.PlayList.SerializeToXML().Save(playListFilePath);
+            }
+            else
+            {
+                if (File.Exists(playListFilePath))
+                    File.Delete(playListFilePath);
+            }
+        }
+
+        //  PLAYLIST
+
         //  --------------------------------------------------------------------------------
         /// <summary> Load playlist as current using open file dialog. </summary>
         private void LoadPlayListByOpenFileDialog()
@@ -288,12 +346,6 @@ namespace chkam05.VisualPlayer.Windows
                 var serializedData = XElement.Load(openFileDialog.FileName);
                 var playlist = PlayerCore.Instance.PlayList;
                 playlist.DeserializeFromXML(serializedData);
-
-                var information = InternalMessages.ShowInfo(
-                    "Loading playlist",
-                    $"Playlist has been loaded. There are now {playlist.Count} songs.");
-
-                information.Icon = PackIconKind.PlaylistAdd;
             }
         }
 
@@ -312,14 +364,6 @@ namespace chkam05.VisualPlayer.Windows
                 saveFileDialog.Title = "Save playlist";
 
                 var result = saveFileDialog.ShowDialog();
-
-                if (result ?? false)
-                {
-                    (playlist as ISerializable).SerializeToXML().Save(saveFileDialog.FileName);
-                    InternalMessages.ShowInfo(
-                        "Saving playlist", 
-                        $"Playlist has been saved to{Environment.NewLine}\"{saveFileDialog.FileName}\".");
-                }
             }
         }
 
@@ -469,11 +513,18 @@ namespace chkam05.VisualPlayer.Windows
                 ChangeSideBarState(config.SideBarState);
                 SetPlayListWidth(config.PlayListWidth);
 
+                RepeatControlButton.Stage = config.PlayerRepeat;
+                playerCore.Repeat = EnumTool<RepeatMode>.GetByIndex(config.PlayerRepeat);
+
+                ShuffleControlButton.Pressed = config.PlayerShuffle;
+                playerCore.Shuffle = config.PlayerShuffle;
+
                 //  Update appearance.
                 if (config.UseSystemColor)
-                    UpdateSystemThemeConfiguration();
+                    UpdateSystemThemeConfiguration(config.VisualisationColorMode == ColorMode.APPLICATION);
                 else
-                    UpdateThemeConfiguration(config.ThemeColor);
+                    UpdateThemeConfiguration(config.ThemeColor,
+                        config.VisualisationColorMode == ColorMode.APPLICATION);
 
                 //  Setup visualisation.
                 SetupVisualisation(config.VisualisationType);
@@ -481,6 +532,7 @@ namespace chkam05.VisualPlayer.Windows
                 playerCore.AutoPlayAfterAdd = config.PlayerAutoPlayOnAdd;
                 OSD.IsEnabled = config.PlayerOSDEnabled;
                 OSD.ShowTimeInMiliseconds = config.PlayerOSDTime;
+                UpdateVisualisationColor();
 
                 //config.VisualisationLogoEnabled;
             }
@@ -499,10 +551,14 @@ namespace chkam05.VisualPlayer.Windows
         private void SaveConfiguration()
         {
             var configManager = ConfigManager.Instance;
+            var playerCore = PlayerCore.Instance;
 
             try
             {
                 var config = configManager.Config;
+
+                config.PlayerRepeat = EnumTool<RepeatMode>.GetIndex(playerCore.Repeat);
+                config.PlayerShuffle = playerCore.Shuffle;
 
                 config.WinPosition = new Point(this.Left, this.Top);
                 config.WinSize = new Size(this.ActualWidth, this.ActualHeight);
@@ -553,14 +609,16 @@ namespace chkam05.VisualPlayer.Windows
                 }
 
                 else if (e.Key == nameof(config.ThemeColor))
-                    UpdateThemeConfiguration(config.ThemeColor);
+                    UpdateThemeConfiguration(config.ThemeColor,
+                        config.VisualisationColorMode == ColorMode.APPLICATION);
 
                 else if (e.Key == nameof(config.UseSystemColor))
                 {
                     if (config.UseSystemColor)
-                        UpdateSystemThemeConfiguration();
+                        UpdateSystemThemeConfiguration(config.VisualisationColorMode == ColorMode.APPLICATION);
                     else
-                        UpdateThemeConfiguration(config.ThemeColor);
+                        UpdateThemeConfiguration(config.ThemeColor,
+                            config.VisualisationColorMode == ColorMode.APPLICATION);
                 }
 
                 else if (e.Key == nameof(config.VisualisationEnabled))
@@ -571,17 +629,24 @@ namespace chkam05.VisualPlayer.Windows
 
                 else if (e.Key == nameof(config.VisualisationType))
                     SetupVisualisation(config.VisualisationType);
+
+                else if (e.Key == nameof(config.VisualisationColor))
+                    UpdateVisualisationColor();
+
+                else if (e.Key == nameof(config.VisualisationColorMode))
+                    UpdateVisualisationColor();
             }
         }
 
         //  --------------------------------------------------------------------------------
         /// <summary> Update interface appearance using system theme color. </summary>
-        private void UpdateSystemThemeConfiguration()
+        /// <param name="affectVisualisation"> Change visualisation color too. </param>
+        private void UpdateSystemThemeConfiguration(bool affectVisualisation)
         {
             try
             {
                 var systemThemeColor = SystemInfo.GetThemeColor();
-                UpdateThemeConfiguration(systemThemeColor);
+                UpdateThemeConfiguration(systemThemeColor, affectVisualisation);
             }
             catch
             {
@@ -592,7 +657,8 @@ namespace chkam05.VisualPlayer.Windows
         //  --------------------------------------------------------------------------------
         /// <summary> Update interface appearance. </summary>
         /// <param name="themeColor"> Theme color. </param>
-        private void UpdateThemeConfiguration(Color themeColor)
+        /// <param name="affectVisualisation"> Change visualisation color too. </param>
+        private void UpdateThemeConfiguration(Color themeColor, bool affectVisualisation)
         {
             _themeColor = themeColor;
             var brush = new SolidColorBrush(themeColor);
@@ -601,10 +667,34 @@ namespace chkam05.VisualPlayer.Windows
             this.TTrackSlider.HandlerBrush = brush;
             this.TVolumeSlider.HandlerBrush = brush;
 
+            if (affectVisualisation)
+                UpdateVisualisationColor();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Update visualisation color by color from configuration. </summary>
+        private void UpdateVisualisationColor()
+        {
+            var config = ConfigManager.Instance.Config;
+            Color visualisationColor = _themeColor;
+
             if (_visualisation != null)
             {
+                switch (config.VisualisationColorMode)
+                {
+                    case ColorMode.APPLICATION:
+                        visualisationColor = _themeColor;
+                        break;
+
+                    case ColorMode.CUSTOM:
+                    case ColorMode.RAINBOW_2D:
+                    case ColorMode.RAINBOW_3D:
+                        visualisationColor = config.VisualisationColor;
+                        break;
+                }
+
                 if (_visualisation.GetType() == typeof(StripesVisualisation))
-                    (_visualisation as StripesVisualisation).FillColor = themeColor;
+                    (_visualisation as StripesVisualisation).FillColor = visualisationColor;
             }
         }
 
@@ -643,6 +733,9 @@ namespace chkam05.VisualPlayer.Windows
                 playerCore.Play();
 
             OnPlayFile(playerCore, null);
+
+            if (_visualisation.Enabled && !_visualisation.Initialized)
+                UpdateVisualisationSpectrumProvider(playerCore);
         }
 
         //  --------------------------------------------------------------------------------
@@ -1060,7 +1153,11 @@ namespace chkam05.VisualPlayer.Windows
         /// <param name="e"> Routed event arguments. </param>
         private void HomeMainMenuListViewItem_Selected(object sender, RoutedEventArgs e)
         {
-            LoadHomePage();
+            if (_pagesManager.CurrentPage.GetType() != typeof(HomePage))
+            {
+                LoadHomePage();
+                _visualisation.UpdateGraphics();
+            }
         }
 
         //  --------------------------------------------------------------------------------
@@ -1214,30 +1311,17 @@ namespace chkam05.VisualPlayer.Windows
         //  PLAYLIST CONTROL BUTTONS
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Method called after clicking load playlist control button. </summary>
+        /// <summary> Method called after clicking keep playlist control button. </summary>
         /// <param name="sender"> Object that invoked event. </param>
         /// <param name="e"> Routed event arguments. </param>
-        private void LoadPlayListControlButton_Click(object sender, RoutedEventArgs e)
+        private void KeepPlayListControlButton_Click(object sender, RoutedEventArgs e)
         {
-            LoadPlayListByOpenFileDialog();
-        }
+            var controlButton = (ControlButton)sender;
+            _keppPlayListOnTop = controlButton.Pressed;
 
-        //  --------------------------------------------------------------------------------
-        /// <summary> Method called after clicking save playlist control button. </summary>
-        /// <param name="sender"> Object that invoked event. </param>
-        /// <param name="e"> Routed event arguments. </param>
-        private void SavePlayListControlButton_Click(object sender, RoutedEventArgs e)
-        {
-            SavePlayListBySaveFileDialog(PlayerCore.Instance.PlayList);
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Method called after clicking clear playlist control button. </summary>
-        /// <param name="sender"> Object that invoked event. </param>
-        /// <param name="e"> Routed event arguments. </param>
-        private void ClearPlayListControlButton_Click(object sender, RoutedEventArgs e)
-        {
-            PlayerCore.Instance.PlayList.Clear();
+            controlButton.Icon = controlButton.Pressed
+                ? PackIconKind.VectorArrangeAbove
+                : PackIconKind.VectorArrangeBelow;
         }
 
         //  --------------------------------------------------------------------------------
@@ -1494,7 +1578,7 @@ namespace chkam05.VisualPlayer.Windows
             systemListener.UserPreferenceChangedHandler += (s, e) =>
             {
                 if (config.UseSystemColor)
-                    UpdateSystemThemeConfiguration();
+                    UpdateSystemThemeConfiguration(config.VisualisationColorMode == ColorMode.APPLICATION);
             };
         }
 
@@ -1566,11 +1650,14 @@ namespace chkam05.VisualPlayer.Windows
             //  Stop interface updater.
             StopInterfaceUpdater();
 
-            //  Dispose PlayerCore.
-            PlayerCore.Instance.Dispose();
+            //  Save current playlist if configuration option is enabled.
+            SavePlayListAtShutdown();
 
             //  Save configuration.
             SaveConfiguration();
+
+            //  Dispose PlayerCore.
+            PlayerCore.Instance.Dispose();
         }
 
         //  --------------------------------------------------------------------------------
@@ -1621,6 +1708,9 @@ namespace chkam05.VisualPlayer.Windows
             //  Handle exceptions.
             ExceptionsHandler.Instance.HandleStack();
 
+            //  Load previous playlist if option enable in configuration.
+            LoadPlayListAtStartup();
+
             //  Update initialization flag.
             _initialized = true;
         }
@@ -1634,6 +1724,10 @@ namespace chkam05.VisualPlayer.Windows
             //  Update playlist width if shown.
             if (_sideBarState == SideBarState.PLAYLIST)
                 SetPlayListWidth(PlayListGrid.ActualWidth);
+
+            //  Update visualisation if shown.
+            if (_pagesManager.CurrentPage?.GetType() == typeof(HomePage) && _visualisation != null && _visualisation.Enabled)
+                _visualisation.UpdateGraphics();
         }
 
         #endregion WINDOW METHODS

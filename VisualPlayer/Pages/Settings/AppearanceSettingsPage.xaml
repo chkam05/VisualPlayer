@@ -1,4 +1,4 @@
-﻿<Page
+﻿<Page xmlns:Components="clr-namespace:chkam05.VisualPlayer.Components" 
     x:Class="chkam05.VisualPlayer.Pages.Settings.AppearanceSettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,7 +8,7 @@
     xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     mc:Ignorable="d" 
     
-    d:DesignHeight="450"
+    d:DesignHeight="1080"
     d:DesignWidth="800"
     
     Foreground="White"
@@ -486,6 +486,22 @@
                         ToolTipService.ToolTip="Camo"
                         ToolTipService.Placement="Mouse"
                         MouseUp="ThemeColorBorder_MouseUp"/>
+
+                    <Line
+                        Style="{StaticResource ThemeColorLineStyle}"
+                        Width="{Binding ActualWidth, ElementName=PalleteColorsWrapPanel}"/>
+
+                    <Components:ControlButton
+                        x:Name="AddCustomColorControlButton"
+                        Height="40"
+                        Icon="Add"
+                        IconSize="28,28"
+                        IconMargin="0"
+                        Margin="2"
+                        Title=""
+                        Visibility="Collapsed"
+                        Width="40"
+                        Click="AddCustomColorControlButton_Click"/>
 
                 </WrapPanel>
 
