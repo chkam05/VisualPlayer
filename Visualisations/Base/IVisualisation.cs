@@ -16,16 +16,20 @@ namespace chkam05.Visualisations.Base
 
         bool Enabled { get; set; }
         bool Initialized { get; }
-        bool LogoEnabled { get; set; }
-        ShapeDrawer Logo { get; }
+        ShapeDrawer LogoDrawer { get; }
         int SpectrumSize { get; set; }
 
 
         //  METHODS
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Pre calculate visualisation graphics before drawing it. </summary>
+        void PreCalculate();
+
+        //  --------------------------------------------------------------------------------
         /// <summary> Draw visualisation on canvas. </summary>
-        void Draw();
+        /// <param name="includePreCalculation"> Include pre calculation visualisation graphics. </param>
+        void Draw(bool includePreCalculation = false);
 
         //  --------------------------------------------------------------------------------
         /// <summary> Stop visualisation working. </summary>

@@ -38,6 +38,11 @@ namespace chkam05.VisualPlayer.Pages
             set => SetControlMargin(value);
         }
 
+        public Grid LogoContainer
+        {
+            get => LogoGrid;
+        }
+
         public double SideBarMargin
         {
             get => this.Margin.Left;
@@ -69,6 +74,21 @@ namespace chkam05.VisualPlayer.Pages
         }
 
         #endregion CLASS METHODS
+
+        #region INTERACTION METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Fix logo position on canvas. </summary>
+        public void FixLogoPosition()
+        {
+            double x = (VisualisationCanvas.ActualWidth - LogoContainer.ActualWidth) / 2;
+            double y = (VisualisationCanvas.ActualHeight - LogoContainer.ActualHeight) / 2;
+
+            Canvas.SetLeft(LogoGrid, x);
+            Canvas.SetTop(LogoGrid, y);
+        }
+
+        #endregion INTERACTION METHODS
 
         #region INTERFACE MANAGEMENT METHODS
 
@@ -113,6 +133,28 @@ namespace chkam05.VisualPlayer.Pages
         }
 
         #endregion INTERFACE MANAGEMENT METHODS
+
+        #region PAGE METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Mathod called after loading page. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Routed event arguments. </param>
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            FixLogoPosition();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Mathod called after changing size of page. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Size changed event arguments. </param>
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            FixLogoPosition();
+        }
+
+        #endregion PAGE METHODS
 
     }
 }

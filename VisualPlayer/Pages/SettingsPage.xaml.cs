@@ -210,5 +210,6 @@ namespace chkam05.VisualPlayer.Pages
         }
 
         #endregion PAGES METHODS
+
     }
 }

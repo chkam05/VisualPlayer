@@ -31,7 +31,6 @@ namespace chkam05.Visualisations.Base
         internal int _fftSize;
         internal ISpectrumProvider _spectrumProvider;
 
-        internal bool _logoEnabled = true;
         internal ShapeDrawer _logoDrawer;
 
         private int _minFrequency = 20;
@@ -51,6 +50,12 @@ namespace chkam05.Visualisations.Base
         public Canvas Canvas
         {
             get => _canvas;
+        }
+
+        public ShapeDrawer LogoDrawer
+        {
+            get => _logoDrawer;
+            set => _logoDrawer = value;
         }
 
         public bool Enabled
@@ -114,17 +119,6 @@ namespace chkam05.Visualisations.Base
             set => _spectrumSize = Math.Max(0, value);
         }
 
-        public bool LogoEnabled
-        {
-            get => _logoEnabled;
-            set => _logoEnabled = value;
-        }
-
-        public ShapeDrawer Logo
-        {
-            get => _logoDrawer;
-        }
-
         #endregion GETTERS & SETTERS
 
 
@@ -139,7 +133,6 @@ namespace chkam05.Visualisations.Base
         public BaseVisualisation(Canvas canvas, SpectrumProvider spectrumProvider = null)
         {
             _canvas = canvas;
-            _logoDrawer = new ShapeDrawer(canvas);
             SetSpectrumProvider(spectrumProvider, false);
         }
 
@@ -152,11 +145,23 @@ namespace chkam05.Visualisations.Base
 
         #endregion CLASS METHODS
 
+        #region CALCULATION METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Pre calculate visualisation graphics before drawing it. </summary>
+        public virtual void PreCalculate()
+        {
+            //
+        }
+
+        #endregion CALCULATION METHODS
+
         #region DRAW METHODS
 
         //  --------------------------------------------------------------------------------
         /// <summary> Draw visualisation on canvas. </summary>
-        public virtual void Draw()
+        /// <param name="includePreCalculation"> Include pre calculation visualisation graphics. </param>
+        public virtual void Draw(bool includePreCalculation = false)
         {
             //
         }
@@ -325,7 +330,7 @@ namespace chkam05.Visualisations.Base
             if (recalculate)
                 MapFrequency();
 
-            if (_initialized && _logoEnabled)
+            if (_initialized && _logoDrawer != null)
                 _logoDrawer.RedrawShapes();
         }
 

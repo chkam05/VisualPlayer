@@ -70,7 +70,7 @@
     <Compile Include="Base\ScalingStrategy.cs" />
     <Compile Include="Base\SpectrumPosition.cs" />
     <Compile Include="ShapesDrawer\ShapeDrawer.cs" />
-    <Compile Include="ShapesDrawer\ShapeContainer.cs" />
+    <Compile Include="ShapesDrawer\ShapeCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

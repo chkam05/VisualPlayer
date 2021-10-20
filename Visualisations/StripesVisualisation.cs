@@ -20,13 +20,18 @@ namespace chkam05.Visualisations
 
         private List<Rectangle> _peakSegments;
 
-        private double _average = 1.0;
-        private double _fallSpeed = 0.2;
+        private double _fallSpeed = 1;
         private Color _fillColor = (Color) ColorConverter.ConvertFromString("#0078D7");
         private Thickness _margin = new Thickness(0);
         private double _peakSpace = 4.0;
 
+        private double _beatAverage = 1.0;
+        private double _beatAverageMax = 0.75;
+        private double _beatFallSpeed = 0.02;
+        private double _beatSensitivity = 0.5;
+
         private double _firstX = 0;
+        private double _spectrumHeight = 0;
         private SpectrumPosition[] _spectrumData = null;
 
 
@@ -89,58 +94,106 @@ namespace chkam05.Visualisations
 
         #endregion CLASS METHODS
 
+        #region CALCULATION METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Calculate beat spectrum part. </summary>
+        /// <param name="index"> Spectrum position index. </param>
+        /// <param name="p"> Spectrum position. </param>
+        /// <param name="currentBeatAverage"> Current calculated beat spectrum average. </param>
+        /// <param name="beatAverageCount"> Current included spectrum parts for beat. </param>
+        private void CalculateBeatPart(int index, SpectrumPosition p, ref double currentBeatAverage, ref int beatAverageCount)
+        {
+            double limiter = _spectrumHeight * _beatSensitivity;
+
+            if (index < SpectrumSize && p.Value > limiter)
+            {
+                currentBeatAverage += (p.Value - limiter);
+                beatAverageCount++;
+            };
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Calculate beat final spectrum. </summary>
+        /// <param name="average"> Beat spectrum average. </param>
+        /// <param name="count"> Included spectrum parts for beat. </param>
+        private void CalculateBeat(double average, int count)
+        {
+            double limiter = _spectrumHeight * _beatSensitivity;
+            double newAverage = 1.0 + (count > 0 ? (((average / count) * _beatAverageMax) / limiter) : 0);
+
+            _beatAverage = Math.Max(1.0,
+                Math.Min(2.0,
+                    newAverage > _beatAverage ? newAverage : _beatAverage - _beatFallSpeed));
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Pre calculate visualisation graphics before drawing it. </summary>
+        public override void PreCalculate()
+        {
+            if (_canvas == null || _spectrumProvider == null)
+                return;
+
+            //  Get buffer data from Player.
+            var fftBuffer = new float[_fftSize];
+            _spectrumProvider.GetFFTData(fftBuffer, this);
+
+            _spectrumHeight = CanvasHeight - (Margin.Top + Margin.Bottom) - _firstX;
+
+            //  Calculate spectrum line points.
+            var spectrum = GetSpectrum(_spectrumHeight, fftBuffer, ScalingStrategy.SQRT, true, true);
+
+            if (_spectrumData == null || _spectrumData.Length != spectrum.Count)
+                _spectrumData = spectrum.ToArray();
+
+            double beatAverage = 0;
+            int beatAverageCount = 0;
+
+            //  Pre calculation visualisation graphics.
+            for (int iX = 0; iX < _spectrumData.Length; iX++)
+            {
+                if (_spectrumData[iX].Value < spectrum[iX].Value)
+                {
+                    _spectrumData[iX] = spectrum[iX];
+                }
+                else
+                {
+                    _spectrumData[iX].Value = Math.Max(0, _spectrumData[iX].Value - _fallSpeed);
+                }
+
+                if (_logoDrawer != null)
+                    CalculateBeatPart(iX, _spectrumData[iX], ref beatAverage, ref beatAverageCount);
+            }
+
+            if (_logoDrawer != null)
+                CalculateBeat(beatAverage, beatAverageCount);
+        }
+
+        #endregion CALCULATION METHODS
+
         #region DRAW METHODS
 
         //  --------------------------------------------------------------------------------
         /// <summary> Draw visualisation on canvas. </summary>
-        public override void Draw()
+        /// <param name="includePreCalculation"> Include pre calculation visualisation graphics. </param>
+        public override void Draw(bool includePreCalculation = false)
         {
             if (_canvas == null || _spectrumProvider == null)
                 return;
 
             if (_enabled)
             {
-                //  Get buffer data from Player.
-                var fftBuffer = new float[_fftSize];
-                _spectrumProvider.GetFFTData(fftBuffer, this);
+                if (includePreCalculation || (_spectrumData == null || _spectrumData.Length == 0))
+                    PreCalculate();
 
-                double height = CanvasHeight - (Margin.Top + Margin.Bottom) - _firstX;
-
-                //  Calculate spectrum line points.
-                var spectrum = GetSpectrum(height, fftBuffer, ScalingStrategy.SQRT, true, true);
-
-                if (_spectrumData == null || _spectrumData.Length != spectrum.Count)
-                    _spectrumData = spectrum.ToArray();
-
-                double average = 0;
-                int averageCount = 0;
-
-                //  Draw visualisation.
                 for (int iX = 0; iX < _spectrumData.Length; iX++)
                 {
-                    if (_spectrumData[iX].Value < spectrum[iX].Value)
-                    {
-                        _spectrumData[iX] = spectrum[iX];
-                    }
-                    else
-                    {
-                        _spectrumData[iX].Value = Math.Max(0, _spectrumData[iX].Value - _fallSpeed);
-                    }
-
                     var p = _spectrumData[iX];
-                    if (p.Value > (height * 0.5))
-                    {
-                        average += p.Value / 2;
-                        averageCount++;
-                    }
                     _peakSegments[p.Index].Height = p.Value;
                 }
 
-                average = averageCount > 0 ? 1.0 + (((average / averageCount) * 1.0) / height) : 1.0;
-                _average = Math.Max(1.0, Math.Min(2.0, average > _average ? average : _average - (_fallSpeed / 1000)));
-
-                if (_logoEnabled)
-                    _logoDrawer.ApplyScale(_average, _average);
+                if (_logoDrawer != null)
+                    _logoDrawer.ApplyScale(_beatAverage, _beatAverage);
             }   
         }
 

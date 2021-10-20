@@ -1,6 +1,7 @@
 ﻿using chkam05.InternalMessages.Pages;
 using chkam05.Visualisations;
 using chkam05.Visualisations.Base;
+using chkam05.Visualisations.LogoDrawing;
 using chkam05.VisualPlayer.Base;
 using chkam05.VisualPlayer.Components;
 using chkam05.VisualPlayer.Components.EventArgs;
@@ -53,6 +54,7 @@ namespace chkam05.VisualPlayer.Windows
         //  VARIABLES
 
         private IPagesManager _pagesManager;
+        private HomePage _homePage;
 
         private bool _initialized = false;
 
@@ -70,6 +72,7 @@ namespace chkam05.VisualPlayer.Windows
 
         private Color _themeColor;
 
+        private ShapeDrawer _logoDrawer;
         private OnScreenDisplay _osd;
         private Canvas _visualisationCanvas;
         private IVisualisation _visualisation;
@@ -99,6 +102,20 @@ namespace chkam05.VisualPlayer.Windows
         private bool InterfaceUpdaterWorking
         {
             get => _interfaceUpdater != null && _interfaceUpdater.Status == TaskStatus.Running;
+        }
+
+        private ShapeDrawer LogoDrawer
+        {
+            get
+            {
+                if (_logoDrawer != null)
+                    return _logoDrawer;
+
+                var homePage = (HomePage)_pagesManager.GetPageByType(typeof(HomePage));
+                var logoContainer = homePage.LogoContainer;
+                _logoDrawer = new ShapeDrawer(logoContainer);
+                return _logoDrawer;
+            }
         }
 
         private Canvas VisualisationCanvas
@@ -1052,19 +1069,7 @@ namespace chkam05.VisualPlayer.Windows
                 }
 
                 //  Update visualisation.
-                visualisationOn = _pagesManager.CurrentPage is HomePage;
-
-                if (visualisationOn && VisualisationCanvas != null)
-                {
-                    VisualisationCanvas.Dispatcher.Invoke(() =>
-                    {
-                        if (_visualisation != null)
-                        {
-                            _visualisation.Draw();
-                            _visualisation.Logo.RedrawShapes();
-                        }
-                    });
-                }
+                DrawVisualisation(ref visualisationOn);
 
                 //  Auto manage next playlist item after finishing play.
                 if (playerCore.IsFinishedPlaying)
@@ -1217,6 +1222,7 @@ namespace chkam05.VisualPlayer.Windows
                 homePage.SideBarMargin = SideBarPanel.ActualWidth;
                 homePage.FullBackground = true;
 
+                _homePage = homePage;
                 _pagesManager.LoadPage(page);
             }
             else
@@ -1604,6 +1610,8 @@ namespace chkam05.VisualPlayer.Windows
         #region VISUALISATION MANAGEMENT METHODS
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Get json logo shapes definitions from resources. </summary>
+        /// <returns> Json logo shapes definitions. </returns>
         private string GetLogoShapeJson()
         {
             string logoShapeJson = string.Empty;
@@ -1628,6 +1636,44 @@ namespace chkam05.VisualPlayer.Windows
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Draw visualisation. </summary>
+        /// <param name="visualisationOn"> Reference to check if visualisation can be drawen. </param>
+        private void DrawVisualisation(ref bool visualisationOn)
+        {
+            //  Check if home page is loaded.
+            visualisationOn = _pagesManager.CurrentPage is HomePage;
+
+            //  Check if required components exists.
+            if (visualisationOn && VisualisationCanvas != null)
+            {
+                //  Check if visualisation exists.
+                if (_visualisation != null)
+                {
+                    //  Calculate visualisation data.
+                    _visualisation.PreCalculate();
+
+                    //  Draw visualisation.
+                    VisualisationCanvas.Dispatcher.Invoke(() =>
+                    {
+                        SetupLogo();
+                        _visualisation.Draw(false);
+                    });
+                }
+            }
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Setup logo after load window. </summary>
+        private void SetupLogo()
+        {
+            if (_logoDrawer != null && !_logoDrawer.IsSettedUp)
+            {
+                _logoDrawer.RedrawShapes();
+                _homePage.FixLogoPosition();
+            }
+        }
+
+        //  --------------------------------------------------------------------------------
         /// <summary> Setup visualisation. </summary>
         /// <param name="visualisationType"> Visualisation type. </param>
         private void SetupVisualisation(VisualisationType visualisationType)
@@ -1638,6 +1684,12 @@ namespace chkam05.VisualPlayer.Windows
             var playerCore = PlayerCore.Instance;
             IVisualisation visualisation = null;
 
+            if (!LogoDrawer.IsSettedUp)
+            {
+                string logoShapeJson = GetLogoShapeJson();
+                LogoDrawer.SetupShape(logoShapeJson, false);
+            }    
+
             switch (visualisationType)
             {
                 case VisualisationType.StripesVisualisation:
@@ -1646,16 +1698,14 @@ namespace chkam05.VisualPlayer.Windows
 
                     var stripesVis = (StripesVisualisation) visualisation;
                     stripesVis.FillColor = _themeColor;
+                    stripesVis.LogoDrawer = LogoDrawer;
                     stripesVis.Margin = new Thickness(48, 0, 0, 88);
                     break;
             }
 
-            string logoShapeJson = GetLogoShapeJson();
-
             if (visualisation != null)
             {
                 visualisation.Enabled = config.VisualisationEnabled;
-                visualisation.Logo.SetupShape(logoShapeJson, false);
                 _visualisation = visualisation;
             }
         }

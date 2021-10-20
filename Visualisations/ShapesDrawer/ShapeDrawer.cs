@@ -17,8 +17,15 @@ namespace chkam05.Visualisations.LogoDrawing
 
         //  VARIABLES
 
-        private Canvas _canvas;
-        private List<ShapeContainer> _shapes;
+        private Grid _container;
+        private bool _settedUp;
+        private List<ShapeCreator> _shapes;
+
+
+        public bool IsSettedUp
+        {
+            get => _settedUp;
+        }
 
 
         //  METHODS
@@ -26,11 +33,13 @@ namespace chkam05.Visualisations.LogoDrawing
         #region CLASS METHODS
 
         //  --------------------------------------------------------------------------------
-        public ShapeDrawer(Canvas canvas)
+        /// <summary> ShapeDrawer class constructor. </summary>
+        /// <param name="container"> Shapes container. </param>
+        public ShapeDrawer(Grid container)
         {
-            _shapes = new List<ShapeContainer>();
+            _shapes = new List<ShapeCreator>();
 
-            SetupCanvas(canvas);
+            SetupContainer(container);
         }
 
         #endregion CLASS METHODS
@@ -38,69 +47,74 @@ namespace chkam05.Visualisations.LogoDrawing
         #region DRAWING METHODS
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Apply scale transform on shapes container. </summary>
+        /// <param name="x"> Scale X. </param>
+        /// <param name="y"> Scale Y. </param>
         public void ApplyScale(double x, double y)
         {
-            ScaleTransform scale = null;
-
-            foreach (var shapeContainer in _shapes)
+            if (_container != null)
             {
-                if (!shapeContainer.Transforms.Any(s => s.GetType() == typeof(ScaleTransform)))
-                {
-                    scale = new ScaleTransform();
-                    shapeContainer.Transforms.Add(scale);
-                }
-                else
-                {
-                    scale = (ScaleTransform)shapeContainer.Transforms.FirstOrDefault(s => s.GetType() == typeof(ScaleTransform));
-                }
+                var renderTransform = _container.RenderTransform;
 
-                scale.ScaleX = Math.Min(2.0, Math.Max(1.0, x));
-                scale.ScaleY = Math.Min(2.0, Math.Max(1.0, y));
+                if (renderTransform.GetType() == typeof(TransformGroup))
+                {
+                    var transformGroup = (TransformGroup) renderTransform;
+                    var scale = (ScaleTransform) transformGroup.Children
+                        .FirstOrDefault(t => t.GetType() == typeof(ScaleTransform));
+
+                    if (scale != null)
+                    {
+                        scale.ScaleX = Math.Min(2.0, Math.Max(1.0, x));
+                        scale.ScaleY = Math.Min(2.0, Math.Max(1.0, y));
+                    }
+                }
             }
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Clear shapes from container. </summary>
         public void ClearShapes()
         {
-            if (_canvas != null && _shapes.Any())
+            if (_container != null && _shapes.Any())
             {
-                foreach (var shapeContainer in _shapes)
+                foreach (var shapeCreator in _shapes)
                 {
-                    Shape shape = shapeContainer.Shape;
+                    Shape shape = shapeCreator.Shape;
 
-                    if (shape != null && _canvas.Children.Contains(shape))
-                        _canvas.Children.Remove(shape);
+                    if (shape != null && _container.Children.Contains(shape))
+                        _container.Children.Remove(shape);
                 }
+
+                _settedUp = false;
             }
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Recreate shapes in container. </summary>
         public void RedrawShapes()
         {
-            if (_canvas != null)
+            if (_container != null)
             {
-                foreach (var shapeContainer in _shapes)
-                {
-                    RedrawShape(shapeContainer);
-                }
+                foreach (var shapeCreator in _shapes)
+                    RedrawShape(shapeCreator);
+
+                _settedUp = true;
             }
         }
 
         //  --------------------------------------------------------------------------------
-        private void RedrawShape(ShapeContainer shapeContainer)
+        /// <summary> Recreate shape in container. </summary>
+        /// <param name="shapeCreator"> Shape creator. </param>
+        private void RedrawShape(ShapeCreator shapeCreator)
         {
-            Shape shape = shapeContainer.Shape;
-            Size shift = shapeContainer.Shift;
-            Size size = shapeContainer.Size;
+            Shape shape = shapeCreator.Shape;
 
-            if (!_canvas.Children.Contains(shape))
-                _canvas.Children.Add(shape);
+            if (!_container.Children.Contains(shape))
+                _container.Children.Add(shape);
 
             int zIndex = Canvas.GetZIndex(shape);
             if (zIndex > 0)
                 Canvas.SetZIndex(shape, -1);
-
-            RecalculateShapeToCenter(shape, shift, size);
         }
 
         #endregion DRAWING METHODS
@@ -108,33 +122,41 @@ namespace chkam05.Visualisations.LogoDrawing
         #region SETUP METHODS
 
         //  --------------------------------------------------------------------------------
-        private void SetupCanvas(Canvas canvas)
+        /// <summary> Setup container for drawing shapes. </summary>
+        /// <param name="container"> Container where shapes will be drawed. </param>
+        private void SetupContainer(Grid container)
         {
-            if (canvas != null)
-                _canvas = canvas;
+            if (container != null)
+                _container = container;
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Create shapes from json shapes definitions structure. </summary>
+        /// <param name="shapeJson"> Json shapes definitions structure. </param>
+        /// <param name="autoReDraw"> Draw shape after setup. </param>
         public void SetupShape(string shapeJson = "", bool autoReDraw = false)
         {
-            bool redraw = _canvas != null && autoReDraw;
+            bool redraw = _container != null && autoReDraw;
 
             try
             {
-                var shapes = JsonConvert.DeserializeObject<List<ShapeContainer>>(shapeJson);
+                var shapesCreators = JsonConvert.DeserializeObject<List<ShapeCreator>>(shapeJson);
 
-                if (redraw && shapes.Any())
-                    ClearShapes();
-
-                foreach (var shapeContainer in shapes)
+                if (shapesCreators.Any())
                 {
-                    shapeContainer.SetupPolygon();
-
                     if (redraw)
-                        RedrawShape(shapeContainer);
-                }
+                        ClearShapes();
 
-                _shapes = shapes;
+                    foreach (var shapeContainer in shapesCreators)
+                    {
+                        shapeContainer.CreateShape();
+
+                        if (redraw)
+                            RedrawShape(shapeContainer);
+                    }
+
+                    _shapes = shapesCreators;
+                }
             }
             catch
             {
@@ -143,22 +165,6 @@ namespace chkam05.Visualisations.LogoDrawing
         }
 
         #endregion SETUP METHODS
-
-        #region UTILITY METHODS
-
-        //  --------------------------------------------------------------------------------
-        private void RecalculateShapeToCenter(Shape shape, Size shift, Size size)
-        {
-            double left = (_canvas.ActualWidth - size.Width) / 2;
-            double leftShifted = left + (shift.Width / 2);
-            Canvas.SetLeft(shape, leftShifted);
-
-            double top = (_canvas.ActualHeight - size.Height) / 2;
-            double topShifted = top - (shift.Height / 2);
-            Canvas.SetTop(shape, topShifted);
-        }
-
-        #endregion UTILITY METHODS
 
     }
 }
