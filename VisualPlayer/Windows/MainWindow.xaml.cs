@@ -521,10 +521,10 @@ namespace chkam05.VisualPlayer.Windows
 
                 //  Update appearance.
                 if (config.UseSystemColor)
-                    UpdateSystemThemeConfiguration(config.VisualisationColorMode == ColorMode.APPLICATION);
+                    UpdateSystemThemeConfiguration(config.VisualisationColorMode == VisualisationColorMode.APPLICATION);
                 else
                     UpdateThemeConfiguration(config.ThemeColor,
-                        config.VisualisationColorMode == ColorMode.APPLICATION);
+                        config.VisualisationColorMode == VisualisationColorMode.APPLICATION);
 
                 //  Setup visualisation.
                 SetupVisualisation(config.VisualisationType);
@@ -610,15 +610,15 @@ namespace chkam05.VisualPlayer.Windows
 
                 else if (e.Key == nameof(config.ThemeColor))
                     UpdateThemeConfiguration(config.ThemeColor,
-                        config.VisualisationColorMode == ColorMode.APPLICATION);
+                        config.VisualisationColorMode == VisualisationColorMode.APPLICATION);
 
                 else if (e.Key == nameof(config.UseSystemColor))
                 {
                     if (config.UseSystemColor)
-                        UpdateSystemThemeConfiguration(config.VisualisationColorMode == ColorMode.APPLICATION);
+                        UpdateSystemThemeConfiguration(config.VisualisationColorMode == VisualisationColorMode.APPLICATION);
                     else
                         UpdateThemeConfiguration(config.ThemeColor,
-                            config.VisualisationColorMode == ColorMode.APPLICATION);
+                            config.VisualisationColorMode == VisualisationColorMode.APPLICATION);
                 }
 
                 else if (e.Key == nameof(config.VisualisationEnabled))
@@ -682,13 +682,13 @@ namespace chkam05.VisualPlayer.Windows
             {
                 switch (config.VisualisationColorMode)
                 {
-                    case ColorMode.APPLICATION:
+                    case VisualisationColorMode.APPLICATION:
                         visualisationColor = _themeColor;
                         break;
 
-                    case ColorMode.CUSTOM:
-                    case ColorMode.RAINBOW_2D:
-                    case ColorMode.RAINBOW_3D:
+                    case VisualisationColorMode.CUSTOM:
+                    case VisualisationColorMode.RAINBOW_2D:
+                    case VisualisationColorMode.RAINBOW_3D:
                         visualisationColor = config.VisualisationColor;
                         break;
                 }
@@ -735,7 +735,9 @@ namespace chkam05.VisualPlayer.Windows
             OnPlayFile(playerCore, null);
 
             if (_visualisation.Enabled && !_visualisation.Initialized)
+            {
                 UpdateVisualisationSpectrumProvider(playerCore);
+            }
         }
 
         //  --------------------------------------------------------------------------------
@@ -1057,7 +1059,10 @@ namespace chkam05.VisualPlayer.Windows
                     VisualisationCanvas.Dispatcher.Invoke(() =>
                     {
                         if (_visualisation != null)
+                        {
                             _visualisation.Draw();
+                            _visualisation.Logo.RedrawShapes();
+                        }
                     });
                 }
 
@@ -1578,7 +1583,7 @@ namespace chkam05.VisualPlayer.Windows
             systemListener.UserPreferenceChangedHandler += (s, e) =>
             {
                 if (config.UseSystemColor)
-                    UpdateSystemThemeConfiguration(config.VisualisationColorMode == ColorMode.APPLICATION);
+                    UpdateSystemThemeConfiguration(config.VisualisationColorMode == VisualisationColorMode.APPLICATION);
             };
         }
 
@@ -1597,6 +1602,30 @@ namespace chkam05.VisualPlayer.Windows
         #endregion SETUP METHODS
 
         #region VISUALISATION MANAGEMENT METHODS
+
+        //  --------------------------------------------------------------------------------
+        private string GetLogoShapeJson()
+        {
+            string logoShapeJson = string.Empty;
+            byte[] baseLogo = Properties.Resources.BaseLogo;
+
+            try
+            {
+                using (var ms = new MemoryStream(baseLogo))
+                {
+                    using (var sr = new StreamReader(ms))
+                    {
+                        logoShapeJson = sr.ReadToEnd();
+                    }    
+                }
+            }
+            catch
+            {
+                logoShapeJson = string.Empty;
+            }
+
+            return logoShapeJson;
+        }
 
         //  --------------------------------------------------------------------------------
         /// <summary> Setup visualisation. </summary>
@@ -1620,10 +1649,13 @@ namespace chkam05.VisualPlayer.Windows
                     stripesVis.Margin = new Thickness(48, 0, 0, 88);
                     break;
             }
-            
+
+            string logoShapeJson = GetLogoShapeJson();
+
             if (visualisation != null)
             {
                 visualisation.Enabled = config.VisualisationEnabled;
+                visualisation.Logo.SetupShape(logoShapeJson, false);
                 _visualisation = visualisation;
             }
         }

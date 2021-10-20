@@ -95,40 +95,56 @@ namespace chkam05.VisualPlayer.Pages.Settings
         }
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Method called when checkbox checked is changed. </summary>
+        /// <summary> Method called when auto play on add checkbox checked is changed. </summary>
         /// <param name="sender"> Object that invoked event. </param>
         /// <param name="e"> Routed event arguments. </param>
-        private void CheckBoxes_Checked(object sender, RoutedEventArgs e)
+        private void AutoPlayOnAddCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            var checkBox = (CheckBox) sender;
+            var checkBox = (CheckBox)sender;
 
-            if (_focusedCheckBox != null && _focusedCheckBox == checkBox)
+            if (_focusedCheckBox == checkBox)
             {
-                var checkedValue = checkBox.IsChecked ?? false;
                 var configManager = ConfigManager.Instance;
 
-                if (checkBox == AutoPlayOnAddCheckBox)
-                {
-                    //  Update configuration.
-                    configManager.Config.PlayerAutoPlayOnAdd = checkedValue;
-                    configManager.InvokeConfigUpdate<AppConfig>("PlayerAutoPlayOnAdd");
-                }
+                //  Update configuration.
+                configManager.Config.PlayerAutoPlayOnAdd = checkBox.IsChecked ?? false;
+                configManager.InvokeConfigUpdate<AppConfig>("PlayerAutoPlayOnAdd");
+            }
+        }
 
-                else if (checkBox == KeepPlayListAfterRestartCheckBox)
-                {
-                    //  Update configuration.
-                    configManager.Config.PlayerKeepPlayListOnRestart = checkedValue;
-                    configManager.InvokeConfigUpdate<AppConfig>("PlayerKeepPlayListOnRestart");
-                }
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method called when keep playlist after restart checkbox checked is changed. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Routed event arguments. </param>
+        private void KeepPlayListAfterRestartCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkBox = (CheckBox)sender;
 
-                else if (checkBox == ShowOSDCheckBox)
-                {
-                    UpdateOSDEnabledConfiguration(checkedValue);
+            if (_focusedCheckBox == checkBox)
+            {
+                var configManager = ConfigManager.Instance;
 
-                    //  Update configuration.
-                    configManager.Config.PlayerOSDEnabled = checkedValue;
-                    configManager.InvokeConfigUpdate<AppConfig>("PlayerOSDEnabled");
-                }
+                //  Update configuration.
+                configManager.Config.PlayerKeepPlayListOnRestart = checkBox.IsChecked ?? false;
+                configManager.InvokeConfigUpdate<AppConfig>("PlayerKeepPlayListOnRestart");
+            }
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method called when show osd checkbox checked is changed. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Routed event arguments. </param>
+        private void ShowOSDCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkBox = (CheckBox)sender;
+
+            if (_focusedCheckBox == checkBox)
+            {
+                var configManager = ConfigManager.Instance;
+
+                //  Update configuration.
+                configManager.Config.PlayerOSDEnabled = checkBox.IsChecked ?? false;
+                configManager.InvokeConfigUpdate<AppConfig>("PlayerOSDEnabled");
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using chkam05.Visualisations.Spectrum;
+﻿using chkam05.Visualisations.LogoDrawing;
+using chkam05.Visualisations.Spectrum;
 using CSCore;
 using CSCore.DSP;
 using System;
@@ -26,8 +27,12 @@ namespace chkam05.Visualisations.Base
 
         internal Canvas _canvas;
         internal bool _enabled;
+        internal bool _initialized = false;
         internal int _fftSize;
         internal ISpectrumProvider _spectrumProvider;
+
+        internal bool _logoEnabled = true;
+        internal ShapeDrawer _logoDrawer;
 
         private int _minFrequency = 20;
         private int _maxFrequency = 20000;
@@ -56,6 +61,11 @@ namespace chkam05.Visualisations.Base
                 _enabled = value;
                 Stop();
             }
+        }
+
+        public bool Initialized
+        {
+            get => _initialized;
         }
 
         public double CanvasHeight
@@ -104,6 +114,17 @@ namespace chkam05.Visualisations.Base
             set => _spectrumSize = Math.Max(0, value);
         }
 
+        public bool LogoEnabled
+        {
+            get => _logoEnabled;
+            set => _logoEnabled = value;
+        }
+
+        public ShapeDrawer Logo
+        {
+            get => _logoDrawer;
+        }
+
         #endregion GETTERS & SETTERS
 
 
@@ -118,6 +139,7 @@ namespace chkam05.Visualisations.Base
         public BaseVisualisation(Canvas canvas, SpectrumProvider spectrumProvider = null)
         {
             _canvas = canvas;
+            _logoDrawer = new ShapeDrawer(canvas);
             SetSpectrumProvider(spectrumProvider, false);
         }
 
@@ -182,6 +204,8 @@ namespace chkam05.Visualisations.Base
                     _spectrumMaxIndex[_spectrumMaxIndex.Length - 1] = _maxFrequencyIndex;
                     _spectrumMaxLogScaleIndex[_spectrumMaxLogScaleIndex.Length - 1] = _maxFrequencyIndex;
                 }
+
+                _initialized = true;
             }
         }
 
@@ -300,6 +324,9 @@ namespace chkam05.Visualisations.Base
 
             if (recalculate)
                 MapFrequency();
+
+            if (_initialized && _logoEnabled)
+                _logoDrawer.RedrawShapes();
         }
 
         #endregion SETUP METHODS

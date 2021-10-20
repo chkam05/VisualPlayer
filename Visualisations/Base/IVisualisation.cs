@@ -1,4 +1,5 @@
-﻿using chkam05.Visualisations.Spectrum;
+﻿using chkam05.Visualisations.LogoDrawing;
+using chkam05.Visualisations.Spectrum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace chkam05.Visualisations.Base
         //  VARIABLES
 
         bool Enabled { get; set; }
+        bool Initialized { get; }
+        bool LogoEnabled { get; set; }
+        ShapeDrawer Logo { get; }
         int SpectrumSize { get; set; }
 
 

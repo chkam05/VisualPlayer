@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 
 namespace chkam05.VisualPlayer.Components
 {
-    public partial class BorderedUpDown : UserControl
+    public partial class BorderedNumericUpDown : UserControl
     {
 
         //  EVENTS
@@ -51,6 +51,28 @@ namespace chkam05.VisualPlayer.Components
             set => ContentBorder.BorderThickness = new Thickness(value);
         }
 
+        public int MaxValue
+        {
+            get => _maxValue;
+            set
+            {
+                _maxValue = Math.Max(_minValue + 1, value);
+                _value = Math.Min(_value, _maxValue);
+                InputTextBox.Text = _value.ToString();
+            }
+        }
+
+        public int MinValue
+        {
+            get => _minValue;
+            set
+            {
+                _minValue = Math.Min(value, _maxValue - 1);
+                _value = Math.Max(_minValue, _value);
+                InputTextBox.Text = _value.ToString();
+            }
+        }
+
         public int Value
         {
             get => _value;
@@ -70,7 +92,7 @@ namespace chkam05.VisualPlayer.Components
 
         //  --------------------------------------------------------------------------------
         /// <summary> BorderedUpDown class constructor. </summary>
-        public BorderedUpDown()
+        public BorderedNumericUpDown()
         {
             InitializeComponent();
             InputTextBox.Text = _value.ToString();

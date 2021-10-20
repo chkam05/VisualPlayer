@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace chkam05.VisualPlayer.Data.States
 {
-    public enum ColorMode
+    public enum VisualisationColorMode
     {
         APPLICATION = 0,
         CUSTOM = 1,

@@ -26,7 +26,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
         //  VARIABLES
 
         private CheckBox _focusedCheckBox;
-        private List<Border> _usedColors;
 
 
         //  METHODS
@@ -38,12 +37,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
         public VisualisationSettingsPage()
         {
             InitializeComponent();
-
-            //  Make used color borders alias.
-            _usedColors = new List<Border>
-            {
-                UsedColor01Border, UsedColor02Border, UsedColor03Border, UsedColor04Border, UsedColor05Border
-            };
         }
 
         #endregion CLASS METHODS
@@ -66,9 +59,10 @@ namespace chkam05.VisualPlayer.Pages.Settings
             EnableVisualisationCheckBox.IsChecked = config.VisualisationEnabled;
             UpdateVisualisationEnabledConfiguration(config.VisualisationEnabled);
             VisualisationTypeComboBox.SelectedItemIndex = EnumTool<VisualisationType>.GetIndex(config.VisualisationType);
-            CustomColorVisualisationCheckBox.IsChecked = config.VisualisationColorMode == ColorMode.CUSTOM;
-            ShowCustomColorSelection(config.VisualisationColorMode == ColorMode.CUSTOM);
-            SetSelectedColors(config.UsedVisualisationColors);
+            CustomColorVisualisationCheckBox.IsChecked = config.VisualisationColorMode == VisualisationColorMode.CUSTOM;
+            ShowCustomColorSelection(config.VisualisationColorMode == VisualisationColorMode.CUSTOM);
+            VisualisationColorsPicker.Color = config.VisualisationColor;
+            VisualisationColorsPicker.UsedColors = config.UsedVisualisationColors;
             ShowLogoCheckBox.IsChecked = config.VisualisationLogoEnabled;
         }
 
@@ -110,44 +104,78 @@ namespace chkam05.VisualPlayer.Pages.Settings
         }
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Method called when checkbox checked is changed. </summary>
+        /// <summary> Method called when enable visualisation checkbox checked is changed. </summary>
         /// <param name="sender"> Object that invoked event. </param>
         /// <param name="e"> Routed event arguments. </param>
-        private void CheckBoxes_Checked(object sender, RoutedEventArgs e)
+        private void EnableVisualisationCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             var checkBox = (CheckBox)sender;
 
-            if (_focusedCheckBox != null && _focusedCheckBox == checkBox)
+            if (_focusedCheckBox == checkBox)
             {
                 var checkedValue = checkBox.IsChecked ?? false;
                 var configManager = ConfigManager.Instance;
 
-                if (checkBox == EnableVisualisationCheckBox)
-                {
-                    UpdateVisualisationEnabledConfiguration(checkedValue);
+                UpdateVisualisationEnabledConfiguration(checkedValue);
 
-                    //  Update configuration.
-                    configManager.Config.VisualisationEnabled = checkedValue;
-                    configManager.InvokeConfigUpdate<AppConfig>("VisualisationEnabled");
-                }
-
-                else if (checkBox == ShowLogoCheckBox)
-                {
-                    //  Update configuration.
-                    configManager.Config.VisualisationLogoEnabled = checkedValue;
-                    configManager.InvokeConfigUpdate<AppConfig>("VisualisationLogoEnabled");
-                }
-
-                else if (checkBox == CustomColorVisualisationCheckBox)
-                {
-                    var colorMode = checkedValue ? ColorMode.CUSTOM : ColorMode.APPLICATION;
-                    ShowCustomColorSelection(colorMode == ColorMode.CUSTOM);
-
-                    //  Update configuration.
-                    configManager.Config.VisualisationColorMode = colorMode;
-                    configManager.InvokeConfigUpdate<AppConfig>("VisualisationColorMode");
-                }
+                //  Update configuration.
+                configManager.Config.VisualisationEnabled = checkedValue;
+                configManager.InvokeConfigUpdate<AppConfig>("VisualisationEnabled");
             }
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method called when custom color visualisation checkbox checked is changed. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Routed event arguments. </param>
+        private void CustomColorVisualisationCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkBox = (CheckBox)sender;
+
+            if (_focusedCheckBox == checkBox)
+            {
+                var checkedValue = checkBox.IsChecked ?? false;
+                var configManager = ConfigManager.Instance;
+                var colorMode = checkedValue ? VisualisationColorMode.CUSTOM : VisualisationColorMode.APPLICATION;
+
+                ShowCustomColorSelection(colorMode == VisualisationColorMode.CUSTOM);
+
+                //  Update configuration.
+                configManager.Config.VisualisationColorMode = colorMode;
+                configManager.InvokeConfigUpdate<AppConfig>("VisualisationColorMode");
+            }
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method called when show logo checkbox checked is changed. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Routed event arguments. </param>
+        private void ShowLogoCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            var checkBox = (CheckBox)sender;
+
+            if (_focusedCheckBox == checkBox)
+            {
+                var configManager = ConfigManager.Instance;
+
+                //  Update configuration.
+                configManager.Config.VisualisationLogoEnabled = checkBox.IsChecked ?? false;
+                configManager.InvokeConfigUpdate<AppConfig>("VisualisationLogoEnabled");
+            }
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method called when user change color in visualisation color picker. </summary>
+        /// <param name="sender"> Object that invoked event. </param>
+        /// <param name="e"> Selected color. </param>
+        private void VisualisationColorsPicker_OnColorChange(object sender, Color e)
+        {
+            var configManager = ConfigManager.Instance;
+            var config = configManager.Config;
+
+            config.VisualisationColor = VisualisationColorsPicker.Color;
+            config.UsedVisualisationColors = VisualisationColorsPicker.UsedColors;
+            configManager.InvokeConfigUpdate<AppConfig>("VisualisationColor");
         }
 
         //  --------------------------------------------------------------------------------
@@ -165,42 +193,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
             configManager.InvokeConfigUpdate<AppConfig>("VisualisationType");
         }
 
-        //  --------------------------------------------------------------------------------
-        /// <summary> Mathod called after releasing mouse from theme color changing border component. </summary>
-        /// <param name="sender"> Object that invoked event. </param>
-        /// <param name="e"> Mouse button event arguments. </param>
-        private void ThemeColorBorder_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (CustomColorVisualisationCheckBox.IsChecked ?? false)
-                return;
-
-            if (e.LeftButton == MouseButtonState.Released)
-            {
-                var border = (Border)sender;
-                var brush = (SolidColorBrush)border.Background;
-                var color = brush.Color;
-
-                //  Update visual component.
-                AddSelectedColor(color);
-
-                //  Update configuration.
-                var configManager = ConfigManager.Instance;
-                configManager.Config.VisualisationColor = color;
-                configManager.InvokeConfigUpdate<AppConfig>("VisualisationColor");
-
-                SaveSelectedColors(configManager);
-            }
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Method called after clicking add custom color control button to select custom visualisation color. </summary>
-        /// <param name="sender"> Object that invoked event. </param>
-        /// <param name="e"> Routed event arguments. </param>
-        private void AddCustomColorControlButton_Click(object sender, RoutedEventArgs e)
-        {
-            //
-        }
-
         #endregion INTERFACE INTERACTION METHODS
 
         #region INTERFACE MANAGEMENT METHODS
@@ -210,86 +202,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
         /// <param name="showed"> Show/Hide option. </param>
         private void ShowCustomColorSelection(bool showed)
         {
-            UsedColorsTextBlock.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
-            UsedColorsWrapPanel.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
-            PalleteColorsTextBlock.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
-            PalleteColorsWrapPanel.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Add new color to used colors in interface. </summary>
-        /// <param name="color"> New color to add. </param>
-        private void AddSelectedColor(Color color)
-        {
-            Brush thisBrush = new SolidColorBrush(color);
-            Brush prevBrush = thisBrush;
-
-            foreach (var border in _usedColors)
-            {
-                //  Set color.
-                var brush = border.Background;
-                border.Background = prevBrush;
-                prevBrush = brush;
-
-                try
-                {
-                    if (prevBrush != null && (prevBrush as SolidColorBrush).Color == (thisBrush as SolidColorBrush).Color)
-                        return;
-                }
-                catch
-                {
-                    continue;
-                }
-            }
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Load selected colors from list. </summary>
-        /// <param name="colors"> List of selected colors. </param>
-        private void SetSelectedColors(List<Color> colors)
-        {
-            int counter = 0;
-
-            foreach (var border in _usedColors)
-            {
-                //  Get color.
-                var brush = counter < colors.Count
-                    ? new SolidColorBrush(colors[counter])
-                    : null;
-
-                //  Set color.
-                border.Background = brush;
-
-                counter++;
-            }
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Save selected colors to list. </summary>
-        /// <param name="configManager"> Configuration manager instance. </param>
-        private void SaveSelectedColors(ConfigManager configManager)
-        {
-            configManager.Config.UsedVisualisationColors.Clear();
-
-            foreach (var border in _usedColors)
-            {
-                //  Get brush.
-                var brush = border.Background;
-
-                //  Try save color.
-                try
-                {
-                    if (brush != null)
-                    {
-                        var color = (brush as SolidColorBrush).Color;
-                        configManager.Config.UsedVisualisationColors.Add(color);
-                    }
-                }
-                catch
-                {
-                    //  Continue
-                }
-            }
+            VisualisationColorsPicker.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
         }
 
         #endregion INTERFACE MANAGEMENT METHODS

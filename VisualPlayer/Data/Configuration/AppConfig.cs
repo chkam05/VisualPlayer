@@ -36,7 +36,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         public Color ThemeColor { get; set; }
         public List<Color> UsedThemeColors { get; set; }
 
-        public ColorMode VisualisationColorMode { get; set; }
+        public VisualisationColorMode VisualisationColorMode { get; set; }
         public Color VisualisationColor { get; set; }
         public List<Color> UsedVisualisationColors { get; set; }
         public bool VisualisationEnabled { get; set; }
@@ -93,7 +93,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
                     UseSystemColor = false,
                     ThemeColor = defaultThemeColor,
                     UsedThemeColors = new List<Color>() { defaultThemeColor },
-                    VisualisationColorMode = ColorMode.APPLICATION,
+                    VisualisationColorMode = VisualisationColorMode.APPLICATION,
                     VisualisationColor = defaultThemeColor,
                     UsedVisualisationColors = new List<Color>() { defaultThemeColor },
                     VisualisationEnabled = true,

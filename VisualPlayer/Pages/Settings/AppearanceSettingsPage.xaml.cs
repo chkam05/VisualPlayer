@@ -23,7 +23,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
         //  VARIABLES
 
         private CheckBox _focusedCheckBox;
-        private List<Border> _usedColors;
 
 
         //  METHODS
@@ -35,12 +34,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
         public AppearanceSettingsPage()
         {
             InitializeComponent();
-
-            //  Make used color borders alias.
-            _usedColors = new List<Border>
-            {
-                UsedColor01Border, UsedColor02Border, UsedColor03Border, UsedColor04Border, UsedColor05Border
-            };
         }
 
         #endregion CLASS METHODS
@@ -55,7 +48,8 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
             SystemColorCheckBox.IsChecked = config.UseSystemColor;
             ShowCustomColorSelection(!config.UseSystemColor);
-            SetSelectedColors(config.UsedThemeColors);
+            ThemeColorsPicker.Color = config.ThemeColor;
+            ThemeColorsPicker.UsedColors = config.UsedThemeColors;
         }
 
         #endregion CONFIGURATION METHODS
@@ -81,63 +75,38 @@ namespace chkam05.VisualPlayer.Pages.Settings
         }
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Method called when checkbox checked is changed. </summary>
-        /// <param name="sender"> Object that invoked event. </param>
-        /// <param name="e"> Routed event arguments. </param>
-        private void CheckBoxes_Checked(object sender, RoutedEventArgs e)
+        /// <summary> Method called when system color checkbox checked is changed. </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SystemColorCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             var checkBox = (CheckBox)sender;
 
-            if (_focusedCheckBox != null && _focusedCheckBox == checkBox)
+            if (_focusedCheckBox == checkBox)
             {
                 var checkedValue = checkBox.IsChecked ?? false;
                 var configManager = ConfigManager.Instance;
 
-                if (checkBox == SystemColorCheckBox)
-                {
-                    ShowCustomColorSelection(!checkedValue);
-
-                    //  Update configuration.
-                    configManager.Config.UseSystemColor = checkedValue;
-                    configManager.InvokeConfigUpdate<AppConfig>("UseSystemColor");
-                }
-            }
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Mathod called after releasing mouse from theme color changing border component. </summary>
-        /// <param name="sender"> Object that invoked event. </param>
-        /// <param name="e"> Mouse button event arguments. </param>
-        private void ThemeColorBorder_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (SystemColorCheckBox.IsChecked ?? false)
-                return;
-
-            if (e.LeftButton == MouseButtonState.Released)
-            {
-                var border = (Border)sender;
-                var brush = (SolidColorBrush)border.Background;
-                var color = brush.Color;
-
-                //  Update visual component.
-                AddSelectedColor(color);
+                ShowCustomColorSelection(!checkedValue);
 
                 //  Update configuration.
-                var configManager = ConfigManager.Instance;
-                configManager.Config.ThemeColor = color;
-                configManager.InvokeConfigUpdate<AppConfig>("ThemeColor");
-
-                SaveSelectedColors(configManager);
+                configManager.Config.UseSystemColor = checkedValue;
+                configManager.InvokeConfigUpdate<AppConfig>("UseSystemColor");
             }
         }
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Method called after clicking add custom color control button to select custom theme color. </summary>
+        /// <summary> Method called when user change color in theme color picker. </summary>
         /// <param name="sender"> Object that invoked event. </param>
-        /// <param name="e"> Routed event arguments. </param>
-        private void AddCustomColorControlButton_Click(object sender, RoutedEventArgs e)
+        /// <param name="e"> Selected color. </param>
+        private void ThemeColorsPicker_OnColorChange(object sender, Color e)
         {
-            //
+            var configManager = ConfigManager.Instance;
+            var config = configManager.Config;
+
+            config.ThemeColor = ThemeColorsPicker.Color;
+            config.UsedThemeColors = ThemeColorsPicker.UsedColors;
+            configManager.InvokeConfigUpdate<AppConfig>("ThemeColor");
         }
 
         #endregion INTERFACE INTERACTION METHODS
@@ -149,86 +118,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
         /// <param name="showed"> Show/Hide option. </param>
         private void ShowCustomColorSelection(bool showed)
         {
-            UsedColorsTextBlock.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
-            UsedColorsWrapPanel.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
-            PalleteColorsTextBlock.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
-            PalleteColorsWrapPanel.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Add new color to used colors in interface. </summary>
-        /// <param name="color"> New color to add. </param>
-        private void AddSelectedColor(Color color)
-        {
-            Brush thisBrush = new SolidColorBrush(color);
-            Brush prevBrush = thisBrush;
-
-            foreach (var border in _usedColors)
-            {
-                //  Set color.
-                var brush = border.Background;
-                border.Background = prevBrush;
-                prevBrush = brush;
-
-                try
-                {
-                    if (prevBrush != null && (prevBrush as SolidColorBrush).Color == (thisBrush as SolidColorBrush).Color)
-                        return;
-                }
-                catch
-                {
-                    continue;
-                }
-            }
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Load selected colors from list. </summary>
-        /// <param name="colors"> List of selected colors. </param>
-        private void SetSelectedColors(List<Color> colors)
-        {
-            int counter = 0;
-
-            foreach (var border in _usedColors)
-            {
-                //  Get color.
-                var brush = counter < colors.Count
-                    ? new SolidColorBrush(colors[counter])
-                    : null;
-
-                //  Set color.
-                border.Background = brush;
-
-                counter++;
-            }
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Save selected colors to list. </summary>
-        /// <param name="configManager"> Configuration manager instance. </param>
-        private void SaveSelectedColors(ConfigManager configManager)
-        {
-            configManager.Config.UsedThemeColors.Clear();
-
-            foreach (var border in _usedColors)
-            {
-                //  Get brush.
-                var brush = border.Background;
-
-                //  Try save color.
-                try
-                {
-                    if (brush != null)
-                    {
-                        var color = (brush as SolidColorBrush).Color;
-                        configManager.Config.UsedThemeColors.Add(color);
-                    }
-                }
-                catch
-                {
-                    //  Continue
-                }
-            }
+            ThemeColorsPicker.Visibility = showed ? Visibility.Visible : Visibility.Collapsed;
         }
 
         #endregion INTERFACE MANAGEMENT METHODS

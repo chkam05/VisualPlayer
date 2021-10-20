@@ -59,5 +59,15 @@ namespace chkam05.VisualPlayer.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Byte[].
+        /// </summary>
+        internal static byte[] BaseLogo {
+            get {
+                object obj = ResourceManager.GetObject("BaseLogo", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

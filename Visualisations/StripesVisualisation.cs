@@ -20,6 +20,7 @@ namespace chkam05.Visualisations
 
         private List<Rectangle> _peakSegments;
 
+        private double _average = 1.0;
         private double _fallSpeed = 0.2;
         private Color _fillColor = (Color) ColorConverter.ConvertFromString("#0078D7");
         private Thickness _margin = new Thickness(0);
@@ -111,6 +112,9 @@ namespace chkam05.Visualisations
                 if (_spectrumData == null || _spectrumData.Length != spectrum.Count)
                     _spectrumData = spectrum.ToArray();
 
+                double average = 0;
+                int averageCount = 0;
+
                 //  Draw visualisation.
                 for (int iX = 0; iX < _spectrumData.Length; iX++)
                 {
@@ -124,8 +128,19 @@ namespace chkam05.Visualisations
                     }
 
                     var p = _spectrumData[iX];
+                    if (p.Value > (height * 0.5))
+                    {
+                        average += p.Value / 2;
+                        averageCount++;
+                    }
                     _peakSegments[p.Index].Height = p.Value;
                 }
+
+                average = averageCount > 0 ? 1.0 + (((average / averageCount) * 1.0) / height) : 1.0;
+                _average = Math.Max(1.0, Math.Min(2.0, average > _average ? average : _average - (_fallSpeed / 1000)));
+
+                if (_logoEnabled)
+                    _logoDrawer.ApplyScale(_average, _average);
             }   
         }
 
@@ -154,15 +169,15 @@ namespace chkam05.Visualisations
         {
             ClearCanvas();
 
-            double width = CanvasWidth - (Margin.Left + Margin.Right);
-            double peakSpace = width - (_peakSpace * (SpectrumSize - 1));
-            double peakSize = peakSpace / SpectrumSize;
+            double width = CanvasWidth - (Margin.Left + Margin.Right + (_peakSpace * 2));
+            double spacesSize = _peakSpace * (SpectrumSize - 1);
+            double peakSize = (width - spacesSize) / SpectrumSize;
 
-            _firstX = Margin.Left + ((width - ((peakSize * SpectrumSize) + (_peakSpace * (SpectrumSize - 1)))) / 2);
+            _firstX = Margin.Left + _peakSpace;
 
             for (int iX = 0; iX < SpectrumSize; iX++)
             {
-                double x = _firstX + (peakSize * iX) + (peakSize / 2) + (_peakSpace * iX);
+                double x = _firstX + (peakSize * iX) + (_peakSpace * iX);
 
                 var peakSegment = new Rectangle();
                 peakSegment.Fill = new SolidColorBrush(_fillColor);
@@ -187,6 +202,7 @@ namespace chkam05.Visualisations
                 RemovePeaksFromCanvas(_peakSegments);
 
             _peakSegments.Clear();
+            _initialized = false;
         }
 
         //  --------------------------------------------------------------------------------

@@ -51,8 +51,8 @@
                         Style="{DynamicResource MaterialDesignSwitchToggleButton}"
                         GotFocus="CheckBoxes_GotFocus"
                         LostFocus="CheckBoxes_LostFocus"
-                        Checked="CheckBoxes_Checked"
-                        Unchecked="CheckBoxes_Checked"/>
+                        Checked="AutoPlayOnAddCheckBox_Checked"
+                        Unchecked="AutoPlayOnAddCheckBox_Checked"/>
 
                     <TextBlock
                         x:Name="AutoPlayOnAddTextBlock"
@@ -72,8 +72,8 @@
                         Style="{DynamicResource MaterialDesignSwitchToggleButton}"
                         GotFocus="CheckBoxes_GotFocus"
                         LostFocus="CheckBoxes_LostFocus"
-                        Checked="CheckBoxes_Checked"
-                        Unchecked="CheckBoxes_Checked"/>
+                        Checked="KeepPlayListAfterRestartCheckBox_Checked"
+                        Unchecked="KeepPlayListAfterRestartCheckBox_Checked"/>
 
                     <TextBlock
                         x:Name="KeepPlayListAfterRestartTextBlock"
@@ -99,8 +99,8 @@
                         Style="{DynamicResource MaterialDesignSwitchToggleButton}"
                         GotFocus="CheckBoxes_GotFocus"
                         LostFocus="CheckBoxes_LostFocus"
-                        Checked="CheckBoxes_Checked"
-                        Unchecked="CheckBoxes_Checked"/>
+                        Checked="ShowOSDCheckBox_Checked"
+                        Unchecked="ShowOSDCheckBox_Checked"/>
 
                     <TextBlock
                         x:Name="ShowOSDTextBlock"
