@@ -25,7 +25,8 @@
 
             <Grid
                 x:Name="LogoGrid"
-                RenderTransformOrigin="0.5,0.5">
+                RenderTransformOrigin="0.5,0.5"
+                Visibility="Collapsed">
 
                 <Grid.RenderTransform>
                     <TransformGroup>
