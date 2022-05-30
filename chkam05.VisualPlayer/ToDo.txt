@@ -1,0 +1,10 @@
+﻿* VISUALISATIONS
+	- More Visualisations
+
+* DEVELOPMENT
+	- EQ
+	- Files Manager
+	- Language
+
+* MARQUEE
+	- TESTS

@@ -1,0 +1,31 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ControlSliderStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedCheckBoxStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedComboBoxStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedComboBoxItemStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedContextMenuStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedContextMenuItemStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedExpanderStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedGridListViewItemStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedGridListViewStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedListViewColumnHeaderStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedListViewItemStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedListViewStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedScrollBarStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedScrollViewerStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedTabControlStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedTabItemStyle.xaml"/>
+        <ResourceDictionary Source="ExtendedTextBoxStyle.xaml"/>
+        <ResourceDictionary Source="PackIconButtonStyle.xaml"/>
+        <ResourceDictionary Source="SideBarMenuItemStyle.xaml"/>
+        <ResourceDictionary Source="SideBarMenuListViewStyle.xaml"/>
+
+        <ResourceDictionary Source="Track_ControlSliderStyle.xaml"/>
+        <ResourceDictionary Source="Volume_ControlSliderStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

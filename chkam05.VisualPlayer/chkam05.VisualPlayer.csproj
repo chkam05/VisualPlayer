@@ -1,0 +1,607 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BA43F913-4423-4B8A-A759-6801A3C334BE}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>chkam05.VisualPlayer</RootNamespace>
+    <AssemblyName>VisualPlayer</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Logo\Logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
+      <HintPath>..\packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentWPF, Version=0.8.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentWPF.0.8.0\lib\net45\FluentWPF.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.2.7.1979, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.2.7\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=3.2.0.1979, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.3.2.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="taglib-sharp, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\taglib-sharp-netstandard2.0.2.1.0\lib\netstandard2.0\taglib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Components\Data\ContentSide.cs" />
+    <Compile Include="Components\Data\ExtendedTextBoxDataType.cs" />
+    <Compile Include="Components\Events\ExtendedTextBoxContentUpdatedEventArgs.cs" />
+    <Compile Include="Components\Events\SliderValueChangedEventArgs.cs" />
+    <Compile Include="Components\ExtendedCheckBox.cs" />
+    <Compile Include="Components\ExtendedComboBox.cs" />
+    <Compile Include="Components\ExtendedComboBoxItem.cs" />
+    <Compile Include="Components\ExtendedContextMenu.cs" />
+    <Compile Include="Components\ExtendedContextMenuItem.cs" />
+    <Compile Include="Components\ExtendedExpander.cs" />
+    <Compile Include="Components\ExtendedListView.cs" />
+    <Compile Include="Components\ExtendedListViewItem.cs" />
+    <Compile Include="Components\ExtendedScrollBar.cs" />
+    <Compile Include="Components\ExtendedScrollViewer.cs" />
+    <Compile Include="Components\ExtendedTabControl.cs" />
+    <Compile Include="Components\ExtendedTabItem.cs" />
+    <Compile Include="Components\ExtendedTextBox.cs" />
+    <Compile Include="Components\PackIconButton.cs" />
+    <Compile Include="Controls\ColorsPaletteControl.xaml.cs">
+      <DependentUpon>ColorsPaletteControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ControlBar.xaml.cs">
+      <DependentUpon>ControlBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Data\ControlBarState.cs" />
+    <Compile Include="Components\ControlButton.cs" />
+    <Compile Include="Components\ControlSlider.cs" />
+    <Compile Include="Controls\Data\InformationBarAutoHide.cs" />
+    <Compile Include="Controls\Data\MarqueeBehaviour.cs" />
+    <Compile Include="Controls\Data\MarqueeState.cs" />
+    <Compile Include="Controls\Data\MenuItem.cs" />
+    <Compile Include="Controls\Data\MenuItemSubType.cs" />
+    <Compile Include="Controls\Data\MenuItemType.cs" />
+    <Compile Include="Controls\Data\ShapeContainer.cs" />
+    <Compile Include="Controls\Events\ControlBarAnimateEventArgs.cs" />
+    <Compile Include="Controls\Events\ControlBarAnimationFinishEventArgs.cs" />
+    <Compile Include="Controls\Events\InformationBarAnimateEventArgs.cs" />
+    <Compile Include="Controls\Events\InformationBarAnimationFinishEventArgs.cs" />
+    <Compile Include="Controls\Events\PaletteColorUpdateEventArgs.cs" />
+    <Compile Include="Controls\Events\SideBarAnimateEventArgs.cs" />
+    <Compile Include="Controls\Events\SideBarAnimationFinishEventArgs.cs" />
+    <Compile Include="Controls\Events\VolumeControlAnimateEventArgs.cs" />
+    <Compile Include="Controls\Events\VolumeControlAnimationFinishEventArgs.cs" />
+    <Compile Include="Controls\FontControl.xaml.cs">
+      <DependentUpon>FontControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LogoControl.xaml.cs">
+      <DependentUpon>LogoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LyricsControl.xaml.cs">
+      <DependentUpon>LyricsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MarqueeTextBlock.xaml.cs">
+      <DependentUpon>MarqueeTextBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Messages\AwaitMessage.xaml.cs">
+      <DependentUpon>AwaitMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Messages\BoxMessage.xaml.cs">
+      <DependentUpon>BoxMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Messages\Data\AwaitIndicatorData.cs" />
+    <Compile Include="Controls\Messages\Data\BoxMessageType.cs" />
+    <Compile Include="Controls\Messages\Data\MessageResult.cs" />
+    <Compile Include="Controls\Messages\Events\MessageCloseEventArgs.cs" />
+    <Compile Include="Controls\Messages\Events\MessageLoadedEventArgs.cs" />
+    <Compile Include="Controls\Messages\IMessage.cs" />
+    <Compile Include="Controls\Messages\IMessagesManager.cs" />
+    <Compile Include="Controls\Messages\IProgressMessage.cs" />
+    <Compile Include="Controls\Messages\MessagesControl.xaml.cs">
+      <DependentUpon>MessagesControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Messages\ProgressMessage.xaml.cs">
+      <DependentUpon>ProgressMessage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PagesControl.xaml.cs">
+      <DependentUpon>PagesControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VolumeControl.xaml.cs">
+      <DependentUpon>VolumeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CoverImage.xaml.cs">
+      <DependentUpon>CoverImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InformationBar.xaml.cs">
+      <DependentUpon>InformationBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Data\InformationBarState.cs" />
+    <Compile Include="Controls\SideBarMenu.xaml.cs">
+      <DependentUpon>SideBarMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\SideBarMenuItem.cs" />
+    <Compile Include="Components\SideBarMenuListView.cs" />
+    <Compile Include="Controls\Data\SideBarMenuState.cs" />
+    <Compile Include="Controls\SideBarPlayList.xaml.cs">
+      <DependentUpon>SideBarPlayList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\AppearanceColorTypeNameConverter.cs" />
+    <Compile Include="Converters\AppearanceThemeTypeNameConverter.cs" />
+    <Compile Include="Converters\ColorHueDegreeConverter.cs" />
+    <Compile Include="Converters\ColorSolidColorBrushConverter.cs" />
+    <Compile Include="Converters\AppearanceLogoColorTypeNameConverter.cs" />
+    <Compile Include="Converters\Data\PlaybackStateControlIconConverterParameter.cs" />
+    <Compile Include="Converters\DoublePercentStringConverter.cs" />
+    <Compile Include="Converters\DoubleDecimalShiftConverter.cs" />
+    <Compile Include="Converters\FontConfigStyleNameConverter.cs" />
+    <Compile Include="Converters\Fonts\FontStretchNameConverter.cs" />
+    <Compile Include="Converters\Fonts\FontStyleNameConverter.cs" />
+    <Compile Include="Converters\Fonts\FontWeightNameConverter.cs" />
+    <Compile Include="Converters\InformationBarAutoHideTypeNameConverter.cs" />
+    <Compile Include="Converters\InverseBoolConverter.cs" />
+    <Compile Include="Converters\IPlayableNowPlayingConverter.cs" />
+    <Compile Include="Converters\LyricsMatchTypeNameConverter.cs" />
+    <Compile Include="Converters\MarqueeStateNameConverter.cs" />
+    <Compile Include="Converters\PackIconKindImageSourceConverter.cs" />
+    <Compile Include="Converters\PlaybackStateControlDescriptionConverter.cs" />
+    <Compile Include="Converters\PlaybackStateControlIconConverter.cs" />
+    <Compile Include="Converters\PlaybackStateControlIconImageSourceConverter.cs" />
+    <Compile Include="Converters\RepeatControlDescriptionConverter.cs" />
+    <Compile Include="Converters\RepeatControlIconConverter.cs" />
+    <Compile Include="Converters\ShuffleControlIconConverter.cs" />
+    <Compile Include="Converters\TimeSpanStringConverter.cs" />
+    <Compile Include="Converters\VisibilityBoolConverter.cs" />
+    <Compile Include="Converters\VisualisationColorTypeNameConverter.cs" />
+    <Compile Include="Converters\VisualisationScalingStrategyNameConverter.cs" />
+    <Compile Include="Converters\VisualisationTypeNameConverter.cs" />
+    <Compile Include="Core\Events\PlayerLoadedFileEventArgs.cs" />
+    <Compile Include="Core\Player.cs" />
+    <Compile Include="Data\Config\FontConfig.cs" />
+    <Compile Include="Data\Config\FontConfigStyle.cs" />
+    <Compile Include="Data\Fonts\FontContainer.cs" />
+    <Compile Include="Data\Fonts\FontsManager.cs" />
+    <Compile Include="Utilities\JumpListCreator.cs" />
+    <Compile Include="Utilities\SingleInstance.cs" />
+    <Compile Include="Data\Config\AppearanceLogoColorType.cs" />
+    <Compile Include="Data\Config\AppearanceThemeType.cs" />
+    <Compile Include="Data\Config\ColorInfo.cs" />
+    <Compile Include="Data\Config\Configuration.cs" />
+    <Compile Include="Data\Config\Events\ConfigurationUpdateEventArgs.cs" />
+    <Compile Include="Data\Config\LyricsMatchType.cs" />
+    <Compile Include="Data\Lyrics\Events\LyricsItemUpdateEventArgs.cs" />
+    <Compile Include="Pages\Settings\SettingsLyricsPage.xaml.cs">
+      <DependentUpon>SettingsLyricsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Data\AHSLColor.cs" />
+    <Compile Include="Utilities\Data\DispatcherHandler.cs" />
+    <Compile Include="Utilities\Data\SystemTheme.cs" />
+    <Compile Include="Data\Files\FileConfig.cs" />
+    <Compile Include="Data\Files\BaseFile.cs" />
+    <Compile Include="Data\Files\FileGroup.cs" />
+    <Compile Include="Data\Files\IFile.cs" />
+    <Compile Include="Data\Files\IFileMeta.cs" />
+    <Compile Include="Data\Files\IPlayable.cs" />
+    <Compile Include="Data\Files\SongFile.cs" />
+    <Compile Include="Data\Files\FileKind.cs" />
+    <Compile Include="Data\Lyrics\ILyricsController.cs" />
+    <Compile Include="Data\Lyrics\Lyrics.cs" />
+    <Compile Include="Data\Lyrics\LyricsManager.cs" />
+    <Compile Include="Data\PlayLists\IPlayList.cs" />
+    <Compile Include="Data\PlayLists\Permutation.cs" />
+    <Compile Include="Data\PlayLists\PlayList.cs" />
+    <Compile Include="Data\Config\AppearanceColorType.cs" />
+    <Compile Include="Data\Static\Repeat.cs" />
+    <Compile Include="Pages\Events\PageLoadedEventArgs.cs" />
+    <Compile Include="Pages\IPage.cs" />
+    <Compile Include="Pages\IPagesManager.cs" />
+    <Compile Include="Pages\LyricsPage.xaml.cs">
+      <DependentUpon>LyricsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\SettingsAboutPage.xaml.cs">
+      <DependentUpon>SettingsAboutPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\SettingsAppearancePage.xaml.cs">
+      <DependentUpon>SettingsAppearancePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\SettingsGeneralPage.xaml.cs">
+      <DependentUpon>SettingsGeneralPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\SettingsHomePage.xaml.cs">
+      <DependentUpon>SettingsHomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\SettingsVisualisationPage.xaml.cs">
+      <DependentUpon>SettingsVisualisationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Serializers\LyricsSerializer.cs" />
+    <Compile Include="Serializers\PlayListSerializer.cs" />
+    <Compile Include="Utilities\ApplicationHelper.cs" />
+    <Compile Include="Utilities\ColorUtilities.cs" />
+    <Compile Include="Utilities\ControlsUtilities.cs" />
+    <Compile Include="Utilities\EnumUtilities.cs" />
+    <Compile Include="Utilities\FilesManager.cs" />
+    <Compile Include="Utilities\MathUtilities.cs" />
+    <Compile Include="Utilities\MenuBuilder.cs" />
+    <Compile Include="Utilities\ObjectUtilities.cs" />
+    <Compile Include="Utilities\RainbowColorGenerator.cs" />
+    <Compile Include="Utilities\StringUtilities.cs" />
+    <Compile Include="Utilities\SystemInfo.cs" />
+    <Compile Include="Utilities\SystemListener.cs" />
+    <Compile Include="Serializers\BaseXmlSerializer.cs" />
+    <Compile Include="Utilities\WindowsUtilities.cs" />
+    <Compile Include="Visualisations\BaseVisualisation.cs" />
+    <Compile Include="Visualisations\BeatLevel.cs" />
+    <Compile Include="Visualisations\Data\ScalingStrategy.cs" />
+    <Compile Include="Visualisations\Data\SpectrumLevel.cs" />
+    <Compile Include="Visualisations\Data\VisualisationColorType.cs" />
+    <Compile Include="Visualisations\Data\VisualisationType.cs" />
+    <Compile Include="Visualisations\IVisualisation.cs" />
+    <Compile Include="Visualisations\PeaksVisualisation.cs" />
+    <Compile Include="Visualisations\Spectrum\ISpectrumProvider.cs" />
+    <Compile Include="Visualisations\Spectrum\SpectrumProvider.cs" />
+    <Compile Include="Visualisations\BitmapDrawer.cs" />
+    <Compile Include="Visualisations\StripesVisualisation.cs" />
+    <Compile Include="Visualisations\VisualisationsManager.cs" />
+    <Compile Include="Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Controls\ColorsPaletteControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ControlBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\FontControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LogoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LyricsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MarqueeTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Messages\AwaitMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Messages\BoxMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Messages\MessagesControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Messages\ProgressMessage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PagesControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\VolumeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\CoverImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\InformationBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SideBarMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SideBarPlayList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\LyricsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\SettingsAboutPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\SettingsAppearancePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\SettingsGeneralPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\SettingsHomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\SettingsLyricsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\SettingsVisualisationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ControlBar_PackIconButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ControlSliderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedCheckBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedComboBoxItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedComboBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedContextMenuItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedContextMenuStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedExpanderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedGridListViewItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedGridListViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedListViewColumnHeaderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedListViewItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedListViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedTabControlStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedTabItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedTextBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\PackIconButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\SideBarMenuItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\SideBarMenuListViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\Track_ControlSliderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\Volume_ControlSliderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Standard\Content_TextBlockStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Standard\ContextMenuSeparatorStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Standard\Header_TextBlockStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedScrollBarStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Components\ExtendedScrollViewerStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Standard\ProgressBarStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Standard\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\Standard\Title_TextBlockStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Resource Include="Resources\Fonts\DigitalDream.ttf" />
+    <Resource Include="Resources\Fonts\DigitaldreamFat.ttf" />
+    <Resource Include="Resources\Fonts\DigitaldreamFatNarrow.ttf" />
+    <Resource Include="Resources\Fonts\DigitaldreamFatSkew.ttf" />
+    <Resource Include="Resources\Fonts\DigitaldreamFatSkewNarrow.ttf" />
+    <Resource Include="Resources\Fonts\DigitaldreamNarrow.ttf" />
+    <Resource Include="Resources\Fonts\DigitaldreamSkew.ttf" />
+    <Resource Include="Resources\Fonts\DigitaldreamSkewNarrow.ttf" />
+    <Resource Include="Resources\Fonts\ledsled.ttf" />
+    <Resource Include="Resources\Fonts\ledsledcond.ttf" />
+    <Resource Include="Resources\Fonts\ledsledcondital.ttf" />
+    <Resource Include="Resources\Fonts\ledsledexpand.ttf" />
+    <Resource Include="Resources\Fonts\ledsledexpandital.ttf" />
+    <Resource Include="Resources\Fonts\ledsledital.ttf" />
+    <Resource Include="Resources\Fonts\ledsledleft.ttf" />
+    <Resource Include="Resources\Fonts\ledsledstraight.ttf" />
+    <Resource Include="Resources\Fonts\ledsledstraightcond.ttf" />
+    <Resource Include="Resources\Fonts\ledsledstraightexpand.ttf" />
+    <None Include="Resources\Logo\Logo.xcf" />
+    <None Include="Resources\Logo\VPlayer7.cdr" />
+    <None Include="Resources\Shapes\BaseLogo.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Logo\Logo.ico" />
+    <Resource Include="Resources\Logo\Logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ToDo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Icons\Home.ico" />
+    <EmbeddedResource Include="Resources\Icons\Settings.ico" />
+    <EmbeddedResource Include="Resources\Icons\Subtitles.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ten projekt zawiera odwołania do pakietów NuGet, których nie ma na tym komputerze. Użyj przywracania pakietów NuGet, aby je pobrać. Aby uzyskać więcej informacji, zobacz http://go.microsoft.com/fwlink/?LinkID=322105. Brakujący plik: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MaterialDesignThemes.3.2.0\build\MaterialDesignThemes.targets'))" />
+  </Target>
+</Project>

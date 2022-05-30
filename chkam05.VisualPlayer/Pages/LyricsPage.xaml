@@ -1,0 +1,656 @@
+﻿<Page 
+    x:Class="chkam05.VisualPlayer.Pages.LyricsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:components="clr-namespace:chkam05.VisualPlayer.Components"
+    xmlns:controls="clr-namespace:chkam05.VisualPlayer.Controls"
+    xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
+    xmlns:local="clr-namespace:chkam05.VisualPlayer.Pages"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    mc:Ignorable="d"
+    
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    Foreground="White"
+    Loaded="Page_Loaded"
+    Unloaded="Page_Unloaded">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Styles/Components/Styles.xaml"/>
+                <ResourceDictionary Source="../Resources/Styles/Standard/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Storyboards. -->
+            <Storyboard x:Key="ShowHideLyricsFilesStoryboard" Completed="Storyboard_Completed">
+                <ThicknessAnimationUsingKeyFrames
+                    BeginTime="00:00:0"
+                    Duration="00:00:0.25"
+                    Storyboard.TargetName="LyricsFilesGrid"
+                    Storyboard.TargetProperty="Margin">
+                    <ThicknessAnimationUsingKeyFrames.KeyFrames>
+                        <LinearThicknessKeyFrame Value="{Binding Path=LyricsFilesListMargin, Mode=TwoWay}"/>
+                    </ThicknessAnimationUsingKeyFrames.KeyFrames>
+                </ThicknessAnimationUsingKeyFrames>
+            </Storyboard>
+            
+            <!-- Styles. -->
+            <Style x:Key="Control_PackIconButtonStyle" BasedOn="{StaticResource PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                <Setter Property="Background" Value="{Binding Configuration.ButtonColorBrush, RelativeSource={RelativeSource AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="BorderBrush" Value="{Binding Configuration.ButtonBorderColorBrush, RelativeSource={RelativeSource AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="HoveredBackground" Value="{Binding Configuration.AccentHoveredColorBrush, RelativeSource={RelativeSource AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="PressedBackground" Value="{Binding Configuration.PressedColorBrush, RelativeSource={RelativeSource AncestorType={x:Type local:LyricsPage}}}"/>
+            </Style>
+
+            <Style x:Key="Menu_PackIconButtonStyle" BasedOn="{StaticResource Control_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                <Setter Property="ContentSide" Value="RIGHT"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="MinWidth" Value="72"/>
+                <Setter Property="MaxWidth" Value="128"/>
+                <Setter Property="Padding" Value="4,4,8,4"/>
+            </Style>
+
+            <Style x:Key="ControlTool_PackIconButtonStyle" BasedOn="{StaticResource Control_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                <Setter Property="ContentSide" Value="BOTTOM"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="PackIconHeight" Value="32"/>
+                <Setter Property="PackIconMargin" Value="0"/>
+                <Setter Property="Padding" Value="4"/>
+            </Style>
+
+            <Style x:Key="LyricsUpdate_PackIconButtonStyle" BasedOn="{StaticResource Control_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                <Setter Property="ContentSide" Value="BOTTOM"/>
+                <Setter Property="Margin" Value="4,0"/>
+                <Setter Property="PackIconHeight" Value="20"/>
+                <Setter Property="PackIconMargin" Value="0"/>
+                <Setter Property="Padding" Value="4"/>
+            </Style>
+            
+            <Style x:Key="Lyrics_ExtendedListViewColumnHeaderStyle" BasedOn="{StaticResource ExtendedListViewColumnHeaderStyle}" TargetType="{x:Type GridViewColumnHeader}">
+                <Setter Property="Background" Value="{Binding Path=Configuration.AccentColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Foreground" Value="{Binding Path=Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="Margin" Value="1"/>
+            </Style>
+
+            <Style x:Key="Lyrics_ExtendedGridListViewStyle" BasedOn="{StaticResource ExtendedGridListViewStyle}" TargetType="{x:Type components:ExtendedListView}"/>
+
+            <Style x:Key="Lyrics_ExtendedListViewItemStyle" BasedOn="{StaticResource ExtendedGridListViewItemStyle}" TargetType="{x:Type components:ExtendedListViewItem}">
+                <Setter Property="Foreground" Value="{Binding Path=Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="HoveredBackground" Value="{Binding Path=Configuration.AccentHoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="SelectedActiveBackground" Value="{Binding Path=Configuration.AccentSelectedColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="SelectedInactiveBackground" Value="{Binding Path=Configuration.SelectedInactiveColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="Lyrics_ExtendedContextMenuStyle" BasedOn="{StaticResource ExtendedContextMenuStyle}" TargetType="{x:Type components:ExtendedContextMenu}">
+                <Setter Property="Background" Value="{Binding Configuration.ThemeDarkColorBrush}"/>
+                <Setter Property="BorderBrush" Value="{Binding Configuration.AccentColorBrush}"/>
+                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush}"/>
+            </Style>
+
+            <Style x:Key="Lyrics_ExtendedContextMenuItemStyle" BasedOn="{StaticResource ExtendedContextMenuItemStyle}" TargetType="{x:Type components:ExtendedContextMenuItem}">
+                <Setter Property="HoveredBackground" Value="{Binding Configuration.AccentHoveredColorBrush}"/>
+                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush}"/>
+            </Style>
+            
+            <Style x:Key="Lyrics_ExtendedTextBoxStyle" BasedOn="{StaticResource ExtendedTextBoxStyle}" TargetType="{x:Type components:ExtendedTextBox}">
+                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="FocusedBorder" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="HoveredBorder" Value="{Binding Configuration.AccentColorBrush, RelativeSource={RelativeSource AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="MinWidth" Value="96"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="LyricsFilesHeader_TextBlockStyle" BasedOn="{StaticResource Header_TextBlockStyle}" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush}"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Margin" Value="8"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="LyricsFiles_ExtendedListViewItemStyle" BasedOn="{StaticResource ExtendedListViewItemStyle}" TargetType="{x:Type components:ExtendedListViewItem}">
+                <Setter Property="Foreground" Value="{Binding Path=Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="HoveredBackground" Value="{Binding Path=Configuration.AccentHoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="SelectedActiveBackground" Value="{Binding Path=Configuration.AccentSelectedColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="SelectedInactiveBackground" Value="{Binding Path=Configuration.SelectedInactiveColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:LyricsPage}}}"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            
+            <!-- Data Templates. -->
+            <DataTemplate x:Key="LyricsFilesDataTemplate">
+                <StackPanel Orientation="Horizontal">
+
+                    <materialDesign:PackIcon
+                        Kind="FileDocument"
+                        Height="20"
+                        Width="auto"/>
+
+                    <TextBlock
+                        Margin="8,0"
+                        Text="{Binding .}"
+                        VerticalAlignment="Center"/>
+                    
+                </StackPanel>
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Border
+            Grid.Row="3"
+            Background="{Binding Configuration.ThemeColorBrush}"
+            CornerRadius="8"
+            Margin="8,2,8,8"
+            Padding="4">
+
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+
+                    <components:PackIconButton
+                        PackIconKind="Rewind"
+                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                        ToolTip="Revind 100 ms"
+                        Click="FastRewindBackButton_Click"/>
+
+                    <components:PackIconButton
+                        PackIconKind="StepBackward"
+                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                        ToolTip="Revind 10 ms"
+                        Click="RewindBackButton_Click"/>
+
+                    <components:PackIconButton
+                        PackIconKind="Stop"
+                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                        ToolTip="Stop and back to point"
+                        Click="StopBackButton_Click"/>
+
+                    <components:PackIconButton
+                        PackIconKind="StepForward2"
+                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                        ToolTip="Set point and play"
+                        Click="CheckPointPlayButton_Click"/>
+
+                    <components:PackIconButton
+                        PackIconKind="StepForward"
+                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                        ToolTip="Forward 10 ms"
+                        Click="ForwardButton_Click"/>
+
+                    <components:PackIconButton
+                        PackIconKind="FastForward"
+                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                        ToolTip="Forward 100 ms"
+                        Click="FastForwardButton_Click"/>
+
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Column="2"
+                    Orientation="Horizontal">
+
+                    <StackPanel
+                        Orientation="Vertical"
+                        VerticalAlignment="Center"
+                        Width="96">
+
+                        <TextBlock
+                            Foreground="{Binding Configuration.ForegroundColorBrush}"
+                            Text="Check point:"/>
+
+                        <TextBlock
+                            Foreground="{Binding Configuration.ForegroundColorBrush}"
+                            Text="{Binding CheckPoint, StringFormat=hh\\:mm\\:ss\\.fff}"/>
+
+                    </StackPanel>
+
+                    <StackPanel
+                        Margin="8,0"
+                        Orientation="Vertical"
+                        VerticalAlignment="Center"
+                        Width="96">
+
+                        <TextBlock
+                            Foreground="{Binding Configuration.ForegroundColorBrush}"
+                            Text="Current position:"/>
+
+                        <TextBlock
+                            Foreground="{Binding Configuration.ForegroundColorBrush}"
+                            Text="{Binding CurrentPosition, StringFormat=hh\\:mm\\:ss\\.fff}"/>
+
+                    </StackPanel>
+
+                    <components:PackIconButton
+                        PackIconKind="AddCircle"
+                        ToolTip="Add Text"
+                        Click="AddLyricsButton_Click">
+
+                        <components:PackIconButton.Style>
+                            <Style BasedOn="{StaticResource ControlTool_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </components:PackIconButton.Style>
+
+                    </components:PackIconButton>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
+        <Grid
+            Grid.Row="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <components:ExtendedListView
+                x:Name="lyricsListView"
+                Grid.Column="0"
+                ItemContainerStyle="{StaticResource Lyrics_ExtendedListViewItemStyle}"
+                ItemsSource="{Binding LyricsManager.DataContext, Mode=TwoWay}"
+                Margin="8"
+                SelectedItem="{Binding SelectedLyrics}"
+                Style="{StaticResource Lyrics_ExtendedGridListViewStyle}">
+
+                <ListView.View>
+                    <GridView
+                        ColumnHeaderContainerStyle="{StaticResource Lyrics_ExtendedListViewColumnHeaderStyle}">
+
+                        <GridView.Columns>
+
+                            <GridViewColumn Header="Start" Width="144">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel
+                                            Orientation="Horizontal">
+
+                                            <components:ExtendedTextBox
+                                                ExtendedTextBoxDataType="TIMESPAN"
+                                                Text="{Binding Path=DataContext.StartTime, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedListViewItem}}, StringFormat=hh\\:mm\\:ss\\.fff}"
+                                                Style="{StaticResource Lyrics_ExtendedTextBoxStyle}"
+                                                OnContentUpdated="StartTime_ExtendedTextBox_OnContentUpdated"/>
+
+                                            <components:PackIconButton
+                                                PackIconKind="Update"
+                                                Style="{StaticResource LyricsUpdate_PackIconButtonStyle}"
+                                                ToolTip="Set current time"
+                                                Click="StartTimeUpdate_PackIconButton_Click"/>
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="End" Width="144">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel
+                                            Orientation="Horizontal">
+
+                                            <components:ExtendedTextBox
+                                                ExtendedTextBoxDataType="TIMESPAN"
+                                                Text="{Binding Path=DataContext.EndTime, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedListViewItem}}, StringFormat=hh\\:mm\\:ss\\.fff}"
+                                                Style="{StaticResource Lyrics_ExtendedTextBoxStyle}"
+                                                OnContentUpdated="EndTime_ExtendedTextBox_OnContentUpdated"/>
+
+                                            <components:PackIconButton
+                                                PackIconKind="Update"
+                                                Style="{StaticResource LyricsUpdate_PackIconButtonStyle}"
+                                                ToolTip="Set current time"
+                                                Click="EndTimeUpdate_PackIconButton_Click"/>
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="Text" Width="256">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel
+                                            Orientation="Horizontal"
+                                            VerticalAlignment="Center">
+
+                                            <components:ExtendedTextBox
+                                                HorizontalAlignment="Stretch"
+                                                Margin="0,6"
+                                                MinWidth="128"
+                                                Text="{Binding Text}"
+                                                Width="256"
+                                                Style="{StaticResource Lyrics_ExtendedTextBoxStyle}"
+                                                OnContentUpdated="Text_ExtendedTextBox_OnContentUpdated"/>
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                        </GridView.Columns>
+
+                    </GridView>
+                </ListView.View>
+
+                <ListView.ContextMenu>
+                    <components:ExtendedContextMenu
+                        Style="{StaticResource Lyrics_ExtendedContextMenuStyle}">
+
+                        <components:ExtendedContextMenuItem
+                            Header="Add text"
+                            Icon="Add"
+                            Style="{StaticResource Lyrics_ExtendedContextMenuItemStyle}"
+                            Click="Lyrics_AddExtendedContextMenuItem_Click"/>
+
+                        <components:ExtendedContextMenuItem
+                            Header="Remove selected"
+                            Icon="Close"
+                            Style="{StaticResource Lyrics_ExtendedContextMenuItemStyle}"
+                            Click="Lyrics_RemoveExtendedContextMenuItem_Click"/>
+
+                        <components:ExtendedContextMenuItem
+                            Header="Clear"
+                            Icon="Trash"
+                            Style="{StaticResource Lyrics_ExtendedContextMenuItemStyle}"
+                            Click="Lyrics_ClearExtendedContextMenuItem_Click"/>
+
+                    </components:ExtendedContextMenu>
+                </ListView.ContextMenu>
+
+            </components:ExtendedListView>
+
+            <Grid
+                x:Name="LyricsFilesGrid"
+                Grid.Column="1"
+                Margin="0,0,-384,0"
+                Width="384">
+
+                <Border
+                    Background="{Binding Configuration.ThemeColorBrush}"
+                    Grid.Column="1"
+                    CornerRadius="8"
+                    Margin="8,8,8,8">
+
+                    <Grid>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Style="{StaticResource LyricsFilesHeader_TextBlockStyle}"
+                            Text="Local library:"/>
+
+                        <Border
+                            Background="{Binding Configuration.ThemeColorBrush}"
+                            BorderBrush="{Binding Configuration.ThemeDarkColorBrush}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Grid.Row="1"
+                            HorizontalAlignment="Center"
+                            Margin="8,8,8,0"
+                            Padding="8">
+
+                            <StackPanel
+                                Orientation="Horizontal">
+
+                                <components:ExtendedTextBox
+                                    x:Name="lyricsSearchExtendedTextBox"
+                                    Style="{StaticResource Lyrics_ExtendedTextBoxStyle}"
+                                    Width="160"
+                                    OnContentUpdated="LyricsFilesSearch_ExtendedTextBox_OnContentUpdated"/>
+
+                                <materialDesign:PackIcon
+                                    Foreground="{Binding Configuration.ForegroundColorBrush}"
+                                    Kind="Search"
+                                    Margin="4,0,0,0"/>
+
+                            </StackPanel>
+                        </Border>
+
+                        <components:ExtendedListView
+                            x:Name="lyricsFilesView"
+                            Grid.Row="2"
+                            ItemContainerStyle="{StaticResource LyricsFiles_ExtendedListViewItemStyle}"
+                            ItemsSource="{Binding LyricsFilesList, Mode=TwoWay}"
+                            ItemTemplate="{StaticResource LyricsFilesDataTemplate}"
+                            Margin="8"
+                            Style="{StaticResource ExtendedListViewStyle}">
+
+                            <ListView.ContextMenu>
+                                <components:ExtendedContextMenu
+                                    Style="{StaticResource Lyrics_ExtendedContextMenuStyle}">
+
+                                    <components:ExtendedContextMenuItem
+                                        Header="Remove selected"
+                                        Icon="Close"
+                                        Style="{StaticResource Lyrics_ExtendedContextMenuItemStyle}"
+                                        Click="LyricsFile_RemoveExtendedContextMenuItem_Click"/>
+
+                                </components:ExtendedContextMenu>
+                            </ListView.ContextMenu>
+
+                        </components:ExtendedListView>
+
+                    </Grid>
+
+                </Border>
+
+            </Grid>
+
+        </Grid>
+
+        <Border
+            Grid.Row="1"
+            Background="{Binding Configuration.ThemeColorBrush}"
+            CornerRadius="8"
+            Margin="8,2"
+            Padding="4">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+
+                    <components:PackIconButton
+                        Content="Create"
+                        PackIconKind="File"
+                        Click="NewLyricsButton_Click">
+
+                        <components:PackIconButton.Style>
+                            <Style BasedOn="{StaticResource Menu_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </components:PackIconButton.Style>
+
+                    </components:PackIconButton>
+
+                    <components:PackIconButton
+                        Content="Find in Library"
+                        PackIconKind="FolderSearch"
+                        Click="OpenFromLibraryLyricsButton_Click">
+
+                        <components:PackIconButton.Style>
+                            <Style BasedOn="{StaticResource Menu_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </components:PackIconButton.Style>
+
+                    </components:PackIconButton>
+
+                    <components:PackIconButton
+                        Content="Open"
+                        PackIconKind="FolderOpen"
+                        Click="OpenLyricsButton_Click">
+
+                        <components:PackIconButton.Style>
+                            <Style BasedOn="{StaticResource Menu_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </components:PackIconButton.Style>
+
+                    </components:PackIconButton>
+
+                    <components:PackIconButton
+                        Content="Save to Library"
+                        PackIconKind="ContentSave"
+                        Click="SaveLyricsButton_Click">
+
+                        <components:PackIconButton.Style>
+                            <Style BasedOn="{StaticResource Menu_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding LyricsManager.DataContext.Count}" Value="0"/>
+                                            <Condition Binding="{Binding LyricsManager.LyricsChanged}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </MultiDataTrigger>
+                                    <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding LyricsManager.LyricsChanged}" Value="False">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </components:PackIconButton.Style>
+
+                    </components:PackIconButton>
+
+                    <components:PackIconButton
+                        Content="Save As"
+                        PackIconKind="ContentSaveEdit"
+                        Click="SaveLyricsAsButton_Click">
+
+                        <components:PackIconButton.Style>
+                            <Style BasedOn="{StaticResource Menu_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding LyricsManager.DataContext.Count}" Value="0">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </components:PackIconButton.Style>
+
+                    </components:PackIconButton>
+
+                </StackPanel>
+
+                <TextBlock
+                    Foreground="{Binding Configuration.ForegroundColorBrush}"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    Margin="8,0"
+                    Text="{Binding LyricsManager.LoadedFile.FileName}"
+                    TextWrapping="WrapWithOverflow"
+                    VerticalAlignment="Center"/>
+
+                <StackPanel
+                    Grid.Column="2"
+                    Orientation="Horizontal">
+
+                    <components:PackIconButton
+                        PackIconKind="SortTimeAscending"
+                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                        ToolTip="Sort by Start Time"
+                        Click="SortLyrics_PackIconButton_Click"/>
+
+                    <components:PackIconButton
+                        PackIconKind="ViewList"
+                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                        ToolTip="Library"
+                        Click="LocalLyrics_PackIconButton_Click"/>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+        
+        <Grid
+            Grid.Row="0"
+            Margin="8,8,8,2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <components:PackIconButton
+                Grid.Column="0"
+                PackIconKind="ArrowBack"
+                Style="{StaticResource Control_PackIconButtonStyle}"
+                Click="BackButton_Click"/>
+
+            <TextBlock
+                Grid.Column="1"
+                FontSize="18"
+                FontWeight="SemiBold"
+                Foreground="{Binding Configuration.ForegroundColorBrush}"
+                Margin="8,0"
+                Text="Lyrics Manager"
+                VerticalAlignment="Center"/>
+
+        </Grid>
+
+    </Grid>
+    
+</Page>

@@ -1,0 +1,140 @@
+﻿<Page 
+    x:Class="chkam05.VisualPlayer.Controls.Messages.AwaitMessage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:components="clr-namespace:chkam05.VisualPlayer.Components"
+    xmlns:local="clr-namespace:chkam05.VisualPlayer.Controls.Messages"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    mc:Ignorable="d"
+    
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    MinHeight="224"
+    MinWidth="400"
+    Loaded="Page_Loaded"
+    Unloaded="Page_Unloaded">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Resources/Styles/Components/Styles.xaml"/>
+                <ResourceDictionary Source="../../Resources/Styles/Standard/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Styles -->
+
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Border
+        Background="{Binding Configuration.ThemeDarkColorBrush}"
+        BorderBrush="{Binding Configuration.AccentColorBrush}"
+        BorderThickness="1"
+        CornerRadius="8"
+        Padding="8">
+
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Border
+                Background="Transparent"
+                BorderBrush="{Binding Configuration.AccentColorBrush}"
+                BorderThickness="0,0,0,1"
+                Grid.Row="0"
+                Padding="0,0,0,8">
+
+                <StackPanel
+                    Orientation="Horizontal">
+
+                    <materialDesign:PackIcon
+                        Foreground="{Binding Configuration.ForegroundColorBrush}"
+                        Kind="{Binding PackIconKind}"
+                        Height="32"
+                        Width="32"/>
+
+                    <TextBlock
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Foreground="{Binding Configuration.ForegroundColorBrush}"
+                        Margin="8,0"
+                        Text="{Binding Title, RelativeSource={RelativeSource AncestorType={x:Type local:AwaitMessage}}}"
+                        VerticalAlignment="Center"/>
+
+                </StackPanel>
+
+            </Border>
+
+            <TextBlock
+                FontSize="14"
+                Foreground="{Binding Configuration.ForegroundColorBrush}"
+                Grid.Row="1"
+                Margin="8,16"
+                Text="{Binding Message}"
+                TextWrapping="Wrap"/>
+
+            <Border
+                Background="Transparent"
+                BorderBrush="{Binding Configuration.AccentColorBrush}"
+                BorderThickness="0"
+                Grid.Row="2"
+                Padding="0,8">
+
+                <Grid
+                    Height="{Binding IndicatorHeight}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Stretch"
+                    Width="{Binding IndicatorHeight}">
+
+                    <Path
+                        Fill="{Binding Configuration.AccentColorBrush}"
+                        Stroke="Black"
+                        StrokeThickness="1">
+
+                        <Path.Data>
+                            <PathGeometry>
+                                <PathGeometry.Figures>
+                                    <PathFigureCollection>
+                                        <PathFigure StartPoint="{Binding AwaitIndicatorData.OuterArcStartPoint, RelativeSource={RelativeSource AncestorType={x:Type local:AwaitMessage}}}" IsClosed="True">
+                                            <PathFigure.Segments>
+                                                <PathSegmentCollection>
+                                                    <ArcSegment
+                                                        Size="{Binding AwaitIndicatorData.OuterArcSize, RelativeSource={RelativeSource AncestorType={x:Type local:AwaitMessage}}}"
+                                                        RotationAngle="{Binding AwaitIndicatorData.OuterArcRotationAngle, RelativeSource={RelativeSource AncestorType={x:Type local:AwaitMessage}}}"
+                                                        IsLargeArc="{Binding AwaitIndicatorData.OuterArcLarge, RelativeSource={RelativeSource AncestorType={x:Type local:AwaitMessage}}}"
+                                                        SweepDirection="{Binding AwaitIndicatorData.OuterArcSweepDirection, RelativeSource={RelativeSource AncestorType={x:Type local:AwaitMessage}}}"
+                                                        Point="{Binding AwaitIndicatorData.OuterArcEndPoint, RelativeSource={RelativeSource AncestorType={x:Type local:AwaitMessage}}}"/>
+                                                    
+                                                    <LineSegment
+                                                        Point="{Binding AwaitIndicatorData.InnerArcStartPoint, RelativeSource={RelativeSource AncestorType={x:Type local:AwaitMessage}}}"/>
+
+                                                    <ArcSegment
+                                                        Size="{Binding AwaitIndicatorData.InnerArcSize, RelativeSource={RelativeSource AncestorType={x:Type local:AwaitMessage}}}"
+                                                        RotationAngle="{Binding AwaitIndicatorData.InnerArcRotationAngle, RelativeSource={RelativeSource AncestorType={x:Type local:AwaitMessage}}}"
+                                                        IsLargeArc="{Binding AwaitIndicatorData.InnerArcLarge, RelativeSource={RelativeSource AncestorType={x:Type local:AwaitMessage}}}"
+                                                        SweepDirection="{Binding AwaitIndicatorData.InnerArcSweepDirection, RelativeSource={RelativeSource AncestorType={x:Type local:AwaitMessage}}}"
+                                                        Point="{Binding AwaitIndicatorData.InnerArcEndPoint, RelativeSource={RelativeSource AncestorType={x:Type local:AwaitMessage}}}"/>
+
+                                                </PathSegmentCollection>
+                                            </PathFigure.Segments>
+                                        </PathFigure>
+                                    </PathFigureCollection>
+                                </PathGeometry.Figures>
+                            </PathGeometry>
+                        </Path.Data>
+                        
+                    </Path>
+
+                </Grid>
+
+            </Border>
+
+        </Grid>
+    </Border>
+    
+</Page>

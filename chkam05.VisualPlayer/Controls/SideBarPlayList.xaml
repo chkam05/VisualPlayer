@@ -1,0 +1,236 @@
+﻿<UserControl 
+    x:Class="chkam05.VisualPlayer.Controls.SideBarPlayList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:components="clr-namespace:chkam05.VisualPlayer.Components"
+    xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
+    xmlns:local="clr-namespace:chkam05.VisualPlayer.Controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    mc:Ignorable="d" 
+    
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Foreground="White"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Styles/Components/Styles.xaml"/>
+                <ResourceDictionary Source="../Resources/Styles/Standard/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Converters. -->
+            <converters:IPlayableNowPlayingConverter x:Key="IPlayableNowPlayingConverter"/>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+
+            <!-- Styles. -->
+            <Style x:Key="Control_PackIconButtonStyle" BasedOn="{StaticResource PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                <Setter Property="Background" Value="{Binding Configuration.ButtonColorBrush}"/>
+                <Setter Property="BorderBrush" Value="{Binding Configuration.ButtonBorderColorBrush}"/>
+                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush}"/>
+                <Setter Property="HoveredBackground" Value="{Binding Configuration.AccentHoveredColorBrush}"/>
+                <Setter Property="PressedBackground" Value="{Binding Configuration.PressedColorBrush}"/>
+            </Style>
+
+            <Style x:Key="Control_ExtendedContextMenuStyle" BasedOn="{StaticResource ExtendedContextMenuStyle}" TargetType="{x:Type components:ExtendedContextMenu}">
+                <Setter Property="Background" Value="{Binding Configuration.ThemeDarkColorBrush}"/>
+                <Setter Property="BorderBrush" Value="{Binding Configuration.AccentColorBrush}"/>
+                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush}"/>
+            </Style>
+
+            <Style x:Key="Control_ExtendedContextMenuItemStyle" BasedOn="{StaticResource ExtendedContextMenuItemStyle}" TargetType="{x:Type components:ExtendedContextMenuItem}">
+                <Setter Property="HoveredBackground" Value="{Binding Configuration.AccentHoveredColorBrush}"/>
+                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush}"/>
+            </Style>
+
+            <Style x:Key="Control_ContextMenuSeparatorStyle" BasedOn="{StaticResource ContextMenuSeparatorStyle}" TargetType="{x:Type Separator}">
+                <Setter Property="Background" Value="{Binding Configuration.ForegroundColorBrush}"/>
+            </Style>
+
+            <Style x:Key="PlayList_ExtendedListViewItemStyle" BasedOn="{StaticResource ExtendedListViewItemStyle}" TargetType="{x:Type components:ExtendedListViewItem}">
+                <EventSetter Event="Drop" Handler="PlayList_ExtendedListViewItem_Drop"/>
+                <EventSetter Event="MouseDoubleClick" Handler="PlayListItem_DoubleClick"/>
+                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="PlayList_ExtendedListViewItem_PreviewMouseDown"/>
+                <Setter Property="AllowDrop" Value="True"/>
+                <Setter Property="Foreground" Value="{Binding Path=Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarPlayList}}}"/>
+                <Setter Property="HoveredBackground" Value="{Binding Path=Configuration.AccentHoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarPlayList}}}"/>
+                <Setter Property="SelectedActiveBackground" Value="{Binding Path=Configuration.AccentSelectedColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarPlayList}}}"/>
+                <Setter Property="SelectedInactiveBackground" Value="{Binding Path=Configuration.SelectedInactiveColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarPlayList}}}"/>
+            </Style>
+
+            <!-- Data Templates. -->
+            <DataTemplate x:Key="NowPlayingDataTemplate">
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Height="32" Width="auto">
+                        <materialDesign:PackIcon.Kind>
+                            <MultiBinding Converter="{StaticResource IPlayableNowPlayingConverter}">
+                                <Binding Path="NowPlaying"></Binding>
+                                <Binding Path="Cover"></Binding>
+                            </MultiBinding>
+                        </materialDesign:PackIcon.Kind>
+                    </materialDesign:PackIcon>
+
+                    <TextBlock
+                        Margin="8,0"
+                        Text="{Binding FileName}"
+                        VerticalAlignment="Center"/>
+                </StackPanel>
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <components:ExtendedListView
+            x:Name="playListView"
+            ItemContainerStyle="{StaticResource PlayList_ExtendedListViewItemStyle}"
+            ItemsSource="{Binding Player.PlayList.DataContext, Mode=TwoWay}"
+            ItemTemplate="{StaticResource NowPlayingDataTemplate}"
+            Grid.Row="1"
+            Padding="4,0"
+            SelectedItem="{Binding SelectedItem}"
+            Style="{StaticResource ExtendedListViewStyle}"
+            PreviewMouseDown="PlayListView_PreviewMouseDown">
+
+            <components:ExtendedListView.ContextMenu>
+                <components:ExtendedContextMenu
+                    Style="{StaticResource Control_ExtendedContextMenuStyle}"
+                    Closed="ExtendedContextMenu_Closed">
+
+                    <components:ExtendedContextMenuItem
+                        Header="Play"
+                        Icon="Play"
+                        Style="{StaticResource ExtendedContextMenuItemStyle}"
+                        Click="PlayListItem_ExtendedContextMenuItemPlay_Click"/>
+
+                    <components:ExtendedContextMenuItem
+                        Header="Remove"
+                        Icon="Trash"
+                        Style="{StaticResource ExtendedContextMenuItemStyle}"
+                        Click="PlayListItem_ExtendedContextMenuItemRemove_Click"/>
+
+                </components:ExtendedContextMenu>
+            </components:ExtendedListView.ContextMenu>
+
+        </components:ExtendedListView>
+
+        <Grid
+            Margin="8,8,8,2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <components:PackIconButton
+                Grid.Column="0"
+                PackIconKind="ArrowBack"
+                Style="{StaticResource Control_PackIconButtonStyle}"
+                Click="BackButton_Click"/>
+
+            <TextBlock
+                Grid.Column="1"
+                Foreground="{Binding Configuration.ForegroundColorBrush}"
+                FontSize="18"
+                FontWeight="SemiBold"
+                Margin="8,0"
+                Text="Now Playing"
+                VerticalAlignment="Center"/>
+
+            <components:PackIconButton
+                Grid.Column="2"
+                PackIconKind="MoreHoriz"
+                Style="{StaticResource Control_PackIconButtonStyle}"
+                Click="OptionButton_Click"
+                PreviewMouseDown="OptionButton_PreviewMouseDown">
+
+                <Button.ContextMenu>
+                    <components:ExtendedContextMenu
+                        Style="{StaticResource Control_ExtendedContextMenuStyle}"
+                        Closed="ExtendedContextMenu_Closed">
+
+                        <components:ExtendedContextMenuItem
+                            Header="Play from beginning"
+                            Icon="Play"
+                            Style="{StaticResource ExtendedContextMenuItemStyle}"
+                            Click="MoreExtendedContextMenuItemPlay_Click"/>
+
+                        <Separator
+                            Style="{StaticResource Control_ContextMenuSeparatorStyle}"/>
+
+                        <components:ExtendedContextMenuItem
+                            Header="Open playlist"
+                            Icon="FolderOpen"
+                            Style="{StaticResource ExtendedContextMenuItemStyle}"
+                            Click="MoreExtendedContextMenuItemOpenPlayList_Click"/>
+
+                        <components:ExtendedContextMenuItem
+                            Header="Save playlist"
+                            Icon="ContentSave"
+                            Style="{StaticResource ExtendedContextMenuItemStyle}"
+                            Click="MoreExtendedContextMenuItemSavePlayList_Click"/>
+
+                        <Separator
+                            Style="{StaticResource Control_ContextMenuSeparatorStyle}"/>
+
+                        <components:ExtendedContextMenuItem
+                            Header="Add more"
+                            Icon="FolderOpen"
+                            Style="{StaticResource ExtendedContextMenuItemStyle}"
+                            Click="MoreExtendedContextMenuItemAddItem_Click"/>
+
+                        <components:ExtendedContextMenuItem
+                            Header="Sort"
+                            Icon="Sort"
+                            Style="{StaticResource ExtendedContextMenuItemStyle}">
+
+                            <components:ExtendedContextMenuItem
+                                Header="By Title ascending"
+                                Icon="SortAlphabeticalAscending"
+                                Style="{StaticResource ExtendedContextMenuItemStyle}"
+                                Click="MoreExtendedContextMenuItemSortByTitleAsc_Click"/>
+
+                            <components:ExtendedContextMenuItem
+                                Header="By Title descending"
+                                Icon="SortAlphabeticalDescending"
+                                Style="{StaticResource ExtendedContextMenuItemStyle}"
+                                Click="MoreExtendedContextMenuItemSortByTitleDesc_Click"/>
+                            
+                        </components:ExtendedContextMenuItem>
+
+                        <components:ExtendedContextMenuItem
+                            Header="Clear playlist"
+                            Icon="Trash"
+                            Style="{StaticResource ExtendedContextMenuItemStyle}"
+                            Click="MoreExtendedContextMenuItemClearPlayList_Click"/>
+
+                        <Separator
+                            Style="{StaticResource Control_ContextMenuSeparatorStyle}"/>
+
+                        <components:ExtendedContextMenuItem
+                            Header="Stay on top"
+                            IsCheckable="True"
+                            IsChecked="{Binding Configuration.AutoHidePlayList, Converter={StaticResource InverseBoolConverter}}"
+                            Style="{StaticResource Control_ExtendedContextMenuItemStyle}"/>
+
+                    </components:ExtendedContextMenu>
+                </Button.ContextMenu>
+                
+            </components:PackIconButton>
+
+        </Grid>
+            
+    </Grid>
+    
+</UserControl>

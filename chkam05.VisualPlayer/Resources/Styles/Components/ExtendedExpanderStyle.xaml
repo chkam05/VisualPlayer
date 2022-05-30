@@ -1,0 +1,391 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="clr-namespace:chkam05.VisualPlayer.Components"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <CornerRadius x:Key="Expander.CornerRadius">8</CornerRadius>
+    <CornerRadius x:Key="ExpanderHeader.DownCornerRadius">8,8,0,0</CornerRadius>
+    <CornerRadius x:Key="ExpanderHeader.LeftCornerRadius">0,8,8,0</CornerRadius>
+    <CornerRadius x:Key="ExpanderHeader.UpCornerRadius">0,0,8,8</CornerRadius>
+    <CornerRadius x:Key="ExpanderHeader.RightCornerRadius">8,0,0,8</CornerRadius>
+
+    <!-- FOCUS VISUAL. -->
+    <Style x:Key="ExpanderHeaderFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border>
+                        <Rectangle
+                            Margin="0"
+                            SnapsToDevicePixels="true"
+                            Stroke="Black"
+                            StrokeDashArray="1 2"
+                            StrokeThickness="1"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- RIGHT HEADER STYLE. -->
+    <Style x:Key="ExpanderRightHeaderStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="{StaticResource Expander.CornerRadius}"
+                        Padding="{Binding HeaderPadding, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}">
+                        <Grid
+                            Background="Transparent"
+                            SnapsToDevicePixels="False">
+                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <materialDesign:PackIcon
+                                x:Name="icon"
+                                Foreground="{Binding ArrowBrush, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"
+                                Height="{Binding ArrowHeight, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"
+                                HorizontalAlignment="Stretch"
+                                Kind="ChevronRightCircle"
+                                Margin="0"
+                                SnapsToDevicePixels="false"
+                                VerticalAlignment="Stretch"
+                                Width="{Binding ArrowWidth, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"/>
+
+                            <ContentPresenter
+                                HorizontalAlignment="Center"
+                                Margin="0,4,0,0"
+                                Grid.Row="1"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="True"
+                                VerticalAlignment="Top"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+
+                        <!-- Is Checked. -->
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="CornerRadius" TargetName="border" Value="{StaticResource ExpanderHeader.RightCornerRadius}"/>
+                            <Setter Property="Kind" TargetName="icon" Value="ChevronLeftCircle"/>
+                        </Trigger>
+
+                        <!-- Is Mouse Over. -->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Foreground" TargetName="icon" Value="{Binding ArrowHighlightedBrush, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"/>
+                        </Trigger>
+
+                        <!-- Is Pressed. -->
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Foreground" TargetName="icon" Value="{Binding ArrowPressedBrush, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"/>
+                        </Trigger>
+
+                        <!-- Is Enabled. -->
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="icon" Value="0.56"/>
+                        </Trigger>
+                        
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- UP HEADER STYLE. -->
+    <Style x:Key="ExpanderUpHeaderStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="{StaticResource Expander.CornerRadius}"
+                        Padding="{Binding HeaderPadding, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}">
+                        <Grid
+                            Background="Transparent"
+                            SnapsToDevicePixels="False">
+                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon
+                                x:Name="icon"
+                                Foreground="{Binding ArrowBrush, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"
+                                Height="{Binding ArrowHeight, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"
+                                HorizontalAlignment="Stretch"
+                                Kind="ChevronUpCircle"
+                                Margin="0"
+                                SnapsToDevicePixels="false"
+                                VerticalAlignment="Stretch"
+                                Width="{Binding ArrowWidth, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"/>
+
+                            <ContentPresenter
+                                Grid.Column="1"
+                                HorizontalAlignment="Left"
+                                Margin="4,0,0,0"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="True"
+                                VerticalAlignment="Center"/>
+                        
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+
+                        <!-- Is Checked. -->
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="CornerRadius" TargetName="border" Value="{StaticResource ExpanderHeader.UpCornerRadius}"/>
+                            <Setter Property="Kind" TargetName="icon" Value="ChevronDownCircle"/>
+                        </Trigger>
+
+                        <!-- Is Mouse Over. -->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Foreground" TargetName="icon" Value="{Binding ArrowHighlightedBrush, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"/>
+                        </Trigger>
+
+                        <!-- Is Pressed. -->
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Foreground" TargetName="icon" Value="{Binding ArrowPressedBrush, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"/>
+                        </Trigger>
+
+                        <!-- Is Enabled. -->
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="icon" Value="0.56"/>
+                        </Trigger>
+                        
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- LEFT HEADER STYLE. -->
+    <Style x:Key="ExpanderLeftHeaderStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="{StaticResource Expander.CornerRadius}"
+                        Padding="{Binding HeaderPadding, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}">
+                        <Grid
+                            Background="Transparent"
+                            SnapsToDevicePixels="False">
+                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <materialDesign:PackIcon
+                                x:Name="icon"
+                                Foreground="{Binding ArrowBrush, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"
+                                Height="{Binding ArrowHeight, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"
+                                HorizontalAlignment="Stretch"
+                                Kind="ChevronLeftCircle"
+                                Margin="0"
+                                SnapsToDevicePixels="false"
+                                VerticalAlignment="Stretch"
+                                Width="{Binding ArrowWidth, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"/>
+                            
+                            <ContentPresenter
+                                HorizontalAlignment="Center"
+                                Margin="0,4,0,0"
+                                Grid.Row="1"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="True"
+                                VerticalAlignment="Top"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+
+                        <!-- Is Checked. -->
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="CornerRadius" TargetName="border" Value="{StaticResource ExpanderHeader.LeftCornerRadius}"/>
+                            <Setter Property="Kind" TargetName="icon" Value="ChevronRightCircle"/>
+                        </Trigger>
+
+                        <!-- Is Mouse Over. -->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Foreground" TargetName="icon" Value="{Binding ArrowHighlightedBrush, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"/>
+                        </Trigger>
+
+                        <!-- Is Pressed. -->
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Foreground" TargetName="icon" Value="{Binding ArrowPressedBrush, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"/>
+                        </Trigger>
+
+                        <!-- Is Enabled. -->
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="icon" Value="0.56"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- DOWN HEADER STYLE. -->
+    <Style x:Key="ExpanderDownHeaderStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="{StaticResource Expander.CornerRadius}"
+                        Padding="{Binding HeaderPadding, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}">
+                        <Grid
+                            Background="Transparent"
+                            SnapsToDevicePixels="False">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon
+                                x:Name="icon"
+                                Foreground="{Binding ArrowBrush, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"
+                                Height="{Binding ArrowHeight, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"
+                                HorizontalAlignment="Stretch"
+                                Kind="ChevronDownCircle"
+                                Margin="0"
+                                SnapsToDevicePixels="false"
+                                VerticalAlignment="Stretch"
+                                Width="{Binding ArrowWidth, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"/>
+
+                            <ContentPresenter
+                                Grid.Column="1"
+                                HorizontalAlignment="Left"
+                                Margin="4,0,0,0"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="True"
+                                VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        
+                        <!-- Is Checked. -->
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="CornerRadius" TargetName="border" Value="{StaticResource ExpanderHeader.DownCornerRadius}"/>
+                            <Setter Property="Kind" TargetName="icon" Value="ChevronUpCircle"/>
+                        </Trigger>
+                        
+                        <!-- Is Mouse Over. -->
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Foreground" TargetName="icon" Value="{Binding ArrowHighlightedBrush, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"/>
+                        </Trigger>
+                        
+                        <!-- Is Pressed. -->
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Foreground" TargetName="icon" Value="{Binding ArrowPressedBrush, RelativeSource={RelativeSource AncestorType={x:Type components:ExtendedExpander}}}"/>
+                        </Trigger>
+                        
+                        <!-- Is Enabled. -->
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" TargetName="icon" Value="0.56"/>
+                        </Trigger>
+                        
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- EXPANDER STYLE. -->
+    <Style x:Key="ExtendedExpanderStyle" TargetType="{x:Type components:ExtendedExpander}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type components:ExtendedExpander}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{StaticResource Expander.CornerRadius}"
+                        SnapsToDevicePixels="true">
+                        
+                        <DockPanel>
+                            <ToggleButton
+                                x:Name="HeaderSite"
+                                Background="{TemplateBinding HeaderBackground}"
+                                BorderBrush="{TemplateBinding HeaderBorderBrush}"
+                                BorderThickness="{TemplateBinding HeaderBorderThickness}"
+                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                Content="{TemplateBinding Header}"
+                                DockPanel.Dock="Top"
+                                Foreground="{TemplateBinding Foreground}"
+                                FocusVisualStyle="{StaticResource ExpanderHeaderFocusVisual}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                MinWidth="0"
+                                MinHeight="0"
+                                Style="{StaticResource ExpanderDownHeaderStyle}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            
+                            <ContentPresenter
+                                x:Name="ExpandSite"
+                                DockPanel.Dock="Bottom"
+                                Focusable="false"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                Margin="{TemplateBinding Padding}"
+                                Visibility="Collapsed"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </DockPanel>
+                    </Border>
+                    
+                    <ControlTemplate.Triggers>
+                        
+                        <!-- Is Expanded. -->
+                        <Trigger Property="IsExpanded" Value="true">
+                            <Setter Property="Visibility" TargetName="ExpandSite" Value="Visible"/>
+                        </Trigger>
+
+                        <!-- Direction Left. -->
+                        <Trigger Property="ExpandDirection" Value="Left">
+                            <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Left"/>
+                            <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Right"/>
+                            <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource ExpanderLeftHeaderStyle}"/>
+                        </Trigger>
+
+                        <!-- Direction Up. -->
+                        <Trigger Property="ExpandDirection" Value="Up">
+                            <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Top"/>
+                            <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Bottom"/>
+                            <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource ExpanderUpHeaderStyle}"/>
+                        </Trigger>
+
+                        <!-- Direction Right. -->
+                        <Trigger Property="ExpandDirection" Value="Right">
+                            <Setter Property="DockPanel.Dock" TargetName="ExpandSite" Value="Right"/>
+                            <Setter Property="DockPanel.Dock" TargetName="HeaderSite" Value="Left"/>
+                            <Setter Property="Style" TargetName="HeaderSite" Value="{StaticResource ExpanderRightHeaderStyle}"/>
+                        </Trigger>
+
+                        <!-- Is Disabled. -->
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.56"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

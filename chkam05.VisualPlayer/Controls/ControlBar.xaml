@@ -1,0 +1,166 @@
+﻿<UserControl 
+    x:Class="chkam05.VisualPlayer.Controls.ControlBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:components="clr-namespace:chkam05.VisualPlayer.Components"
+    xmlns:local="clr-namespace:chkam05.VisualPlayer.Controls" 
+    xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
+    xmlns:convertersData="clr-namespace:chkam05.VisualPlayer.Converters.Data"
+    mc:Ignorable="d"
+    
+    d:DesignWidth="800"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Styles/Components/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Converters. -->
+            <converters:PlaybackStateControlDescriptionConverter x:Key="PlaybackStateControlDescriptionConverter"/>
+            <converters:PlaybackStateControlIconConverter x:Key="PlaybackStateControlIconConverter"/>
+            <converters:RepeatControlDescriptionConverter x:Key="RepeatControlDescriptionConverter"/>
+            <converters:RepeatControlIconConverter x:Key="RepeatControlIconConverter"/>
+            <converters:ShuffleControlIconConverter x:Key="ShuffleControlIconConverter"/>
+
+            <!-- Storyboards. -->
+            <Storyboard x:Key="ShowHideStoryboard" Completed="Storyboard_Completed">
+                <ThicknessAnimationUsingKeyFrames
+                    BeginTime="00:00:0"
+                    Duration="00:00:0.25"
+                    Storyboard.TargetName="ControlGrid"
+                    Storyboard.TargetProperty="Margin">
+                    <ThicknessAnimationUsingKeyFrames.KeyFrames>
+                        <LinearThicknessKeyFrame Value="{Binding Path=HideMargin, Mode=TwoWay}"/>
+                    </ThicknessAnimationUsingKeyFrames.KeyFrames>
+                </ThicknessAnimationUsingKeyFrames>
+            </Storyboard>
+
+            <!-- Styles. -->
+            <Style x:Key="ControlBar_PackIconButtonStyle" BasedOn="{StaticResource PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                <Setter Property="Background" Value="{Binding Configuration.ButtonColorBrush}"/>
+                <Setter Property="BorderBrush" Value="{Binding Configuration.ButtonBorderColorBrush}"/>
+                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush}"/>
+                <Setter Property="HoveredBackground" Value="{Binding Configuration.AccentHoveredColorBrush}"/>
+                <Setter Property="PressedBackground" Value="{Binding Configuration.PressedColorBrush}"/>
+                <Setter Property="MinWidth" Value="56"/>
+            </Style>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid
+        x:Name="ControlGrid"
+        Background="Transparent"
+        Margin="0"
+        MouseEnter="Grid_MouseEnter"
+        MouseLeave="Grid_MouseLeave">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Border
+            x:Name="ControlBorder"
+            Background="{Binding Configuration.ThemeControlColorBrush}"
+            BorderBrush="{x:Null}"
+            BorderThickness="0"
+            CornerRadius="8"
+            Grid.Row="1"
+            Margin="4,0,4,4">
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel
+                    HorizontalAlignment="Left"
+                    Margin="2,4,2,0"
+                    Orientation="Horizontal">
+
+                    <components:PackIconButton
+                        Content="{Binding PlayPauseButtonState, Converter={StaticResource PlaybackStateControlDescriptionConverter}, ConverterParameter={x:Static convertersData:PlaybackStateControlIconConverterParameter.DEFAULT}}"
+                        Margin="2,0"
+                        PackIconKind="{Binding PlayPauseButtonState, Converter={StaticResource PlaybackStateControlIconConverter}, ConverterParameter={x:Static convertersData:PlaybackStateControlIconConverterParameter.DEFAULT}}"
+                        Style="{StaticResource ControlBar_PackIconButtonStyle}"
+                        Click="PlayPauseButton_Click"/>
+
+                    <components:PackIconButton
+                        Content="Previous"
+                        Margin="2,0"
+                        PackIconKind="SkipPrevious"
+                        Style="{StaticResource ControlBar_PackIconButtonStyle}"
+                        Click="PreviousButton_Click"/>
+
+                    <components:PackIconButton
+                        Content="Next"
+                        Margin="2,0"
+                        PackIconKind="SkipNext"
+                        Style="{StaticResource ControlBar_PackIconButtonStyle}"
+                        Click="NextButton_Click"/>
+
+                    <components:PackIconButton
+                        Content="Stop"
+                        Margin="2,0"
+                        PackIconKind="Stop"
+                        Style="{StaticResource ControlBar_PackIconButtonStyle}"
+                        Click="StopButton_Click"/>
+
+                    <components:PackIconButton
+                        Content="{Binding RepeatButtonState, Converter={StaticResource RepeatControlDescriptionConverter}}"
+                        Margin="14,0,2,0"
+                        PackIconKind="{Binding RepeatButtonState, Converter={StaticResource RepeatControlIconConverter}}"
+                        Style="{StaticResource ControlBar_PackIconButtonStyle}"
+                        Click="RepeatButton_Click"/>
+
+                    <components:PackIconButton
+                        Content="Shuffle"
+                        Margin="2,0"
+                        PackIconKind="{Binding ShuffleButtonState, Converter={StaticResource ShuffleControlIconConverter}}"
+                        Style="{StaticResource ControlBar_PackIconButtonStyle}"
+                        Click="ShuffleButton_Click"/>
+
+                </StackPanel>
+
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    Margin="2,4,2,0"
+                    Orientation="Horizontal">
+
+                    <components:PackIconButton
+                        Content="Volume"
+                        Margin="2,0"
+                        PackIconKind="VolumeMedium"
+                        Style="{StaticResource ControlBar_PackIconButtonStyle}"
+                        Click="VolumeButton_Click"/>
+
+                </StackPanel>
+
+                <components:ControlSlider
+                    Grid.Row="1"
+                    DraggingThumbBackground="{Binding Configuration.DraggingColorBrush}"
+                    Foreground="{Binding Configuration.AccentColorBrush}"
+                    HoveredThumbBackground="{Binding Configuration.HoveredColorBrush}"
+                    Maximum="{Binding TrackLength}"
+                    Orientation="Horizontal"
+                    Style="{DynamicResource Track_ControlSliderStyle}"
+                    Value="{Binding TrackPosition}"
+                    GotMouseCapture="ControlSlider_GotMouseCapture"
+                    LostMouseCapture="ControlSlider_LostMouseCapture"
+                    ValueChanged="TrackControlSlider_ValueChanged"/>
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+
+</UserControl>
