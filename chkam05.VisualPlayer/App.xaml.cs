@@ -1,4 +1,5 @@
 ﻿using chkam05.VisualPlayer.Core;
+using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Utilities;
 using chkam05.VisualPlayer.Utilities.Data;
 using chkam05.VisualPlayer.Windows;
@@ -53,6 +54,7 @@ namespace chkam05.VisualPlayer
             }
 
             //  Startup application.
+            ConfigManager.Instance.LoadConfiguration();
             MainWindow = new MainWindow(e?.Args?.ToList());
             MainWindow.Show();
         }
@@ -62,6 +64,7 @@ namespace chkam05.VisualPlayer
         /// <param name="e"> Exit Event Arguments. </param>
         protected override void OnExit(ExitEventArgs e)
         {
+            ConfigManager.Instance.SaveConfiguration();
             ApplicationHelper.Instance.Dispose();
             Player.Instnace.Dispose();
         }

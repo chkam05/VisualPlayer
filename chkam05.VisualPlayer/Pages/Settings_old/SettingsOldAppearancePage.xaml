@@ -1,5 +1,5 @@
 ﻿<Page 
-    x:Class="chkam05.VisualPlayer.Pages.Settings.SettingsAppearancePage"
+    x:Class="chkam05.VisualPlayer.Pages.Settings_old.SettingsOldAppearancePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,7 +8,7 @@
     xmlns:controls="clr-namespace:chkam05.VisualPlayer.Controls"
     xmlns:config="clr-namespace:chkam05.VisualPlayer.Data.Config"
     xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
-    xmlns:local="clr-namespace:chkam05.VisualPlayer.Pages.Settings"
+    xmlns:local="clr-namespace:chkam05.VisualPlayer.Pages.Settings_old"
     xmlns:visualisations="clr-namespace:chkam05.VisualPlayer.Visualisations"
     mc:Ignorable="d"
     
@@ -73,59 +73,59 @@
             </Style>
 
             <Style x:Key="Control_ExtendedExpanderStyle" BasedOn="{StaticResource ExtendedExpanderStyle}" TargetType="{x:Type components:ExtendedExpander}">
-                <Setter Property="ArrowBrush" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="ArrowHighlightedBrush" Value="{Binding Configuration.HoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="ArrowPressedBrush" Value="{Binding Configuration.PressedColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
+                <Setter Property="ArrowBrush" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="ArrowHighlightedBrush" Value="{Binding Configuration.HoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="ArrowPressedBrush" Value="{Binding Configuration.PressedColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
                 <Setter Property="ArrowHeight" Value="28"/>
                 <Setter Property="ArrowWidth" Value="28"/>
-                <Setter Property="Background" Value="{Binding Configuration.ThemeColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="HeaderBackground" Value="{Binding Configuration.AccentColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
+                <Setter Property="Background" Value="{Binding Configuration.ThemeColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="HeaderBackground" Value="{Binding Configuration.AccentColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
                 <Setter Property="HeaderPadding" Value="8"/>
                 <Setter Property="Margin" Value="0,0,0,16"/>
                 <Setter Property="Padding" Value="16"/>
             </Style>
 
             <Style x:Key="ControlHeader_ExtendedExpanderStyle" BasedOn="{StaticResource Header_TextBlockStyle}" TargetType="{x:Type TextBlock}">
-                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
+                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
                 <Setter Property="Margin" Value="4,0,0,0"/>
             </Style>
 
             <Style x:Key="Control_ExtendedComboBoxStyle" BasedOn="{StaticResource ExtendedComboBoxStyle}" TargetType="{x:Type components:ExtendedComboBox}">
-                <Setter Property="Background" Value="{Binding Path=Configuration.ThemeSolidColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="BackgroundHighlighted" Value="{Binding Path=Configuration.ThemeSolidColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="BackgroundSelected" Value="{Binding Path=Configuration.ThemeSolidColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="BorderBrush" Value="{Binding Path=Configuration.AccentColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="BorderBrushHighlighted" Value="{Binding Path=Configuration.HoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="BorderBrushSelected" Value="{Binding Path=Configuration.PressedColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="Foreground" Value="{Binding Path=Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
+                <Setter Property="Background" Value="{Binding Path=Configuration.ThemeSolidColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="BackgroundHighlighted" Value="{Binding Path=Configuration.ThemeSolidColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="BackgroundSelected" Value="{Binding Path=Configuration.ThemeSolidColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="BorderBrush" Value="{Binding Path=Configuration.AccentColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="BorderBrushHighlighted" Value="{Binding Path=Configuration.HoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="BorderBrushSelected" Value="{Binding Path=Configuration.PressedColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="Foreground" Value="{Binding Path=Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
                 <Setter Property="Width" Value="256"/>
             </Style>
 
             <Style x:Key="Control_ExtendedComboBoxItemStyle" BasedOn="{StaticResource ExtendedComboBoxItemStyle}" TargetType="{x:Type components:ExtendedComboBoxItem}">
-                <Setter Property="Foreground" Value="{Binding Path=Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="HoveredBackground" Value="{Binding Path=Configuration.AccentHoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="HoveredBorder" Value="{Binding Path=Configuration.AccentHoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="SelectedBorder" Value="{Binding Path=Configuration.AccentSelectedColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
+                <Setter Property="Foreground" Value="{Binding Path=Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="HoveredBackground" Value="{Binding Path=Configuration.AccentHoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="HoveredBorder" Value="{Binding Path=Configuration.AccentHoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="SelectedBorder" Value="{Binding Path=Configuration.AccentSelectedColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
             </Style>
 
             <Style x:Key="Control_LogoColorExtendedComboBoxStyle" BasedOn="{StaticResource Control_ExtendedComboBoxStyle}" TargetType="{x:Type components:ExtendedComboBox}">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Configuration.LogoEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}" Value="False">
+                    <DataTrigger Binding="{Binding Configuration.LogoEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}" Value="False">
                         <Setter Property="IsEnabled" Value="False"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
 
             <Style x:Key="ColorsPaletteStyle" TargetType="{x:Type controls:ColorsPaletteControl}">
-                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="PaletteBackground" Value="{Binding Configuration.ThemeDarkColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="PaletteItemHoveredColorBrush" Value="{Binding Configuration.HoveredColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="PaletteItemPressedColorBrush" Value="{Binding Configuration.PressedColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="PaletteItemSelectedInactiveColorBrush" Value="{Binding Configuration.SelectedInactiveColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
+                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="PaletteBackground" Value="{Binding Configuration.ThemeDarkColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="PaletteItemHoveredColorBrush" Value="{Binding Configuration.HoveredColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="PaletteItemPressedColorBrush" Value="{Binding Configuration.PressedColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="PaletteItemSelectedInactiveColorBrush" Value="{Binding Configuration.SelectedInactiveColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
 
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Configuration.AppearanceColorType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}" Value="{x:Static config:AppearanceColorType.SYSTEM}">
+                    <DataTrigger Binding="{Binding Configuration.AppearanceColorType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}" Value="{x:Static config:AppearanceColorType.SYSTEM}">
                         <Setter Property="Visibility" Value="Collapsed"/>
                     </DataTrigger>
                 </Style.Triggers>
@@ -141,7 +141,7 @@
 
             <Style x:Key="Control_LogoAnimatedExtendedCheckBoxStyle" BasedOn="{StaticResource Control_ExtendedCheckBoxStyle}" TargetType="{x:Type components:ExtendedCheckBox}">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Configuration.LogoEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}" Value="False">
+                    <DataTrigger Binding="{Binding Configuration.LogoEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}" Value="False">
                         <Setter Property="IsEnabled" Value="False"/>
                     </DataTrigger>
                 </Style.Triggers>
@@ -150,17 +150,17 @@
             <Style x:Key="Control_LogoAnimationPanelStyle" TargetType="{x:Type StackPanel}">
                 <Setter Property="Orientation" Value="Vertical"/>
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Configuration.LogoAnimated, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}" Value="False">
+                    <DataTrigger Binding="{Binding Configuration.LogoAnimated, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}" Value="False">
                         <Setter Property="Visibility" Value="Collapsed"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
 
             <Style x:Key="Control_SliderStyle" BasedOn="{StaticResource Volume_ControlSliderStyle}" TargetType="{x:Type components:ControlSlider}">
-                <Setter Property="Background" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="Foreground" Value="{Binding Configuration.AccentColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="DraggingThumbBackground" Value="{Binding Configuration.DraggingColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="HoveredThumbBackground" Value="{Binding Configuration.HoveredColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
+                <Setter Property="Background" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="Foreground" Value="{Binding Configuration.AccentColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="DraggingThumbBackground" Value="{Binding Configuration.DraggingColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="HoveredThumbBackground" Value="{Binding Configuration.HoveredColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
                 <Setter Property="Height" Value="20"/>
                 <Setter Property="HorizontalAlignment" Value="Left"/>
                 <Setter Property="MinWidth" Value="192"/>
@@ -170,23 +170,23 @@
             </Style>
 
             <Style x:Key="Control_FontControl" TargetType="{x:Type controls:FontControl}">
-                <Setter Property="AccentColorBrush" Value="{Binding Configuration.AccentColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="AccentHoveredColorBrush" Value="{Binding Configuration.AccentHoveredColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="AccentSelectedColorBrush" Value="{Binding Configuration.AccentSelectedColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="ControlBackground" Value="{Binding Configuration.ThemeColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="HoveredColorBrush" Value="{Binding Configuration.HoveredColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
-                <Setter Property="PressedColorBrush" Value="{Binding Configuration.PressedColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"/>
+                <Setter Property="AccentColorBrush" Value="{Binding Configuration.AccentColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="AccentHoveredColorBrush" Value="{Binding Configuration.AccentHoveredColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="AccentSelectedColorBrush" Value="{Binding Configuration.AccentSelectedColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="ControlBackground" Value="{Binding Configuration.ThemeColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="HoveredColorBrush" Value="{Binding Configuration.HoveredColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
+                <Setter Property="PressedColorBrush" Value="{Binding Configuration.PressedColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"/>
                 <Setter Property="Margin" Value="0,0,0,16"/>
 
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Configuration.InformationBarFontConfigStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}" Value="{x:Static config:FontConfigStyle.Standard}">
+                    <DataTrigger Binding="{Binding Configuration.InformationBarFontConfigStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}" Value="{x:Static config:FontConfigStyle.Standard}">
                         <Setter Property="IsEnabled" Value="False"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Configuration.InformationBarFontConfigStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}" Value="{x:Static config:FontConfigStyle.Electronic}">
+                    <DataTrigger Binding="{Binding Configuration.InformationBarFontConfigStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}" Value="{x:Static config:FontConfigStyle.Electronic}">
                         <Setter Property="IsEnabled" Value="False"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Configuration.InformationBarFontConfigStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}" Value="{x:Static config:FontConfigStyle.ElectronicOld}">
+                    <DataTrigger Binding="{Binding Configuration.InformationBarFontConfigStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}" Value="{x:Static config:FontConfigStyle.ElectronicOld}">
                         <Setter Property="IsEnabled" Value="False"/>
                     </DataTrigger>
                 </Style.Triggers>
@@ -194,13 +194,13 @@
 
             <Style x:Key="FontControl_SliderStyle" BasedOn="{StaticResource Control_SliderStyle}" TargetType="{x:Type components:ControlSlider}">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Configuration.InformationBarFontConfigStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}" Value="{x:Static config:FontConfigStyle.Standard}">
+                    <DataTrigger Binding="{Binding Configuration.InformationBarFontConfigStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}" Value="{x:Static config:FontConfigStyle.Standard}">
                         <Setter Property="IsEnabled" Value="False"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Configuration.InformationBarFontConfigStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}" Value="{x:Static config:FontConfigStyle.Electronic}">
+                    <DataTrigger Binding="{Binding Configuration.InformationBarFontConfigStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}" Value="{x:Static config:FontConfigStyle.Electronic}">
                         <Setter Property="IsEnabled" Value="False"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Configuration.InformationBarFontConfigStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}" Value="{x:Static config:FontConfigStyle.ElectronicOld}">
+                    <DataTrigger Binding="{Binding Configuration.InformationBarFontConfigStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}" Value="{x:Static config:FontConfigStyle.ElectronicOld}">
                         <Setter Property="IsEnabled" Value="False"/>
                     </DataTrigger>
                 </Style.Triggers>
@@ -272,9 +272,9 @@
                         <controls:ColorsPaletteControl
                             Margin="0,0,0,16"
                             PaletteColorsTitle="Palette colors:"
-                            SelectedColor="{Binding Configuration.AccentColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"
+                            SelectedColor="{Binding Configuration.AccentColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"
                             Style="{StaticResource ColorsPaletteStyle}"
-                            UsedColors="{Binding Configuration.UsedColors, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"
+                            UsedColors="{Binding Configuration.UsedColors, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"
                             UsedColorsTitle="Recently used colors:"
                             OnColorUpdate="ColorsPaletteControl_OnColorUpdate"/>
 
@@ -524,11 +524,11 @@
                             Style="{StaticResource Control_ExtendedComboBoxStyle}"/>
 
                         <controls:FontControl
-                            SelectedFont="{Binding Configuration.InformationBarFontContainer, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"
-                            SelectedFontSize="{Binding Configuration.InformationBarFontSize, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"
-                            SelectedFontStretch="{Binding Configuration.InformationBarFontStretch, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"
-                            SelectedFontStyle="{Binding Configuration.InformationBarFontStyle, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"
-                            SelectedFontWeight="{Binding Configuration.InformationBarFontWeight, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}"
+                            SelectedFont="{Binding Configuration.InformationBarFontContainer, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"
+                            SelectedFontSize="{Binding Configuration.InformationBarFontSize, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"
+                            SelectedFontStretch="{Binding Configuration.InformationBarFontStretch, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"
+                            SelectedFontStyle="{Binding Configuration.InformationBarFontStyle, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"
+                            SelectedFontWeight="{Binding Configuration.InformationBarFontWeight, Mode=TwoWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}"
                             Style="{StaticResource Control_FontControl}"/>
                         
                         <!-- Font diffrence. -->
@@ -649,12 +649,12 @@
                             ItemTemplate="{StaticResource MarqueeStatesDataTemplate}"
                             ItemsSource="{Binding TitleMarqueeStates}"
                             Margin="0,0,0,0"
-                            SelectedItem="{Binding Configuration.InformationBarTitleMarqueeState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}">
+                            SelectedItem="{Binding Configuration.InformationBarTitleMarqueeState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}">
 
                             <components:ExtendedComboBox.Style>
                                 <Style BasedOn="{StaticResource Control_ExtendedComboBoxStyle}" TargetType="{x:Type components:ExtendedComboBox}">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Configuration.InformationBarInfoTitleVisible, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}" Value="False">
+                                        <DataTrigger Binding="{Binding Configuration.InformationBarInfoTitleVisible, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}" Value="False">
                                             <Setter Property="IsEnabled" Value="False"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -704,12 +704,12 @@
                             ItemTemplate="{StaticResource MarqueeStatesDataTemplate}"
                             ItemsSource="{Binding TitleMarqueeStates}"
                             Margin="0,0,0,0"
-                            SelectedItem="{Binding Configuration.TitleBarInfoMarqueeState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}">
+                            SelectedItem="{Binding Configuration.TitleBarInfoMarqueeState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}">
 
                             <components:ExtendedComboBox.Style>
                                 <Style BasedOn="{StaticResource Control_ExtendedComboBoxStyle}" TargetType="{x:Type components:ExtendedComboBox}">
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Configuration.TitleBarInfo, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsAppearancePage}}}" Value="False">
+                                        <DataTrigger Binding="{Binding Configuration.TitleBarInfo, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SettingsOldAppearancePage}}}" Value="False">
                                             <Setter Property="IsEnabled" Value="False"/>
                                         </DataTrigger>
                                     </Style.Triggers>

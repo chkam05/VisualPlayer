@@ -27,10 +27,22 @@ namespace chkam05.VisualPlayer.Utilities
                         new MenuItem(menuType, MenuItemSubType.OPEN_CLOSE, "Main Menu", PackIconKind.HamburgerMenu),
                         new MenuItem(menuType, MenuItemSubType.HOME, "Home", PackIconKind.Home),
                         new MenuItem(menuType, MenuItemSubType.OPEN_FILES, "Open", PackIconKind.FolderOpen),
-                        new MenuItem(menuType, MenuItemSubType.SETTINGS, "Settings", PackIconKind.Settings)
+                        new MenuItem(menuType, MenuItemSubType.SETTINGS, "Settings", PackIconKind.SettingsOff),
+                        new MenuItem(menuType, MenuItemSubType.SETTINGS_2, "Settings", PackIconKind.Settings)
                     };
 
                 case MenuItemType.SETTINGS_MENU:
+                    return new List<MenuItem>()
+                    {
+                        new MenuItem(menuType, MenuItemSubType.OPEN_CLOSE, "Settings", PackIconKind.HamburgerMenu),
+                        new MenuItem(menuType, MenuItemSubType.APPEARANCE, "Appearance", PackIconKind.Palette),
+                        new MenuItem(menuType, MenuItemSubType.GENERAL, "General", PackIconKind.Application),
+                        new MenuItem(menuType, MenuItemSubType.LYRICS, "Lyrics", PackIconKind.Subtitles),
+                        new MenuItem(menuType, MenuItemSubType.VISUALISATION, "Visualisation", PackIconKind.Waveform),
+                        new MenuItem(menuType, MenuItemSubType.ABOUT, "About", PackIconKind.InformationCircleOutline),
+                    };
+
+                case MenuItemType.SETTINGS_MENU_2:
                     return new List<MenuItem>()
                     {
                         new MenuItem(menuType, MenuItemSubType.OPEN_CLOSE, "Settings", PackIconKind.HamburgerMenu),

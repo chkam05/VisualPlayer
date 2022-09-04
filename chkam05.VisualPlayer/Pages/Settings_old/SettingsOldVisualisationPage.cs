@@ -21,9 +21,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace chkam05.VisualPlayer.Pages.Settings
+namespace chkam05.VisualPlayer.Pages.Settings_old
 {
-    public partial class SettingsVisualisationPage : Page, IPage, INotifyPropertyChanged
+    public partial class SettingsOldVisualisationPage : Page, IPage, INotifyPropertyChanged
     {
 
         //  EVENTS
@@ -97,7 +97,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
         //  --------------------------------------------------------------------------------
         /// <summary> SettingsVisualisationPage class constructor. </summary>
         /// <param name="pagesManager"> Pages manager where page will be presented. </param>
-        public SettingsVisualisationPage(IPagesManager pagesManager)
+        public SettingsOldVisualisationPage(IPagesManager pagesManager)
         {
             //  Setup data containers.
             SetupDataContainers();

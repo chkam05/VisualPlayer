@@ -3,6 +3,7 @@ using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -17,31 +18,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace chkam05.VisualPlayer.Pages.Settings
+namespace chkam05.VisualPlayer.Pages.Settings_old
 {
-    public partial class SettingsAboutPage : Page, IPage, INotifyPropertyChanged
+    public partial class SettingsOldGeneralPage : Page, IPage, INotifyPropertyChanged
     {
-
-        //  DEPENDENCY PROPERTIES
-
-        public static readonly DependencyProperty AboutCopyrightProperty = DependencyProperty.Register(
-            nameof(AboutCopyright),
-            typeof(string),
-            typeof(SettingsAboutPage),
-            new PropertyMetadata(string.Empty));
-
-        public static readonly DependencyProperty AboutTitleProperty = DependencyProperty.Register(
-            nameof(AboutTitle),
-            typeof(string),
-            typeof(SettingsAboutPage),
-            new PropertyMetadata(string.Empty));
-
-        public static readonly DependencyProperty AboutVersionProperty = DependencyProperty.Register(
-            nameof(AboutVersion),
-            typeof(string),
-            typeof(SettingsAboutPage),
-            new PropertyMetadata(string.Empty));
-
 
         //  EVENTS
 
@@ -50,45 +30,27 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         //  VARIABLES
 
+        private ObservableCollection<InformationBarAutoHide> _informationBarAutoHides;
+
         public Configuration Configuration { get; private set; }
         public IPagesManager PagesManager { get; private set; }
 
 
         //  GETTERS & SETTERS
 
+        public ObservableCollection<InformationBarAutoHide> InformationBarAutoHides
+        {
+            get => _informationBarAutoHides;
+            private set
+            {
+                _informationBarAutoHides = value;
+                OnPropertyChanged(nameof(InformationBarAutoHides));
+            }
+        }
+
         public MenuItemType? SpecialMenu
         {
             get => null;
-        }
-
-        public string AboutCopyright
-        {
-            get => (string)GetValue(AboutCopyrightProperty);
-            private set
-            {
-                SetValue(AboutCopyrightProperty, value);
-                OnPropertyChanged(nameof(AboutCopyright));
-            }
-        }
-
-        public string AboutTitle
-        {
-            get => (string)GetValue(AboutTitleProperty);
-            private set
-            {
-                SetValue(AboutTitleProperty, value);
-                OnPropertyChanged(nameof(AboutTitle));
-            }
-        }
-
-        public string AboutVersion
-        {
-            get => (string)GetValue(AboutVersionProperty);
-            private set
-            {
-                SetValue(AboutVersionProperty, value);
-                OnPropertyChanged(nameof(AboutVersion));
-            }
         }
 
 
@@ -97,10 +59,13 @@ namespace chkam05.VisualPlayer.Pages.Settings
         #region CLASS METHODS
 
         //  --------------------------------------------------------------------------------
-        /// <summary> SettingsAboutPage class constructor. </summary>
+        /// <summary> SettingsGeneralPage class constructor. </summary>
         /// <param name="pagesManager"> Pages manager where page will be presented. </param>
-        public SettingsAboutPage(IPagesManager pagesManager)
+        public SettingsOldGeneralPage(IPagesManager pagesManager)
         {
+            //  Setup data containers.
+            SetupDataContainers();
+
             //  Setup modules.
             Configuration = Configuration.Instance;
 
@@ -109,10 +74,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
             //  Setup initial data.
             PagesManager = pagesManager;
-
-            AboutCopyright = ApplicationHelper.Instance.GetApplicationCopyright();
-            AboutTitle = ApplicationHelper.Instance.GetApplicationTitle();
-            AboutVersion = ApplicationHelper.Instance.GetApplicationVersion().ToString();
         }
 
         #endregion CLASS METHODS
@@ -158,6 +119,18 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         #endregion NOTIFY PROPERTIES CHANGED INTERFACE METHODS
 
+        #region SETUP METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Setup data containers. </summary>
+        private void SetupDataContainers()
+        {
+            InformationBarAutoHides = new ObservableCollection<InformationBarAutoHide>(
+                EnumUtilities.ListOf<InformationBarAutoHide>());
+        }
+
+        #endregion SETUP METHODS
+
         #region PAGE METHODS
 
         //  --------------------------------------------------------------------------------
@@ -166,7 +139,8 @@ namespace chkam05.VisualPlayer.Pages.Settings
         /// <param name="e"> Routed Event Arguments. </param>
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            //
+            //  Save configuration.
+            Configuration.Save();
         }
 
         #endregion PAGE METHODS

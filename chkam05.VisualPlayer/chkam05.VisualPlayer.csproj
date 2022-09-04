@@ -221,10 +221,20 @@
     <Compile Include="Converters\VisualisationTypeNameConverter.cs" />
     <Compile Include="Core\Events\PlayerLoadedFileEventArgs.cs" />
     <Compile Include="Core\Player.cs" />
+    <Compile Include="Data\Configuration\AppearanceCustomThemeType.cs" />
+    <Compile Include="Data\Configuration\AppearanceLogoTheme.cs" />
+    <Compile Include="Data\Configuration\AppearanceThemeType.cs" />
+    <Compile Include="Data\Configuration\Config.cs" />
+    <Compile Include="Data\Configuration\ConfigManager.cs" />
+    <Compile Include="Data\Lyrics\LyricsMatchingType.cs" />
+    <Compile Include="Data\Configuration\VisualisationProfile.cs" />
     <Compile Include="Data\Config\FontConfig.cs" />
     <Compile Include="Data\Config\FontConfigStyle.cs" />
     <Compile Include="Data\Fonts\FontContainer.cs" />
     <Compile Include="Data\Fonts\FontsManager.cs" />
+    <Compile Include="Pages\Settings\SettingsHomePage.xaml.cs">
+      <DependentUpon>SettingsHomePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\JumpListCreator.cs" />
     <Compile Include="Utilities\SingleInstance.cs" />
     <Compile Include="Data\Config\AppearanceLogoColorType.cs" />
@@ -234,8 +244,8 @@
     <Compile Include="Data\Config\Events\ConfigurationUpdateEventArgs.cs" />
     <Compile Include="Data\Config\LyricsMatchType.cs" />
     <Compile Include="Data\Lyrics\Events\LyricsItemUpdateEventArgs.cs" />
-    <Compile Include="Pages\Settings\SettingsLyricsPage.xaml.cs">
-      <DependentUpon>SettingsLyricsPage.xaml</DependentUpon>
+    <Compile Include="Pages\Settings_old\SettingsOldLyricsPage.cs">
+      <DependentUpon>SettingsOldLyricsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Data\AHSLColor.cs" />
     <Compile Include="Utilities\Data\DispatcherHandler.cs" />
@@ -262,20 +272,20 @@
     <Compile Include="Pages\LyricsPage.xaml.cs">
       <DependentUpon>LyricsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Settings\SettingsAboutPage.xaml.cs">
-      <DependentUpon>SettingsAboutPage.xaml</DependentUpon>
+    <Compile Include="Pages\Settings_old\SettingsOldAboutPage.xaml.cs">
+      <DependentUpon>SettingsOldAboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Settings\SettingsAppearancePage.xaml.cs">
-      <DependentUpon>SettingsAppearancePage.xaml</DependentUpon>
+    <Compile Include="Pages\Settings_old\SettingsOldAppearancePage.xaml.cs">
+      <DependentUpon>SettingsOldAppearancePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Settings\SettingsGeneralPage.xaml.cs">
-      <DependentUpon>SettingsGeneralPage.xaml</DependentUpon>
+    <Compile Include="Pages\Settings_old\SettingsOldGeneralPage.cs">
+      <DependentUpon>SettingsOldGeneralPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Settings\SettingsHomePage.xaml.cs">
-      <DependentUpon>SettingsHomePage.xaml</DependentUpon>
+    <Compile Include="Pages\Settings_old\SettingsOldHomePage.xaml.cs">
+      <DependentUpon>SettingsOldHomePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Settings\SettingsVisualisationPage.xaml.cs">
-      <DependentUpon>SettingsVisualisationPage.xaml</DependentUpon>
+    <Compile Include="Pages\Settings_old\SettingsOldVisualisationPage.cs">
+      <DependentUpon>SettingsOldVisualisationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Serializers\LyricsSerializer.cs" />
     <Compile Include="Serializers\PlayListSerializer.cs" />
@@ -381,27 +391,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Settings\SettingsAboutPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Settings\SettingsAppearancePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Settings\SettingsGeneralPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\Settings\SettingsHomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Settings\SettingsLyricsPage.xaml">
+    <Page Include="Pages\Settings_old\SettingsOldAboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Settings\SettingsVisualisationPage.xaml">
+    <Page Include="Pages\Settings_old\SettingsOldAppearancePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings_old\SettingsOldGeneralPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings_old\SettingsOldHomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings_old\SettingsOldLyricsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings_old\SettingsOldVisualisationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,9 +18,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace chkam05.VisualPlayer.Pages.Settings
+namespace chkam05.VisualPlayer.Pages.Settings_old
 {
-    public partial class SettingsLyricsPage : Page, IPage, INotifyPropertyChanged
+    public partial class SettingsOldLyricsPage : Page, IPage, INotifyPropertyChanged
     {
 
         //  EVENTS
@@ -61,7 +61,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
         //  --------------------------------------------------------------------------------
         /// <summary> SettingsLyricsPage class constructor. </summary>
         /// <param name="pagesManager"> Pages manager where page will be presented. </param>
-        public SettingsLyricsPage(IPagesManager pagesManager)
+        public SettingsOldLyricsPage(IPagesManager pagesManager)
         {
             //  Setup data containers.
             SetupDataContainers();

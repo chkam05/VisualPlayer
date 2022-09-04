@@ -1,13 +1,12 @@
 ﻿using chkam05.VisualPlayer.Components;
 using chkam05.VisualPlayer.Controls.Data;
-using chkam05.VisualPlayer.Data.Config;
+using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Utilities;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 using MenuItem = chkam05.VisualPlayer.Controls.Data.MenuItem;
 
@@ -26,7 +25,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         private List<MenuItem> _specialMenuItems;
 
-        public Configuration Configuration { get; private set; }
+        public ConfigManager ConfigManager { get; private set; }
         public IPagesManager PagesManager { get; private set; }
 
 
@@ -58,7 +57,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
         public SettingsHomePage(IPagesManager pagesManager)
         {
             //  Setup modules.
-            Configuration = Configuration.Instance;
+            ConfigManager = ConfigManager.Instance;
 
             //  Initialize interface and components.
             InitializeComponent();
@@ -73,85 +72,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
         }
 
         #endregion CLASS METHODS
-
-        #region CONTROL BUTTONS METHODS
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after clicking Back ControlButton. </summary>
-        /// <param name="sender"> Object that invoked method. </param>
-        /// <param name="e"> Routed Event Arguments. </param>
-        private void BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (PagesManager.CanGoBack)
-                PagesManager.GoBack();
-
-            else
-                PagesManager.HideInterface();
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after clicking Close ControlButton. </summary>
-        /// <param name="sender"> Object that invoked method. </param>
-        /// <param name="e"> Routed Event Arguments. </param>
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            PagesManager.HideInterface();
-        }
-
-        #endregion CONTROL BUTTONS METHODS
-
-        #region MENU MANAGEMENT METHODS
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after selecting any item in Settings menu list view. </summary>
-        /// <param name="sender"> Object that invoked method. </param>
-        /// <param name="e"> Selection Changed Event Arguments. </param>
-        private void SettingsMenuListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var listView = (ExtendedListView)sender;
-            var selectedItem = listView.SelectedItem;
-
-            if (selectedItem != null)
-            {
-                var menuItem = (MenuItem)selectedItem;
-
-                if (menuItem != null)
-                {
-                    switch (menuItem.Type)
-                    {
-                        case MenuItemType.SETTINGS_MENU:
-                            switch (menuItem.SubType)
-                            {
-                                case MenuItemSubType.ABOUT:
-                                    PagesManager.LoadPage(new SettingsAboutPage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.APPEARANCE:
-                                    PagesManager.LoadPage(new SettingsAppearancePage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.GENERAL:
-                                    PagesManager.LoadPage(new SettingsGeneralPage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.LYRICS:
-                                    PagesManager.LoadPage(new SettingsLyricsPage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.VISUALISATION:
-                                    PagesManager.LoadPage(new SettingsVisualisationPage(PagesManager));
-                                    break;
-                            }
-                            break;
-                    }
-                }
-
-                listView.SelectedIndex = -1;
-                listView.SelectedItem = null;
-            }
-        }
-
-        #endregion MENU MANAGEMENT METHODS
 
         #region NOTIFY PROPERTIES CHANGED INTERFACE METHODS
 
@@ -170,6 +90,10 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         #region PAGE METHODS
 
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked during page unloading. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             //

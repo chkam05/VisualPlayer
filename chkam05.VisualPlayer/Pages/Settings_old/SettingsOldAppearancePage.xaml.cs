@@ -10,9 +10,9 @@ using System.Windows;
 using System.Windows.Controls;
 
 
-namespace chkam05.VisualPlayer.Pages.Settings
+namespace chkam05.VisualPlayer.Pages.Settings_old
 {
-    public partial class SettingsAppearancePage : Page, IPage, INotifyPropertyChanged
+    public partial class SettingsOldAppearancePage : Page, IPage, INotifyPropertyChanged
     {
 
         //  EVENTS
@@ -108,7 +108,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
         //  --------------------------------------------------------------------------------
         /// <summary> SettingsAppearancePage class constructor. </summary>
         /// <param name="pagesManager"> Pages manager where page will be presented. </param>
-        public SettingsAppearancePage(IPagesManager pagesManager)
+        public SettingsOldAppearancePage(IPagesManager pagesManager)
         {
             //  Setup data containers.
             SetupDataContainers();

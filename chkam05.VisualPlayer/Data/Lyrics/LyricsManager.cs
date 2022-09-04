@@ -26,8 +26,8 @@ namespace chkam05.VisualPlayer.Data.Lyrics
 
         public readonly Dictionary<string, string> ConfigurationMapping = new Dictionary<string, string>
         {
-            { nameof(Configuration.AutoLoadLyrics), nameof(AutoLoad) },
-            { nameof(Configuration.LyricsMatchType), nameof(MatchType) }
+            { nameof(Config.Configuration.AutoLoadLyrics), nameof(AutoLoad) },
+            { nameof(Config.Configuration.LyricsMatchType), nameof(MatchType) }
         };
 
 
@@ -631,7 +631,7 @@ namespace chkam05.VisualPlayer.Data.Lyrics
         //  --------------------------------------------------------------------------------
         /// <summary> Update lyrics configuration from settings. </summary>
         /// <param name="config"> Configuration with lyrics settings. </param>
-        public void UpdateConfiguration(Configuration config)
+        public void UpdateConfiguration(Config.Configuration config)
         {
             if (config != null)
             {

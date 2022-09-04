@@ -9,6 +9,7 @@ namespace chkam05.VisualPlayer.Controls.Data
     public enum MenuItemType
     {
         MAIN_MENU = 0,
-        SETTINGS_MENU = 1
+        SETTINGS_MENU = 1,
+        SETTINGS_MENU_2 = 2,
     }
 }
