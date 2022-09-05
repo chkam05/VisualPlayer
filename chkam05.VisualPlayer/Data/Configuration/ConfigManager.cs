@@ -33,6 +33,28 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private Config _configuration;
         private VisualisationProfile _visualisationProfile;
 
+        private Brush AccentColorBrush;
+        private Brush BackgroundColorBrush;
+        private Brush BorderColorBrush;
+        private Brush ForegroundColorBrush;
+        private Brush ImmersiveForegroundColorBrush;
+
+        private Brush InactiveBackgroundColorBrush;
+        private Brush InactiveBorderColorBrush;
+        private Brush InactiveForegroundColorBrush;
+
+        private Brush MouseOverBackgroundColorBrush;
+        private Brush MouseOverBorderColorBrush;
+        private Brush MouseOverForegroundColorBrush;
+
+        private Brush PressedBackgroundColorBrush;
+        private Brush PressedBorderColorBrush;
+        private Brush PressedForegroundColorBrush;
+
+        private Brush SelectedBackgroundColorBrush;
+        private Brush SelectedBorderColorBrush;
+        private Brush SelectedForegroundColorBrush;
+
 
         //  GETTERS & SETTERS
 
@@ -142,6 +164,12 @@ namespace chkam05.VisualPlayer.Data.Configuration
         }
 
         #endregion Appearance
+
+        #region Appearance Brushes
+
+
+
+        #endregion Appearance Brushes
 
         #region Control Bar
 

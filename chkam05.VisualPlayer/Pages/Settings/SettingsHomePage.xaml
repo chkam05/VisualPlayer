@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:chkam05.VisualPlayer.Pages.Settings"
+    xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     mc:Ignorable="d"
     
@@ -16,6 +17,52 @@
 
     <Page.Resources>
         <ResourceDictionary>
+
+            <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type Page}"/>
+
+            <!-- STYLES -->
+            
+            <Style TargetType="{x:Type controlsex:ButtonEx}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="{x:Type controlsex:ListViewEx}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="4,0"/>
+                <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="MenuListViewmItemStyle" TargetType="{x:Type controlsex:ListViewItemEx}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="4"/>
+                <Setter Property="MinHeight" Value="96"/>
+                <Setter Property="MinWidth" Value="96"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <!-- DATA TEMPLATES -->
+
+            <DataTemplate x:Key="MenuListViewDataTemplate">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                    
+                    <materialDesign:PackIcon
+                        Height="40"
+                        HorizontalAlignment="Center"
+                        Kind="{Binding Kind}"
+                        Width="auto"/>
+                    
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Text="{Binding Title}"/>
+                    
+                </StackPanel>
+            </DataTemplate>
+
         </ResourceDictionary>
     </Page.Resources>
 
@@ -26,6 +73,22 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <controlsex:ListViewEx
+            Grid.Row="1"
+            ItemContainerStyle="{StaticResource MenuListViewmItemStyle}"
+            ItemsSource="{Binding MenuItems}"
+            ItemTemplate="{StaticResource MenuListViewDataTemplate}"
+            SelectionChanged="MenuListView_SelectionChanged">
+
+            <controlsex:ListViewEx.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel
+                        Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </controlsex:ListViewEx.ItemsPanel>
+            
+        </controlsex:ListViewEx>
+
         <Grid
             Grid.Row="0"
             Margin="8,8,8,2">
@@ -35,9 +98,25 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            
-            
-            
+
+            <controlsex:ButtonEx
+                Grid.Column="0"
+                IconKind="ArrowBack"
+                Click="BackButton_Click"/>
+
+            <TextBlock
+                Grid.Column="1"
+                FontSize="18"
+                FontWeight="SemiBold"
+                Margin="8,0"
+                Text="Settings"
+                VerticalAlignment="Center"/>
+
+            <controlsex:ButtonEx
+                Grid.Column="2"
+                IconKind="Close"
+                Click="CloseButton_Click"/>
+
         </Grid>
 
     </Grid>
