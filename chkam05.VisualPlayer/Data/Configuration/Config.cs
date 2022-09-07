@@ -31,6 +31,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         public Color AccentColor { get; set; } = DEFAULT_ACCENT_COLOR;
         public double BackgroundOpacity { get; set; } = 0.25d;
+        public AppearanceColorType ColorType { get; set; } = AppearanceColorType.SYSTEM;
         public double ControlsBackgroundOpacity { get; set; } = 0.50d;
         public AppearanceThemeType ThemeType { get; set; } = AppearanceThemeType.SYSTEM;
         public AppearanceCustomThemeType ThemeTypeControls { get; set; } = AppearanceCustomThemeType.DARK;
@@ -94,7 +95,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         //  Visualisation
 
-        public string VisualisationProfileName { get; set; }
+        public string VisualisationProfileName { get; set; } = VisualisationProfile.DEFAULT_PROFILE_NAME;
         public List<ColorInfo> VisualisationUsedBorderColors { get; set; } = ColorUtilities.DefaultColors;
         public List<ColorInfo> VisualisationUsedFillColors { get; set; } = ColorUtilities.DefaultColors;
 

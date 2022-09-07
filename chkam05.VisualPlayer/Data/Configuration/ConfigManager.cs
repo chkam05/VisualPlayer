@@ -1,8 +1,11 @@
-﻿using chkam05.VisualPlayer.Controls.Data;
+﻿using chkam05.Tools.ControlsEx.Utilities;
+using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Data.Config;
+using chkam05.VisualPlayer.Data.Configuration.Attributes;
 using chkam05.VisualPlayer.Data.Fonts;
 using chkam05.VisualPlayer.Data.Lyrics;
 using chkam05.VisualPlayer.Utilities;
+using chkam05.VisualPlayer.Utilities.Data;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,6 +24,11 @@ namespace chkam05.VisualPlayer.Data.Configuration
     public class ConfigManager : INotifyPropertyChanged
     {
 
+        //  CONST
+
+        private const byte BACKGROUND_APLHA = 192;
+
+
         //  EVENTS
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -33,27 +41,30 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private Config _configuration;
         private VisualisationProfile _visualisationProfile;
 
-        private Brush AccentColorBrush;
-        private Brush BackgroundColorBrush;
-        private Brush BorderColorBrush;
-        private Brush ForegroundColorBrush;
-        private Brush ImmersiveForegroundColorBrush;
+        private Brush _accentColorBrush;
+        private Brush _backgroundColorBrush;
+        private Brush _borderColorBrush;
+        private Brush _foregroundColorBrush;
+        private Brush _immersiveForegroundColorBrush;
 
-        private Brush InactiveBackgroundColorBrush;
-        private Brush InactiveBorderColorBrush;
-        private Brush InactiveForegroundColorBrush;
+        private Brush _inactiveBackgroundColorBrush;
+        private Brush _inactiveBorderColorBrush;
+        private Brush _inactiveForegroundColorBrush;
 
-        private Brush MouseOverBackgroundColorBrush;
-        private Brush MouseOverBorderColorBrush;
-        private Brush MouseOverForegroundColorBrush;
+        private Brush _logoBackgroundColorBrush;
+        private Brush _logoBorderColorBrush;
 
-        private Brush PressedBackgroundColorBrush;
-        private Brush PressedBorderColorBrush;
-        private Brush PressedForegroundColorBrush;
+        private Brush _mouseOverBackgroundColorBrush;
+        private Brush _mouseOverBorderColorBrush;
+        private Brush _mouseOverForegroundColorBrush;
 
-        private Brush SelectedBackgroundColorBrush;
-        private Brush SelectedBorderColorBrush;
-        private Brush SelectedForegroundColorBrush;
+        private Brush _pressedBackgroundColorBrush;
+        private Brush _pressedBorderColorBrush;
+        private Brush _pressedForegroundColorBrush;
+
+        private Brush _selectedBackgroundColorBrush;
+        private Brush _selectedBorderColorBrush;
+        private Brush _selectedForegroundColorBrush;
 
 
         //  GETTERS & SETTERS
@@ -100,6 +111,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.AccentColor = value;
                 OnPropertyChanged(nameof(AccentColor));
+                AppearanceUpdate();
             }
         }
 
@@ -110,6 +122,17 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.BackgroundOpacity = value;
                 OnPropertyChanged(nameof(BackgroundOpacity));
+            }
+        }
+
+        public AppearanceColorType ColorType
+        {
+            get => _configuration.ColorType;
+            set
+            {
+                _configuration.ColorType = value;
+                OnPropertyChanged(nameof(ColorType));
+                AppearanceUpdate();
             }
         }
 
@@ -130,6 +153,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.ThemeType = value;
                 OnPropertyChanged(nameof(ThemeType));
+                AppearanceUpdate();
             }
         }
 
@@ -140,6 +164,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.ThemeTypeControls = value;
                 OnPropertyChanged(nameof(ThemeTypeControls));
+                AppearanceUpdate();
             }
         }
 
@@ -150,9 +175,11 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.ThemeTypeMenus = value;
                 OnPropertyChanged(nameof(ThemeTypeMenus));
+                AppearanceUpdate();
             }
         }
 
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
         public List<ColorInfo> UsedColors
         {
             get => _configuration.UsedColors;
@@ -167,7 +194,192 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         #region Appearance Brushes
 
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush AccentColorBrush
+        {
+            get => _accentColorBrush;
+            set
+            {
+                _accentColorBrush = value;
+                OnPropertyChanged(nameof(AccentColorBrush));
+            }
+        }
 
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush BackgroundColorBrush
+        {
+            get => _backgroundColorBrush;
+            set
+            {
+                _backgroundColorBrush = value;
+                OnPropertyChanged(nameof(BackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush BorderColorBrush
+        {
+            get => _borderColorBrush;
+            set
+            {
+                _borderColorBrush = value;
+                OnPropertyChanged(nameof(BorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush ForegroundColorBrush
+        {
+            get => _foregroundColorBrush;
+            set
+            {
+                _foregroundColorBrush = value;
+                OnPropertyChanged(nameof(ForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush ImmersiveForegroundColorBrush
+        {
+            get => _immersiveForegroundColorBrush;
+            set
+            {
+                _immersiveForegroundColorBrush = value;
+                OnPropertyChanged(nameof(ImmersiveForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush InactiveBackgroundColorBrush
+        {
+            get => _inactiveBackgroundColorBrush;
+            set
+            {
+                _inactiveBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(InactiveBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush InactiveBorderColorBrush
+        {
+            get => _inactiveBorderColorBrush;
+            set
+            {
+                _inactiveBorderColorBrush = value;
+                OnPropertyChanged(nameof(InactiveBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush InactiveForegroundColorBrush
+        {
+            get => _inactiveForegroundColorBrush;
+            set
+            {
+                _inactiveForegroundColorBrush = value;
+                OnPropertyChanged(nameof(InactiveForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush MouseOverBackgroundColorBrush
+        {
+            get => _mouseOverBackgroundColorBrush;
+            set
+            {
+                _mouseOverBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(MouseOverBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush MouseOverBorderColorBrush
+        {
+            get => _mouseOverBorderColorBrush;
+            set
+            {
+                _mouseOverBorderColorBrush = value;
+                OnPropertyChanged(nameof(MouseOverBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush MouseOverForegroundColorBrush
+        {
+            get => _mouseOverForegroundColorBrush;
+            set
+            {
+                _mouseOverForegroundColorBrush = value;
+                OnPropertyChanged(nameof(MouseOverForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush PressedBackgroundColorBrush
+        {
+            get => _pressedBackgroundColorBrush;
+            set
+            {
+                _pressedBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(PressedBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush PressedBorderColorBrush
+        {
+            get => _pressedBorderColorBrush;
+            set
+            {
+                _pressedBorderColorBrush = value;
+                OnPropertyChanged(nameof(PressedBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush PressedForegroundColorBrush
+        {
+            get => _pressedForegroundColorBrush;
+            set
+            {
+                _pressedForegroundColorBrush = value;
+                OnPropertyChanged(nameof(PressedForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush SelectedBackgroundColorBrush
+        {
+            get => _selectedBackgroundColorBrush;
+            set
+            {
+                _selectedBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(SelectedBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush SelectedBorderColorBrush
+        {
+            get => _selectedBorderColorBrush;
+            set
+            {
+                _selectedBorderColorBrush = value;
+                OnPropertyChanged(nameof(SelectedBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush SelectedForegroundColorBrush
+        {
+            get => _selectedForegroundColorBrush;
+            set
+            {
+                _selectedForegroundColorBrush = value;
+                OnPropertyChanged(nameof(SelectedForegroundColorBrush));
+            }
+        }
 
         #endregion Appearance Brushes
 
@@ -371,6 +583,28 @@ namespace chkam05.VisualPlayer.Data.Configuration
             }
         }
 
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush LogoBackgroundColorBrush
+        {
+            get => _logoBackgroundColorBrush;
+            set
+            {
+                _logoBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(LogoBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush LogoBorderColorBrush
+        {
+            get => _logoBorderColorBrush;
+            set
+            {
+                _logoBorderColorBrush = value;
+                OnPropertyChanged(nameof(LogoBorderColorBrush));
+            }
+        }
+
         public bool LogoEnabled
         {
             get => _configuration.LogoEnabled;
@@ -388,6 +622,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.LogoThemeType = value;
                 OnPropertyChanged(nameof(LogoThemeType));
+                AppearanceUpdate();
             }
         }
 
@@ -561,6 +796,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             }
         }
 
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
         public List<ColorInfo> VisualisationUsedBorderColors
         {
             get => _configuration.VisualisationUsedBorderColors;
@@ -571,6 +807,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             }
         }
 
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
         public List<ColorInfo> VisualisationUsedFillColors
         {
             get => _configuration.VisualisationUsedFillColors;
@@ -624,6 +861,134 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         #region APPEARANCE MANAGEMENT METHODS
 
+        //  --------------------------------------------------------------------------------
+        private void AppearanceUpdate()
+        {
+            Color accentColor;
+            Color foregroundColor;
+            Color themeColor;
+            SystemTheme systemTheme = SystemInfo.GetSystemThemeMode();
+
+            //  Setup accent color by color.
+            switch (ColorType)
+            {
+                case AppearanceColorType.CUSTOM:
+                    accentColor = AccentColor;
+                    break;
+
+                case AppearanceColorType.SYSTEM:
+                default:
+                    accentColor = SystemInfo.GetThemeColor();
+                    break;
+            }
+
+            //  Setup accent colors.
+            AccentColorBrush = new SolidColorBrush(accentColor);
+
+            //  Setup theme colors by theme type.
+            switch (ThemeType)
+            {
+                case AppearanceThemeType.USER:
+                    /*switch (ThemeTypeControls)
+                    {
+                        case AppearanceCustomThemeType.ACCENT_COLOR:
+                            break;
+
+                        case AppearanceCustomThemeType.LIGHT:
+                            break;
+
+                        case AppearanceCustomThemeType.DARK:
+                        default:
+                            break;
+                    }*/
+
+                    switch (ThemeTypeMenus)
+                    {
+                        case AppearanceCustomThemeType.ACCENT_COLOR:
+                            foregroundColor = ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor);
+                            themeColor = accentColor;
+                            break;
+
+                        case AppearanceCustomThemeType.LIGHT:
+                            foregroundColor = Colors.Black;
+                            themeColor = Colors.White;
+                            break;
+
+                        case AppearanceCustomThemeType.DARK:
+                        default:
+                            foregroundColor = Colors.White;
+                            themeColor = Colors.Black;
+                            break;
+                    }
+                    break;
+
+                case AppearanceThemeType.SYSTEM:
+                    switch (systemTheme)
+                    {
+                        case SystemTheme.LIGHT:
+                            foregroundColor = Colors.Black;
+                            themeColor = Colors.White;
+                            break;
+
+                        case SystemTheme.DARK:
+                        default:
+                            foregroundColor = Colors.White;
+                            themeColor = Colors.Black;
+                            break;
+                    }
+                    break;
+
+                case AppearanceThemeType.ACCENT_COLOR:
+                    foregroundColor = ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor);
+                    themeColor = accentColor;
+                    break;
+
+                case AppearanceThemeType.LIGHT:
+                    foregroundColor = Colors.Black;
+                    themeColor = Colors.White;
+                    break;
+
+                case AppearanceThemeType.DARK:
+                default:
+                    foregroundColor = Colors.White;
+                    themeColor = Colors.Black;
+                    break;
+            }
+
+            //  Setup theme colors.
+            BackgroundColorBrush = new SolidColorBrush(ColorsUtilities.UpdateColor(themeColor, a: BACKGROUND_APLHA));
+            BorderColorBrush = new SolidColorBrush(accentColor);
+            ForegroundColorBrush = new SolidColorBrush(foregroundColor);
+            ImmersiveForegroundColorBrush = new SolidColorBrush(ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor));
+
+            //InactiveBackgroundColorBrush
+            //InactiveBorderColorBrush
+            //InactiveForegroundColorBrush
+            //MouseOverBackgroundColorBrush
+            //MouseOverBorderColorBrush
+            //MouseOverForegroundColorBrush
+            //PressedBackgroundColorBrush
+            //PressedBorderColorBrush
+            //PressedForegroundColorBrush
+            //SelectedBackgroundColorBrush
+            //SelectedBorderColorBrush
+            //SelectedForegroundColorBrush
+
+            //  Setup logo colors by logo type.
+            switch (LogoThemeType)
+            {
+                case AppearanceLogoTheme.ACCENT_COLOR:
+                    break;
+
+                case AppearanceLogoTheme.LIGHT:
+                    break;
+
+                case AppearanceLogoTheme.DARK:
+                default:
+                    break;
+            }
+        }
+
         #endregion APPEARANCE MANAGEMENT METHODS
 
         #region LOAD & SAVE METHODS
@@ -643,6 +1008,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
                     if (configuration != null)
                         _configuration = configuration;
+
+                    UpdateConfigurationProperties();
+                    AppearanceUpdate();
                 }
                 catch (Exception)
                 {
@@ -658,6 +1026,28 @@ namespace chkam05.VisualPlayer.Data.Configuration
             var path = FilesManager.Instance.ConfigurationFilePath + "2";
             var serialized = JsonConvert.SerializeObject(_configuration, Formatting.Indented);
             File.WriteAllText(path, serialized);
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Update configuration properties after loading configuration from file. </summary>
+        private void UpdateConfigurationProperties()
+        {
+            var thisType = this.GetType();
+            var properties = Properties.Where(p => p.CanWrite);
+
+            foreach (var propInfo in properties)
+            {
+                var property = thisType.GetProperty(propInfo.Name);
+
+                if (ObjectUtilities.HasAttribute(property, typeof(ConfigPropertyUpdateAttrib)))
+                {
+                    var attribs = ObjectUtilities.GetAttribute<ConfigPropertyUpdateAttrib>(property);
+                    if (attribs != null && attribs.Any(a => a.AllowUpdate == false))
+                        continue;
+                }
+
+                OnPropertyChanged(property.Name);
+            }
         }
 
         #endregion LOAD & SAVE METHODS

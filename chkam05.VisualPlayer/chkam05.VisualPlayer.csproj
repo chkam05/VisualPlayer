@@ -228,6 +228,7 @@
     <Compile Include="Data\Configuration\AppearanceCustomThemeType.cs" />
     <Compile Include="Data\Configuration\AppearanceLogoTheme.cs" />
     <Compile Include="Data\Configuration\AppearanceThemeType.cs" />
+    <Compile Include="Data\Configuration\Attributes\ConfigPropertyUpdateAttrib.cs" />
     <Compile Include="Data\Configuration\Config.cs" />
     <Compile Include="Data\Configuration\ConfigManager.cs" />
     <Compile Include="Data\Lyrics\LyricsMatchingType.cs" />
