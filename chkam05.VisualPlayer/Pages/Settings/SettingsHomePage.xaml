@@ -22,7 +22,7 @@
 
             <!-- STYLES -->
             
-            <Style TargetType="{x:Type controlsex:ButtonEx}">
+            <Style x:Key="HeaderButtonStyle" TargetType="{x:Type controlsex:ButtonEx}">
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
 
@@ -102,6 +102,7 @@
             <controlsex:ButtonEx
                 Grid.Column="0"
                 IconKind="ArrowBack"
+                Style="{StaticResource HeaderButtonStyle}"
                 Click="BackButton_Click"/>
 
             <TextBlock
@@ -115,6 +116,7 @@
             <controlsex:ButtonEx
                 Grid.Column="2"
                 IconKind="Close"
+                Style="{StaticResource HeaderButtonStyle}"
                 Click="CloseButton_Click"/>
 
         </Grid>

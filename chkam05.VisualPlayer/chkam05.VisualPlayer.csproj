@@ -217,6 +217,10 @@
     <Compile Include="Converters\PlaybackStateControlIconImageSourceConverter.cs" />
     <Compile Include="Converters\RepeatControlDescriptionConverter.cs" />
     <Compile Include="Converters\RepeatControlIconConverter.cs" />
+    <Compile Include="Converters\Settings\AppearanceColorTypeNameConverter.cs" />
+    <Compile Include="Converters\Settings\AppearanceCustomThemeTypeNameConverter.cs" />
+    <Compile Include="Converters\Settings\AppearanceThemeTypeNameConverter.cs" />
+    <Compile Include="Converters\Settings\InformationBarAutoHideNameConverter.cs" />
     <Compile Include="Converters\ShuffleControlIconConverter.cs" />
     <Compile Include="Converters\TimeSpanStringConverter.cs" />
     <Compile Include="Converters\VisibilityBoolConverter.cs" />
@@ -229,6 +233,7 @@
     <Compile Include="Data\Configuration\AppearanceLogoTheme.cs" />
     <Compile Include="Data\Configuration\AppearanceThemeType.cs" />
     <Compile Include="Data\Configuration\Attributes\ConfigPropertyUpdateAttrib.cs" />
+    <Compile Include="Data\Configuration\ColorInfo.cs" />
     <Compile Include="Data\Configuration\Config.cs" />
     <Compile Include="Data\Configuration\ConfigManager.cs" />
     <Compile Include="Data\Lyrics\LyricsMatchingType.cs" />
@@ -237,6 +242,9 @@
     <Compile Include="Data\Config\FontConfigStyle.cs" />
     <Compile Include="Data\Fonts\FontContainer.cs" />
     <Compile Include="Data\Fonts\FontsManager.cs" />
+    <Compile Include="Pages\Settings\SettingsAppearancePage.xaml.cs">
+      <DependentUpon>SettingsAppearancePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Settings\SettingsHomePage.xaml.cs">
       <DependentUpon>SettingsHomePage.xaml</DependentUpon>
     </Compile>
@@ -393,6 +401,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\LyricsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\SettingsAppearancePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

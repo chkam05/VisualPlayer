@@ -1,4 +1,5 @@
-﻿using chkam05.VisualPlayer.Data.Config;
+﻿using chkam05.Tools.ControlsEx.Colors;
+using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Utilities.Data;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using AHSLColor = chkam05.VisualPlayer.Utilities.Data.AHSLColor;
 
 namespace chkam05.VisualPlayer.Utilities
 {

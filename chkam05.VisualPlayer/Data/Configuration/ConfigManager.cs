@@ -1,4 +1,5 @@
-﻿using chkam05.Tools.ControlsEx.Utilities;
+﻿using chkam05.Tools.ControlsEx.Colors;
+using chkam05.Tools.ControlsEx.Utilities;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Configuration.Attributes;
@@ -9,15 +10,15 @@ using chkam05.VisualPlayer.Utilities.Data;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+
+using AHSLColor = chkam05.Tools.ControlsEx.Colors.AHSLColor;
+
 
 namespace chkam05.VisualPlayer.Data.Configuration
 {
@@ -27,6 +28,22 @@ namespace chkam05.VisualPlayer.Data.Configuration
         //  CONST
 
         private const byte BACKGROUND_APLHA = 192;
+        private const int INACTIVE_FACTOR = 15;
+        private const int MOUSE_OVER_FACTOR = 10;
+        private const int PRESSED_FACTOR = 10;
+        private const int SELECTED_FACTOR = 10;
+
+        private static List<ColorInfo> DEFAULT_USED_COLORS
+        {
+            get => new List<ColorInfo>()
+            {
+                new ColorInfo(ColorsPaletteItems.Blue),
+                new ColorInfo(ColorsPaletteItems.Greeny),
+                new ColorInfo(ColorsPaletteItems.GrayBrown),
+                new ColorInfo(ColorsPaletteItems.Red),
+                new ColorInfo(ColorsPaletteItems.LightPink)
+            };
+        }
 
 
         //  EVENTS
@@ -132,7 +149,18 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.ColorType = value;
                 OnPropertyChanged(nameof(ColorType));
+                OnPropertyChanged(nameof(IsCustomColorType));
                 AppearanceUpdate();
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public bool IsCustomColorType
+        {
+            get => ColorType == AppearanceColorType.CUSTOM;
+            set
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -153,7 +181,18 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.ThemeType = value;
                 OnPropertyChanged(nameof(ThemeType));
+                OnPropertyChanged(nameof(IsUserThemeType));
                 AppearanceUpdate();
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public bool IsUserThemeType
+        {
+            get => ThemeType == AppearanceThemeType.USER;
+            set
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -721,6 +760,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.MenuBarAutoHide = value;
                 OnPropertyChanged(nameof(MenuBarAutoHide));
+
+                if (value)
+                    PlayListAutoHide = true;
             }
         }
 
@@ -731,6 +773,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.PlayListAutoHide = value;
                 OnPropertyChanged(nameof(PlayListAutoHide));
+
+                if (!value)
+                    MenuBarAutoHide = false;
             }
         }
 
@@ -956,23 +1001,30 @@ namespace chkam05.VisualPlayer.Data.Configuration
             }
 
             //  Setup theme colors.
+            var accentAhlsColor = AHSLColor.FromColor(accentColor);
+            var immersiveColor = ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor);
+            var inactiveColor = ColorsUtilities.UpdateColor(accentAhlsColor, saturation: accentAhlsColor.S - INACTIVE_FACTOR).ToColor();
+            var mouseOverColor = ColorsUtilities.UpdateColor(accentAhlsColor, lightness: accentAhlsColor.L + MOUSE_OVER_FACTOR).ToColor();
+            var pressedColor = ColorsUtilities.UpdateColor(accentAhlsColor, lightness: accentAhlsColor.L - PRESSED_FACTOR).ToColor();
+            var selectedColor = ColorsUtilities.UpdateColor(accentAhlsColor, lightness: accentAhlsColor.L - SELECTED_FACTOR).ToColor();
+
             BackgroundColorBrush = new SolidColorBrush(ColorsUtilities.UpdateColor(themeColor, a: BACKGROUND_APLHA));
             BorderColorBrush = new SolidColorBrush(accentColor);
             ForegroundColorBrush = new SolidColorBrush(foregroundColor);
-            ImmersiveForegroundColorBrush = new SolidColorBrush(ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor));
+            ImmersiveForegroundColorBrush = new SolidColorBrush(immersiveColor);
 
-            //InactiveBackgroundColorBrush
-            //InactiveBorderColorBrush
-            //InactiveForegroundColorBrush
-            //MouseOverBackgroundColorBrush
-            //MouseOverBorderColorBrush
-            //MouseOverForegroundColorBrush
-            //PressedBackgroundColorBrush
-            //PressedBorderColorBrush
-            //PressedForegroundColorBrush
-            //SelectedBackgroundColorBrush
-            //SelectedBorderColorBrush
-            //SelectedForegroundColorBrush
+            InactiveBackgroundColorBrush = new SolidColorBrush(inactiveColor);
+            InactiveBorderColorBrush = new SolidColorBrush(inactiveColor);
+            InactiveForegroundColorBrush = new SolidColorBrush(immersiveColor);
+            MouseOverBackgroundColorBrush = new SolidColorBrush(mouseOverColor);
+            MouseOverBorderColorBrush = new SolidColorBrush(accentColor);
+            MouseOverForegroundColorBrush = new SolidColorBrush(immersiveColor);
+            PressedBackgroundColorBrush = new SolidColorBrush(pressedColor);
+            PressedBorderColorBrush = new SolidColorBrush(accentColor);
+            PressedForegroundColorBrush = new SolidColorBrush(immersiveColor);
+            SelectedBackgroundColorBrush = new SolidColorBrush(selectedColor);
+            SelectedBorderColorBrush = new SolidColorBrush(accentColor);
+            SelectedForegroundColorBrush = new SolidColorBrush(immersiveColor);
 
             //  Setup logo colors by logo type.
             switch (LogoThemeType)
@@ -1008,15 +1060,16 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
                     if (configuration != null)
                         _configuration = configuration;
-
-                    UpdateConfigurationProperties();
-                    AppearanceUpdate();
                 }
-                catch (Exception)
+                catch (Exception exc)
                 {
                     //
                 }
             }
+
+            SetupDataContainers();
+            UpdateConfigurationProperties();
+            AppearanceUpdate();
         }
 
         //  --------------------------------------------------------------------------------
@@ -1066,6 +1119,24 @@ namespace chkam05.VisualPlayer.Data.Configuration
         }
 
         #endregion NOTIFY PROPERTIES CHANGED INTERFACE METHODS
+
+        #region SETUP METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Setup configuration data containers. </summary>
+        private void SetupDataContainers()
+        {
+            if (!_configuration.UsedColors.Any())
+                _configuration.UsedColors = DEFAULT_USED_COLORS;
+
+            if (!_configuration.VisualisationUsedBorderColors.Any())
+                _configuration.VisualisationUsedBorderColors = DEFAULT_USED_COLORS;
+
+            if (!_configuration.VisualisationUsedFillColors.Any())
+                _configuration.VisualisationUsedFillColors = DEFAULT_USED_COLORS;
+        }
+
+        #endregion SETUP METHODS
 
     }
 }

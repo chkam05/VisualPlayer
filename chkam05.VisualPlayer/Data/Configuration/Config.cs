@@ -1,4 +1,5 @@
-﻿using chkam05.VisualPlayer.Controls.Data;
+﻿using chkam05.Tools.ControlsEx.Colors;
+using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Fonts;
 using chkam05.VisualPlayer.Data.Lyrics;
@@ -36,7 +37,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         public AppearanceThemeType ThemeType { get; set; } = AppearanceThemeType.SYSTEM;
         public AppearanceCustomThemeType ThemeTypeControls { get; set; } = AppearanceCustomThemeType.DARK;
         public AppearanceCustomThemeType ThemeTypeMenus { get; set; } = AppearanceCustomThemeType.DARK;
-        public List<ColorInfo> UsedColors { get; set; } = ColorUtilities.DefaultColors;
+        public List<ColorInfo> UsedColors { get; set; }
 
         //  Control Bar
 
@@ -96,8 +97,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
         //  Visualisation
 
         public string VisualisationProfileName { get; set; } = VisualisationProfile.DEFAULT_PROFILE_NAME;
-        public List<ColorInfo> VisualisationUsedBorderColors { get; set; } = ColorUtilities.DefaultColors;
-        public List<ColorInfo> VisualisationUsedFillColors { get; set; } = ColorUtilities.DefaultColors;
+        public List<ColorInfo> VisualisationUsedBorderColors { get; set; }
+        public List<ColorInfo> VisualisationUsedFillColors { get; set; }
 
         //  Window
 

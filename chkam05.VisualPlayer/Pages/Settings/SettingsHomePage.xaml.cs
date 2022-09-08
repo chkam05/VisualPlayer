@@ -126,7 +126,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
                                     break;
 
                                 case MenuItemSubType.APPEARANCE:
-                                    //PagesManager.LoadPage(new SettingsOldAppearancePage(PagesManager));
+                                    PagesManager.LoadPage(new SettingsAppearancePage(PagesManager));
                                     break;
 
                                 case MenuItemSubType.GENERAL:
