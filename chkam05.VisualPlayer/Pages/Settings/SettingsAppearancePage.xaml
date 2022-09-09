@@ -32,37 +32,106 @@
             <!-- STYLES -->
 
             <Style x:Key="HeaderButtonStyle" TargetType="{x:Type controlsex:ButtonEx}">
+                <Setter Property="Background" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MinHeight" Value="40"/>
+                <Setter Property="MinWidth" Value="40"/>
+                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="PressedBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="PressedForeground" Value="{Binding ConfigManager.PressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="FontSize" Value="14"/>
             </Style>
 
             <Style TargetType="{x:Type controlsex:ScrollViewerEx}">
                 <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
                 <Setter Property="PanningMode" Value="Both"/>
-                <Setter Property="Padding" Value="8,8,4,8"/>
+                <Setter Property="Padding" Value="2"/>
+                <Setter Property="ScrollBarDraggingThumbBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ScrollBarMouseOverThumbBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ScrollBarThumbBackground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
             </Style>
 
             <Style TargetType="{x:Type controlsex:ExpanderEx}">
+                <Setter Property="ArrowBrush" Value="{Binding ConfigManager.ContrastedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ArrowMouseOverBrush" Value="{Binding ConfigManager.ContrastedMouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ArrowPressedBrush" Value="{Binding ConfigManager.ContrastedPressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Background" Value="{Binding ConfigManager.BackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HeaderBackground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="HeaderBorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="HeaderFontSize" Value="18"/>
+                <Setter Property="HeaderFontWeight" Value="SemiBold"/>
+                <Setter Property="HeaderForeground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="IsExpanded" Value="True"/>
                 <Setter Property="Margin" Value="0"/>
                 <Setter Property="Padding" Value="8"/>
             </Style>
 
             <Style TargetType="{x:Type controlsex:ComboBoxEx}">
-                
+                <Setter Property="Background" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="DropDownBackground" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="DropDownBorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="DropDownForeground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="DropDownIconBrush" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="DropDownMouseOverIconBrush" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="DropDownSelectedIconBrush" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
             </Style>
 
             <Style TargetType="{x:Type controlsex:ComboBoxItemEx}">
-                
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Margin" Value="1"/>
+                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.SelectedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.SelectedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.SelectedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
             </Style>
 
             <Style TargetType="{x:Type controlsex:ColorsPaletteEx}">
+                <Setter Property="Background" Value="{Binding ConfigManager.BackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="ColorsHistoryEnabled" Value="True"/>
                 <Setter Property="ColorsHistoryCount" Value="5"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ColorItemMouseOverBackground" Value="{Binding ConfigManager.ContrastedMouseOverColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ColorItemMouseOverBorderBrush" Value="{Binding ConfigManager.ContrastedMouseOverColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ColorItemSelectedBackground" Value="{Binding ConfigManager.ContrastedPressedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ColorItemSelectedBorderBrush" Value="{Binding ConfigManager.ContrastedPressedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ColorItemSelectedInactiveBackground" Value="{Binding ConfigManager.ContrastedPressedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ColorItemSelectedInactiveBorderBrush" Value="{Binding ConfigManager.ContrastedPressedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
             </Style>
-
+            
             <Style TargetType="controlsex:CheckBoxEx">
                 <Setter Property="CheckBoxStyle" Value="Bordered"/>
+                <Setter Property="CheckMarkBrush" Value="{Binding ConfigManager.ContrastedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="MouseOverCheckMarkBrush" Value="{Binding ConfigManager.ContrastedMouseOverColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="PressedCheckMarkBrush" Value="{Binding ConfigManager.ContrastedPressedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
             </Style>
 
             <!-- DATA TEMPLATES -->
@@ -94,7 +163,8 @@
         </Grid.RowDefinitions>
 
         <controlsex:ScrollViewerEx
-            Grid.Row="1">
+            Grid.Row="1"
+            Padding="8,8,4,8">
 
             <StackPanel
                 Margin="0"
@@ -164,6 +234,7 @@
 
                         <controlsex:ColorsPaletteEx
                             ColorsHistory="{Binding AppearanceUsedCustomColors}"
+                            ColorSelectionChanged="ThemeColorSelectionChanged"
                             Visibility="{Binding ConfigManager.IsCustomColorType, Converter={StaticResource VisibilityBoolConverter}, ConverterParameter=true}"/>
 
                     </StackPanel>

@@ -28,10 +28,12 @@ namespace chkam05.VisualPlayer.Data.Configuration
         //  CONST
 
         private const byte BACKGROUND_APLHA = 192;
+        private const int CONTRAST_MOUSE_OVER_FACTOR = 25;
+        private const int CONTRAST_PRESSED_FACTOR = 50;
         private const int INACTIVE_FACTOR = 15;
-        private const int MOUSE_OVER_FACTOR = 10;
+        private const int MOUSE_OVER_FACTOR = 15;
         private const int PRESSED_FACTOR = 10;
-        private const int SELECTED_FACTOR = 10;
+        private const int SELECTED_FACTOR = 5;
 
         private static List<ColorInfo> DEFAULT_USED_COLORS
         {
@@ -59,10 +61,17 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private VisualisationProfile _visualisationProfile;
 
         private Brush _accentColorBrush;
+        private Brush _accentForegroundColorBrush;
         private Brush _backgroundColorBrush;
         private Brush _borderColorBrush;
         private Brush _foregroundColorBrush;
-        private Brush _immersiveForegroundColorBrush;
+
+        private Brush _contrastedColorBrush;
+        private Brush _contrastedForegroundColorBrush;
+        private Brush _contrastedMouseOverColorBrush;
+        private Brush _contrastedMouseOverForegroundColorBrush;
+        private Brush _contrastedPressedColorBrush;
+        private Brush _contrastedPressedForegroundColorBrush;
 
         private Brush _inactiveBackgroundColorBrush;
         private Brush _inactiveBorderColorBrush;
@@ -82,6 +91,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private Brush _selectedBackgroundColorBrush;
         private Brush _selectedBorderColorBrush;
         private Brush _selectedForegroundColorBrush;
+
+        private Brush _subcomponentBackgroundColorBrush;
+        private Brush _subcomponentForegroundColorBrush;
 
 
         //  GETTERS & SETTERS
@@ -245,6 +257,17 @@ namespace chkam05.VisualPlayer.Data.Configuration
         }
 
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush AccentForegroundColorBrush
+        {
+            get => _accentForegroundColorBrush;
+            set
+            {
+                _accentForegroundColorBrush = value;
+                OnPropertyChanged(nameof(AccentForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
         public Brush BackgroundColorBrush
         {
             get => _backgroundColorBrush;
@@ -278,13 +301,68 @@ namespace chkam05.VisualPlayer.Data.Configuration
         }
 
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush ImmersiveForegroundColorBrush
+        public Brush ContrastedColorBrush
         {
-            get => _immersiveForegroundColorBrush;
+            get => _contrastedColorBrush;
             set
             {
-                _immersiveForegroundColorBrush = value;
-                OnPropertyChanged(nameof(ImmersiveForegroundColorBrush));
+                _contrastedColorBrush = value;
+                OnPropertyChanged(nameof(ContrastedColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush ContrastedForegroundColorBrush
+        {
+            get => _contrastedForegroundColorBrush;
+            set
+            {
+                _contrastedForegroundColorBrush = value;
+                OnPropertyChanged(nameof(ContrastedForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush ContrastedMouseOverColorBrush
+        {
+            get => _contrastedMouseOverColorBrush;
+            set
+            {
+                _contrastedMouseOverColorBrush = value;
+                OnPropertyChanged(nameof(ContrastedMouseOverColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush ContrastedMouseOverForegroundColorBrush
+        {
+            get => _contrastedMouseOverForegroundColorBrush;
+            set
+            {
+                _contrastedMouseOverForegroundColorBrush = value;
+                OnPropertyChanged(nameof(ContrastedMouseOverForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush ContrastedPressedColorBrush
+        {
+            get => _contrastedPressedColorBrush;
+            set
+            {
+                _contrastedPressedColorBrush = value;
+                OnPropertyChanged(nameof(ContrastedPressedColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush ContrastedPressedForegroundColorBrush
+        {
+            get => _contrastedPressedForegroundColorBrush;
+            set
+            {
+                _contrastedPressedForegroundColorBrush = value;
+                OnPropertyChanged(nameof(ContrastedPressedForegroundColorBrush));
             }
         }
 
@@ -417,6 +495,28 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _selectedForegroundColorBrush = value;
                 OnPropertyChanged(nameof(SelectedForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush SubcomponentBackgroundColorBrush
+        {
+            get => _subcomponentBackgroundColorBrush;
+            set
+            {
+                _subcomponentBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(SubcomponentBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush SubcomponentForegroundColorBrush
+        {
+            get => _subcomponentForegroundColorBrush;
+            set
+            {
+                _subcomponentForegroundColorBrush = value;
+                OnPropertyChanged(nameof(SubcomponentForegroundColorBrush));
             }
         }
 
@@ -912,7 +1012,10 @@ namespace chkam05.VisualPlayer.Data.Configuration
             Color accentColor;
             Color foregroundColor;
             Color themeColor;
+            Color subcomponentBackground;
+            Color subcomponentForeground;
             SystemTheme systemTheme = SystemInfo.GetSystemThemeMode();
+            bool useContrastColor = false;
 
             //  Setup accent color by color.
             switch (ColorType)
@@ -952,17 +1055,24 @@ namespace chkam05.VisualPlayer.Data.Configuration
                         case AppearanceCustomThemeType.ACCENT_COLOR:
                             foregroundColor = ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor);
                             themeColor = accentColor;
+                            useContrastColor = true;
+                            subcomponentBackground = Colors.White;
+                            subcomponentForeground = Colors.Black;
                             break;
 
                         case AppearanceCustomThemeType.LIGHT:
                             foregroundColor = Colors.Black;
                             themeColor = Colors.White;
+                            subcomponentBackground = Colors.White;
+                            subcomponentForeground = Colors.Black;
                             break;
 
                         case AppearanceCustomThemeType.DARK:
                         default:
                             foregroundColor = Colors.White;
                             themeColor = Colors.Black;
+                            subcomponentBackground = Colors.Black;
+                            subcomponentForeground = Colors.White;
                             break;
                     }
                     break;
@@ -973,12 +1083,16 @@ namespace chkam05.VisualPlayer.Data.Configuration
                         case SystemTheme.LIGHT:
                             foregroundColor = Colors.Black;
                             themeColor = Colors.White;
+                            subcomponentBackground = Colors.White;
+                            subcomponentForeground = Colors.Black;
                             break;
 
                         case SystemTheme.DARK:
                         default:
                             foregroundColor = Colors.White;
                             themeColor = Colors.Black;
+                            subcomponentBackground = Colors.Black;
+                            subcomponentForeground = Colors.White;
                             break;
                     }
                     break;
@@ -986,45 +1100,87 @@ namespace chkam05.VisualPlayer.Data.Configuration
                 case AppearanceThemeType.ACCENT_COLOR:
                     foregroundColor = ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor);
                     themeColor = accentColor;
+                    useContrastColor = true;
+                    subcomponentBackground = Colors.White;
+                    subcomponentForeground = Colors.Black;
                     break;
 
                 case AppearanceThemeType.LIGHT:
                     foregroundColor = Colors.Black;
                     themeColor = Colors.White;
+                    subcomponentBackground = Colors.White;
+                    subcomponentForeground = Colors.Black;
                     break;
 
                 case AppearanceThemeType.DARK:
                 default:
                     foregroundColor = Colors.White;
                     themeColor = Colors.Black;
+                    subcomponentBackground = Colors.Black;
+                    subcomponentForeground = Colors.White;
                     break;
             }
 
             //  Setup theme colors.
-            var accentAhlsColor = AHSLColor.FromColor(accentColor);
-            var immersiveColor = ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor);
-            var inactiveColor = ColorsUtilities.UpdateColor(accentAhlsColor, saturation: accentAhlsColor.S - INACTIVE_FACTOR).ToColor();
-            var mouseOverColor = ColorsUtilities.UpdateColor(accentAhlsColor, lightness: accentAhlsColor.L + MOUSE_OVER_FACTOR).ToColor();
-            var pressedColor = ColorsUtilities.UpdateColor(accentAhlsColor, lightness: accentAhlsColor.L - PRESSED_FACTOR).ToColor();
-            var selectedColor = ColorsUtilities.UpdateColor(accentAhlsColor, lightness: accentAhlsColor.L - SELECTED_FACTOR).ToColor();
+            var accentAhslColor = AHSLColor.FromColor(accentColor);
+            var accentForegroundColor = ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor);
+            var inactiveColor = ColorsUtilities.UpdateColor(accentAhslColor, saturation: accentAhslColor.S - INACTIVE_FACTOR).ToColor();
+            var mouseOverColor = ColorsUtilities.UpdateColor(accentAhslColor, lightness: accentAhslColor.L + MOUSE_OVER_FACTOR).ToColor();
+            var pressedColor = ColorsUtilities.UpdateColor(accentAhslColor, lightness: accentAhslColor.L - PRESSED_FACTOR).ToColor();
+            var selectedColor = ColorsUtilities.UpdateColor(accentAhslColor, lightness: accentAhslColor.L - SELECTED_FACTOR).ToColor();
 
+            var contrastColor = ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor);
+            var contrastAhslColor = AHSLColor.FromColor(contrastColor);
+
+            var contrastMouseOverColor = ColorsUtilities.UpdateColor(
+                contrastAhslColor,
+                lightness: contrastAhslColor.S > 50
+                    ? contrastAhslColor.S - CONTRAST_MOUSE_OVER_FACTOR
+                    : contrastAhslColor.L + CONTRAST_MOUSE_OVER_FACTOR,
+                saturation: 0).ToColor();
+
+            var contrastPressedColor = ColorsUtilities.UpdateColor(
+                contrastAhslColor,
+                lightness: contrastAhslColor.S > 50
+                    ? contrastAhslColor.S - CONTRAST_PRESSED_FACTOR
+                    : contrastAhslColor.L + CONTRAST_PRESSED_FACTOR,
+                saturation: 0).ToColor();
+
+            AccentForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
             BackgroundColorBrush = new SolidColorBrush(ColorsUtilities.UpdateColor(themeColor, a: BACKGROUND_APLHA));
             BorderColorBrush = new SolidColorBrush(accentColor);
             ForegroundColorBrush = new SolidColorBrush(foregroundColor);
-            ImmersiveForegroundColorBrush = new SolidColorBrush(immersiveColor);
+
+            ContrastedColorBrush = useContrastColor
+                ? new SolidColorBrush(contrastColor)
+                : new SolidColorBrush(accentColor);
+            ContrastedForegroundColorBrush = new SolidColorBrush(contrastColor);
+
+            ContrastedMouseOverColorBrush = useContrastColor
+                ? new SolidColorBrush(contrastMouseOverColor)
+                : new SolidColorBrush(mouseOverColor);
+            ContrastedMouseOverForegroundColorBrush = new SolidColorBrush(contrastMouseOverColor);
+
+            ContrastedPressedColorBrush = useContrastColor
+                ? new SolidColorBrush(contrastPressedColor)
+                : new SolidColorBrush(pressedColor);
+            ContrastedPressedForegroundColorBrush = new SolidColorBrush(contrastPressedColor);
 
             InactiveBackgroundColorBrush = new SolidColorBrush(inactiveColor);
             InactiveBorderColorBrush = new SolidColorBrush(inactiveColor);
-            InactiveForegroundColorBrush = new SolidColorBrush(immersiveColor);
+            InactiveForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
             MouseOverBackgroundColorBrush = new SolidColorBrush(mouseOverColor);
             MouseOverBorderColorBrush = new SolidColorBrush(accentColor);
-            MouseOverForegroundColorBrush = new SolidColorBrush(immersiveColor);
+            MouseOverForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
             PressedBackgroundColorBrush = new SolidColorBrush(pressedColor);
             PressedBorderColorBrush = new SolidColorBrush(accentColor);
-            PressedForegroundColorBrush = new SolidColorBrush(immersiveColor);
+            PressedForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
             SelectedBackgroundColorBrush = new SolidColorBrush(selectedColor);
             SelectedBorderColorBrush = new SolidColorBrush(accentColor);
-            SelectedForegroundColorBrush = new SolidColorBrush(immersiveColor);
+            SelectedForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
+
+            SubcomponentBackgroundColorBrush = new SolidColorBrush(subcomponentBackground);
+            SubcomponentForegroundColorBrush = new SolidColorBrush(subcomponentForeground);
 
             //  Setup logo colors by logo type.
             switch (LogoThemeType)

@@ -1,4 +1,5 @@
 ﻿using chkam05.Tools.ControlsEx.Colors;
+using chkam05.Tools.ControlsEx.Events;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Utilities;
@@ -127,6 +128,20 @@ namespace chkam05.VisualPlayer.Pages.Settings
         }
 
         #endregion CLASS METHODS
+
+        #region COLOR PALETTES METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after changing color in theme ColorsPalette. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Colors Palette Selection Changed Event Arguments. </param>
+        private void ThemeColorSelectionChanged(object sender, ColorsPaletteSelectionChangedEventArgs e)
+        {
+            if (e.SelectedColorItem != null)
+                ConfigManager.AccentColor = e.SelectedColorItem.Color;
+        }
+
+        #endregion COLOR PALETTE METHODS
 
         #region CONTROL BUTTONS METHODS
 
