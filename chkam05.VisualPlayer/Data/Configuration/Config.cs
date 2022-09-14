@@ -58,7 +58,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         public bool InformationBarInfoTimeVisible { get; set; } = true;
         public bool InformationBarInfoTitleVisible { get; set; } = true;
         public double InformationBarTextSpacing { get; set; } = 2.0d;
-        public int InformationBarTitleTextSizeDiffrence { get; set; } = 8;
+        public double InformationBarTitleTextSizeDiffrence { get; set; } = 8;
         public MarqueeState InformationBarTitleMarqueeState { get; set; } = MarqueeState.TOO_LONG_TEXT;
 
         //  Logo

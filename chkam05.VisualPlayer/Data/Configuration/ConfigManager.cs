@@ -47,6 +47,13 @@ namespace chkam05.VisualPlayer.Data.Configuration
             };
         }
 
+        public const double COLOR_OPACITY_MAX = 1.0;
+        public const double COLOR_OPACITY_MIN = 0.0;
+        public const double INFOBAR_FONT_HEADER_DIFFRENCE_MAX = 10;
+        public const double INFOBAR_FONT_HEADER_DIFFRENCE_MIN = 8;
+        public const double INFOBAR_FONT_SPACING_MAX = 8.0;
+        public const double INFOBAR_FONT_SPACING_MIN = 2.0;
+
 
         //  EVENTS
 
@@ -668,7 +675,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             }
         }
 
-        public int InformationBarTitleTextSizeDiffrence
+        public double InformationBarTitleTextSizeDiffrence
         {
             get => _configuration.InformationBarTitleTextSizeDiffrence;
             set

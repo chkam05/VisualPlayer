@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 
 namespace chkam05.VisualPlayer.Data.Fonts
@@ -150,6 +151,68 @@ namespace chkam05.VisualPlayer.Data.Fonts
         }
 
         #endregion SETUP METHODS
+
+        #region STATIC MEMBERS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Get list of font stretch types. </summary>
+        /// <returns> List of font stretch types. </returns>
+        public static List<FontStretch> GetStretches()
+        {
+            return new List<FontStretch>()
+            {
+                FontStretches.Normal,
+                FontStretches.Condensed,
+                FontStretches.Expanded,
+                FontStretches.ExtraCondensed,
+                FontStretches.ExtraExpanded,
+                //FontStretches.Medium,
+                FontStretches.SemiCondensed,
+                FontStretches.SemiExpanded,
+                FontStretches.UltraExpanded
+            };
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Get list of font stylle types. </summary>
+        /// <returns> List of font style types. </returns>
+        public static List<FontStyle> GetStyles()
+        {
+            return new List<FontStyle>()
+            {
+                FontStyles.Normal,
+                FontStyles.Italic,
+                FontStyles.Oblique
+            };
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Get list of font weight types. </summary>
+        /// <returns> List of font weight types. </returns>
+        public static List<FontWeight> GetWeights()
+        {
+            return new List<FontWeight>()
+            {
+                FontWeights.Normal,
+                //FontWeights.Regular,
+                FontWeights.Black,
+                FontWeights.Bold,
+                //FontWeights.DemiBold,
+                FontWeights.ExtraBlack,
+                FontWeights.ExtraBold,
+                FontWeights.ExtraLight,
+                //FontWeights.Heavy,
+                FontWeights.Light,
+                FontWeights.Medium,
+                FontWeights.SemiBold,
+                FontWeights.Thin,
+                //FontWeights.UltraBlack,
+                //FontWeights.UltraBold,
+                //FontWeights.UltraLight,
+            };
+        }
+
+        #endregion STATIC MEMBERS
 
     }
 }

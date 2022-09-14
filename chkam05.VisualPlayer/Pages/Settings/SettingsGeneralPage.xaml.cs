@@ -1,20 +1,26 @@
-﻿using chkam05.Tools.ControlsEx;
-using chkam05.VisualPlayer.Components;
-using chkam05.VisualPlayer.Controls.Data;
+﻿using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-
-using MenuItem = chkam05.VisualPlayer.Controls.Data.MenuItem;
-
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace chkam05.VisualPlayer.Pages.Settings
 {
-    public partial class SettingsHomePage : Page, IPage, INotifyPropertyChanged
+    public partial class SettingsGeneralPage : Page, IPage, INotifyPropertyChanged
     {
 
         //  EVENTS
@@ -24,7 +30,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         //  VARIABLES
 
-        private List<MenuItem> _menuItems;
+        private ObservableCollection<MarqueeState> _titleMarqueeStates;
 
         public ConfigManager ConfigManager { get; private set; }
         public IPagesManager PagesManager { get; private set; }
@@ -37,13 +43,13 @@ namespace chkam05.VisualPlayer.Pages.Settings
             get => MenuItemType.SETTINGS_MENU_2;
         }
 
-        public List<MenuItem> MenuItems
+        public ObservableCollection<MarqueeState> TitleMarqueeStates
         {
-            get => _menuItems;
-            private set
+            get => _titleMarqueeStates;
+            set
             {
-                _menuItems = value;
-                OnPropertyChanged(nameof(MenuItems));
+                _titleMarqueeStates = value;
+                OnPropertyChanged(nameof(TitleMarqueeStates));
             }
         }
 
@@ -53,10 +59,13 @@ namespace chkam05.VisualPlayer.Pages.Settings
         #region CLASS METHODS
 
         //  --------------------------------------------------------------------------------
-        /// <summary> SettingsHomePage class constructor. </summary>
+        /// <summary> SettingsGeneralPage class constructor. </summary>
         /// <param name="pagesManager"> Pages manager where page will be presented. </param>
-        public SettingsHomePage(IPagesManager pagesManager)
+        public SettingsGeneralPage(IPagesManager pagesManager)
         {
+            //  Setup data containers.
+            SetupDataContainers();
+
             //  Setup modules.
             ConfigManager = ConfigManager.Instance;
 
@@ -65,11 +74,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
             //  Setup initial data.
             PagesManager = pagesManager;
-
-            if (SpecialMenu.HasValue)
-                MenuItems = MenuBuilder.BuildMenu(SpecialMenu.Value)
-                    .Where(i => i.SubType != MenuItemSubType.OPEN_CLOSE)
-                    .ToList();
         }
 
         #endregion CLASS METHODS
@@ -99,63 +103,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         #endregion CONTROL BUTTONS METHODS
 
-        #region MENU MANAGEMENT METHODS
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after selecting any item in Settings menu list view. </summary>
-        /// <param name="sender"> Object that invoked method. </param>
-        /// <param name="e"> Selection Changed Event Arguments. </param>
-        private void MenuListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var listView = (ListViewEx)sender;
-            var selectedItem = listView.SelectedItem;
-
-            if (selectedItem != null)
-            {
-                var menuItem = (MenuItem)selectedItem;
-
-                if (menuItem != null)
-                {
-                    switch (menuItem.Type)
-                    {
-                        case MenuItemType.SETTINGS_MENU_2:
-                            switch (menuItem.SubType)
-                            {
-                                case MenuItemSubType.ABOUT:
-                                    //PagesManager.LoadPage(new SettingsOldAboutPage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.APPEARANCE:
-                                    PagesManager.LoadPage(new SettingsAppearancePage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.INFOBAR:
-                                    PagesManager.LoadPage(new SettingsInfoBarPage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.GENERAL:
-                                    PagesManager.LoadPage(new SettingsGeneralPage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.LYRICS:
-                                    PagesManager.LoadPage(new SettingsLyricsPage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.VISUALISATION:
-                                    //PagesManager.LoadPage(new SettingsOldVisualisationPage(PagesManager));
-                                    break;
-                            }
-                            break;
-                    }
-                }
-
-                listView.SelectedIndex = -1;
-                listView.SelectedItem = null;
-            }
-        }
-
-        #endregion MENU MANAGEMENT METHODS
-
         #region NOTIFY PROPERTIES CHANGED INTERFACE METHODS
 
         //  --------------------------------------------------------------------------------
@@ -179,10 +126,23 @@ namespace chkam05.VisualPlayer.Pages.Settings
         /// <param name="e"> Routed Event Arguments. </param>
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            //
+            //  Save configuration.
+            ConfigManager.SaveConfiguration();
         }
 
         #endregion PAGE METHODS
+
+        #region SETUP METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Setup data containers. </summary>
+        private void SetupDataContainers()
+        {
+            TitleMarqueeStates = new ObservableCollection<MarqueeState>(
+                EnumUtilities.ListOf<MarqueeState>());
+        }
+
+        #endregion SETUP METHODS
 
     }
 }

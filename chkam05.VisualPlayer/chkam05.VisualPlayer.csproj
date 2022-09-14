@@ -221,6 +221,7 @@
     <Compile Include="Converters\Settings\AppearanceCustomThemeTypeNameConverter.cs" />
     <Compile Include="Converters\Settings\AppearanceThemeTypeNameConverter.cs" />
     <Compile Include="Converters\Settings\InformationBarAutoHideNameConverter.cs" />
+    <Compile Include="Converters\Settings\LyricsMatchingTypeNameConverter.cs" />
     <Compile Include="Converters\ShuffleControlIconConverter.cs" />
     <Compile Include="Converters\TimeSpanStringConverter.cs" />
     <Compile Include="Converters\VisibilityBoolConverter.cs" />
@@ -245,8 +246,17 @@
     <Compile Include="Pages\Settings\SettingsAppearancePage.xaml.cs">
       <DependentUpon>SettingsAppearancePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Settings\SettingsGeneralPage.xaml.cs">
+      <DependentUpon>SettingsGeneralPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Settings\SettingsHomePage.xaml.cs">
       <DependentUpon>SettingsHomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\SettingsInfoBarPage.xaml.cs">
+      <DependentUpon>SettingsInfoBarPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\SettingsLyricsPage.xaml.cs">
+      <DependentUpon>SettingsLyricsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\JumpListCreator.cs" />
     <Compile Include="Utilities\SingleInstance.cs" />
@@ -408,7 +418,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Settings\SettingsGeneralPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Settings\SettingsHomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\SettingsInfoBarPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\SettingsLyricsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

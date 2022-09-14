@@ -21,8 +21,9 @@ namespace chkam05.VisualPlayer.Controls.Data
         //  SETTINGS
         ABOUT = 10,
         APPEARANCE = 11,
-        GENERAL = 12,
-        VISUALISATION = 13,
+        INFOBAR = 12,
+        GENERAL = 13,
+        VISUALISATION = 14,
 
     }
 }

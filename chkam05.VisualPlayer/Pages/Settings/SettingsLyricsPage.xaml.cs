@@ -1,7 +1,8 @@
-﻿using chkam05.Tools.ControlsEx.Colors;
-using chkam05.Tools.ControlsEx.Events;
+﻿using chkam05.Tools.ControlsEx.Events;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Data.Configuration;
+using chkam05.VisualPlayer.Data.Fonts;
+using chkam05.VisualPlayer.Data.Lyrics;
 using chkam05.VisualPlayer.Utilities;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using AppearanceColorType = chkam05.VisualPlayer.Data.Config.AppearanceColorType;
-
-
 namespace chkam05.VisualPlayer.Pages.Settings
 {
-    public partial class SettingsAppearancePage : Page, IPage, INotifyPropertyChanged
+    public partial class SettingsLyricsPage : Page, IPage, INotifyPropertyChanged
     {
 
         //  EVENTS
@@ -35,11 +33,11 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         //  VARIABLES
 
-        private ObservableCollection<AppearanceColorType> _appearanceColorTypes;
-        private ObservableCollection<AppearanceCustomThemeType> _appearanceCustomThemeTypes;
-        private ObservableCollection<AppearanceThemeType> _appearanceThemeTypes;
-        private ObservableCollection<ColorPaletteItem> _appearanceUsedCustomColors;
-        private ObservableCollection<InformationBarAutoHide> _infoBarAutoHides;
+        private ObservableCollection<FontContainer> _fonts;
+        private ObservableCollection<FontStyle> _fontStyles;
+        private ObservableCollection<FontStretch> _fontStretches;
+        private ObservableCollection<FontWeight> _fontWeights;
+        private ObservableCollection<LyricsMatchingType> _lyricsMatchTypes;
 
         public ConfigManager ConfigManager { get; private set; }
         public IPagesManager PagesManager { get; private set; }
@@ -52,53 +50,53 @@ namespace chkam05.VisualPlayer.Pages.Settings
             get => MenuItemType.SETTINGS_MENU_2;
         }
 
-        public ObservableCollection<AppearanceColorType> AppearanceColorTypes
+        public ObservableCollection<FontContainer> Fonts
         {
-            get => _appearanceColorTypes;
-            set
+            get => _fonts;
+            private set
             {
-                _appearanceColorTypes = value;
-                OnPropertyChanged(nameof(AppearanceColorTypes));
+                _fonts = value;
+                OnPropertyChanged(nameof(Fonts));
             }
         }
 
-        public ObservableCollection<AppearanceThemeType> AppearanceThemeTypes
+        public ObservableCollection<FontStyle> FontStyles
         {
-            get => _appearanceThemeTypes;
-            set
+            get => _fontStyles;
+            private set
             {
-                _appearanceThemeTypes = value;
-                OnPropertyChanged(nameof(AppearanceThemeTypes));
+                _fontStyles = value;
+                OnPropertyChanged(nameof(FontStyles));
             }
         }
 
-        public ObservableCollection<AppearanceCustomThemeType> AppearanceCustomThemeTypes
+        public ObservableCollection<FontStretch> FontStretches
         {
-            get => _appearanceCustomThemeTypes;
-            set
+            get => _fontStretches;
+            private set
             {
-                _appearanceCustomThemeTypes = value;
-                OnPropertyChanged(nameof(AppearanceCustomThemeTypes));
+                _fontStretches = value;
+                OnPropertyChanged(nameof(FontStretches));
             }
         }
 
-        public ObservableCollection<ColorPaletteItem> AppearanceUsedCustomColors
+        public ObservableCollection<FontWeight> FontWeights
         {
-            get => _appearanceUsedCustomColors;
-            set
+            get => _fontWeights;
+            private set
             {
-                _appearanceUsedCustomColors = value;
-                OnPropertyChanged(nameof(AppearanceUsedCustomColors));
+                _fontWeights = value;
+                OnPropertyChanged(nameof(FontWeights));
             }
         }
 
-        public ObservableCollection<InformationBarAutoHide> InfoBarAutoHides
+        public ObservableCollection<LyricsMatchingType> LyricsMatchTypes
         {
-            get => _infoBarAutoHides;
-            set
+            get => _lyricsMatchTypes;
+            private set
             {
-                _infoBarAutoHides = value;
-                OnPropertyChanged(nameof(InfoBarAutoHides));
+                _lyricsMatchTypes = value;
+                OnPropertyChanged(nameof(LyricsMatchTypes));
             }
         }
 
@@ -108,17 +106,15 @@ namespace chkam05.VisualPlayer.Pages.Settings
         #region CLASS METHODS
 
         //  --------------------------------------------------------------------------------
-        /// <summary> SettingsAppearancePage class constructor. </summary>
+        /// <summary> SettingsLyricsPage class constructor. </summary>
         /// <param name="pagesManager"> Pages manager where page will be presented. </param>
-        public SettingsAppearancePage(IPagesManager pagesManager)
+        public SettingsLyricsPage(IPagesManager pagesManager)
         {
             //  Setup data containers.
             SetupDataContainers();
 
             //  Setup modules.
             ConfigManager = ConfigManager.Instance;
-            AppearanceUsedCustomColors = new ObservableCollection<ColorPaletteItem>(
-                ConfigManager.UsedColors.Select(i => i.ToColorPaletteItem()));
 
             //  Initialize interface and components.
             InitializeComponent();
@@ -128,20 +124,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
         }
 
         #endregion CLASS METHODS
-
-        #region COLOR PALETTES METHODS
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after changing color in theme ColorsPalette. </summary>
-        /// <param name="sender"> Object that invoked method. </param>
-        /// <param name="e"> Colors Palette Selection Changed Event Arguments. </param>
-        private void ThemeColorSelectionChanged(object sender, ColorsPaletteSelectionChangedEventArgs e)
-        {
-            if (e.SelectedColorItem != null)
-                ConfigManager.AccentColor = e.SelectedColorItem.Color;
-        }
-
-        #endregion COLOR PALETTE METHODS
 
         #region CONTROL BUTTONS METHODS
 
@@ -168,6 +150,20 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         #endregion CONTROL BUTTONS METHODS
 
+        #region FONT MODIFICATION METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after changing font size in UpDownTextBox. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Text Modified Event Arguments. </param>
+        private void LyricsFontSizeChanged(object sender, TextModifiedEventArgs e)
+        {
+            if (e.UserModified)
+                ConfigManager.LyricsFontSize = int.Parse(e.NewText);
+        }
+
+        #endregion FONT MODIFICATION METHODS
+
         #region NOTIFY PROPERTIES CHANGED INTERFACE METHODS
 
         //  --------------------------------------------------------------------------------
@@ -183,27 +179,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         #endregion NOTIFY PROPERTIES CHANGED INTERFACE METHODS
 
-        #region SETUP METHODS
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Setup data containers. </summary>
-        private void SetupDataContainers()
-        {
-            AppearanceColorTypes = new ObservableCollection<AppearanceColorType>(
-                EnumUtilities.ListOf<AppearanceColorType>());
-
-            AppearanceCustomThemeTypes = new ObservableCollection<AppearanceCustomThemeType>(
-                EnumUtilities.ListOf<AppearanceCustomThemeType>());
-
-            AppearanceThemeTypes = new ObservableCollection<AppearanceThemeType>(
-                EnumUtilities.ListOf<AppearanceThemeType>());
-
-            InfoBarAutoHides = new ObservableCollection<InformationBarAutoHide>(
-                EnumUtilities.ListOf<InformationBarAutoHide>());
-        }
-
-        #endregion SETUP METHODS
-
         #region PAGE METHODS
 
         //  --------------------------------------------------------------------------------
@@ -213,11 +188,27 @@ namespace chkam05.VisualPlayer.Pages.Settings
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             //  Save configuration.
-            ConfigManager.UsedColors = AppearanceUsedCustomColors.Select(i => new ColorInfo(i)).ToList();
             ConfigManager.SaveConfiguration();
         }
 
         #endregion PAGE METHODS
+
+        #region SETUP METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Setup data containers. </summary>
+        private void SetupDataContainers()
+        {
+            Fonts = FontsManager.Instance.Fonts;
+            FontStyles = new ObservableCollection<FontStyle>(FontsManager.GetStyles());
+            FontStretches = new ObservableCollection<FontStretch>(FontsManager.GetStretches());
+            FontWeights = new ObservableCollection<FontWeight>(FontsManager.GetWeights());
+
+            LyricsMatchTypes = new ObservableCollection<LyricsMatchingType>(
+                EnumUtilities.ListOf<LyricsMatchingType>());
+        }
+
+        #endregion SETUP METHODS
 
     }
 }

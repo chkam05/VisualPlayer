@@ -47,6 +47,7 @@ namespace chkam05.VisualPlayer.Utilities
                     {
                         new MenuItem(menuType, MenuItemSubType.OPEN_CLOSE, "Settings", PackIconKind.HamburgerMenu),
                         new MenuItem(menuType, MenuItemSubType.APPEARANCE, "Appearance", PackIconKind.Palette),
+                        new MenuItem(menuType, MenuItemSubType.INFOBAR, "Informations Bar", PackIconKind.DockTop),
                         new MenuItem(menuType, MenuItemSubType.GENERAL, "General", PackIconKind.Application),
                         new MenuItem(menuType, MenuItemSubType.LYRICS, "Lyrics", PackIconKind.Subtitles),
                         new MenuItem(menuType, MenuItemSubType.VISUALISATION, "Visualisation", PackIconKind.Waveform),

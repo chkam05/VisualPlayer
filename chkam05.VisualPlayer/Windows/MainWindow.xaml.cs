@@ -529,10 +529,16 @@ namespace chkam05.VisualPlayer.Windows
                                 PagesManager.LoadPage(new SettingsAppearancePage(PagesManager));
                                 break;
 
+                            case MenuItemSubType.INFOBAR:
+                                PagesManager.LoadPage(new SettingsInfoBarPage(PagesManager));
+                                break;
+
                             case MenuItemSubType.GENERAL:
+                                PagesManager.LoadPage(new SettingsGeneralPage(PagesManager));
                                 break;
 
                             case MenuItemSubType.LYRICS:
+                                PagesManager.LoadPage(new SettingsLyricsPage(PagesManager));
                                 break;
 
                             case MenuItemSubType.VISUALISATION:
