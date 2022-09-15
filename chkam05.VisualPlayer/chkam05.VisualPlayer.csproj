@@ -237,6 +237,7 @@
     <Compile Include="Data\Configuration\ColorInfo.cs" />
     <Compile Include="Data\Configuration\Config.cs" />
     <Compile Include="Data\Configuration\ConfigManager.cs" />
+    <Compile Include="Data\Configuration\VisualisationProfilesManager.cs" />
     <Compile Include="Data\Lyrics\LyricsMatchingType.cs" />
     <Compile Include="Data\Configuration\VisualisationProfile.cs" />
     <Compile Include="Data\Config\FontConfig.cs" />
@@ -257,6 +258,9 @@
     </Compile>
     <Compile Include="Pages\Settings\SettingsLyricsPage.xaml.cs">
       <DependentUpon>SettingsLyricsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\SettingsVisualisationPage.xaml.cs">
+      <DependentUpon>SettingsVisualisationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities\JumpListCreator.cs" />
     <Compile Include="Utilities\SingleInstance.cs" />
@@ -431,6 +435,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Settings\SettingsLyricsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\SettingsVisualisationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

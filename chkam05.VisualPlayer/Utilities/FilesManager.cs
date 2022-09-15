@@ -27,7 +27,8 @@ namespace chkam05.VisualPlayer.Utilities
             new FileConfig("VPL", ".vpl", FileGroup.PLAYLIST, FileKind.VPL),
             new FileConfig("XML", ".xml", FileGroup.PLAYLIST, FileKind.XML),
             new FileConfig("VPT", ".vpt", FileGroup.LYRICS, FileKind.VPT),
-            new FileConfig("XML", ".xml", FileGroup.LYRICS, FileKind.XML)
+            new FileConfig("XML", ".xml", FileGroup.LYRICS, FileKind.XML),
+            new FileConfig("JSON", ".json", FileGroup.SETTINGS, FileKind.JSON)
         };
 
 
@@ -39,6 +40,7 @@ namespace chkam05.VisualPlayer.Utilities
         public string LyricsStoragePath { get; private set; }
         public string PlayListCache { get; private set; }
         public string StoragePath { get; private set; }
+        public string VisualisationsStoragePath { get; private set; }
 
 
         //  GETTERS & SETTERS
@@ -166,12 +168,16 @@ namespace chkam05.VisualPlayer.Utilities
             ConfigurationFilePath = Path.Combine(StoragePath, "config.json");
             LyricsStoragePath = Path.Combine(StoragePath, "Lyrics");
             PlayListCache = Path.Combine(StoragePath, "PlaylistCache.vpl");
+            VisualisationsStoragePath = Path.Combine(StoragePath, "Visualisations");
 
             if (!Directory.Exists(StoragePath))
                 Directory.CreateDirectory(StoragePath);
 
             if (!Directory.Exists(LyricsStoragePath))
                 Directory.CreateDirectory(LyricsStoragePath);
+
+            if (!Directory.Exists(VisualisationsStoragePath))
+                Directory.CreateDirectory(VisualisationsStoragePath);
         }
 
         #endregion LOCAL DATA MANAGEMENT METHODS

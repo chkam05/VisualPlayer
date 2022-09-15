@@ -7,6 +7,7 @@ using chkam05.VisualPlayer.Data.Fonts;
 using chkam05.VisualPlayer.Data.Lyrics;
 using chkam05.VisualPlayer.Utilities;
 using chkam05.VisualPlayer.Utilities.Data;
+using chkam05.VisualPlayer.Visualisations.Data;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -64,8 +65,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         private static ConfigManager _instance;
         private bool _initialized = false;
+        private bool _lockVisualisationConfig = false;
         private Config _configuration;
-        private VisualisationProfile _visualisationProfile;
+        private VisualisationProfilesManager _visualisationProfilesManager;
 
         private Brush _accentColorBrush;
         private Brush _accentForegroundColorBrush;
@@ -928,16 +930,6 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         #region Visualisation
 
-        public VisualisationProfile VisualisationProfile
-        {
-            get => _visualisationProfile;
-            set
-            {
-                _visualisationProfile = value;
-                OnPropertyChanged(nameof(VisualisationProfile));
-            }
-        }
-
         public string VisualisationProfileName
         {
             get => _configuration.VisualisationProfileName;
@@ -945,6 +937,129 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.VisualisationProfileName = value;
                 OnPropertyChanged(nameof(VisualisationProfileName));
+
+                if (!_lockVisualisationConfig)
+                    _visualisationProfilesManager.SelectProfile(value);
+            }
+        }
+
+        public double VisualisationAnimationSpeed
+        {
+            get => _visualisationProfilesManager.LoadedProfile.AnimationSpeed;
+            set
+            {
+                _visualisationProfilesManager.LoadedProfile.AnimationSpeed = value;
+                OnPropertyChanged(nameof(VisualisationAnimationSpeed));
+            }
+        }
+
+        public Color VisualisationBorderColor
+        {
+            get => _visualisationProfilesManager.LoadedProfile.BorderColor;
+            set
+            {
+                _visualisationProfilesManager.LoadedProfile.BorderColor = value;
+                OnPropertyChanged(nameof(VisualisationBorderColor));
+            }
+        }
+
+        public bool VisualisationBorderEnabled
+        {
+            get => _visualisationProfilesManager.LoadedProfile.BorderEnabled;
+            set
+            {
+                _visualisationProfilesManager.LoadedProfile.BorderEnabled = value;
+                OnPropertyChanged(nameof(VisualisationBorderEnabled));
+            }
+        }
+
+        public Color VisualisationColor
+        {
+            get => _visualisationProfilesManager.LoadedProfile.Color;
+            set
+            {
+                _visualisationProfilesManager.LoadedProfile.Color = value;
+                OnPropertyChanged(nameof(VisualisationColor));
+            }
+        }
+
+        public double VisualisationColorOpacity
+        {
+            get => _visualisationProfilesManager.LoadedProfile.ColorOpacity;
+            set
+            {
+                _visualisationProfilesManager.LoadedProfile.ColorOpacity = value;
+                OnPropertyChanged(nameof(VisualisationColorOpacity));
+            }
+        }
+
+        public VisualisationColorType VisualisationColorType
+        {
+            get => _visualisationProfilesManager.LoadedProfile.ColorType;
+            set
+            {
+                _visualisationProfilesManager.LoadedProfile.ColorType = value;
+                OnPropertyChanged(nameof(VisualisationColorType));
+            }
+        }
+
+        public double VisualisationRainbowChangeTime
+        {
+            get => _visualisationProfilesManager.LoadedProfile.RainbowChangeTime;
+            set
+            {
+                _visualisationProfilesManager.LoadedProfile.RainbowChangeTime = value;
+                OnPropertyChanged(nameof(VisualisationRainbowChangeTime));
+            }
+        }
+
+        public bool VisualisationRainbowShift
+        {
+            get => _visualisationProfilesManager.LoadedProfile.RainbowShift;
+            set
+            {
+                _visualisationProfilesManager.LoadedProfile.RainbowShift = value;
+                OnPropertyChanged(nameof(VisualisationRainbowShift));
+            }
+        }
+
+        public int VisualisationRainbowXShift
+        {
+            get => _visualisationProfilesManager.LoadedProfile.RainbowXShift;
+            set
+            {
+                _visualisationProfilesManager.LoadedProfile.RainbowXShift = value;
+                OnPropertyChanged(nameof(VisualisationRainbowXShift));
+            }
+        }
+
+        public int VisualisationRainbowYShift
+        {
+            get => _visualisationProfilesManager.LoadedProfile.RainbowYShift;
+            set
+            {
+                _visualisationProfilesManager.LoadedProfile.RainbowYShift = value;
+                OnPropertyChanged(nameof(VisualisationRainbowYShift));
+            }
+        }
+
+        public ScalingStrategy VisualisationScalingStrategy
+        {
+            get => _visualisationProfilesManager.LoadedProfile.ScalingStrategy;
+            set
+            {
+                _visualisationProfilesManager.LoadedProfile.ScalingStrategy = value;
+                OnPropertyChanged(nameof(VisualisationScalingStrategy));
+            }
+        }
+
+        public VisualisationType VisualisationType
+        {
+            get => _visualisationProfilesManager.LoadedProfile.Type;
+            set
+            {
+                _visualisationProfilesManager.LoadedProfile.Type = value;
+                OnPropertyChanged(nameof(VisualisationType));
             }
         }
 
@@ -1006,7 +1121,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private ConfigManager()
         {
             _configuration = new Config();
-            _visualisationProfile = VisualisationProfile.DefaultProfile;
+            _visualisationProfilesManager = new VisualisationProfilesManager();
+            _visualisationProfilesManager.PropertyChanged += OnVisualisationProfileUpdate;
         }
 
         #endregion CLASS METHODS
@@ -1233,6 +1349,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             SetupDataContainers();
             UpdateConfigurationProperties();
             AppearanceUpdate();
+            _visualisationProfilesManager.SelectProfile(VisualisationProfileName);
         }
 
         //  --------------------------------------------------------------------------------
@@ -1300,6 +1417,20 @@ namespace chkam05.VisualPlayer.Data.Configuration
         }
 
         #endregion SETUP METHODS
+
+        #region VISUALISATION PROFILES MANAGER METHODS
+
+        //  --------------------------------------------------------------------------------
+        private void OnVisualisationProfileUpdate(object sender, PropertyChangedEventArgs e)
+        {
+            _lockVisualisationConfig = true;
+
+
+
+            _lockVisualisationConfig = false;
+        }
+
+        #endregion VISUALISATION PROFILES MANAGER METHODS
 
     }
 }

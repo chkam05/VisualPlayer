@@ -7,5 +7,6 @@ namespace chkam05.VisualPlayer.Data.Files
         MUSIC = 1,
         PLAYLIST = 2,
         LYRICS = 3,
+        SETTINGS = 4
     }
 }

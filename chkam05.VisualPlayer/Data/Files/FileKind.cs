@@ -7,6 +7,7 @@ namespace chkam05.VisualPlayer.Data.Files
         MP3 = 1,
         XML = 2,
         VPL = 3,
-        VPT = 4
+        VPT = 4,
+        JSON = 5
     }
 }
