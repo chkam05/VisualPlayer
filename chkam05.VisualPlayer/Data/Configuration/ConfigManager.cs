@@ -66,6 +66,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private static ConfigManager _instance;
         private bool _initialized = false;
         private bool _lockVisualisationConfig = false;
+        private bool _lockVisualisationUpdate = false;
         private Config _configuration;
         private VisualisationProfilesManager _visualisationProfilesManager;
 
@@ -124,6 +125,11 @@ namespace chkam05.VisualPlayer.Data.Configuration
         public PropertyInfo[] Properties
         {
             get => ObjectUtilities.GetObjectProperties(this.GetType());
+        }
+
+        public VisualisationProfilesManager VisualisationProfilesManager
+        {
+            get => _visualisationProfilesManager;
         }
 
         #region Advanced
@@ -935,130 +941,140 @@ namespace chkam05.VisualPlayer.Data.Configuration
             get => _configuration.VisualisationProfileName;
             set
             {
-                _configuration.VisualisationProfileName = value;
-                OnPropertyChanged(nameof(VisualisationProfileName));
+                if (!_lockVisualisationUpdate)
+                {
+                    _lockVisualisationUpdate = true;
+                    _configuration.VisualisationProfileName = value;
 
-                if (!_lockVisualisationConfig)
-                    _visualisationProfilesManager.SelectProfile(value);
+                    if (!_lockVisualisationConfig)
+                    {
+                        VisualisationProfilesManager.SaveProfile();
+                        VisualisationProfilesManager.SelectProfile(value);
+                        _configuration.VisualisationProfileName = VisualisationProfilesManager.Profile.Name;
+                    }
+
+                    OnPropertyChanged(nameof(VisualisationProfileName));
+                    _lockVisualisationUpdate = false;
+                }
             }
         }
 
         public double VisualisationAnimationSpeed
         {
-            get => _visualisationProfilesManager.LoadedProfile.AnimationSpeed;
+            get => _visualisationProfilesManager.Profile.AnimationSpeed;
             set
             {
-                _visualisationProfilesManager.LoadedProfile.AnimationSpeed = value;
+                _visualisationProfilesManager.Profile.AnimationSpeed = value;
                 OnPropertyChanged(nameof(VisualisationAnimationSpeed));
             }
         }
 
         public Color VisualisationBorderColor
         {
-            get => _visualisationProfilesManager.LoadedProfile.BorderColor;
+            get => _visualisationProfilesManager.Profile.BorderColor;
             set
             {
-                _visualisationProfilesManager.LoadedProfile.BorderColor = value;
+                _visualisationProfilesManager.Profile.BorderColor = value;
                 OnPropertyChanged(nameof(VisualisationBorderColor));
             }
         }
 
         public bool VisualisationBorderEnabled
         {
-            get => _visualisationProfilesManager.LoadedProfile.BorderEnabled;
+            get => _visualisationProfilesManager.Profile.BorderEnabled;
             set
             {
-                _visualisationProfilesManager.LoadedProfile.BorderEnabled = value;
+                _visualisationProfilesManager.Profile.BorderEnabled = value;
                 OnPropertyChanged(nameof(VisualisationBorderEnabled));
             }
         }
 
         public Color VisualisationColor
         {
-            get => _visualisationProfilesManager.LoadedProfile.Color;
+            get => _visualisationProfilesManager.Profile.Color;
             set
             {
-                _visualisationProfilesManager.LoadedProfile.Color = value;
+                _visualisationProfilesManager.Profile.Color = value;
                 OnPropertyChanged(nameof(VisualisationColor));
             }
         }
 
         public double VisualisationColorOpacity
         {
-            get => _visualisationProfilesManager.LoadedProfile.ColorOpacity;
+            get => _visualisationProfilesManager.Profile.ColorOpacity;
             set
             {
-                _visualisationProfilesManager.LoadedProfile.ColorOpacity = value;
+                _visualisationProfilesManager.Profile.ColorOpacity = value;
                 OnPropertyChanged(nameof(VisualisationColorOpacity));
             }
         }
 
         public VisualisationColorType VisualisationColorType
         {
-            get => _visualisationProfilesManager.LoadedProfile.ColorType;
+            get => _visualisationProfilesManager.Profile.ColorType;
             set
             {
-                _visualisationProfilesManager.LoadedProfile.ColorType = value;
+                _visualisationProfilesManager.Profile.ColorType = value;
                 OnPropertyChanged(nameof(VisualisationColorType));
             }
         }
 
         public double VisualisationRainbowChangeTime
         {
-            get => _visualisationProfilesManager.LoadedProfile.RainbowChangeTime;
+            get => _visualisationProfilesManager.Profile.RainbowChangeTime;
             set
             {
-                _visualisationProfilesManager.LoadedProfile.RainbowChangeTime = value;
+                _visualisationProfilesManager.Profile.RainbowChangeTime = value;
                 OnPropertyChanged(nameof(VisualisationRainbowChangeTime));
             }
         }
 
         public bool VisualisationRainbowShift
         {
-            get => _visualisationProfilesManager.LoadedProfile.RainbowShift;
+            get => _visualisationProfilesManager.Profile.RainbowShift;
             set
             {
-                _visualisationProfilesManager.LoadedProfile.RainbowShift = value;
+                _visualisationProfilesManager.Profile.RainbowShift = value;
                 OnPropertyChanged(nameof(VisualisationRainbowShift));
             }
         }
 
         public int VisualisationRainbowXShift
         {
-            get => _visualisationProfilesManager.LoadedProfile.RainbowXShift;
+            get => _visualisationProfilesManager.Profile.RainbowXShift;
             set
             {
-                _visualisationProfilesManager.LoadedProfile.RainbowXShift = value;
+                _visualisationProfilesManager.Profile.RainbowXShift = value;
                 OnPropertyChanged(nameof(VisualisationRainbowXShift));
             }
         }
 
         public int VisualisationRainbowYShift
         {
-            get => _visualisationProfilesManager.LoadedProfile.RainbowYShift;
+            get => _visualisationProfilesManager.Profile.RainbowYShift;
             set
             {
-                _visualisationProfilesManager.LoadedProfile.RainbowYShift = value;
+                _visualisationProfilesManager.Profile.RainbowYShift = value;
                 OnPropertyChanged(nameof(VisualisationRainbowYShift));
             }
         }
 
         public ScalingStrategy VisualisationScalingStrategy
         {
-            get => _visualisationProfilesManager.LoadedProfile.ScalingStrategy;
+            get => _visualisationProfilesManager.Profile.ScalingStrategy;
             set
             {
-                _visualisationProfilesManager.LoadedProfile.ScalingStrategy = value;
+                _visualisationProfilesManager.Profile.ScalingStrategy = value;
                 OnPropertyChanged(nameof(VisualisationScalingStrategy));
             }
         }
 
         public VisualisationType VisualisationType
         {
-            get => _visualisationProfilesManager.LoadedProfile.Type;
+            get => _visualisationProfilesManager.Profile.Type;
             set
             {
-                _visualisationProfilesManager.LoadedProfile.Type = value;
+                _visualisationProfilesManager.Profile.Type = value;
                 OnPropertyChanged(nameof(VisualisationType));
             }
         }
@@ -1349,7 +1365,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             SetupDataContainers();
             UpdateConfigurationProperties();
             AppearanceUpdate();
-            _visualisationProfilesManager.SelectProfile(VisualisationProfileName);
+            VisualisationProfilesManager.SelectProfile(VisualisationProfileName);
         }
 
         //  --------------------------------------------------------------------------------
@@ -1359,6 +1375,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             var path = FilesManager.Instance.ConfigurationFilePath + "2";
             var serialized = JsonConvert.SerializeObject(_configuration, Formatting.Indented);
             File.WriteAllText(path, serialized);
+            VisualisationProfilesManager.SaveProfile();
         }
 
         //  --------------------------------------------------------------------------------
@@ -1421,11 +1438,42 @@ namespace chkam05.VisualPlayer.Data.Configuration
         #region VISUALISATION PROFILES MANAGER METHODS
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Change name of currently loaded visualisation profile. </summary>
+        /// <param name="visualisationProfileName"></param>
+        public void RenameVisualisationProfile(string visualisationProfileName)
+        {
+            VisualisationProfilesManager.RenameProfile(visualisationProfileName);
+            VisualisationProfileUpdate();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after updating selected profile in VisualisationProfilesManager. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Property Changed Event Arguments. </param>
         private void OnVisualisationProfileUpdate(object sender, PropertyChangedEventArgs e)
+        {
+            VisualisationProfileUpdate();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Update visualisation configuration. </summary>
+        private void VisualisationProfileUpdate()
         {
             _lockVisualisationConfig = true;
 
-
+            OnPropertyChanged(nameof(VisualisationProfileName));
+            OnPropertyChanged(nameof(VisualisationAnimationSpeed));
+            OnPropertyChanged(nameof(VisualisationBorderColor));
+            OnPropertyChanged(nameof(VisualisationBorderEnabled));
+            OnPropertyChanged(nameof(VisualisationColor));
+            OnPropertyChanged(nameof(VisualisationColorOpacity));
+            OnPropertyChanged(nameof(VisualisationColorType));
+            OnPropertyChanged(nameof(VisualisationRainbowChangeTime));
+            OnPropertyChanged(nameof(VisualisationRainbowShift));
+            OnPropertyChanged(nameof(VisualisationRainbowXShift));
+            OnPropertyChanged(nameof(VisualisationRainbowYShift));
+            OnPropertyChanged(nameof(VisualisationScalingStrategy));
+            OnPropertyChanged(nameof(VisualisationType));
 
             _lockVisualisationConfig = false;
         }

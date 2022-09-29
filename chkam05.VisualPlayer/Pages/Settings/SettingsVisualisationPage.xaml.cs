@@ -1,4 +1,5 @@
 ﻿using chkam05.Tools.ControlsEx.Colors;
+using chkam05.Tools.ControlsEx.Events;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Utilities;
@@ -22,7 +23,7 @@ using System.Windows.Shapes;
 
 namespace chkam05.VisualPlayer.Pages.Settings
 {
-    public partial class SettingsVisualisationPage : Page
+    public partial class SettingsVisualisationPage : Page, IPage, INotifyPropertyChanged
     {
 
         //  EVENTS
@@ -32,6 +33,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         //  VARIABLES
 
+        private bool _visualisationChanging = false;
         private ObservableCollection<string> _visualisationProfiles;
         private ObservableCollection<VisualisationType> _visualisationTypes;
         private ObservableCollection<ScalingStrategy> _visualisationScalingTypes;
@@ -125,6 +127,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
             //  Setup modules.
             ConfigManager = ConfigManager.Instance;
+            ConfigManager.PropertyChanged += OnConfigurationPropertyChanged;
 
             VisualisationUsedBorderColors = new ObservableCollection<ColorPaletteItem>(
                 ConfigManager.VisualisationUsedBorderColors.Select(i => i.ToColorPaletteItem()));
@@ -140,6 +143,30 @@ namespace chkam05.VisualPlayer.Pages.Settings
         }
 
         #endregion CLASS METHODS
+
+        #region COLOR PALETTES METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after changing color in visualisation fill color ColorsPalette. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Colors Palette Selection Changed Event Arguments. </param>
+        private void VisualisationColorFillSelectionChanged(object sender, ColorsPaletteSelectionChangedEventArgs e)
+        {
+            if (e.SelectedColorItem != null)
+                ConfigManager.VisualisationColor = e.SelectedColorItem.Color;
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after changing color in visualisation border color ColorsPalette. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Colors Palette Selection Changed Event Arguments. </param>
+        private void VisualisationColorBorderSelectionChanged(object sender, ColorsPaletteSelectionChangedEventArgs e)
+        {
+            if (e.SelectedColorItem != null)
+                ConfigManager.VisualisationBorderColor = e.SelectedColorItem.Color;
+        }
+
+        #endregion COLOR PALETTE METHODS
 
         #region CONTROL BUTTONS METHODS
 
@@ -169,6 +196,17 @@ namespace chkam05.VisualPlayer.Pages.Settings
         #region NOTIFY PROPERTIES CHANGED INTERFACE METHODS
 
         //  --------------------------------------------------------------------------------
+        private void OnConfigurationPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(ConfigManager.VisualisationProfileName) && !_visualisationChanging)
+            {
+                _visualisationChanging = true;
+                UpdateVisualisationProfilesList();
+                _visualisationChanging = false;
+            }
+        }
+
+        //  --------------------------------------------------------------------------------
         /// <summary> Method for invoking PropertyChangedEventHandler external method. </summary>
         /// <param name="propertyName"> Changed property name. </param>
         protected void OnPropertyChanged(string propertyName)
@@ -181,7 +219,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         #endregion NOTIFY PROPERTIES CHANGED INTERFACE METHODS
 
-        #region PROFILES MANAGEMENT METHODS
+        #region VISUALISATION PROFILES MANAGEMENT METHODS
 
         //  --------------------------------------------------------------------------------
         /// <summary> Method invoked after clicking Remove Profile Button. </summary>
@@ -189,10 +227,27 @@ namespace chkam05.VisualPlayer.Pages.Settings
         /// <param name="e"> Routed Event Arguments. </param>
         private void RemoveProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            //
+            ConfigManager.VisualisationProfilesManager.RemoveProfile();
         }
 
-        #endregion PROFILES MANAGEMENT METHODS
+        //  --------------------------------------------------------------------------------
+        private void UpdateVisualisationProfilesList()
+        {
+            VisualisationProfiles = new ObservableCollection<string>(
+                VisualisationProfilesManager.GetProfilesList());
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after changing name of visualisation profile. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Text Modified Event Arguments. </param>
+        private void VisualisationProfileNameTextModified(object sender, TextModifiedEventArgs e)
+        {
+            if (e.UserModified)
+                ConfigManager.RenameVisualisationProfile(e.NewText);
+        }
+
+        #endregion VISUALISATION PROFILES MANAGEMENT METHODS
 
         #region SETUP METHODS
 
@@ -227,8 +282,10 @@ namespace chkam05.VisualPlayer.Pages.Settings
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             //  Save configuration.
-            //ConfigManager.UsedColors = AppearanceUsedCustomColors.Select(i => new ColorInfo(i)).ToList();
+            ConfigManager.VisualisationUsedBorderColors = VisualisationUsedBorderColors.Select(i => new ColorInfo(i)).ToList();
+            ConfigManager.VisualisationUsedFillColors = VisualisationUsedFillColors.Select(i => new ColorInfo(i)).ToList();
             ConfigManager.SaveConfiguration();
+            ConfigManager.PropertyChanged -= OnConfigurationPropertyChanged;
         }
 
         #endregion PAGE METHODS

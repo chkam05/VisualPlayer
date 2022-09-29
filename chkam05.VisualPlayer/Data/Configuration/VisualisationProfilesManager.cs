@@ -15,7 +15,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         //  CONST
 
-        private const string NEW_PROFILE_TEXT = "+ Create New Profile";
+        private const string CREATE_PROFILE_TEXT = "+ Create New Profile";
+        private const string NEW_PROFILE_NAME = "New Profile";
 
 
         //  EVENTS
@@ -25,18 +26,18 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         //  VARIABLES
 
-        private VisualisationProfile _visualisationProfile;
+        private VisualisationProfile _profile;
 
 
         //  GETTERS & SETTERS
 
-        public VisualisationProfile LoadedProfile
+        public VisualisationProfile Profile
         {
-            get => _visualisationProfile;
+            get => _profile;
             set
             {
-                _visualisationProfile = value;
-                OnPropertyChanged(nameof(LoadedProfile));
+                _profile = value;
+                OnPropertyChanged(nameof(Profile));
             }
         }
 
@@ -49,7 +50,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         /// <summary> VisualisationProfilesManager class constructor. </summary>
         public VisualisationProfilesManager()
         {
-            LoadedProfile = VisualisationProfile.DefaultProfile;
+            Profile = VisualisationProfile.DefaultProfile;
         }
 
         #endregion CLASS METHODS
@@ -61,9 +62,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
         /// <param name="profileName"> Visualisation profile name. </param>
         private void LoadProfile(string profileName)
         {
-            var profileFileConfig = FilesManager.GetFileTypeByKind(Files.FileKind.JSON);
+            var profileFileExt = FilesManager.GetFileTypeByKind(Files.FileKind.JSON).Extension;
             var profilesPath = FilesManager.Instance.VisualisationsStoragePath;
-            var profileFilePath = Path.Combine(profilesPath, profileName + profileFileConfig.Extension);
+            var profileFilePath = Path.Combine(profilesPath, profileName + profileFileExt);
 
             if (File.Exists(profileFilePath))
             {
@@ -72,18 +73,29 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
                 if (profile != null)
                 {
-                    LoadedProfile = profile;
+                    Profile = profile;
                     return;
                 }
             }
 
-            LoadedProfile = VisualisationProfile.DefaultProfile;
+            Profile = VisualisationProfile.DefaultProfile;
         }
 
         //  --------------------------------------------------------------------------------
-        private void SaveProfile()
+        public void SaveProfile()
         {
-            //
+            SaveProfile(Profile.Name);
+        }
+
+        //  --------------------------------------------------------------------------------
+        public void SaveProfile(string profileName)
+        {
+            var profileFileExt = FilesManager.GetFileTypeByKind(Files.FileKind.JSON).Extension;
+            var profilesPath = FilesManager.Instance.VisualisationsStoragePath;
+            var profileFilePath = Path.Combine(profilesPath, profileName + profileFileExt);
+
+            var serialized = JsonConvert.SerializeObject(Profile, Formatting.Indented);
+            File.WriteAllText(profileFilePath, serialized);
         }
 
         #endregion LOAD & SAVE METHODS
@@ -106,15 +118,69 @@ namespace chkam05.VisualPlayer.Data.Configuration
         #region PROFILES MANAGEMENT METHODS
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Create new profile and load it. </summary>
         private void CreateProfile()
         {
-            //
+            string filePrefix = $"{NEW_PROFILE_NAME} ";
+            int index = 0;
+            var newProfiles = GetProfilesFilesList()
+                .Select(p => Path.GetFileNameWithoutExtension(p))
+                .Where(p => p.StartsWith(filePrefix));
+
+            if (newProfiles.Any())
+            {
+                index = newProfiles.Select(p =>
+                {
+                    if (int.TryParse(p.Substring(filePrefix.Length), out int lastIndex))
+                        return lastIndex;
+                    return 0;
+                }).Max();
+            }
+
+            Profile.Name = $"{filePrefix}{index+1}";
+            SaveProfile(Profile.Name);
+            OnPropertyChanged(nameof(Profile));
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Rename current loaded profile if is not default. </summary>
+        /// <param name="profileName"> New profile name. </param>
+        /// <returns> True - profile name changed; False - otherwise. </returns>
+        public bool RenameProfile(string profileName)
+        {
+            if (Profile.Name == VisualisationProfile.DEFAULT_PROFILE_NAME 
+                || profileName.ToLower() == VisualisationProfile.DEFAULT_PROFILE_NAME.ToLower())
+                return false;
+
+            if (!GetProfilesFilesList().Any(p => Path.GetFileNameWithoutExtension(p).ToLower() != profileName.ToLower()))
+            {
+                var profileFileExt = FilesManager.GetFileTypeByKind(Files.FileKind.JSON).Extension;
+                var profilesPath = FilesManager.Instance.VisualisationsStoragePath;
+                var currentProfileFilePath = Path.Combine(profilesPath, Profile.Name + profileFileExt);
+
+                if (File.Exists(currentProfileFilePath))
+                    File.Delete(currentProfileFilePath);
+
+                Profile.Name = profileName;
+                SaveProfile(profileName);
+                return true;
+            }
+
+            return false;
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Remove current loaded profile and back to default. </summary>
         public void RemoveProfile()
         {
-            //
+            var profileFileExt = FilesManager.GetFileTypeByKind(Files.FileKind.JSON).Extension;
+            var profilesPath = FilesManager.Instance.VisualisationsStoragePath;
+            var profileFilePath = Path.Combine(profilesPath, Profile.Name + profileFileExt);
+
+            if (File.Exists(profileFilePath))
+                File.Delete(profileFilePath);
+
+            SelectProfile(VisualisationProfile.DEFAULT_PROFILE_NAME);
         }
 
         //  --------------------------------------------------------------------------------
@@ -122,7 +188,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         /// <param name="profileName"> Visualisation profile name. </param>
         public void SelectProfile(string profileName)
         {
-            if (profileName == NEW_PROFILE_TEXT)
+            if (profileName == CREATE_PROFILE_TEXT)
             {
                 CreateProfile();
                 return;
@@ -136,18 +202,30 @@ namespace chkam05.VisualPlayer.Data.Configuration
         #region STATIC METHODS
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Get list of profiles that will be visible in interface. </summary>
-        /// <returns> List of profiles visible in interface. </returns>
-        public static List<string> GetProfilesList()
+        /// <summary> Get list of profiles files paths. </summary>
+        /// <returns> List of profiles files paths. </returns>
+        private static List<string> GetProfilesFilesList()
         {
             var profileFileConfig = FilesManager.GetFileTypesByGroup(Files.FileGroup.SETTINGS);
             var profilesPath = FilesManager.Instance.VisualisationsStoragePath;
             var profiles = FilesManager.GetFilesList(profilesPath, profileFileConfig);
 
+            return profiles;
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Get list of profiles that will be visible in interface. </summary>
+        /// <returns> List of profiles visible in interface. </returns>
+        public static List<string> GetProfilesList()
+        {
+            var profiles = GetProfilesFilesList();
             var result = new List<string>();
-            result.Add(VisualisationProfile.DEFAULT_PROFILE_NAME);
+
+            if (!profiles.Any(p => Path.GetFileNameWithoutExtension(p) == VisualisationProfile.DEFAULT_PROFILE_NAME))
+                result.Add(VisualisationProfile.DEFAULT_PROFILE_NAME);
+
             result.AddRange(profiles.Select(p => Path.GetFileNameWithoutExtension(p)));
-            result.Add(NEW_PROFILE_TEXT);
+            result.Add(CREATE_PROFILE_TEXT);
 
             return result;
         }

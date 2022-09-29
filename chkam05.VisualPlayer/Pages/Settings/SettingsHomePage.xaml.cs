@@ -142,7 +142,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
                                     break;
 
                                 case MenuItemSubType.VISUALISATION:
-                                    //PagesManager.LoadPage(new SettingsOldVisualisationPage(PagesManager));
+                                    PagesManager.LoadPage(new SettingsVisualisationPage(PagesManager));
                                     break;
                             }
                             break;
