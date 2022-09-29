@@ -82,12 +82,15 @@ namespace chkam05.VisualPlayer.Data.Configuration
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Save current loaded visualisation profile to profile file. </summary>
         public void SaveProfile()
         {
             SaveProfile(Profile.Name);
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Save visualisation profile to new profile file. </summary>
+        /// <param name="profileName"> Profile file name. </param>
         public void SaveProfile(string profileName)
         {
             var profileFileExt = FilesManager.GetFileTypeByKind(Files.FileKind.JSON).Extension;

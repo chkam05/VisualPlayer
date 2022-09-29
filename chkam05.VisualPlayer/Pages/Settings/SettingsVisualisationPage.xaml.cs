@@ -196,6 +196,9 @@ namespace chkam05.VisualPlayer.Pages.Settings
         #region NOTIFY PROPERTIES CHANGED INTERFACE METHODS
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after changing configuration in ConfigurationManager. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Property Changed Event Arguments. </param>
         private void OnConfigurationPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(ConfigManager.VisualisationProfileName) && !_visualisationChanging)
@@ -231,6 +234,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Update list of visualisation profiles. </summary>
         private void UpdateVisualisationProfilesList()
         {
             VisualisationProfiles = new ObservableCollection<string>(
