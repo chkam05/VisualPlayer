@@ -31,6 +31,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private const byte BACKGROUND_APLHA = 192;
         private const int CONTRAST_MOUSE_OVER_FACTOR = 25;
         private const int CONTRAST_PRESSED_FACTOR = 50;
+        private const double LOGO_ALPHA = 0.87d;
         private const int INACTIVE_FACTOR = 15;
         private const int MOUSE_OVER_FACTOR = 15;
         private const int PRESSED_FACTOR = 10;
@@ -82,6 +83,31 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private Brush _contrastedMouseOverForegroundColorBrush;
         private Brush _contrastedPressedColorBrush;
         private Brush _contrastedPressedForegroundColorBrush;
+
+        private Brush _ifaceBackgroundColorBrush;
+        private Brush _ifaceForegroundColorBrush;
+
+        private Brush _ifaceButtonBackgroundColorBrush;
+        private Brush _ifaceButtonBorderColorBrush;
+        private Brush _ifaceButtonForegroundColorBrush;
+        private Brush _ifaceMouseOverButtonBackgroundColorBrush;
+        private Brush _ifaceMouseOverButtonBorderColorBrush;
+        private Brush _ifaceMouseOverButtonForegroundColorBrush;
+        private Brush _ifacePressedButtonBackgroundColorBrush;
+        private Brush _ifacePressedButtonBorderColorBrush;
+        private Brush _ifacePressedButtonForegroundColorBrush;
+
+        private Brush _ifaceMenuItemBackgroundColorBrush;
+        private Brush _ifaceMenuItemBorderColorBrush;
+        private Brush _ifaceMenuItemForegroundColorBrush;
+        private Brush _ifaceMouseOverMenuItemBackgroundColorBrush;
+        private Brush _ifaceMouseOverMenuItemBorderColorBrush;
+        private Brush _ifaceMouseOverMenuItemForegroundColorBrush;
+        private Brush _ifaceSelectedMenuItemBackgroundColorBrush;
+        private Brush _ifaceSelectedMenuItemBorderColorBrush;
+        private Brush _ifaceSelectedMenuItemForegroundColorBrush;
+
+        private Brush _ifaceTrackBarBackgroundColorBrush;
 
         private Brush _inactiveBackgroundColorBrush;
         private Brush _inactiveBorderColorBrush;
@@ -378,6 +404,237 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _contrastedPressedForegroundColorBrush = value;
                 OnPropertyChanged(nameof(ContrastedPressedForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceBackgroundColorBrush
+        {
+            get => _ifaceBackgroundColorBrush;
+            set
+            {
+                _ifaceBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceForegroundColorBrush
+        {
+            get => _ifaceForegroundColorBrush;
+            set
+            {
+                _ifaceForegroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceButtonBackgroundColorBrush
+        {
+            get => _ifaceButtonBackgroundColorBrush;
+            set
+            {
+                _ifaceButtonBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceButtonBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceButtonBorderColorBrush
+        {
+            get => _ifaceButtonBorderColorBrush;
+            set
+            {
+                _ifaceButtonBorderColorBrush = value;
+                OnPropertyChanged(nameof(IfaceButtonBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceButtonForegroundColorBrush
+        {
+            get => _ifaceButtonForegroundColorBrush;
+            set
+            {
+                _ifaceButtonForegroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceButtonForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceMouseOverButtonBackgroundColorBrush
+        {
+            get => _ifaceMouseOverButtonBackgroundColorBrush;
+            set
+            {
+                _ifaceMouseOverButtonBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceMouseOverButtonBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceMouseOverButtonBorderColorBrush
+        {
+            get => _ifaceMouseOverButtonBorderColorBrush;
+            set
+            {
+                _ifaceMouseOverButtonBorderColorBrush = value;
+                OnPropertyChanged(nameof(IfaceMouseOverButtonBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceMouseOverButtonForegroundColorBrush
+        {
+            get => _ifaceMouseOverButtonForegroundColorBrush;
+            set
+            {
+                _ifaceMouseOverButtonForegroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceMouseOverButtonForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfacePressedButtonBackgroundColorBrush
+        {
+            get => _ifacePressedButtonBackgroundColorBrush;
+            set
+            {
+                _ifacePressedButtonBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(IfacePressedButtonBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfacePressedButtonBorderColorBrush
+        {
+            get => _ifacePressedButtonBorderColorBrush;
+            set
+            {
+                _ifacePressedButtonBorderColorBrush = value;
+                OnPropertyChanged(nameof(IfacePressedButtonBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfacePressedButtonForegroundColorBrush
+        {
+            get => _ifacePressedButtonForegroundColorBrush;
+            set
+            {
+                _ifacePressedButtonForegroundColorBrush = value;
+                OnPropertyChanged(nameof(IfacePressedButtonForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceMenuItemBackgroundColorBrush
+        {
+            get => _ifaceMenuItemBackgroundColorBrush;
+            set
+            {
+                _ifaceMenuItemBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceMenuItemBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceMenuItemBorderColorBrush
+        {
+            get => _ifaceMenuItemBorderColorBrush;
+            set
+            {
+                _ifaceMenuItemBorderColorBrush = value;
+                OnPropertyChanged(nameof(IfaceMenuItemBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceMenuItemForegroundColorBrush
+        {
+            get => _ifaceMenuItemForegroundColorBrush;
+            set
+            {
+                _ifaceMenuItemForegroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceMenuItemForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceMouseOverMenuItemBackgroundColorBrush
+        {
+            get => _ifaceMouseOverMenuItemBackgroundColorBrush;
+            set
+            {
+                _ifaceMouseOverMenuItemBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceMouseOverMenuItemBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceMouseOverMenuItemBorderColorBrush
+        {
+            get => _ifaceMouseOverMenuItemBorderColorBrush;
+            set
+            {
+                _ifaceMouseOverMenuItemBorderColorBrush = value;
+                OnPropertyChanged(nameof(IfaceMouseOverMenuItemBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceMouseOverMenuItemForegroundColorBrush
+        {
+            get => _ifaceMouseOverMenuItemForegroundColorBrush;
+            set
+            {
+                _ifaceMouseOverMenuItemForegroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceMouseOverMenuItemForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceSelectedMenuItemBackgroundColorBrush
+        {
+            get => _ifaceSelectedMenuItemBackgroundColorBrush;
+            set
+            {
+                _ifaceSelectedMenuItemBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceSelectedMenuItemBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceSelectedMenuItemBorderColorBrush
+        {
+            get => _ifaceSelectedMenuItemBorderColorBrush;
+            set
+            {
+                _ifaceSelectedMenuItemBorderColorBrush = value;
+                OnPropertyChanged(nameof(IfaceSelectedMenuItemBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceSelectedMenuItemForegroundColorBrush
+        {
+            get => _ifaceSelectedMenuItemForegroundColorBrush;
+            set
+            {
+                _ifaceSelectedMenuItemForegroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceSelectedMenuItemForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceTrackBarBackgroundColorBrush
+        {
+            get => _ifaceTrackBarBackgroundColorBrush;
+            set
+            {
+                _ifaceTrackBarBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceTrackBarBackgroundColorBrush));
             }
         }
 
@@ -1149,8 +1406,10 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private void AppearanceUpdate()
         {
             Color accentColor;
+            Color backgroundColor;
             Color foregroundColor;
-            Color themeColor;
+            Color ifaceBackgroundColor;
+            Color ifaceForegroundColor;
             Color subcomponentBackground;
             Color subcomponentForeground;
             SystemTheme systemTheme = SystemInfo.GetSystemThemeMode();
@@ -1176,40 +1435,46 @@ namespace chkam05.VisualPlayer.Data.Configuration
             switch (ThemeType)
             {
                 case AppearanceThemeType.USER:
-                    /*switch (ThemeTypeControls)
+                    switch (ThemeTypeControls)
                     {
                         case AppearanceCustomThemeType.ACCENT_COLOR:
+                            ifaceBackgroundColor = accentColor;
+                            ifaceForegroundColor = ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor);
                             break;
 
                         case AppearanceCustomThemeType.LIGHT:
+                            ifaceBackgroundColor = Colors.White;
+                            ifaceForegroundColor = Colors.Black;
                             break;
 
                         case AppearanceCustomThemeType.DARK:
                         default:
+                            ifaceBackgroundColor = Colors.Black;
+                            ifaceForegroundColor = Colors.White;
                             break;
-                    }*/
+                    }
 
                     switch (ThemeTypeMenus)
                     {
                         case AppearanceCustomThemeType.ACCENT_COLOR:
+                            backgroundColor = accentColor;
                             foregroundColor = ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor);
-                            themeColor = accentColor;
                             useContrastColor = true;
                             subcomponentBackground = Colors.White;
                             subcomponentForeground = Colors.Black;
                             break;
 
                         case AppearanceCustomThemeType.LIGHT:
+                            backgroundColor = Colors.White;
                             foregroundColor = Colors.Black;
-                            themeColor = Colors.White;
                             subcomponentBackground = Colors.White;
                             subcomponentForeground = Colors.Black;
                             break;
 
                         case AppearanceCustomThemeType.DARK:
                         default:
+                            backgroundColor = Colors.Black;
                             foregroundColor = Colors.White;
-                            themeColor = Colors.Black;
                             subcomponentBackground = Colors.Black;
                             subcomponentForeground = Colors.White;
                             break;
@@ -1220,16 +1485,20 @@ namespace chkam05.VisualPlayer.Data.Configuration
                     switch (systemTheme)
                     {
                         case SystemTheme.LIGHT:
+                            backgroundColor = Colors.White;
                             foregroundColor = Colors.Black;
-                            themeColor = Colors.White;
+                            ifaceBackgroundColor = Colors.White;
+                            ifaceForegroundColor = Colors.Black;
                             subcomponentBackground = Colors.White;
                             subcomponentForeground = Colors.Black;
                             break;
 
                         case SystemTheme.DARK:
                         default:
+                            backgroundColor = Colors.Black;
                             foregroundColor = Colors.White;
-                            themeColor = Colors.Black;
+                            ifaceBackgroundColor = Colors.Black;
+                            ifaceForegroundColor = Colors.White;
                             subcomponentBackground = Colors.Black;
                             subcomponentForeground = Colors.White;
                             break;
@@ -1237,24 +1506,30 @@ namespace chkam05.VisualPlayer.Data.Configuration
                     break;
 
                 case AppearanceThemeType.ACCENT_COLOR:
+                    backgroundColor = accentColor;
                     foregroundColor = ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor);
-                    themeColor = accentColor;
+                    ifaceBackgroundColor = accentColor;
+                    ifaceForegroundColor = ColorsUtilities.FoundFontColorContrastingWithBackground(accentColor);
                     useContrastColor = true;
                     subcomponentBackground = Colors.White;
                     subcomponentForeground = Colors.Black;
                     break;
 
                 case AppearanceThemeType.LIGHT:
+                    backgroundColor = Colors.White;
                     foregroundColor = Colors.Black;
-                    themeColor = Colors.White;
+                    ifaceBackgroundColor = Colors.White;
+                    ifaceForegroundColor = Colors.Black;
                     subcomponentBackground = Colors.White;
                     subcomponentForeground = Colors.Black;
                     break;
 
                 case AppearanceThemeType.DARK:
                 default:
+                    backgroundColor = Colors.Black;
                     foregroundColor = Colors.White;
-                    themeColor = Colors.Black;
+                    ifaceBackgroundColor = Colors.Black;
+                    ifaceForegroundColor = Colors.White;
                     subcomponentBackground = Colors.Black;
                     subcomponentForeground = Colors.White;
                     break;
@@ -1286,7 +1561,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
                 saturation: 0).ToColor();
 
             AccentForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
-            BackgroundColorBrush = new SolidColorBrush(ColorsUtilities.UpdateColor(themeColor, a: BACKGROUND_APLHA));
+            BackgroundColorBrush = new SolidColorBrush(ColorsUtilities.UpdateColor(backgroundColor, a: BACKGROUND_APLHA));
             BorderColorBrush = new SolidColorBrush(accentColor);
             ForegroundColorBrush = new SolidColorBrush(foregroundColor);
 
@@ -1321,17 +1596,52 @@ namespace chkam05.VisualPlayer.Data.Configuration
             SubcomponentBackgroundColorBrush = new SolidColorBrush(subcomponentBackground);
             SubcomponentForegroundColorBrush = new SolidColorBrush(subcomponentForeground);
 
+            //  Setup interface theme colors.
+            var ifaceForegroundOpacityUpdated = BackgroundOpacity + ControlsBackgroundOpacity > 40
+                ? ifaceForegroundColor
+                : Colors.Black;
+
+            IfaceBackgroundColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = ControlsBackgroundOpacity };
+            IfaceForegroundColorBrush = new SolidColorBrush(ifaceForegroundOpacityUpdated);
+
+            IfaceButtonBackgroundColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = 0.25 };
+            IfaceButtonBorderColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = 0.25 };
+            IfaceButtonForegroundColorBrush = new SolidColorBrush(ifaceForegroundOpacityUpdated);
+            IfaceMouseOverButtonBackgroundColorBrush = new SolidColorBrush(mouseOverColor);
+            IfaceMouseOverButtonBorderColorBrush = new SolidColorBrush(mouseOverColor);
+            IfaceMouseOverButtonForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
+            IfacePressedButtonBackgroundColorBrush = new SolidColorBrush(pressedColor);
+            IfacePressedButtonBorderColorBrush = new SolidColorBrush(accentColor);
+            IfacePressedButtonForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
+            IfaceMenuItemBackgroundColorBrush = new SolidColorBrush(Colors.Transparent);
+            IfaceMenuItemBorderColorBrush = new SolidColorBrush(Colors.Transparent);
+            IfaceMenuItemForegroundColorBrush = new SolidColorBrush(ifaceForegroundOpacityUpdated);
+            IfaceMouseOverMenuItemBackgroundColorBrush = new SolidColorBrush(mouseOverColor);
+            IfaceMouseOverMenuItemBorderColorBrush = new SolidColorBrush(mouseOverColor);
+            IfaceMouseOverMenuItemForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
+            IfaceSelectedMenuItemBackgroundColorBrush = new SolidColorBrush(selectedColor);
+            IfaceSelectedMenuItemBorderColorBrush = new SolidColorBrush(accentColor);
+            IfaceSelectedMenuItemForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
+
+            IfaceTrackBarBackgroundColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = 0.25 };
+
             //  Setup logo colors by logo type.
             switch (LogoThemeType)
             {
                 case AppearanceLogoTheme.ACCENT_COLOR:
+                    LogoBackgroundColorBrush = new SolidColorBrush(accentColor) { Opacity = LOGO_ALPHA };
+                    LogoBorderColorBrush = new SolidColorBrush(accentColor);
                     break;
 
                 case AppearanceLogoTheme.LIGHT:
+                    LogoBackgroundColorBrush = new SolidColorBrush(Colors.White) { Opacity = LOGO_ALPHA };
+                    LogoBorderColorBrush = new SolidColorBrush(Colors.White);
                     break;
 
                 case AppearanceLogoTheme.DARK:
                 default:
+                    LogoBackgroundColorBrush = new SolidColorBrush(Colors.Black) { Opacity = LOGO_ALPHA };
+                    LogoBorderColorBrush = new SolidColorBrush(Colors.Black);
                     break;
             }
         }
