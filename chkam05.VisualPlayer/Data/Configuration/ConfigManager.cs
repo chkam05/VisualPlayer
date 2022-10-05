@@ -90,22 +90,19 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private Brush _ifaceButtonBackgroundColorBrush;
         private Brush _ifaceButtonBorderColorBrush;
         private Brush _ifaceButtonForegroundColorBrush;
-        private Brush _ifaceMouseOverButtonBackgroundColorBrush;
-        private Brush _ifaceMouseOverButtonBorderColorBrush;
-        private Brush _ifaceMouseOverButtonForegroundColorBrush;
-        private Brush _ifacePressedButtonBackgroundColorBrush;
-        private Brush _ifacePressedButtonBorderColorBrush;
-        private Brush _ifacePressedButtonForegroundColorBrush;
-
         private Brush _ifaceMenuItemBackgroundColorBrush;
         private Brush _ifaceMenuItemBorderColorBrush;
         private Brush _ifaceMenuItemForegroundColorBrush;
-        private Brush _ifaceMouseOverMenuItemBackgroundColorBrush;
-        private Brush _ifaceMouseOverMenuItemBorderColorBrush;
-        private Brush _ifaceMouseOverMenuItemForegroundColorBrush;
-        private Brush _ifaceSelectedMenuItemBackgroundColorBrush;
-        private Brush _ifaceSelectedMenuItemBorderColorBrush;
-        private Brush _ifaceSelectedMenuItemForegroundColorBrush;
+
+        private Brush _ifaceMouseOverBackgroundColorBrush;
+        private Brush _ifaceMouseOverBorderColorBrush;
+        private Brush _ifaceMouseOverForegroundColorBrush;
+        private Brush _ifacePressedBackgroundColorBrush;
+        private Brush _ifacePressedBorderColorBrush;
+        private Brush _ifacePressedForegroundColorBrush;
+        private Brush _ifaceSelectedBackgroundColorBrush;
+        private Brush _ifaceSelectedBorderColorBrush;
+        private Brush _ifaceSelectedForegroundColorBrush;
 
         private Brush _ifaceTrackBarBackgroundColorBrush;
 
@@ -463,72 +460,6 @@ namespace chkam05.VisualPlayer.Data.Configuration
         }
 
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush IfaceMouseOverButtonBackgroundColorBrush
-        {
-            get => _ifaceMouseOverButtonBackgroundColorBrush;
-            set
-            {
-                _ifaceMouseOverButtonBackgroundColorBrush = value;
-                OnPropertyChanged(nameof(IfaceMouseOverButtonBackgroundColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush IfaceMouseOverButtonBorderColorBrush
-        {
-            get => _ifaceMouseOverButtonBorderColorBrush;
-            set
-            {
-                _ifaceMouseOverButtonBorderColorBrush = value;
-                OnPropertyChanged(nameof(IfaceMouseOverButtonBorderColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush IfaceMouseOverButtonForegroundColorBrush
-        {
-            get => _ifaceMouseOverButtonForegroundColorBrush;
-            set
-            {
-                _ifaceMouseOverButtonForegroundColorBrush = value;
-                OnPropertyChanged(nameof(IfaceMouseOverButtonForegroundColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush IfacePressedButtonBackgroundColorBrush
-        {
-            get => _ifacePressedButtonBackgroundColorBrush;
-            set
-            {
-                _ifacePressedButtonBackgroundColorBrush = value;
-                OnPropertyChanged(nameof(IfacePressedButtonBackgroundColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush IfacePressedButtonBorderColorBrush
-        {
-            get => _ifacePressedButtonBorderColorBrush;
-            set
-            {
-                _ifacePressedButtonBorderColorBrush = value;
-                OnPropertyChanged(nameof(IfacePressedButtonBorderColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush IfacePressedButtonForegroundColorBrush
-        {
-            get => _ifacePressedButtonForegroundColorBrush;
-            set
-            {
-                _ifacePressedButtonForegroundColorBrush = value;
-                OnPropertyChanged(nameof(IfacePressedButtonForegroundColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
         public Brush IfaceMenuItemBackgroundColorBrush
         {
             get => _ifaceMenuItemBackgroundColorBrush;
@@ -562,68 +493,101 @@ namespace chkam05.VisualPlayer.Data.Configuration
         }
 
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush IfaceMouseOverMenuItemBackgroundColorBrush
+        public Brush IfaceMouseOverBackgroundColorBrush
         {
-            get => _ifaceMouseOverMenuItemBackgroundColorBrush;
+            get => _ifaceMouseOverBackgroundColorBrush;
             set
             {
-                _ifaceMouseOverMenuItemBackgroundColorBrush = value;
-                OnPropertyChanged(nameof(IfaceMouseOverMenuItemBackgroundColorBrush));
+                _ifaceMouseOverBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceMouseOverBackgroundColorBrush));
             }
         }
 
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush IfaceMouseOverMenuItemBorderColorBrush
+        public Brush IfaceMouseOverBorderColorBrush
         {
-            get => _ifaceMouseOverMenuItemBorderColorBrush;
+            get => _ifaceMouseOverBorderColorBrush;
             set
             {
-                _ifaceMouseOverMenuItemBorderColorBrush = value;
-                OnPropertyChanged(nameof(IfaceMouseOverMenuItemBorderColorBrush));
+                _ifaceMouseOverBorderColorBrush = value;
+                OnPropertyChanged(nameof(IfaceMouseOverBorderColorBrush));
             }
         }
 
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush IfaceMouseOverMenuItemForegroundColorBrush
+        public Brush IfaceMouseOverForegroundColorBrush
         {
-            get => _ifaceMouseOverMenuItemForegroundColorBrush;
+            get => _ifaceMouseOverForegroundColorBrush;
             set
             {
-                _ifaceMouseOverMenuItemForegroundColorBrush = value;
-                OnPropertyChanged(nameof(IfaceMouseOverMenuItemForegroundColorBrush));
+                _ifaceMouseOverForegroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceMouseOverForegroundColorBrush));
             }
         }
 
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush IfaceSelectedMenuItemBackgroundColorBrush
+        public Brush IfacePressedBackgroundColorBrush
         {
-            get => _ifaceSelectedMenuItemBackgroundColorBrush;
+            get => _ifacePressedBackgroundColorBrush;
             set
             {
-                _ifaceSelectedMenuItemBackgroundColorBrush = value;
-                OnPropertyChanged(nameof(IfaceSelectedMenuItemBackgroundColorBrush));
+                _ifacePressedBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(IfacePressedBackgroundColorBrush));
             }
         }
 
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush IfaceSelectedMenuItemBorderColorBrush
+        public Brush IfacePressedBorderColorBrush
         {
-            get => _ifaceSelectedMenuItemBorderColorBrush;
+            get => _ifacePressedBorderColorBrush;
             set
             {
-                _ifaceSelectedMenuItemBorderColorBrush = value;
-                OnPropertyChanged(nameof(IfaceSelectedMenuItemBorderColorBrush));
+                _ifacePressedBorderColorBrush = value;
+                OnPropertyChanged(nameof(IfacePressedBorderColorBrush));
             }
         }
 
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush IfaceSelectedMenuItemForegroundColorBrush
+        public Brush IfacePressedForegroundColorBrush
         {
-            get => _ifaceSelectedMenuItemForegroundColorBrush;
+            get => _ifacePressedForegroundColorBrush;
             set
             {
-                _ifaceSelectedMenuItemForegroundColorBrush = value;
-                OnPropertyChanged(nameof(IfaceSelectedMenuItemForegroundColorBrush));
+                _ifacePressedForegroundColorBrush = value;
+                OnPropertyChanged(nameof(IfacePressedForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceSelectedBackgroundColorBrush
+        {
+            get => _ifaceSelectedBackgroundColorBrush;
+            set
+            {
+                _ifaceSelectedBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceSelectedBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceSelectedBorderColorBrush
+        {
+            get => _ifaceSelectedBorderColorBrush;
+            set
+            {
+                _ifaceSelectedBorderColorBrush = value;
+                OnPropertyChanged(nameof(IfaceSelectedBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceSelectedForegroundColorBrush
+        {
+            get => _ifaceSelectedForegroundColorBrush;
+            set
+            {
+                _ifaceSelectedForegroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceSelectedForegroundColorBrush));
             }
         }
 
@@ -1607,23 +1571,20 @@ namespace chkam05.VisualPlayer.Data.Configuration
             IfaceButtonBackgroundColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = 0.25 };
             IfaceButtonBorderColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = 0.25 };
             IfaceButtonForegroundColorBrush = new SolidColorBrush(ifaceForegroundOpacityUpdated);
-            IfaceMouseOverButtonBackgroundColorBrush = new SolidColorBrush(mouseOverColor);
-            IfaceMouseOverButtonBorderColorBrush = new SolidColorBrush(mouseOverColor);
-            IfaceMouseOverButtonForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
-            IfacePressedButtonBackgroundColorBrush = new SolidColorBrush(pressedColor);
-            IfacePressedButtonBorderColorBrush = new SolidColorBrush(accentColor);
-            IfacePressedButtonForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
+            IfaceMouseOverBackgroundColorBrush = new SolidColorBrush(mouseOverColor);
+            IfaceMouseOverBorderColorBrush = new SolidColorBrush(mouseOverColor);
+            IfaceMouseOverForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
+            IfacePressedBackgroundColorBrush = new SolidColorBrush(pressedColor);
+            IfacePressedBorderColorBrush = new SolidColorBrush(accentColor);
+            IfacePressedForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
             IfaceMenuItemBackgroundColorBrush = new SolidColorBrush(Colors.Transparent);
             IfaceMenuItemBorderColorBrush = new SolidColorBrush(Colors.Transparent);
             IfaceMenuItemForegroundColorBrush = new SolidColorBrush(ifaceForegroundOpacityUpdated);
-            IfaceMouseOverMenuItemBackgroundColorBrush = new SolidColorBrush(mouseOverColor);
-            IfaceMouseOverMenuItemBorderColorBrush = new SolidColorBrush(mouseOverColor);
-            IfaceMouseOverMenuItemForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
-            IfaceSelectedMenuItemBackgroundColorBrush = new SolidColorBrush(selectedColor);
-            IfaceSelectedMenuItemBorderColorBrush = new SolidColorBrush(accentColor);
-            IfaceSelectedMenuItemForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
+            IfaceSelectedBackgroundColorBrush = new SolidColorBrush(selectedColor);
+            IfaceSelectedBorderColorBrush = new SolidColorBrush(accentColor);
+            IfaceSelectedForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
 
-            IfaceTrackBarBackgroundColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = 0.25 };
+            IfaceTrackBarBackgroundColorBrush = new SolidColorBrush(contrastColor) { Opacity = 0.25 };
 
             //  Setup logo colors by logo type.
             switch (LogoThemeType)

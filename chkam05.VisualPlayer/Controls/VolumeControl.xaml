@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:components="clr-namespace:chkam05.VisualPlayer.Components"
+    xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
     mc:Ignorable="d" 
     
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -18,6 +19,8 @@
                 <ResourceDictionary Source="../Resources/Styles/Components/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type UserControl}"/>
+
             <!-- Storyboards. -->
             <Storyboard x:Key="ShowHideStoryboard" Completed="Storyboard_Completed">
                 <DoubleAnimation 
@@ -29,7 +32,50 @@
             </Storyboard>
 
             <!-- Styles. -->
-            <Style x:Key="Volume_PackIconButtonStyle" BasedOn="{StaticResource PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+            <Style TargetType="{x:Type controlsex:ButtonEx}">
+                <Setter Property="Background" Value="{Binding ConfigManager.IfaceButtonBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderBrush" Value="{Binding ConfigManager.IfaceButtonBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceButtonForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Height" Value="Auto"/>
+                <Setter Property="IconKind" Value="VolumeMedium"/>
+                <Setter Property="Margin" Value="12"/>
+                <Setter Property="MinWidth" Value="0"/>
+                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.IfaceMouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Padding" Value="4"/>
+                <Setter Property="PressedBackground" Value="{Binding ConfigManager.IfacePressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.IfacePressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="PressedForeground" Value="{Binding ConfigManager.IfacePressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+            </Style>
+            
+            <Style TargetType="{x:Type controlsex:SliderEx}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="16,16,16,0"/>
+                <Setter Property="Maximum" Value="100.0"/>
+                <Setter Property="Minimum" Value="0.0"/>
+                <Setter Property="Orientation" Value="Vertical"/>
+                <Setter Property="ThumbBorderBrush" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ThumbBorderThickness" Value="1"/>
+                <Setter Property="ThumbCornerRadius" Value="8"/>
+                <Setter Property="ThumbDraggingBackground" Value="{Binding ConfigManager.IfacePressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ThumbDraggingBorderBrush" Value="{Binding ConfigManager.IfacePressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ThumbMouseOverBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ThumbMouseOverBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ThumbHeight" Value="16"/>
+                <Setter Property="ThumbWidth" Value="16"/>
+                <Setter Property="TrackBarBackground" Value="{Binding ConfigManager.IfaceTrackBarBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="TrackBarBorderBrush" Value="Transparent"/>
+                <Setter Property="TrackBarBorderThickness" Value="0"/>
+                <Setter Property="TrackBarCornerRadius" Value="4"/>
+                <Setter Property="Width" Value="20"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+            </Style>
+            
+            <!--Style x:Key="Volume_PackIconButtonStyle" BasedOn="{StaticResource PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
                 <Setter Property="Background" Value="{Binding Configuration.ButtonColorBrush}"/>
                 <Setter Property="BorderBrush" Value="{Binding Configuration.ButtonBorderColorBrush}"/>
                 <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush}"/>
@@ -39,7 +85,7 @@
                 <Setter Property="Margin" Value="12"/>
                 <Setter Property="MinWidth" Value="0"/>
                 <Setter Property="Padding" Value="0"/>
-            </Style>
+            </Style-->
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -54,7 +100,7 @@
         MouseLeave="VolumeControlGrid_MouseLeave">
 
         <Border
-            Background="{Binding Configuration.ThemeControlColorBrush}"
+            Background="{Binding ConfigManager.IfaceBackgroundColorBrush}"
             BorderBrush="{x:Null}"
             BorderThickness="0"
             CornerRadius="8"
@@ -69,7 +115,14 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                <components:ControlSlider
+                <controlsex:SliderEx
+                    Grid.Row="0"
+                    Value="{Binding Volume}"
+                    GotMouseCapture="ControlSlider_GotMouseCapture"
+                    LostMouseCapture="ControlSlider_LostMouseCapture"
+                    ValueChanged="ControlSlider_ValueChanged"/>
+
+                <!--components:ControlSlider
                     Grid.Row="0"
                     DraggingThumbBackground="{Binding Configuration.DraggingColorBrush}"
                     Foreground="{Binding Configuration.AccentColorBrush}"
@@ -81,14 +134,19 @@
                     VerticalAlignment="Stretch"
                     GotMouseCapture="ControlSlider_GotMouseCapture"
                     LostMouseCapture="ControlSlider_LostMouseCapture"
-                    ValueChanged="ControlSlider_ValueChanged"/>
+                    ValueChanged="ControlSlider_ValueChanged"/-->
 
-                <components:PackIconButton
+                <controlsex:ButtonEx
+                    Grid.Row="1"
+                    Content="{x:Null}"
+                    Click="VolumeButton_Click"/>
+
+                <!--components:PackIconButton
                     Grid.Row="1"
                     Content="{x:Null}"
                     PackIconKind="VolumeMedium"
                     Style="{StaticResource Volume_PackIconButtonStyle}"
-                    Click="VolumeButton_Click"/>
+                    Click="VolumeButton_Click"/-->
 
             </Grid>
 

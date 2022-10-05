@@ -1,7 +1,9 @@
-﻿using chkam05.VisualPlayer.Components;
+﻿using chkam05.Tools.ControlsEx;
+using chkam05.VisualPlayer.Components;
 using chkam05.VisualPlayer.Components.Events;
 using chkam05.VisualPlayer.Controls.Events;
 using chkam05.VisualPlayer.Data.Config;
+using chkam05.VisualPlayer.Data.Configuration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -54,6 +56,7 @@ namespace chkam05.VisualPlayer.Controls
         private bool _volumeSliderInUse = false;
 
         public Configuration Configuration { get; private set; }
+        public ConfigManager ConfigManager { get; private set; }
 
 
         //  GETTERS & SETTERS
@@ -97,6 +100,7 @@ namespace chkam05.VisualPlayer.Controls
         {
             //  Setup modules.
             Configuration = Configuration.Instance;
+            ConfigManager = ConfigManager.Instance;
 
             //  Initialize interface and components.
             InitializeComponent();
@@ -237,7 +241,7 @@ namespace chkam05.VisualPlayer.Controls
         {
             if (_volumeSliderInUse)
             {
-                var slider = (ControlSlider)sender;
+                var slider = (SliderEx)sender;
                 var args = new SliderValueChangedEventArgs<double>(slider.Value, true);
                 OnSliderValueChanged?.Invoke(sender, args);
             }
