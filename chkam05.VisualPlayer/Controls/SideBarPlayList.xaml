@@ -7,7 +7,7 @@
     xmlns:components="clr-namespace:chkam05.VisualPlayer.Components"
     xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
     xmlns:local="clr-namespace:chkam05.VisualPlayer.Controls"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
     mc:Ignorable="d" 
     
     d:DesignHeight="450"
@@ -23,43 +23,94 @@
                 <ResourceDictionary Source="../Resources/Styles/Standard/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type UserControl}"/>
+
             <!-- Converters. -->
             <converters:IPlayableNowPlayingConverter x:Key="IPlayableNowPlayingConverter"/>
             <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
 
             <!-- Styles. -->
-            <Style x:Key="Control_PackIconButtonStyle" BasedOn="{StaticResource PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
-                <Setter Property="Background" Value="{Binding Configuration.ButtonColorBrush}"/>
-                <Setter Property="BorderBrush" Value="{Binding Configuration.ButtonBorderColorBrush}"/>
-                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush}"/>
-                <Setter Property="HoveredBackground" Value="{Binding Configuration.AccentHoveredColorBrush}"/>
-                <Setter Property="PressedBackground" Value="{Binding Configuration.PressedColorBrush}"/>
+            <Style TargetType="{x:Type controlsex:ButtonEx}">
+                <Setter Property="Background" Value="{Binding ConfigManager.IfaceButtonBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderBrush" Value="{Binding ConfigManager.IfaceButtonBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceButtonForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="IconHeight" Value="28"/>
+                <Setter Property="IconWidth" Value="28"/>
+                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.IfaceMouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Padding" Value="4"/>
+                <Setter Property="PressedBackground" Value="{Binding ConfigManager.IfacePressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.IfacePressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="PressedForeground" Value="{Binding ConfigManager.IfacePressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
             </Style>
 
-            <Style x:Key="Control_ExtendedContextMenuStyle" BasedOn="{StaticResource ExtendedContextMenuStyle}" TargetType="{x:Type components:ExtendedContextMenu}">
-                <Setter Property="Background" Value="{Binding Configuration.ThemeDarkColorBrush}"/>
-                <Setter Property="BorderBrush" Value="{Binding Configuration.AccentColorBrush}"/>
-                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush}"/>
+            <Style TargetType="{x:Type controlsex:ContextMenuEx}">
+                <Setter Property="Background" Value="{Binding ConfigManager.IfaceContextMenuBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderBrush" Value="{Binding ConfigManager.IfaceContextMenuBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
             </Style>
 
-            <Style x:Key="Control_ExtendedContextMenuItemStyle" BasedOn="{StaticResource ExtendedContextMenuItemStyle}" TargetType="{x:Type components:ExtendedContextMenuItem}">
-                <Setter Property="HoveredBackground" Value="{Binding Configuration.AccentHoveredColorBrush}"/>
-                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush}"/>
+            <Style TargetType="{x:Type controlsex:ContextMenuItemEx}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.IfaceMouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="IconColorBrush" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
             </Style>
 
-            <Style x:Key="Control_ContextMenuSeparatorStyle" BasedOn="{StaticResource ContextMenuSeparatorStyle}" TargetType="{x:Type Separator}">
-                <Setter Property="Background" Value="{Binding Configuration.ForegroundColorBrush}"/>
+            <Style BasedOn="{StaticResource ContextMenuSeparatorStyle}" TargetType="{x:Type Separator}">
+                <Setter Property="Background" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
             </Style>
 
-            <Style x:Key="PlayList_ExtendedListViewItemStyle" BasedOn="{StaticResource ExtendedListViewItemStyle}" TargetType="{x:Type components:ExtendedListViewItem}">
+            <Style TargetType="{x:Type controlsex:ScrollViewerEx}">
+                <Setter Property="ScrollBarThumbMargin" Value="0,2,8,2"/>
+                <Setter Property="ScrollBarVerticalWidth" Value="16"/>
+                <Setter Property="ScrollBarThumbBackground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ScrollBarThumbBorderBrush" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ScrollBarDraggingThumbBackground" Value="{Binding ConfigManager.IfacePressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ScrollBarDraggingThumbBorderBrush" Value="{Binding ConfigManager.IfacePressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ScrollBarMouseOverThumbBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ScrollBarMouseOverThumbBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+            </Style>
+            
+            <Style TargetType="{x:Type controlsex:ListViewEx}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="6,0,2,0"/>
+                <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            </Style>
+
+            <Style x:Key="PlayList_ListViewItemExStyle" TargetType="{x:Type controlsex:ListViewItemEx}">
                 <EventSetter Event="Drop" Handler="PlayList_ExtendedListViewItem_Drop"/>
                 <EventSetter Event="MouseDoubleClick" Handler="PlayListItem_DoubleClick"/>
                 <EventSetter Event="PreviewMouseLeftButtonDown" Handler="PlayList_ExtendedListViewItem_PreviewMouseDown"/>
                 <Setter Property="AllowDrop" Value="True"/>
-                <Setter Property="Foreground" Value="{Binding Path=Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarPlayList}}}"/>
-                <Setter Property="HoveredBackground" Value="{Binding Path=Configuration.AccentHoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarPlayList}}}"/>
-                <Setter Property="SelectedActiveBackground" Value="{Binding Path=Configuration.AccentSelectedColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarPlayList}}}"/>
-                <Setter Property="SelectedInactiveBackground" Value="{Binding Path=Configuration.SelectedInactiveColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarPlayList}}}"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Margin" Value="2,2,2,0"/>
+                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.IfaceMouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.IfaceSelectedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.IfaceSelectedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.IfaceSelectedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedInactiveBackground" Value="{Binding ConfigManager.InactiveBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedInactiveBorderBrush" Value="{Binding ConfigManager.InactiveBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedInactiveForeground" Value="{Binding ConfigManager.InactiveForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
             </Style>
 
             <!-- Data Templates. -->
@@ -91,41 +142,36 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <components:ExtendedListView
+        <controlsex:ListViewEx
             x:Name="playListView"
-            ItemContainerStyle="{StaticResource PlayList_ExtendedListViewItemStyle}"
+            ItemContainerStyle="{StaticResource PlayList_ListViewItemExStyle}"
             ItemsSource="{Binding Player.PlayList.DataContext, Mode=TwoWay}"
             ItemTemplate="{StaticResource NowPlayingDataTemplate}"
             Grid.Row="1"
-            Padding="4,0"
             SelectedItem="{Binding SelectedItem}"
-            Style="{StaticResource ExtendedListViewStyle}"
             PreviewMouseDown="PlayListView_PreviewMouseDown">
 
-            <components:ExtendedListView.ContextMenu>
-                <components:ExtendedContextMenu
-                    Style="{StaticResource Control_ExtendedContextMenuStyle}"
+            <controlsex:ListViewEx.ContextMenu>
+                <controlsex:ContextMenuEx
                     Closed="ExtendedContextMenu_Closed">
 
-                    <components:ExtendedContextMenuItem
+                    <controlsex:ContextMenuItemEx
                         Header="Play"
-                        Icon="Play"
-                        Style="{StaticResource ExtendedContextMenuItemStyle}"
+                        IconKind="Play"
                         Click="PlayListItem_ExtendedContextMenuItemPlay_Click"/>
 
-                    <components:ExtendedContextMenuItem
+                    <controlsex:ContextMenuItemEx
                         Header="Remove"
-                        Icon="Trash"
-                        Style="{StaticResource ExtendedContextMenuItemStyle}"
+                        IconKind="Trash"
                         Click="PlayListItem_ExtendedContextMenuItemRemove_Click"/>
 
-                </components:ExtendedContextMenu>
-            </components:ExtendedListView.ContextMenu>
-
-        </components:ExtendedListView>
+                </controlsex:ContextMenuEx>
+            </controlsex:ListViewEx.ContextMenu>
+            
+        </controlsex:ListViewEx>
 
         <Grid
-            Margin="8,8,8,2">
+            Margin="8,8,8,4">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
@@ -133,101 +179,88 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <components:PackIconButton
+            <controlsex:ButtonEx
                 Grid.Column="0"
-                PackIconKind="ArrowBack"
-                Style="{StaticResource Control_PackIconButtonStyle}"
+                Content="{x:Null}"
+                IconKind="ArrowBack"
                 Click="BackButton_Click"/>
 
             <TextBlock
                 Grid.Column="1"
-                Foreground="{Binding Configuration.ForegroundColorBrush}"
+                Foreground="{Binding ConfigManager.IfaceForegroundColorBrush}"
                 FontSize="18"
                 FontWeight="SemiBold"
                 Margin="8,0"
                 Text="Now Playing"
                 VerticalAlignment="Center"/>
 
-            <components:PackIconButton
+            <controlsex:ButtonEx
                 Grid.Column="2"
-                PackIconKind="MoreHoriz"
-                Style="{StaticResource Control_PackIconButtonStyle}"
+                Content="{x:Null}"
+                IconKind="MoreHoriz"
                 Click="OptionButton_Click"
                 PreviewMouseDown="OptionButton_PreviewMouseDown">
 
-                <Button.ContextMenu>
-                    <components:ExtendedContextMenu
-                        Style="{StaticResource Control_ExtendedContextMenuStyle}"
+                <controlsex:ButtonEx.ContextMenu>
+                    <controlsex:ContextMenuEx
                         Closed="ExtendedContextMenu_Closed">
 
-                        <components:ExtendedContextMenuItem
+                        <controlsex:ContextMenuItemEx
                             Header="Play from beginning"
-                            Icon="Play"
-                            Style="{StaticResource ExtendedContextMenuItemStyle}"
+                            IconKind="Play"
                             Click="MoreExtendedContextMenuItemPlay_Click"/>
 
-                        <Separator
-                            Style="{StaticResource Control_ContextMenuSeparatorStyle}"/>
+                        <Separator/>
 
-                        <components:ExtendedContextMenuItem
+                        <controlsex:ContextMenuItemEx
                             Header="Open playlist"
-                            Icon="FolderOpen"
-                            Style="{StaticResource ExtendedContextMenuItemStyle}"
+                            IconKind="FolderOpen"
                             Click="MoreExtendedContextMenuItemOpenPlayList_Click"/>
 
-                        <components:ExtendedContextMenuItem
+                        <controlsex:ContextMenuItemEx
                             Header="Save playlist"
-                            Icon="ContentSave"
-                            Style="{StaticResource ExtendedContextMenuItemStyle}"
+                            IconKind="ContentSave"
                             Click="MoreExtendedContextMenuItemSavePlayList_Click"/>
 
-                        <Separator
-                            Style="{StaticResource Control_ContextMenuSeparatorStyle}"/>
+                        <Separator/>
 
-                        <components:ExtendedContextMenuItem
+                        <controlsex:ContextMenuItemEx
                             Header="Add more"
-                            Icon="FolderOpen"
-                            Style="{StaticResource ExtendedContextMenuItemStyle}"
+                            IconKind="FolderOpen"
                             Click="MoreExtendedContextMenuItemAddItem_Click"/>
 
-                        <components:ExtendedContextMenuItem
+                        <controlsex:ContextMenuItemEx
                             Header="Sort"
-                            Icon="Sort"
-                            Style="{StaticResource ExtendedContextMenuItemStyle}">
+                            IconKind="Sort">
 
-                            <components:ExtendedContextMenuItem
+                            <controlsex:ContextMenuItemEx
                                 Header="By Title ascending"
-                                Icon="SortAlphabeticalAscending"
-                                Style="{StaticResource ExtendedContextMenuItemStyle}"
+                                IconKind="SortAlphabeticalAscending"
                                 Click="MoreExtendedContextMenuItemSortByTitleAsc_Click"/>
 
-                            <components:ExtendedContextMenuItem
+                            <controlsex:ContextMenuItemEx
                                 Header="By Title descending"
-                                Icon="SortAlphabeticalDescending"
-                                Style="{StaticResource ExtendedContextMenuItemStyle}"
+                                IconKind="SortAlphabeticalDescending"
                                 Click="MoreExtendedContextMenuItemSortByTitleDesc_Click"/>
-                            
-                        </components:ExtendedContextMenuItem>
 
-                        <components:ExtendedContextMenuItem
+                        </controlsex:ContextMenuItemEx>
+
+                        <controlsex:ContextMenuItemEx
                             Header="Clear playlist"
-                            Icon="Trash"
-                            Style="{StaticResource ExtendedContextMenuItemStyle}"
+                            IconKind="Trash"
                             Click="MoreExtendedContextMenuItemClearPlayList_Click"/>
 
-                        <Separator
-                            Style="{StaticResource Control_ContextMenuSeparatorStyle}"/>
+                        <Separator/>
 
-                        <components:ExtendedContextMenuItem
+                        <controlsex:ContextMenuItemEx
                             Header="Stay on top"
                             IsCheckable="True"
-                            IsChecked="{Binding Configuration.AutoHidePlayList, Converter={StaticResource InverseBoolConverter}}"
-                            Style="{StaticResource Control_ExtendedContextMenuItemStyle}"/>
+                            IsChecked="{Binding ConfigManager.PlayListAutoHide, Converter={StaticResource InverseBoolConverter}}"/>
 
-                    </components:ExtendedContextMenu>
-                </Button.ContextMenu>
+                    </controlsex:ContextMenuEx>
+                </controlsex:ButtonEx.ContextMenu>
                 
-            </components:PackIconButton>
+            </controlsex:ButtonEx>
 
         </Grid>
             

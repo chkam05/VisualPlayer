@@ -15,9 +15,9 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
+            <!--ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Resources/Styles/Components/Styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries-->
 
             <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type UserControl}"/>
 
@@ -37,7 +37,6 @@
                 <Setter Property="BorderBrush" Value="{Binding ConfigManager.IfaceButtonBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceButtonForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="Height" Value="Auto"/>
-                <Setter Property="IconKind" Value="VolumeMedium"/>
                 <Setter Property="Margin" Value="12"/>
                 <Setter Property="MinWidth" Value="0"/>
                 <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
@@ -139,6 +138,7 @@
                 <controlsex:ButtonEx
                     Grid.Row="1"
                     Content="{x:Null}"
+                    IconKind="VolumeMedium"
                     Click="VolumeButton_Click"/>
 
                 <!--components:PackIconButton

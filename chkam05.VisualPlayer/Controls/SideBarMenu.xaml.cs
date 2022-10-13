@@ -1,7 +1,9 @@
-﻿using chkam05.VisualPlayer.Components;
+﻿using chkam05.Tools.ControlsEx;
+using chkam05.VisualPlayer.Components;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Controls.Events;
 using chkam05.VisualPlayer.Data.Config;
+using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Utilities;
 using System;
 using System.Collections.ObjectModel;
@@ -77,6 +79,7 @@ namespace chkam05.VisualPlayer.Controls
         private double _playListWidthCache = PLAYLIST_WIDTH_MIN;
 
         public Configuration Configuration { get; private set; }
+        public ConfigManager ConfigManager { get; private set; }
 
 
         //  GETTERS & SETTERS
@@ -199,6 +202,7 @@ namespace chkam05.VisualPlayer.Controls
         {
             //  Setup modules.
             Configuration = Configuration.Instance;
+            ConfigManager = ConfigManager.Instance;
 
             //  Initialize interface and components.
             InitializeComponent();
@@ -386,7 +390,7 @@ namespace chkam05.VisualPlayer.Controls
         /// <param name="e"> Selection Changed Event Arguments. </param>
         private void SideBarMenuListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var listView = (SideBarMenuListView)sender;
+            var listView = (ListViewEx)sender;
             var selectedItem = listView.SelectedItem;
 
             if (selectedItem != null)

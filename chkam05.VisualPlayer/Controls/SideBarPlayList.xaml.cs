@@ -1,6 +1,8 @@
-﻿using chkam05.VisualPlayer.Components;
+﻿using chkam05.Tools.ControlsEx;
+using chkam05.VisualPlayer.Components;
 using chkam05.VisualPlayer.Core;
 using chkam05.VisualPlayer.Data.Config;
+using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Data.Files;
 using chkam05.VisualPlayer.Utilities;
 using chkam05.VisualPlayer.Windows;
@@ -41,6 +43,7 @@ namespace chkam05.VisualPlayer.Controls
         private IPlayable _selectedItem;
 
         public Configuration Configuration { get; private set; }
+        public ConfigManager ConfigManager { get; private set; }
         public Player Player { get; private set; }
 
 
@@ -67,6 +70,7 @@ namespace chkam05.VisualPlayer.Controls
         {
             //  Setup modules.
             Configuration = Configuration.Instance;
+            ConfigManager = ConfigManager.Instance;
             Player = Player.Instnace;
 
             //  Initialize interface and components.
@@ -124,8 +128,8 @@ namespace chkam05.VisualPlayer.Controls
 
             if (e.ChangedButton == MouseButton.Left)
             {
-                PackIconButton button = sender as PackIconButton;
-                ExtendedContextMenu contextMenu = button.ContextMenu as ExtendedContextMenu;
+                ButtonEx button = sender as ButtonEx;
+                ContextMenuEx contextMenu = button.ContextMenu as ContextMenuEx;
                 contextMenu.PlacementTarget = button;
                 contextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
                 contextMenu.IsOpen = true;

@@ -90,6 +90,10 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private Brush _ifaceButtonBackgroundColorBrush;
         private Brush _ifaceButtonBorderColorBrush;
         private Brush _ifaceButtonForegroundColorBrush;
+
+        private Brush _ifaceContextMenuBackgroundBrush;
+        private Brush _ifaceContextMenuBorderBrush;
+
         private Brush _ifaceMenuItemBackgroundColorBrush;
         private Brush _ifaceMenuItemBorderColorBrush;
         private Brush _ifaceMenuItemForegroundColorBrush;
@@ -456,6 +460,28 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _ifaceButtonForegroundColorBrush = value;
                 OnPropertyChanged(nameof(IfaceButtonForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceContextMenuBackgroundColorBrush
+        {
+            get => _ifaceContextMenuBackgroundBrush;
+            set
+            {
+                _ifaceContextMenuBackgroundBrush = value;
+                OnPropertyChanged(nameof(IfaceContextMenuBackgroundColorBrush));
+            }
+        }
+        
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceContextMenuBorderColorBrush
+        {
+            get => _ifaceContextMenuBorderBrush;
+            set
+            {
+                _ifaceContextMenuBorderBrush = value;
+                OnPropertyChanged(nameof(IfaceContextMenuBorderColorBrush));
             }
         }
 
@@ -1561,7 +1587,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             SubcomponentForegroundColorBrush = new SolidColorBrush(subcomponentForeground);
 
             //  Setup interface theme colors.
-            var ifaceForegroundOpacityUpdated = BackgroundOpacity + ControlsBackgroundOpacity > 40
+            var ifaceForegroundOpacityUpdated = (BackgroundOpacity + ControlsBackgroundOpacity > 0.40)
                 ? ifaceForegroundColor
                 : Colors.Black;
 
@@ -1571,15 +1597,22 @@ namespace chkam05.VisualPlayer.Data.Configuration
             IfaceButtonBackgroundColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = 0.25 };
             IfaceButtonBorderColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = 0.25 };
             IfaceButtonForegroundColorBrush = new SolidColorBrush(ifaceForegroundOpacityUpdated);
-            IfaceMouseOverBackgroundColorBrush = new SolidColorBrush(mouseOverColor);
-            IfaceMouseOverBorderColorBrush = new SolidColorBrush(mouseOverColor);
-            IfaceMouseOverForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
-            IfacePressedBackgroundColorBrush = new SolidColorBrush(pressedColor);
-            IfacePressedBorderColorBrush = new SolidColorBrush(accentColor);
-            IfacePressedForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
+
+            IfaceContextMenuBackgroundColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = 0.85 };
+            IfaceContextMenuBorderColorBrush = new SolidColorBrush(ifaceBackgroundColor);
+
             IfaceMenuItemBackgroundColorBrush = new SolidColorBrush(Colors.Transparent);
             IfaceMenuItemBorderColorBrush = new SolidColorBrush(Colors.Transparent);
             IfaceMenuItemForegroundColorBrush = new SolidColorBrush(ifaceForegroundOpacityUpdated);
+
+            IfaceMouseOverBackgroundColorBrush = new SolidColorBrush(mouseOverColor);
+            IfaceMouseOverBorderColorBrush = new SolidColorBrush(mouseOverColor);
+            IfaceMouseOverForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
+
+            IfacePressedBackgroundColorBrush = new SolidColorBrush(pressedColor);
+            IfacePressedBorderColorBrush = new SolidColorBrush(accentColor);
+            IfacePressedForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
+            
             IfaceSelectedBackgroundColorBrush = new SolidColorBrush(selectedColor);
             IfaceSelectedBorderColorBrush = new SolidColorBrush(accentColor);
             IfaceSelectedForegroundColorBrush = new SolidColorBrush(accentForegroundColor);

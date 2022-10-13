@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:components="clr-namespace:chkam05.VisualPlayer.Components" 
     xmlns:local="clr-namespace:chkam05.VisualPlayer.Controls"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
     mc:Ignorable="d"
     
     d:DesignHeight="450"
@@ -19,10 +19,7 @@
                 <ResourceDictionary Source="../Resources/Styles/Components/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Data Templates. -->
-            <DataTemplate x:Key="MainMenu_ItemDataTemplate">
-                <TextBlock Text="{Binding Title}"/>
-            </DataTemplate>
+            <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type UserControl}"/>
 
             <!-- Storyboards. -->
             <Storyboard x:Key="ShowHideStoryboard" Completed="Storyboard_Completed">
@@ -56,6 +53,44 @@
             </Storyboard>
 
             <!-- Styles. -->
+            <Style TargetType="{x:Type controlsex:ListViewEx}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="CornerRadius" Value="8"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+                <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            </Style>
+
+            <Style x:Key="MainMenu_ListViewItemExStyle" TargetType="{x:Type controlsex:ListViewItemEx}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Height" Value="48"/>
+                <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
+                <Setter Property="Margin" Value="1"/>
+                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.IfaceMouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.IfaceSelectedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.IfaceSelectedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.IfaceSelectedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedInactiveBackground" Value="{Binding ConfigManager.InactiveBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedInactiveBorderBrush" Value="{Binding ConfigManager.InactiveBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="SelectedInactiveForeground" Value="{Binding ConfigManager.InactiveForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ToolTip" Value="{Binding Title}"/>
+                <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
+            </Style>
+            
             <Style x:Key="MainMenu_SideBarMenuItemStyle" BasedOn="{StaticResource SideBarMenuItemStyle}" TargetType="{x:Type components:SideBarMenuItem}">
                 <Setter Property="Foreground" Value="{Binding Path=Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarMenu}}}"/>
                 <Setter Property="HoveredBackground" Value="{Binding Path=Configuration.AccentHoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarMenu}}}"/>
@@ -64,6 +99,34 @@
                 <Setter Property="PackIconKind" Value="{Binding Kind}"/>
                 <Setter Property="ToolTip" Value="{Binding Title}"/>
             </Style>
+
+            <!-- Data Templates. -->
+            <DataTemplate x:Key="MainMenuDataTemplate">
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <materialDesign:PackIcon
+                        Grid.Column="0"
+                        Kind="{Binding Kind}"
+                        Height="auto"
+                        Margin="8"
+                        VerticalAlignment="Stretch"
+                        Width="auto"/>
+                    
+                    <TextBlock
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        Margin="8,0,16,0"
+                        Text="{Binding Title}"
+                        VerticalAlignment="Center"/>
+                </Grid>
+            </DataTemplate>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -83,7 +146,7 @@
 
         <Border
             x:Name="MenuBorder"
-            Background="{Binding Configuration.ThemeControlColorBrush}"
+            Background="{Binding ConfigManager.IfaceBackgroundColorBrush}"
             BorderBrush="{x:Null}"
             BorderThickness="0"
             CornerRadius="8"
@@ -108,21 +171,19 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <components:SideBarMenuListView
+                    <controlsex:ListViewEx
                         Grid.Row="0"
-                        ItemContainerStyle="{StaticResource MainMenu_SideBarMenuItemStyle}"
+                        ItemContainerStyle="{StaticResource MainMenu_ListViewItemExStyle}"
                         ItemsSource="{Binding MenuItems}"
-                        ItemTemplate="{StaticResource MainMenu_ItemDataTemplate}"
-                        Style="{StaticResource SideBarMenuListViewStyle}"
+                        ItemTemplate="{StaticResource MainMenuDataTemplate}"
                         SelectionChanged="SideBarMenuListView_SelectionChanged"/>
 
-                    <components:SideBarMenuListView
+                    <controlsex:ListViewEx
                         x:Name="moreMenuListView"
                         Grid.Row="1"
-                        ItemContainerStyle="{StaticResource MainMenu_SideBarMenuItemStyle}"
+                        ItemContainerStyle="{StaticResource MainMenu_ListViewItemExStyle}"
                         ItemsSource="{Binding MoreMenuItems}"
-                        ItemTemplate="{StaticResource MainMenu_ItemDataTemplate}"
-                        Style="{StaticResource SideBarMenuListViewStyle}"
+                        ItemTemplate="{StaticResource MainMenuDataTemplate}"
                         SelectionChanged="SideBarMenuListView_SelectionChanged"/>
 
                 </Grid>
