@@ -1,9 +1,11 @@
-﻿using chkam05.VisualPlayer.Components;
+﻿using chkam05.Tools.ControlsEx;
+using chkam05.VisualPlayer.Components;
 using chkam05.VisualPlayer.Components.Data;
 using chkam05.VisualPlayer.Components.Events;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Controls.Events;
 using chkam05.VisualPlayer.Data.Config;
+using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Data.Static;
 using CSCore.SoundOut;
 using System;
@@ -99,7 +101,7 @@ namespace chkam05.VisualPlayer.Controls
         private ControlBarState? _nextControlState = null;
         private bool _trackSliderInUse = false;
 
-        public Configuration Configuration { get; private set; }
+        public ConfigManager ConfigManager { get; private set; }
 
 
         //  GETTERS & SETTERS
@@ -221,7 +223,7 @@ namespace chkam05.VisualPlayer.Controls
         public ControlBar()
         {
             //  Setup modules.
-            Configuration = Configuration.Instance;
+            ConfigManager = ConfigManager.Instance;
 
             //  Initialize interface and components.
             InitializeComponent();
@@ -443,7 +445,7 @@ namespace chkam05.VisualPlayer.Controls
         {
             if (_trackSliderInUse)
             {
-                var slider = (ControlSlider)sender;
+                var slider = (SliderEx)sender;
                 var args = new SliderValueChangedEventArgs<double>(slider.Value, true);
                 OnTrackSliderValueChanged?.Invoke(sender, args);
             }

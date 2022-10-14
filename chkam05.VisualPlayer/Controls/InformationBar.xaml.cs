@@ -2,6 +2,7 @@
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Controls.Events;
 using chkam05.VisualPlayer.Data.Config;
+using chkam05.VisualPlayer.Data.Configuration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -99,7 +100,7 @@ namespace chkam05.VisualPlayer.Controls
         private InformationBarState _controlState = InformationBarState.HIDDEN;
         private InformationBarState? _nextControlState = null;
 
-        public Configuration Configuration { get; private set; }
+        public ConfigManager ConfigManager { get; private set; }
 
 
         //  GETTERS & SETTERS
@@ -241,7 +242,8 @@ namespace chkam05.VisualPlayer.Controls
         public InformationBar()
         {
             //  Setup modules.
-            Configuration = Configuration.Instance;
+            ConfigManager = ConfigManager.Instance;
+
             _autoHideTimer = new DispatcherTimer()
             {
                 Interval = new TimeSpan(0, 0, 1),

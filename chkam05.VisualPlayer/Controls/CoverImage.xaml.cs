@@ -1,4 +1,5 @@
 ﻿using chkam05.VisualPlayer.Data.Config;
+using chkam05.VisualPlayer.Data.Configuration;
 using MaterialDesignThemes.Wpf;
 using System.ComponentModel;
 using System.Windows;
@@ -33,7 +34,7 @@ namespace chkam05.VisualPlayer.Controls
 
         //  VARIABLES
 
-        public Configuration Configuration { get; private set; }
+        public ConfigManager ConfigManager { get; private set; }
 
 
         //  GETTERS & SETTERS
@@ -69,7 +70,7 @@ namespace chkam05.VisualPlayer.Controls
         public CoverImage()
         {
             //  Setup modules.
-            Configuration = Configuration.Instance;
+            ConfigManager = ConfigManager.Instance;
 
             //  Initialize interface and components.
             InitializeComponent();

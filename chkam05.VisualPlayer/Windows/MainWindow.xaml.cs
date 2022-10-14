@@ -8,6 +8,7 @@ using chkam05.VisualPlayer.Core;
 using chkam05.VisualPlayer.Core.Events;
 using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Config.Events;
+using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Data.Files;
 using chkam05.VisualPlayer.Data.Lyrics;
 using chkam05.VisualPlayer.Pages;
@@ -62,6 +63,7 @@ namespace chkam05.VisualPlayer.Windows
         private DispatcherHandler _vsDispatcherHandler;
 
         public Configuration Configuration { get; private set; }
+        public ConfigManager ConfigManager { get; private set; }
         public DispatcherHandler DispatcherHandler { get; private set; }
         public FilesManager FilesManager { get; private set; }
         public LyricsManager LyricsManager { get; private set; }
@@ -133,6 +135,7 @@ namespace chkam05.VisualPlayer.Windows
 
             //  Setup modules.
             Configuration = Configuration.Instance;
+            ConfigManager = ConfigManager.Instance;
             Configuration.OnAppearanceConfigUpdate += UpdateAppearanceConfig;
             Configuration.OnLyricsConfigUpdate += UpdateLyricsConfig;
             Configuration.OnVisualisationConfigUpdate += UpdateVisualisationConfig;
@@ -908,7 +911,7 @@ namespace chkam05.VisualPlayer.Windows
                 if (Configuration.AppearanceColorType == AppearanceColorType.SYSTEM)
                     Configuration.UpdateAccentColor();
 
-                if (Configuration.AppearanceThemeType == AppearanceThemeType.SYSTEM)
+                if (Configuration.AppearanceThemeType == chkam05.VisualPlayer.Data.Config.AppearanceThemeType.SYSTEM)
                     Configuration.UpdateThemeColor();
 
                 if (Configuration.LogoColorType == AppearanceLogoColorType.APPLICATION)

@@ -52,7 +52,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         public const double COLOR_OPACITY_MAX = 1.0;
         public const double COLOR_OPACITY_MIN = 0.0;
         public const double INFOBAR_FONT_HEADER_DIFFRENCE_MAX = 10;
-        public const double INFOBAR_FONT_HEADER_DIFFRENCE_MIN = 8;
+        public const double INFOBAR_FONT_HEADER_DIFFRENCE_MIN = 0;
         public const double INFOBAR_FONT_SPACING_MAX = 8.0;
         public const double INFOBAR_FONT_SPACING_MIN = 2.0;
 
@@ -70,6 +70,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private bool _lockVisualisationUpdate = false;
         private Config _configuration;
         private VisualisationProfilesManager _visualisationProfilesManager;
+
+        #region Appearance Brushes
 
         private Brush _accentColorBrush;
         private Brush _accentForegroundColorBrush;
@@ -132,6 +134,15 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private Brush _subcomponentBackgroundColorBrush;
         private Brush _subcomponentForegroundColorBrush;
 
+        #endregion Appearance Brushes
+
+        #region Information Bar
+
+        private Thickness _informationBarTextMargin;
+        private int _informationBarTitleFontSize;
+
+        #endregion Information Bar
+
 
         //  GETTERS & SETTERS
 
@@ -193,6 +204,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.BackgroundOpacity = value;
                 OnPropertyChanged(nameof(BackgroundOpacity));
+                AppearanceUpdate();
             }
         }
 
@@ -225,6 +237,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.ControlsBackgroundOpacity = value;
                 OnPropertyChanged(nameof(ControlsBackgroundOpacity));
+                AppearanceUpdate();
             }
         }
 
@@ -837,6 +850,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.InformationBarFontSize = value;
                 OnPropertyChanged(nameof(InformationBarFontSize));
+                UpdateInformationBarTitleFontSize();
             }
         }
 
@@ -927,16 +941,40 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _configuration.InformationBarTextSpacing = value;
                 OnPropertyChanged(nameof(InformationBarTextSpacing));
+                UpdateInformationBarTextMargins();
             }
         }
 
-        public double InformationBarTitleTextSizeDiffrence
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Thickness InformationBarTextMargin
+        {
+            get => _informationBarTextMargin;
+            set
+            {
+                _informationBarTextMargin = value;
+                OnPropertyChanged(nameof(InformationBarTextMargin));
+            }
+        }
+
+        public int InformationBarTitleTextSizeDiffrence
         {
             get => _configuration.InformationBarTitleTextSizeDiffrence;
             set
             {
                 _configuration.InformationBarTitleTextSizeDiffrence = value;
                 OnPropertyChanged(nameof(InformationBarTitleTextSizeDiffrence));
+                UpdateInformationBarTitleFontSize();
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public int InformationBarTitleFontSize
+        {
+            get => _informationBarTitleFontSize;
+            set
+            {
+                _informationBarTitleFontSize = value;
+                OnPropertyChanged(nameof(InformationBarTitleFontSize));
             }
         }
 
@@ -1393,6 +1431,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         #region APPEARANCE MANAGEMENT METHODS
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Update appearance confiuration. </summary>
         private void AppearanceUpdate()
         {
             Color accentColor;
@@ -1642,6 +1681,24 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         #endregion APPEARANCE MANAGEMENT METHODS
 
+        #region INFORMATION BAR MANAGEMENT METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Update information bar title font size. </summary>
+        public void UpdateInformationBarTitleFontSize()
+        {
+            InformationBarTitleFontSize = InformationBarFontSize + InformationBarTitleTextSizeDiffrence;
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Update information bar text margins. </summary>
+        public void UpdateInformationBarTextMargins()
+        {
+            InformationBarTextMargin = new Thickness(0, 0, 0, InformationBarTextSpacing);
+        }
+
+        #endregion INFORMATION BAR MANAGEMENT METHODS
+
         #region LOAD & SAVE METHODS
 
         //  --------------------------------------------------------------------------------
@@ -1669,6 +1726,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
             SetupDataContainers();
             UpdateConfigurationProperties();
             AppearanceUpdate();
+            UpdateInformationBarTitleFontSize();
+            UpdateInformationBarTextMargins();
             VisualisationProfilesManager.SelectProfile(VisualisationProfileName);
         }
 
@@ -1727,13 +1786,13 @@ namespace chkam05.VisualPlayer.Data.Configuration
         /// <summary> Setup configuration data containers. </summary>
         private void SetupDataContainers()
         {
-            if (!_configuration.UsedColors.Any())
+            if (!(_configuration.UsedColors?.Any() ?? false))
                 _configuration.UsedColors = DEFAULT_USED_COLORS;
 
-            if (!_configuration.VisualisationUsedBorderColors.Any())
+            if (!(_configuration.VisualisationUsedBorderColors?.Any() ?? false))
                 _configuration.VisualisationUsedBorderColors = DEFAULT_USED_COLORS;
 
-            if (!_configuration.VisualisationUsedFillColors.Any())
+            if (!(_configuration.VisualisationUsedFillColors?.Any() ?? false))
                 _configuration.VisualisationUsedFillColors = DEFAULT_USED_COLORS;
         }
 

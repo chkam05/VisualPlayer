@@ -23,7 +23,7 @@
 
         <materialDesign:PackIcon
             x:Name="CoverIcon"
-            Foreground="{Binding Configuration.ForegroundColorBrush}"
+            Foreground="{Binding ConfigManager.IfaceForegroundColorBrush}"
             Kind="{Binding DefaultIconKind}"
             Height="auto"
             HorizontalAlignment="Stretch"

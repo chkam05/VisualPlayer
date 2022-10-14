@@ -90,15 +90,6 @@
                 <Setter Property="ToolTip" Value="{Binding Title}"/>
                 <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}"/>
             </Style>
-            
-            <Style x:Key="MainMenu_SideBarMenuItemStyle" BasedOn="{StaticResource SideBarMenuItemStyle}" TargetType="{x:Type components:SideBarMenuItem}">
-                <Setter Property="Foreground" Value="{Binding Path=Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarMenu}}}"/>
-                <Setter Property="HoveredBackground" Value="{Binding Path=Configuration.AccentHoveredColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarMenu}}}"/>
-                <Setter Property="SelectedActiveBackground" Value="{Binding Path=Configuration.AccentSelectedColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarMenu}}}"/>
-                <Setter Property="SelectedInactiveBackground" Value="{Binding Path=Configuration.SelectedInactiveColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SideBarMenu}}}"/>
-                <Setter Property="PackIconKind" Value="{Binding Kind}"/>
-                <Setter Property="ToolTip" Value="{Binding Title}"/>
-            </Style>
 
             <!-- Data Templates. -->
             <DataTemplate x:Key="MainMenuDataTemplate">

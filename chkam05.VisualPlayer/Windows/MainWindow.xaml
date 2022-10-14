@@ -164,7 +164,7 @@
 
                 <controls:InformationBar
                     x:Name="informationBar"
-                    AutoHide="{Binding Configuration.AutoHideInformationBar}"
+                    AutoHide="{Binding ConfigManager.InformationBarAutoHide}"
                     Grid.Column="1"
                     Grid.Row="0"
                     Margin="-32,0,0,0"
@@ -174,7 +174,7 @@
 
                 <controls:ControlBar
                     x:Name="controlBar"
-                    AutoHide="{Binding Configuration.AutoHideControlBar}"
+                    AutoHide="{Binding ConfigManager.ControlBarAutoHide}"
                     Grid.ColumnSpan="2"
                     Grid.Row="2"
                     HorizontalAlignment="Stretch"
@@ -194,8 +194,8 @@
 
                 <controls:SideBarMenu
                     x:Name="sideBarMenu"
-                    AutoHide="{Binding Configuration.AutoHideSideBar}"
-                    AutoHidePlayList="{Binding Configuration.AutoHidePlayList}"
+                    AutoHide="{Binding ConfigManager.MenuBarAutoHide}"
+                    AutoHidePlayList="{Binding ConfigManager.PlayListAutoHide}"
                     Grid.Column="0"
                     Grid.RowSpan="2"
                     HorizontalAlignment="Left"

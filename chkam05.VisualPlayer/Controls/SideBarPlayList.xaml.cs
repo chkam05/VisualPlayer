@@ -42,7 +42,6 @@ namespace chkam05.VisualPlayer.Controls
         private SideBarMenu _parentControl;
         private IPlayable _selectedItem;
 
-        public Configuration Configuration { get; private set; }
         public ConfigManager ConfigManager { get; private set; }
         public Player Player { get; private set; }
 
@@ -69,7 +68,6 @@ namespace chkam05.VisualPlayer.Controls
         public SideBarPlayList()
         {
             //  Setup modules.
-            Configuration = Configuration.Instance;
             ConfigManager = ConfigManager.Instance;
             Player = Player.Instnace;
 

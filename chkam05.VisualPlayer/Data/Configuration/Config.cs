@@ -4,6 +4,7 @@ using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Fonts;
 using chkam05.VisualPlayer.Data.Lyrics;
 using chkam05.VisualPlayer.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +48,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         public bool InformationBarAdvancedTime { get; set; } = false;
         public InformationBarAutoHide InformationBarAutoHide { get; set; } = InformationBarAutoHide.STAY_3S;
-        public FontContainer InformationBarFont { get; set; } = FontsManager.Instance.DefaultFont;
+        public FontContainer InformationBarFont { get; set; }
         public int InformationBarFontSize { get; set; } = 16;
         public FontStyle InformationBarFontStyle { get; set; } = FontStyles.Normal;
         public FontStretch InformationBarFontStretch { get; set; } = FontStretches.Normal;
@@ -58,7 +59,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         public bool InformationBarInfoTimeVisible { get; set; } = true;
         public bool InformationBarInfoTitleVisible { get; set; } = true;
         public double InformationBarTextSpacing { get; set; } = 2.0d;
-        public double InformationBarTitleTextSizeDiffrence { get; set; } = 8;
+        public int InformationBarTitleTextSizeDiffrence { get; set; } = 8;
         public MarqueeState InformationBarTitleMarqueeState { get; set; } = MarqueeState.TOO_LONG_TEXT;
 
         //  Logo
@@ -112,9 +113,10 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         //  --------------------------------------------------------------------------------
         /// <summary> Config class constructor. </summary>
-        public Config()
+        [JsonConstructor]
+        public Config(FontContainer informationBarFont = null)
         {
-            //
+            InformationBarFont = informationBarFont ?? FontsManager.Instance.DefaultFont;
         }
 
         #endregion CLASS METHODS

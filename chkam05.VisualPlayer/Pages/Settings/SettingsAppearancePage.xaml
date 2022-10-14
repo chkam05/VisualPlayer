@@ -229,17 +229,17 @@
                                 Margin="0,0,0,8"
                                 SelectedItem="{Binding ConfigManager.ThemeTypeMenus}"/>
 
-                            <TextBlock
+                        </StackPanel>
+
+                        <TextBlock
                                 Margin="0,0,0,8"
                                 Text="Background opacity"/>
 
-                            <controlsex:SliderEx
+                        <controlsex:SliderEx
                                 Maximum="{x:Static config:ConfigManager.COLOR_OPACITY_MAX}"
                                 Minimum="{x:Static config:ConfigManager.COLOR_OPACITY_MIN}"
                                 TickFrequency="0.01"
                                 Value="{Binding ConfigManager.BackgroundOpacity}"/>
-
-                        </StackPanel>
 
                     </StackPanel>
                     

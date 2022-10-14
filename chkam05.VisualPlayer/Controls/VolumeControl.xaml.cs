@@ -55,7 +55,6 @@ namespace chkam05.VisualPlayer.Controls
         private double _controlHeight = 0;
         private bool _volumeSliderInUse = false;
 
-        public Configuration Configuration { get; private set; }
         public ConfigManager ConfigManager { get; private set; }
 
 
@@ -99,7 +98,6 @@ namespace chkam05.VisualPlayer.Controls
         public VolumeControl()
         {
             //  Setup modules.
-            Configuration = Configuration.Instance;
             ConfigManager = ConfigManager.Instance;
 
             //  Initialize interface and components.

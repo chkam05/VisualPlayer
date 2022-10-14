@@ -78,7 +78,6 @@ namespace chkam05.VisualPlayer.Controls
         private double _playListWidth = 0;
         private double _playListWidthCache = PLAYLIST_WIDTH_MIN;
 
-        public Configuration Configuration { get; private set; }
         public ConfigManager ConfigManager { get; private set; }
 
 
@@ -201,7 +200,6 @@ namespace chkam05.VisualPlayer.Controls
         public SideBarMenu()
         {
             //  Setup modules.
-            Configuration = Configuration.Instance;
             ConfigManager = ConfigManager.Instance;
 
             //  Initialize interface and components.

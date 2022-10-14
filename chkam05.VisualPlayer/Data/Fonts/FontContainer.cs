@@ -12,15 +12,22 @@ namespace chkam05.VisualPlayer.Data.Fonts
 
         //  VARIABLES
 
-        public FontFamily FontFamily { get; private set; }
-        public string Name { get; private set; }
-        public string SubName { get; private set; }
-        public bool IsAppFont { get; private set; }
+        public FontFamily FontFamily { get; set; }
+        public string Name { get; set; }
+        public string SubName { get; set; }
+        public bool IsAppFont { get; set; }
 
 
         //  METHODS
 
         #region CLASS METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> FontContainer class constructor for Json serialization. </summary>
+        public FontContainer()
+        {
+            //
+        }
 
         //  --------------------------------------------------------------------------------
         /// <summary> FontContainer class constructor. </summary>

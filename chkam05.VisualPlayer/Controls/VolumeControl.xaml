@@ -47,7 +47,7 @@
                 <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.IfacePressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="PressedForeground" Value="{Binding ConfigManager.IfacePressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
             </Style>
-            
+
             <Style TargetType="{x:Type controlsex:SliderEx}">
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="BorderBrush" Value="Transparent"/>
@@ -73,18 +73,6 @@
                 <Setter Property="Width" Value="20"/>
                 <Setter Property="VerticalAlignment" Value="Stretch"/>
             </Style>
-            
-            <!--Style x:Key="Volume_PackIconButtonStyle" BasedOn="{StaticResource PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
-                <Setter Property="Background" Value="{Binding Configuration.ButtonColorBrush}"/>
-                <Setter Property="BorderBrush" Value="{Binding Configuration.ButtonBorderColorBrush}"/>
-                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush}"/>
-                <Setter Property="HoveredBackground" Value="{Binding Configuration.AccentHoveredColorBrush}"/>
-                <Setter Property="PressedBackground" Value="{Binding Configuration.PressedColorBrush}"/>
-                <Setter Property="Height" Value="Auto"/>
-                <Setter Property="Margin" Value="12"/>
-                <Setter Property="MinWidth" Value="0"/>
-                <Setter Property="Padding" Value="0"/>
-            </Style-->
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -121,32 +109,11 @@
                     LostMouseCapture="ControlSlider_LostMouseCapture"
                     ValueChanged="ControlSlider_ValueChanged"/>
 
-                <!--components:ControlSlider
-                    Grid.Row="0"
-                    DraggingThumbBackground="{Binding Configuration.DraggingColorBrush}"
-                    Foreground="{Binding Configuration.AccentColorBrush}"
-                    HoveredThumbBackground="{Binding Configuration.HoveredColorBrush}"
-                    Margin="16,16,16,0"
-                    Orientation="Vertical"
-                    Style="{DynamicResource Volume_ControlSliderStyle}"
-                    Value="{Binding Volume}"
-                    VerticalAlignment="Stretch"
-                    GotMouseCapture="ControlSlider_GotMouseCapture"
-                    LostMouseCapture="ControlSlider_LostMouseCapture"
-                    ValueChanged="ControlSlider_ValueChanged"/-->
-
                 <controlsex:ButtonEx
                     Grid.Row="1"
                     Content="{x:Null}"
                     IconKind="VolumeMedium"
                     Click="VolumeButton_Click"/>
-
-                <!--components:PackIconButton
-                    Grid.Row="1"
-                    Content="{x:Null}"
-                    PackIconKind="VolumeMedium"
-                    Style="{StaticResource Volume_PackIconButtonStyle}"
-                    Click="VolumeButton_Click"/-->
 
             </Grid>
 

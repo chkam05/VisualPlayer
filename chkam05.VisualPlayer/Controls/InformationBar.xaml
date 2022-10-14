@@ -18,6 +18,8 @@
     <UserControl.Resources>
         <ResourceDictionary>
 
+            <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type UserControl}"/>
+            
             <!-- Converters. -->
             <converters:TimeSpanStringConverter x:Key="TimeSpanStringConverter"/>
             <converters:VisibilityBoolConverter x:Key="VisibilityBoolConverter"/>
@@ -36,36 +38,19 @@
             </Storyboard>
 
             <!-- Styles. -->
-            <Style x:Key="Control_TextBlockStyle" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontFamily" Value="{Binding Configuration.InformationBarFontContainer.FontFamily, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-                <Setter Property="FontStretch" Value="{Binding Configuration.InformationBarFontStretch, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-                <Setter Property="FontStyle" Value="{Binding Configuration.InformationBarFontStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-                <Setter Property="FontWeight" Value="{Binding Configuration.InformationBarFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-                <Setter Property="FontSize" Value="{Binding Configuration.InformationBarFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
+            <Style x:Key="Base_TextBlockStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily" Value="{Binding ConfigManager.InformationBarFont.FontFamily, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="FontSize" Value="{Binding ConfigManager.InformationBarFontSize, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="FontStretch" Value="{Binding ConfigManager.InformationBarFontStretch, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="FontStyle" Value="{Binding ConfigManager.InformationBarFontStyle, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="FontWeight" Value="{Binding ConfigManager.InformationBarFontWeight, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="Margin" Value="0"/>
             </Style>
 
-            <Style x:Key="Control_MarqueeTextBlock" TargetType="{x:Type controls:MarqueeTextBlock}">
-                <Setter Property="FontFamily" Value="{Binding Configuration.InformationBarFontContainer.FontFamily, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-                <Setter Property="FontStretch" Value="{Binding Configuration.InformationBarFontStretch, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-                <Setter Property="FontStyle" Value="{Binding Configuration.InformationBarFontStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-                <Setter Property="FontWeight" Value="{Binding Configuration.InformationBarFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-                <Setter Property="Foreground" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-                <Setter Property="FontSize" Value="{Binding Configuration.InformationBarFontHeaderSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-                <Setter Property="Margin" Value="{Binding Configuration.InformationBarFontThickness, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
+            <Style x:Key="Info_TextBlockStyle" BasedOn="{StaticResource Base_TextBlockStyle}" TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="{Binding ConfigManager.InformationBarTextMargin, RelativeSource={StaticResource RelativeSelf}}"/>
             </Style>
-
-            <Style x:Key="Title_TextBlockStyle" BasedOn="{StaticResource Control_TextBlockStyle}" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontSize" Value="{Binding Configuration.InformationBarFontHeaderSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-                <Setter Property="Margin" Value="{Binding Configuration.InformationBarFontThickness, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-            </Style>
-
-            <Style x:Key="Info_TextBlockStyle" BasedOn="{StaticResource Control_TextBlockStyle}" TargetType="{x:Type TextBlock}">
-                <Setter Property="Margin" Value="{Binding Configuration.InformationBarFontThickness, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-            </Style>
-
-            <Style x:Key="Time_TextBlockStyle" BasedOn="{StaticResource Control_TextBlockStyle}" TargetType="{x:Type TextBlock}"/>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -89,7 +74,7 @@
 
         <Border
             x:Name="InformationBorder"
-            Background="{Binding Configuration.ThemeControlColorBrush}"
+            Background="{Binding ConfigManager.IfaceBackgroundColorBrush}"
             BorderBrush="{x:Null}"
             BorderThickness="0"
             CornerRadius="8"
@@ -109,7 +94,7 @@
                     Grid.Column="0"
                     Height="auto"
                     VerticalAlignment="Stretch"
-                    Visibility="{Binding Configuration.InformationBarInfoCoverVisible, Converter={StaticResource VisibilityBoolConverter}}"
+                    Visibility="{Binding ConfigManager.InformationBarInfoAlbumVisible, Converter={StaticResource VisibilityBoolConverter}}"
                     Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"/>
 
                 <Grid
@@ -133,36 +118,34 @@
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
                         Grid.Row="0"
+                        FontFamily="{Binding ConfigManager.InformationBarFont.FontFamily, RelativeSource={StaticResource RelativeSelf}}"
+                        FontSize="{Binding ConfigManager.InformationBarTitleFontSize, RelativeSource={StaticResource RelativeSelf}}"
+                        FontStretch="{Binding ConfigManager.InformationBarFontStretch, RelativeSource={StaticResource RelativeSelf}}"
+                        FontStyle="{Binding ConfigManager.InformationBarFontStyle, RelativeSource={StaticResource RelativeSelf}}"
+                        FontWeight="{Binding ConfigManager.InformationBarFontWeight, RelativeSource={StaticResource RelativeSelf}}"
+                        Foreground="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"
                         Interval="25"
-                        PauseInterval="2000"
+                        Margin="{Binding ConfigManager.InformationBarTextMargin, RelativeSource={StaticResource RelativeSelf}}"
                         MarqueeBehaviour="RIGHT_TO_LEFT_OUT"
-                        MarqueeState="{Binding Configuration.InformationBarTitleMarqueeState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationBar}}}"
+                        MarqueeState="{Binding ConfigManager.InformationBarTitleMarqueeState, RelativeSource={StaticResource RelativeSelf}}"
+                        PauseInterval="2000"
                         Step="1"
-                        Style="{StaticResource Control_MarqueeTextBlock}"
-                        Text="{Binding TitleInfo, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationBar}}}"
-                        Visibility="{Binding Configuration.InformationBarInfoTitleVisible, Converter={StaticResource VisibilityBoolConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InformationBar}}}"/>
-
-                    <TextBlock
-                        Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        Grid.Row="0"
-                        Style="{StaticResource Title_TextBlockStyle}"
-                        Text="{Binding TitleInfo}"
-                        Visibility="Collapsed"/>
+                        Text="{Binding TitleInfo, RelativeSource={StaticResource RelativeSelf}}"
+                        Visibility="{Binding ConfigManager.InformationBarInfoTitleVisible, RelativeSource={StaticResource RelativeSelf}}"/>
 
                     <TextBlock
                         Grid.Column="0"
                         Grid.Row="1"
                         Style="{StaticResource Info_TextBlockStyle}"
                         Text="Artist: "
-                        Visibility="{Binding Configuration.InformationBarInfoArtistVisible, Converter={StaticResource VisibilityBoolConverter}}"/>
+                        Visibility="{Binding ConfigManager.InformationBarInfoArtistVisible, Converter={StaticResource VisibilityBoolConverter}}"/>
 
                     <TextBlock
                         Grid.Column="1"
                         Grid.Row="1"
                         Style="{StaticResource Info_TextBlockStyle}"
                         Text="{Binding ArtistInfo}"
-                        Visibility="{Binding Configuration.InformationBarInfoArtistVisible, Converter={StaticResource VisibilityBoolConverter}}"/>
+                        Visibility="{Binding ConfigManager.InformationBarInfoArtistVisible, Converter={StaticResource VisibilityBoolConverter}}"/>
 
                     <TextBlock
                         Grid.Column="0"
@@ -170,7 +153,7 @@
                         Margin="0"
                         Style="{StaticResource Info_TextBlockStyle}"
                         Text="Album: "
-                        Visibility="{Binding Configuration.InformationBarInfoAlbumVisible, Converter={StaticResource VisibilityBoolConverter}}"/>
+                        Visibility="{Binding ConfigManager.InformationBarInfoAlbumVisible, Converter={StaticResource VisibilityBoolConverter}}"/>
 
                     <TextBlock
                         Grid.Column="1"
@@ -178,38 +161,38 @@
                         Margin="0"
                         Style="{StaticResource Info_TextBlockStyle}"
                         Text="{Binding AlbumInfo}"
-                        Visibility="{Binding Configuration.InformationBarInfoAlbumVisible, Converter={StaticResource VisibilityBoolConverter}}"/>
+                        Visibility="{Binding ConfigManager.InformationBarInfoAlbumVisible, Converter={StaticResource VisibilityBoolConverter}}"/>
 
                     <StackPanel
                         Grid.Column="2"
                         Grid.Row="2"
                         Orientation="Horizontal"
                         VerticalAlignment="Bottom"
-                        Visibility="{Binding Configuration.InformationBarInfoTimeVisible, Converter={StaticResource VisibilityBoolConverter}}">
+                        Visibility="{Binding ConfigManager.InformationBarInfoTimeVisible, Converter={StaticResource VisibilityBoolConverter}}">
 
                         <TextBlock
-                            Style="{StaticResource Time_TextBlockStyle}">
+                            Style="{StaticResource Base_TextBlockStyle}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource TimeSpanStringConverter}">
                                     <Binding Path="CurrentTime"
                                              RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}"/>
-                                    <Binding Path="Configuration.ShowAdvencedTime"
+                                    <Binding Path="ConfigManager.InformationBarAdvancedTime"
                                              RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}"/>
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
 
                         <TextBlock
-                            Style="{StaticResource Time_TextBlockStyle}"
+                            Style="{StaticResource Base_TextBlockStyle}"
                             Text=" / "/>
 
                         <TextBlock
-                            Style="{StaticResource Time_TextBlockStyle}">
+                            Style="{StaticResource Base_TextBlockStyle}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource TimeSpanStringConverter}">
                                     <Binding Path="FullTime" 
                                              RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}"/>
-                                    <Binding Path="Configuration.ShowAdvencedTime" 
+                                    <Binding Path="ConfigManager.InformationBarAdvancedTime" 
                                              RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}"/>
                                 </MultiBinding>
                             </TextBlock.Text>
