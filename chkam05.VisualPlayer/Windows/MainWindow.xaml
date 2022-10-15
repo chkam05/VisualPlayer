@@ -39,7 +39,9 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Resources/Styles/Standard/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
+
+            <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type Window}"/>
+
             <!-- Converters. -->
             <converters:PackIconKindImageSourceConverter x:Key="PackIconKindImageSourceConverter"/>
             <converters:PlaybackStateControlIconImageSourceConverter x:Key="PlaybackStateControlIconImageSourceConverter"/>
@@ -47,7 +49,7 @@
             
             <!-- Styles. -->
             <Style x:Key="MarqueeTextBlock_Style" TargetType="{x:Type controls:MarqueeTextBlock}">
-                <Setter Property="BorderBrush" Value="{Binding Configuration.ForegroundColorBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"/>
+                <Setter Property="BorderBrush" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="BorderThickness" Value="1,0,0,0"/>
                 <Setter Property="FontSize" Value="14"/>
                 <Setter Property="FontWeight" Value="SemiBold"/>
@@ -105,7 +107,7 @@
         </Grid.RowDefinitions>
 
         <Grid
-            Background="{Binding Configuration.BackgroundColorBrush}"
+            Background="{Binding ConfigManager.WindowBackgroundColorBrush}"
             Grid.Row="1">
 
             <Grid>
@@ -145,14 +147,14 @@
                     x:Name="versionInfoTextBox"
                     FontSize="16"
                     FontWeight="SemiBold"
-                    Foreground="{Binding Configuration.ForegroundColorBrush}"
+                    Foreground="{Binding ConfigManager.IfaceForegroundColorBrush}"
                     Grid.Column="1"
                     Grid.Row="1"
                     HorizontalAlignment="Right"
                     Margin="0,0,8,-24"
                     Text="{Binding ScreenVersion}"
                     VerticalAlignment="Bottom"
-                    Visibility="{Binding Configuration.ShowInfoOnScreen, Converter={StaticResource VisibilityBoolConverter}}"/>
+                    Visibility="{Binding ConfigManager.ShowVersionOnScreen, Converter={StaticResource VisibilityBoolConverter}}"/>
 
                 <controls:LyricsControl
                     x:Name="lyricsControl"
@@ -207,7 +209,7 @@
 
                 <controls:PagesControl
                     x:Name="pagesControl"
-                    BorderBackground="{Binding Configuration.ThemeControlColorBrush, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}}"
+                    BorderBackground="{Binding ConfigManager.PageBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"
                     Grid.Column="1"
                     Grid.Row="1"
                     Margin="-32,-32,0,-32"
@@ -239,11 +241,11 @@
         </Grid>
 
         <Grid
-            Background="{Binding Configuration.AccentColorBrush}"
+            Background="{Binding ConfigManager.AccentColorBrush}"
             Grid.Row="0">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="52"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="128"/>
@@ -252,42 +254,38 @@
             <Grid
                 Grid.Column="0"
                 HorizontalAlignment="Center"
+                Margin="8,0,0,0"
                 VerticalAlignment="Center">
 
                 <!-- R -->
                 <Polygon
-                    Fill="White"
-                    Stroke="White"
+                    Fill="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"
+                    Stroke="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"
                     StrokeThickness="0.5"
                     Points="3,0, 5,2.5, 20,2.5, 14,14, 16,19, 19,19, 17,14, 24,0"/>
 
                 <!-- V -->
                 <Polygon
-                    Fill="White"
-                    Stroke="White"
+                    Fill="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"
+                    Stroke="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"
                     StrokeThickness="0.5"
                     Points="0,4.5, 3,4.5, 8,14.5, 13,4.5, 16,4.5, 8.5,18.5, 7.5,18.5"/>
 
             </Grid>
 
-            <TextBlock
-                Grid.Column="1"
-                Margin="0,0,0,2"
-                Style="{DynamicResource Title_TextBlockStyle}"
-                Text="{Binding Title, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                VerticalAlignment="Center"/>
-
             <controls:MarqueeTextBlock
                 x:Name="TitleInformationBar"
+                Foreground="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"
                 Grid.Column="2"
                 Interval="25"
                 PauseInterval="2000"
                 MarqueeBehaviour="RIGHT_TO_LEFT_OUT"
-                MarqueeState="{Binding Configuration.TitleBarInfoMarqueeState, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"
+                MarqueeState="{Binding ConfigManager.TitleBarSongInfoMarqueeState, RelativeSource={StaticResource RelativeSelf}}"
                 Step="1"
                 Style="{StaticResource MarqueeTextBlock_Style}"
                 Text="No name"
-                Visibility="{Binding Configuration.TitleBarInfo, Converter={StaticResource VisibilityBoolConverter}, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}"/>
+                VerticalAlignment="Center"
+                Visibility="{Binding ConfigManager.TitleBarSongInfo, Converter={StaticResource VisibilityBoolConverter}, RelativeSource={StaticResource RelativeSelf}}"/>
 
         </Grid>
         

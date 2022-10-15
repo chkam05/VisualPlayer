@@ -4,6 +4,7 @@ using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Controls.Messages.Data;
 using chkam05.VisualPlayer.Core;
 using chkam05.VisualPlayer.Data.Config;
+using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Data.Files;
 using chkam05.VisualPlayer.Data.Lyrics;
 using chkam05.VisualPlayer.Utilities;
@@ -48,6 +49,7 @@ namespace chkam05.VisualPlayer.Pages
         private Lyrics _selectedLyrics = null;
 
         public Configuration Configuration { get; private set; }
+        public ConfigManager ConfigManager { get; private set; }
         public LyricsManager LyricsManager { get; private set; }
         public Player Player { get; private set; }
         public IPagesManager PagesManager { get; private set; }
@@ -135,6 +137,7 @@ namespace chkam05.VisualPlayer.Pages
 
             //  Setup modules.
             Configuration = Configuration.Instance;
+            ConfigManager = ConfigManager.Instance;
             LyricsManager = LyricsManager.Instance;
             Player = Player.Instnace;
 

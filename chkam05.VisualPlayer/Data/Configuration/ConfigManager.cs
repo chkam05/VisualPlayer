@@ -73,6 +73,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         #region Appearance Brushes
 
+        //  General
+
         private Brush _accentColorBrush;
         private Brush _accentForegroundColorBrush;
         private Brush _backgroundColorBrush;
@@ -85,6 +87,27 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private Brush _contrastedMouseOverForegroundColorBrush;
         private Brush _contrastedPressedColorBrush;
         private Brush _contrastedPressedForegroundColorBrush;
+
+        private Brush _inactiveBackgroundColorBrush;
+        private Brush _inactiveBorderColorBrush;
+        private Brush _inactiveForegroundColorBrush;
+
+        private Brush _logoBackgroundColorBrush;
+        private Brush _logoBorderColorBrush;
+
+        private Brush _mouseOverBackgroundColorBrush;
+        private Brush _mouseOverBorderColorBrush;
+        private Brush _mouseOverForegroundColorBrush;
+
+        private Brush _pressedBackgroundColorBrush;
+        private Brush _pressedBorderColorBrush;
+        private Brush _pressedForegroundColorBrush;
+
+        private Brush _selectedBackgroundColorBrush;
+        private Brush _selectedBorderColorBrush;
+        private Brush _selectedForegroundColorBrush;
+
+        //  Interface
 
         private Brush _ifaceBackgroundColorBrush;
         private Brush _ifaceForegroundColorBrush;
@@ -109,27 +132,12 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private Brush _ifaceSelectedBackgroundColorBrush;
         private Brush _ifaceSelectedBorderColorBrush;
         private Brush _ifaceSelectedForegroundColorBrush;
-
         private Brush _ifaceTrackBarBackgroundColorBrush;
 
-        private Brush _inactiveBackgroundColorBrush;
-        private Brush _inactiveBorderColorBrush;
-        private Brush _inactiveForegroundColorBrush;
+        private Brush _pageBackgroundColorBrush;
+        private Brush _windowBackgroundColorBrush;
 
-        private Brush _logoBackgroundColorBrush;
-        private Brush _logoBorderColorBrush;
-
-        private Brush _mouseOverBackgroundColorBrush;
-        private Brush _mouseOverBorderColorBrush;
-        private Brush _mouseOverForegroundColorBrush;
-
-        private Brush _pressedBackgroundColorBrush;
-        private Brush _pressedBorderColorBrush;
-        private Brush _pressedForegroundColorBrush;
-
-        private Brush _selectedBackgroundColorBrush;
-        private Brush _selectedBorderColorBrush;
-        private Brush _selectedForegroundColorBrush;
+        //  Sub components
 
         private Brush _subcomponentBackgroundColorBrush;
         private Brush _subcomponentForegroundColorBrush;
@@ -300,6 +308,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         #region Appearance Brushes
 
+        //  General
+
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
         public Brush AccentColorBrush
         {
@@ -422,6 +432,140 @@ namespace chkam05.VisualPlayer.Data.Configuration
         }
 
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush InactiveBackgroundColorBrush
+        {
+            get => _inactiveBackgroundColorBrush;
+            set
+            {
+                _inactiveBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(InactiveBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush InactiveBorderColorBrush
+        {
+            get => _inactiveBorderColorBrush;
+            set
+            {
+                _inactiveBorderColorBrush = value;
+                OnPropertyChanged(nameof(InactiveBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush InactiveForegroundColorBrush
+        {
+            get => _inactiveForegroundColorBrush;
+            set
+            {
+                _inactiveForegroundColorBrush = value;
+                OnPropertyChanged(nameof(InactiveForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush MouseOverBackgroundColorBrush
+        {
+            get => _mouseOverBackgroundColorBrush;
+            set
+            {
+                _mouseOverBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(MouseOverBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush MouseOverBorderColorBrush
+        {
+            get => _mouseOverBorderColorBrush;
+            set
+            {
+                _mouseOverBorderColorBrush = value;
+                OnPropertyChanged(nameof(MouseOverBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush MouseOverForegroundColorBrush
+        {
+            get => _mouseOverForegroundColorBrush;
+            set
+            {
+                _mouseOverForegroundColorBrush = value;
+                OnPropertyChanged(nameof(MouseOverForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush PressedBackgroundColorBrush
+        {
+            get => _pressedBackgroundColorBrush;
+            set
+            {
+                _pressedBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(PressedBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush PressedBorderColorBrush
+        {
+            get => _pressedBorderColorBrush;
+            set
+            {
+                _pressedBorderColorBrush = value;
+                OnPropertyChanged(nameof(PressedBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush PressedForegroundColorBrush
+        {
+            get => _pressedForegroundColorBrush;
+            set
+            {
+                _pressedForegroundColorBrush = value;
+                OnPropertyChanged(nameof(PressedForegroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush SelectedBackgroundColorBrush
+        {
+            get => _selectedBackgroundColorBrush;
+            set
+            {
+                _selectedBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(SelectedBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush SelectedBorderColorBrush
+        {
+            get => _selectedBorderColorBrush;
+            set
+            {
+                _selectedBorderColorBrush = value;
+                OnPropertyChanged(nameof(SelectedBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush SelectedForegroundColorBrush
+        {
+            get => _selectedForegroundColorBrush;
+            set
+            {
+                _selectedForegroundColorBrush = value;
+                OnPropertyChanged(nameof(SelectedForegroundColorBrush));
+            }
+        }
+
+        //  Interface
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
         public Brush IfaceBackgroundColorBrush
         {
             get => _ifaceBackgroundColorBrush;
@@ -486,7 +630,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
                 OnPropertyChanged(nameof(IfaceContextMenuBackgroundColorBrush));
             }
         }
-        
+
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
         public Brush IfaceContextMenuBorderColorBrush
         {
@@ -641,137 +785,31 @@ namespace chkam05.VisualPlayer.Data.Configuration
             }
         }
 
+        //  Pages
+
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush InactiveBackgroundColorBrush
+        public Brush PageBackgroundColorBrush
         {
-            get => _inactiveBackgroundColorBrush;
+            get => _pageBackgroundColorBrush;
             set
             {
-                _inactiveBackgroundColorBrush = value;
-                OnPropertyChanged(nameof(InactiveBackgroundColorBrush));
+                _pageBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(PageBackgroundColorBrush));
             }
         }
 
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush InactiveBorderColorBrush
+        public Brush WindowBackgroundColorBrush
         {
-            get => _inactiveBorderColorBrush;
+            get => _windowBackgroundColorBrush;
             set
             {
-                _inactiveBorderColorBrush = value;
-                OnPropertyChanged(nameof(InactiveBorderColorBrush));
+                _windowBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(WindowBackgroundColorBrush));
             }
         }
 
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush InactiveForegroundColorBrush
-        {
-            get => _inactiveForegroundColorBrush;
-            set
-            {
-                _inactiveForegroundColorBrush = value;
-                OnPropertyChanged(nameof(InactiveForegroundColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush MouseOverBackgroundColorBrush
-        {
-            get => _mouseOverBackgroundColorBrush;
-            set
-            {
-                _mouseOverBackgroundColorBrush = value;
-                OnPropertyChanged(nameof(MouseOverBackgroundColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush MouseOverBorderColorBrush
-        {
-            get => _mouseOverBorderColorBrush;
-            set
-            {
-                _mouseOverBorderColorBrush = value;
-                OnPropertyChanged(nameof(MouseOverBorderColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush MouseOverForegroundColorBrush
-        {
-            get => _mouseOverForegroundColorBrush;
-            set
-            {
-                _mouseOverForegroundColorBrush = value;
-                OnPropertyChanged(nameof(MouseOverForegroundColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush PressedBackgroundColorBrush
-        {
-            get => _pressedBackgroundColorBrush;
-            set
-            {
-                _pressedBackgroundColorBrush = value;
-                OnPropertyChanged(nameof(PressedBackgroundColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush PressedBorderColorBrush
-        {
-            get => _pressedBorderColorBrush;
-            set
-            {
-                _pressedBorderColorBrush = value;
-                OnPropertyChanged(nameof(PressedBorderColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush PressedForegroundColorBrush
-        {
-            get => _pressedForegroundColorBrush;
-            set
-            {
-                _pressedForegroundColorBrush = value;
-                OnPropertyChanged(nameof(PressedForegroundColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush SelectedBackgroundColorBrush
-        {
-            get => _selectedBackgroundColorBrush;
-            set
-            {
-                _selectedBackgroundColorBrush = value;
-                OnPropertyChanged(nameof(SelectedBackgroundColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush SelectedBorderColorBrush
-        {
-            get => _selectedBorderColorBrush;
-            set
-            {
-                _selectedBorderColorBrush = value;
-                OnPropertyChanged(nameof(SelectedBorderColorBrush));
-            }
-        }
-
-        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
-        public Brush SelectedForegroundColorBrush
-        {
-            get => _selectedForegroundColorBrush;
-            set
-            {
-                _selectedForegroundColorBrush = value;
-                OnPropertyChanged(nameof(SelectedForegroundColorBrush));
-            }
-        }
+        //  Sub components
 
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
         public Brush SubcomponentBackgroundColorBrush
@@ -1439,6 +1477,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             Color foregroundColor;
             Color ifaceBackgroundColor;
             Color ifaceForegroundColor;
+            Color staticBackgroundColor;
             Color subcomponentBackground;
             Color subcomponentForeground;
             SystemTheme systemTheme = SystemInfo.GetSystemThemeMode();
@@ -1621,6 +1660,11 @@ namespace chkam05.VisualPlayer.Data.Configuration
             SelectedBackgroundColorBrush = new SolidColorBrush(selectedColor);
             SelectedBorderColorBrush = new SolidColorBrush(accentColor);
             SelectedForegroundColorBrush = new SolidColorBrush(accentForegroundColor);
+
+            staticBackgroundColor = useContrastColor ? foregroundColor : backgroundColor;
+
+            PageBackgroundColorBrush = new SolidColorBrush(ColorsUtilities.UpdateColor(staticBackgroundColor, a: BACKGROUND_APLHA));
+            WindowBackgroundColorBrush = new SolidColorBrush(staticBackgroundColor) { Opacity = BackgroundOpacity };
 
             SubcomponentBackgroundColorBrush = new SolidColorBrush(subcomponentBackground);
             SubcomponentForegroundColorBrush = new SolidColorBrush(subcomponentForeground);

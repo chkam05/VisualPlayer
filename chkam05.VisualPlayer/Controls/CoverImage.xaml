@@ -11,7 +11,7 @@
     DataContext="{Binding RelativeSource={RelativeSource Self}}">
     
     <Border
-        BorderBrush="{Binding Configuration.ForegroundColorBrush}"
+        BorderBrush="{Binding ConfigManager.IfaceForegroundColorBrush}"
         BorderThickness="1"
         CornerRadius="4"
         MinHeight="64"

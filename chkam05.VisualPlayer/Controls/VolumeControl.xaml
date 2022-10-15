@@ -15,9 +15,6 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <!--ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resources/Styles/Components/Styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries-->
 
             <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type UserControl}"/>
 

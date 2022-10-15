@@ -8,7 +8,7 @@
     xmlns:controls="clr-namespace:chkam05.VisualPlayer.Controls"
     xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
     xmlns:local="clr-namespace:chkam05.VisualPlayer.Pages"
-    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
     mc:Ignorable="d"
     
     d:DesignHeight="450"
@@ -25,6 +25,8 @@
                 <ResourceDictionary Source="../Resources/Styles/Standard/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type Page}"/>
+
             <!-- Storyboards. -->
             <Storyboard x:Key="ShowHideLyricsFilesStoryboard" Completed="Storyboard_Completed">
                 <ThicknessAnimationUsingKeyFrames
@@ -39,6 +41,47 @@
             </Storyboard>
             
             <!-- Styles. -->
+            <Style x:Key="HeaderButtonStyle" TargetType="{x:Type controlsex:ButtonEx}">
+                <Setter Property="Background" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="MinHeight" Value="40"/>
+                <Setter Property="MinWidth" Value="40"/>
+                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="PressedBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="PressedForeground" Value="{Binding ConfigManager.PressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+            </Style>
+
+            <Style x:Key="MenuButtonStyle" TargetType="{x:Type controlsex:ButtonEx}">
+                <Setter Property="Background" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="ContentSide" Value="Right"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="MinWidth" Value="72"/>
+                <Setter Property="MaxWidth" Value="192"/>
+                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="Padding" Value="4,4,8,4"/>
+                <Setter Property="PressedBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="PressedForeground" Value="{Binding ConfigManager.PressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            
+            
+            
             <Style x:Key="Control_PackIconButtonStyle" BasedOn="{StaticResource PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
                 <Setter Property="Background" Value="{Binding Configuration.ButtonColorBrush, RelativeSource={RelativeSource AncestorType={x:Type local:LyricsPage}}}"/>
                 <Setter Property="BorderBrush" Value="{Binding Configuration.ButtonBorderColorBrush, RelativeSource={RelativeSource AncestorType={x:Type local:LyricsPage}}}"/>
@@ -155,7 +198,7 @@
 
         <Border
             Grid.Row="3"
-            Background="{Binding Configuration.ThemeColorBrush}"
+            Background="{Binding ConfigManager.BackgroundColorBrush}"
             CornerRadius="8"
             Margin="8,2,8,8"
             Padding="4">
@@ -172,39 +215,39 @@
                     Grid.Column="0"
                     Orientation="Horizontal">
 
-                    <components:PackIconButton
-                        PackIconKind="Rewind"
-                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                    <controlsex:ButtonEx
+                        IconKind="Rewind"
+                        Style="{StaticResource HeaderButtonStyle}"
                         ToolTip="Revind 100 ms"
                         Click="FastRewindBackButton_Click"/>
 
-                    <components:PackIconButton
-                        PackIconKind="StepBackward"
-                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                    <controlsex:ButtonEx
+                        IconKind="StepBackward"
+                        Style="{StaticResource HeaderButtonStyle}"
                         ToolTip="Revind 10 ms"
                         Click="RewindBackButton_Click"/>
 
-                    <components:PackIconButton
-                        PackIconKind="Stop"
-                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                    <controlsex:ButtonEx
+                        IconKind="Stop"
+                        Style="{StaticResource HeaderButtonStyle}"
                         ToolTip="Stop and back to point"
                         Click="StopBackButton_Click"/>
 
-                    <components:PackIconButton
-                        PackIconKind="StepForward2"
-                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                    <controlsex:ButtonEx
+                        IconKind="StepForward2"
+                        Style="{StaticResource HeaderButtonStyle}"
                         ToolTip="Set point and play"
                         Click="CheckPointPlayButton_Click"/>
 
-                    <components:PackIconButton
-                        PackIconKind="StepForward"
-                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                    <controlsex:ButtonEx
+                        IconKind="StepForward"
+                        Style="{StaticResource HeaderButtonStyle}"
                         ToolTip="Forward 10 ms"
                         Click="ForwardButton_Click"/>
 
-                    <components:PackIconButton
-                        PackIconKind="FastForward"
-                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                    <controlsex:ButtonEx
+                        IconKind="FastForward"
+                        Style="{StaticResource HeaderButtonStyle}"
                         ToolTip="Forward 100 ms"
                         Click="FastForwardButton_Click"/>
 
@@ -220,11 +263,11 @@
                         Width="96">
 
                         <TextBlock
-                            Foreground="{Binding Configuration.ForegroundColorBrush}"
+                            Foreground="{Binding ConfigManager.ForegroundColorBrush}"
                             Text="Check point:"/>
 
                         <TextBlock
-                            Foreground="{Binding Configuration.ForegroundColorBrush}"
+                            Foreground="{Binding ConfigManager.ForegroundColorBrush}"
                             Text="{Binding CheckPoint, StringFormat=hh\\:mm\\:ss\\.fff}"/>
 
                     </StackPanel>
@@ -236,31 +279,31 @@
                         Width="96">
 
                         <TextBlock
-                            Foreground="{Binding Configuration.ForegroundColorBrush}"
+                            Foreground="{Binding ConfigManager.ForegroundColorBrush}"
                             Text="Current position:"/>
 
                         <TextBlock
-                            Foreground="{Binding Configuration.ForegroundColorBrush}"
+                            Foreground="{Binding ConfigManager.ForegroundColorBrush}"
                             Text="{Binding CurrentPosition, StringFormat=hh\\:mm\\:ss\\.fff}"/>
 
                     </StackPanel>
 
-                    <components:PackIconButton
-                        PackIconKind="AddCircle"
+                    <controlsex:ButtonEx
+                        IconKind="AddCircle"
                         ToolTip="Add Text"
                         Click="AddLyricsButton_Click">
 
-                        <components:PackIconButton.Style>
-                            <Style BasedOn="{StaticResource ControlTool_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                        <controlsex:ButtonEx.Style>
+                            <Style BasedOn="{StaticResource HeaderButtonStyle}" TargetType="{x:Type controlsex:ButtonEx}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
                                         <Setter Property="IsEnabled" Value="False"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </components:PackIconButton.Style>
+                        </controlsex:ButtonEx.Style>
 
-                    </components:PackIconButton>
+                    </controlsex:ButtonEx>
 
                 </StackPanel>
 
@@ -476,7 +519,7 @@
 
         <Border
             Grid.Row="1"
-            Background="{Binding Configuration.ThemeColorBrush}"
+            Background="{Binding ConfigManager.BackgroundColorBrush}"
             CornerRadius="8"
             Margin="8,2"
             Padding="4">
@@ -493,64 +536,64 @@
                     Grid.Column="0"
                     Orientation="Horizontal">
 
-                    <components:PackIconButton
+                    <controlsex:ButtonEx
                         Content="Create"
-                        PackIconKind="File"
+                        IconKind="File"
                         Click="NewLyricsButton_Click">
 
-                        <components:PackIconButton.Style>
-                            <Style BasedOn="{StaticResource Menu_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                        <controlsex:ButtonEx.Style>
+                            <Style BasedOn="{StaticResource MenuButtonStyle}" TargetType="{x:Type controlsex:ButtonEx}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
                                         <Setter Property="IsEnabled" Value="False"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </components:PackIconButton.Style>
+                        </controlsex:ButtonEx.Style>
 
-                    </components:PackIconButton>
+                    </controlsex:ButtonEx>
 
-                    <components:PackIconButton
-                        Content="Find in Library"
-                        PackIconKind="FolderSearch"
+                    <controlsex:ButtonEx
+                        Content="Library Search"
+                        IconKind="FolderSearch"
                         Click="OpenFromLibraryLyricsButton_Click">
 
-                        <components:PackIconButton.Style>
-                            <Style BasedOn="{StaticResource Menu_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                        <controlsex:ButtonEx.Style>
+                            <Style BasedOn="{StaticResource MenuButtonStyle}" TargetType="{x:Type controlsex:ButtonEx}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
                                         <Setter Property="IsEnabled" Value="False"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </components:PackIconButton.Style>
+                        </controlsex:ButtonEx.Style>
 
-                    </components:PackIconButton>
+                    </controlsex:ButtonEx>
 
-                    <components:PackIconButton
+                    <controlsex:ButtonEx
                         Content="Open"
-                        PackIconKind="FolderOpen"
+                        IconKind="FolderOpen"
                         Click="OpenLyricsButton_Click">
 
-                        <components:PackIconButton.Style>
-                            <Style BasedOn="{StaticResource Menu_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                        <controlsex:ButtonEx.Style>
+                            <Style BasedOn="{StaticResource MenuButtonStyle}" TargetType="{x:Type controlsex:ButtonEx}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
                                         <Setter Property="IsEnabled" Value="False"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </components:PackIconButton.Style>
+                        </controlsex:ButtonEx.Style>
 
-                    </components:PackIconButton>
+                    </controlsex:ButtonEx>
 
-                    <components:PackIconButton
+                    <controlsex:ButtonEx
                         Content="Save to Library"
-                        PackIconKind="ContentSave"
+                        IconKind="ContentSave"
                         Click="SaveLyricsButton_Click">
 
-                        <components:PackIconButton.Style>
-                            <Style BasedOn="{StaticResource Menu_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                        <controlsex:ButtonEx.Style>
+                            <Style BasedOn="{StaticResource MenuButtonStyle}" TargetType="{x:Type controlsex:ButtonEx}">
                                 <Style.Triggers>
                                     <MultiDataTrigger>
                                         <MultiDataTrigger.Conditions>
@@ -567,17 +610,17 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </components:PackIconButton.Style>
+                        </controlsex:ButtonEx.Style>
 
-                    </components:PackIconButton>
+                    </controlsex:ButtonEx>
 
-                    <components:PackIconButton
+                    <controlsex:ButtonEx
                         Content="Save As"
-                        PackIconKind="ContentSaveEdit"
+                        IconKind="ContentSaveEdit"
                         Click="SaveLyricsAsButton_Click">
 
-                        <components:PackIconButton.Style>
-                            <Style BasedOn="{StaticResource Menu_PackIconButtonStyle}" TargetType="{x:Type components:PackIconButton}">
+                        <controlsex:ButtonEx.Style>
+                            <Style BasedOn="{StaticResource MenuButtonStyle}" TargetType="{x:Type controlsex:ButtonEx}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding LyricsManager.DataContext.Count}" Value="0">
                                         <Setter Property="IsEnabled" Value="False"/>
@@ -587,14 +630,13 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </components:PackIconButton.Style>
+                        </controlsex:ButtonEx.Style>
 
-                    </components:PackIconButton>
+                    </controlsex:ButtonEx>
 
                 </StackPanel>
 
                 <TextBlock
-                    Foreground="{Binding Configuration.ForegroundColorBrush}"
                     Grid.Column="1"
                     HorizontalAlignment="Center"
                     Margin="8,0"
@@ -606,15 +648,15 @@
                     Grid.Column="2"
                     Orientation="Horizontal">
 
-                    <components:PackIconButton
-                        PackIconKind="SortTimeAscending"
-                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                    <controlsex:ButtonEx
+                        IconKind="SortTimeAscending"
+                        Style="{StaticResource HeaderButtonStyle}"
                         ToolTip="Sort by Start Time"
                         Click="SortLyrics_PackIconButton_Click"/>
 
-                    <components:PackIconButton
-                        PackIconKind="ViewList"
-                        Style="{StaticResource ControlTool_PackIconButtonStyle}"
+                    <controlsex:ButtonEx
+                        IconKind="ViewList"
+                        Style="{StaticResource HeaderButtonStyle}"
                         ToolTip="Library"
                         Click="LocalLyrics_PackIconButton_Click"/>
 
@@ -634,17 +676,16 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <components:PackIconButton
+            <controlsex:ButtonEx
                 Grid.Column="0"
-                PackIconKind="ArrowBack"
-                Style="{StaticResource Control_PackIconButtonStyle}"
+                IconKind="ArrowBack"
+                Style="{StaticResource HeaderButtonStyle}"
                 Click="BackButton_Click"/>
 
             <TextBlock
                 Grid.Column="1"
                 FontSize="18"
                 FontWeight="SemiBold"
-                Foreground="{Binding Configuration.ForegroundColorBrush}"
                 Margin="8,0"
                 Text="Lyrics Manager"
                 VerticalAlignment="Center"/>

@@ -131,7 +131,7 @@
                         PauseInterval="2000"
                         Step="1"
                         Text="{Binding TitleInfo, RelativeSource={StaticResource RelativeSelf}}"
-                        Visibility="{Binding ConfigManager.InformationBarInfoTitleVisible, RelativeSource={StaticResource RelativeSelf}}"/>
+                        Visibility="{Binding ConfigManager.InformationBarInfoTitleVisible, Converter={StaticResource VisibilityBoolConverter}, RelativeSource={StaticResource RelativeSelf}}"/>
 
                     <TextBlock
                         Grid.Column="0"
@@ -175,9 +175,9 @@
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource TimeSpanStringConverter}">
                                     <Binding Path="CurrentTime"
-                                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}"/>
+                                             RelativeSource="{StaticResource RelativeSelf}"/>
                                     <Binding Path="ConfigManager.InformationBarAdvancedTime"
-                                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}"/>
+                                             RelativeSource="{StaticResource RelativeSelf}"/>
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
@@ -191,9 +191,9 @@
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource TimeSpanStringConverter}">
                                     <Binding Path="FullTime" 
-                                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}"/>
+                                             RelativeSource="{StaticResource RelativeSelf}"/>
                                     <Binding Path="ConfigManager.InformationBarAdvancedTime" 
-                                             RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:InformationBar}}"/>
+                                             RelativeSource="{StaticResource RelativeSelf}"/>
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
