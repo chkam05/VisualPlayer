@@ -1,4 +1,5 @@
-﻿using chkam05.VisualPlayer.Components;
+﻿using chkam05.Tools.ControlsEx.Events;
+using chkam05.VisualPlayer.Components;
 using chkam05.VisualPlayer.Components.Events;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Controls.Messages.Data;
@@ -48,7 +49,6 @@ namespace chkam05.VisualPlayer.Pages
         private Thickness _lyricsFilesListMargin;
         private Lyrics _selectedLyrics = null;
 
-        public Configuration Configuration { get; private set; }
         public ConfigManager ConfigManager { get; private set; }
         public LyricsManager LyricsManager { get; private set; }
         public Player Player { get; private set; }
@@ -136,7 +136,6 @@ namespace chkam05.VisualPlayer.Pages
             SetupDataContainers();
 
             //  Setup modules.
-            Configuration = Configuration.Instance;
             ConfigManager = ConfigManager.Instance;
             LyricsManager = LyricsManager.Instance;
             Player = Player.Instnace;
@@ -468,10 +467,10 @@ namespace chkam05.VisualPlayer.Pages
         /// <summary> Method invoked after editing lyrics files search ExtendedTextBox. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> Extended Text Box Content Updated Event arguments. </param>
-        private void LyricsFilesSearch_ExtendedTextBox_OnContentUpdated(object sender, ExtendedTextBoxContentUpdatedEventArgs e)
+        private void LyricsFilesSearch_TextModified(object sender, TextModifiedEventArgs e)
         {
-            if (!e.Programmatically && !string.IsNullOrEmpty(e.Text))
-                SearchLyricsFile(e.Text);
+            if (e.UserModified && !string.IsNullOrEmpty(e.NewText))
+                SearchLyricsFile(e.NewText);
         }
 
         //  --------------------------------------------------------------------------------
@@ -675,9 +674,9 @@ namespace chkam05.VisualPlayer.Pages
         /// <summary> Method invoked after updating start time value in ExtendedTextBox. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> Extended Text Box Content Updated Event Arguments. </param>
-        private void StartTime_ExtendedTextBox_OnContentUpdated(object sender, ExtendedTextBoxContentUpdatedEventArgs e)
+        private void StartTime_ExtendedTextBox_OnContentUpdated(object sender, TextModifiedEventArgs e)
         {
-            if (!e.Programmatically)
+            if (e.UserModified)
                 LyricsManager.LyricsChanged = true;
         }
 
@@ -685,9 +684,9 @@ namespace chkam05.VisualPlayer.Pages
         /// <summary> Method invoked after updating end time value in ExtendedTextBox. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> Extended Text Box Content Updated Event Arguments. </param>
-        private void EndTime_ExtendedTextBox_OnContentUpdated(object sender, ExtendedTextBoxContentUpdatedEventArgs e)
+        private void EndTime_ExtendedTextBox_OnContentUpdated(object sender, TextModifiedEventArgs e)
         {
-            if (!e.Programmatically)
+            if (e.UserModified)
                 LyricsManager.LyricsChanged = true;
         }
 
@@ -695,9 +694,9 @@ namespace chkam05.VisualPlayer.Pages
         /// <summary> Method invoked after updating lyrics text value in ExtendedTextBox. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> Extended Text Box Content Updated Event Arguments. </param>
-        private void Text_ExtendedTextBox_OnContentUpdated(object sender, ExtendedTextBoxContentUpdatedEventArgs e)
+        private void Text_ExtendedTextBox_OnContentUpdated(object sender, TextModifiedEventArgs e)
         {
-            if (!e.Programmatically)
+            if (e.UserModified)
                 LyricsManager.LyricsChanged = true;
         }
 
