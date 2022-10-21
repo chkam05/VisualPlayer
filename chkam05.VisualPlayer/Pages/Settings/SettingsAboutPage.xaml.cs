@@ -1,21 +1,47 @@
-﻿using chkam05.Tools.ControlsEx;
-using chkam05.VisualPlayer.Components;
-using chkam05.VisualPlayer.Controls.Data;
+﻿using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-
-using MenuItem = chkam05.VisualPlayer.Controls.Data.MenuItem;
-
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace chkam05.VisualPlayer.Pages.Settings
 {
-    public partial class SettingsHomePage : Page, IPage, INotifyPropertyChanged
+    public partial class SettingsAboutPage : Page, IPage, INotifyPropertyChanged
     {
+
+        //  DEPENDENCY PROPERTIES
+
+        public static readonly DependencyProperty AboutCopyrightProperty = DependencyProperty.Register(
+            nameof(AboutCopyright),
+            typeof(string),
+            typeof(SettingsAboutPage),
+            new PropertyMetadata(string.Empty));
+
+        public static readonly DependencyProperty AboutTitleProperty = DependencyProperty.Register(
+            nameof(AboutTitle),
+            typeof(string),
+            typeof(SettingsAboutPage),
+            new PropertyMetadata(string.Empty));
+
+        public static readonly DependencyProperty AboutVersionProperty = DependencyProperty.Register(
+            nameof(AboutVersion),
+            typeof(string),
+            typeof(SettingsAboutPage),
+            new PropertyMetadata(string.Empty));
+
 
         //  EVENTS
 
@@ -23,8 +49,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
 
         //  VARIABLES
-
-        private List<MenuItem> _menuItems;
 
         public ConfigManager ConfigManager { get; private set; }
         public IPagesManager PagesManager { get; private set; }
@@ -37,13 +61,33 @@ namespace chkam05.VisualPlayer.Pages.Settings
             get => MenuItemType.SETTINGS_MENU;
         }
 
-        public List<MenuItem> MenuItems
+        public string AboutCopyright
         {
-            get => _menuItems;
+            get => (string)GetValue(AboutCopyrightProperty);
             private set
             {
-                _menuItems = value;
-                OnPropertyChanged(nameof(MenuItems));
+                SetValue(AboutCopyrightProperty, value);
+                OnPropertyChanged(nameof(AboutCopyright));
+            }
+        }
+
+        public string AboutTitle
+        {
+            get => (string)GetValue(AboutTitleProperty);
+            private set
+            {
+                SetValue(AboutTitleProperty, value);
+                OnPropertyChanged(nameof(AboutTitle));
+            }
+        }
+
+        public string AboutVersion
+        {
+            get => (string)GetValue(AboutVersionProperty);
+            private set
+            {
+                SetValue(AboutVersionProperty, value);
+                OnPropertyChanged(nameof(AboutVersion));
             }
         }
 
@@ -53,9 +97,9 @@ namespace chkam05.VisualPlayer.Pages.Settings
         #region CLASS METHODS
 
         //  --------------------------------------------------------------------------------
-        /// <summary> SettingsHomePage class constructor. </summary>
+        /// <summary> SettingsAppearancePage class constructor. </summary>
         /// <param name="pagesManager"> Pages manager where page will be presented. </param>
-        public SettingsHomePage(IPagesManager pagesManager)
+        public SettingsAboutPage(IPagesManager pagesManager)
         {
             //  Setup modules.
             ConfigManager = ConfigManager.Instance;
@@ -66,10 +110,9 @@ namespace chkam05.VisualPlayer.Pages.Settings
             //  Setup initial data.
             PagesManager = pagesManager;
 
-            if (SpecialMenu.HasValue)
-                MenuItems = MenuBuilder.BuildMenu(SpecialMenu.Value)
-                    .Where(i => i.SubType != MenuItemSubType.OPEN_CLOSE)
-                    .ToList();
+            AboutCopyright = ApplicationHelper.Instance.GetApplicationCopyright();
+            AboutTitle = ApplicationHelper.Instance.GetApplicationTitle();
+            AboutVersion = ApplicationHelper.Instance.GetApplicationVersion().ToString();
         }
 
         #endregion CLASS METHODS
@@ -98,63 +141,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
         }
 
         #endregion CONTROL BUTTONS METHODS
-
-        #region MENU MANAGEMENT METHODS
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after selecting any item in Settings menu list view. </summary>
-        /// <param name="sender"> Object that invoked method. </param>
-        /// <param name="e"> Selection Changed Event Arguments. </param>
-        private void MenuListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var listView = (ListViewEx)sender;
-            var selectedItem = listView.SelectedItem;
-
-            if (selectedItem != null)
-            {
-                var menuItem = (MenuItem)selectedItem;
-
-                if (menuItem != null)
-                {
-                    switch (menuItem.Type)
-                    {
-                        case MenuItemType.SETTINGS_MENU:
-                            switch (menuItem.SubType)
-                            {
-                                case MenuItemSubType.ABOUT:
-                                    PagesManager.LoadPage(new SettingsAboutPage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.APPEARANCE:
-                                    PagesManager.LoadPage(new SettingsAppearancePage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.INFOBAR:
-                                    PagesManager.LoadPage(new SettingsInfoBarPage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.GENERAL:
-                                    PagesManager.LoadPage(new SettingsGeneralPage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.LYRICS:
-                                    PagesManager.LoadPage(new SettingsLyricsPage(PagesManager));
-                                    break;
-
-                                case MenuItemSubType.VISUALISATION:
-                                    PagesManager.LoadPage(new SettingsVisualisationPage(PagesManager));
-                                    break;
-                            }
-                            break;
-                    }
-                }
-
-                listView.SelectedIndex = -1;
-                listView.SelectedItem = null;
-            }
-        }
-
-        #endregion MENU MANAGEMENT METHODS
 
         #region NOTIFY PROPERTIES CHANGED INTERFACE METHODS
 

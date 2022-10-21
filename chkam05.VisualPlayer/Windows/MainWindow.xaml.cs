@@ -474,10 +474,6 @@ namespace chkam05.VisualPlayer.Windows
                                 MainMenu_LoadSettingsPage();
                                 break;
 
-                            case MenuItemSubType.SETTINGS_2:
-                                MainMenu_LoadSettings2Page();
-                                break;
-
                             case MenuItemSubType.LYRICS:
                                 MainMenu_LoadLyricsPage();
                                 break;
@@ -488,6 +484,7 @@ namespace chkam05.VisualPlayer.Windows
                         switch (menuItem.SubType)
                         {
                             case MenuItemSubType.ABOUT:
+                                PagesManager.LoadPage(new SettingsAboutPage(PagesManager));
                                 break;
 
                             case MenuItemSubType.APPEARANCE:
@@ -534,14 +531,6 @@ namespace chkam05.VisualPlayer.Windows
         //  --------------------------------------------------------------------------------
         /// <summary> Load Settings Page. </summary>
         private void MainMenu_LoadSettingsPage()
-        {
-            PagesManager.LoadPage(new SettingsOldHomePage(PagesManager));
-            PagesManager.ShowInterface();
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Load Settings2 Page. </summary>
-        private void MainMenu_LoadSettings2Page()
         {
             PagesManager.LoadPage(new SettingsHomePage(PagesManager));
             PagesManager.ShowInterface();

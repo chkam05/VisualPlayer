@@ -16,7 +16,6 @@ namespace chkam05.VisualPlayer.Controls.Data
         SETTINGS = 3,
         NOW_PLAYING = 4,
         LYRICS = 5,
-        SETTINGS_2 = 6,
 
         //  SETTINGS
         ABOUT = 10,
