@@ -1,6 +1,8 @@
 ﻿using chkam05.VisualPlayer.Controls;
 using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Config.Events;
+using chkam05.VisualPlayer.Data.Configuration;
+using chkam05.VisualPlayer.Data.Configuration.Events;
 using chkam05.VisualPlayer.Data.Files;
 using chkam05.VisualPlayer.Data.Lyrics.Events;
 using chkam05.VisualPlayer.Serializers;
@@ -48,7 +50,7 @@ namespace chkam05.VisualPlayer.Data.Lyrics
         private IFile _lodedFile;
         private ObservableCollection<Lyrics> _lyrics;
         private bool _lyricsChanged = false;
-        private LyricsMatchType _matchType;
+        private LyricsMatchingType _matchType;
         private TimeSpan _tolerance = TimeSpan.FromMilliseconds(50);
 
         public ILyricsController Controller { get; set; }
@@ -128,7 +130,7 @@ namespace chkam05.VisualPlayer.Data.Lyrics
             }
         }
 
-        public LyricsMatchType MatchType
+        public LyricsMatchingType MatchType
         {
             get => _matchType;
             set
@@ -520,13 +522,13 @@ namespace chkam05.VisualPlayer.Data.Lyrics
         {
             switch (MatchType)
             {
-                case LyricsMatchType.FILE_CONTENT:
+                case LyricsMatchingType.FILE_CONTENT:
                     return serializer.IsCorrectFileId(correspondingFile);
 
-                case LyricsMatchType.FILE_METADATA:
+                case LyricsMatchingType.FILE_METADATA:
                     return serializer.IsCorrectFileName(correspondingFile);
 
-                case LyricsMatchType.FILE_NAME:
+                case LyricsMatchingType.FILE_NAME:
                     return true;
             }
 
@@ -631,12 +633,12 @@ namespace chkam05.VisualPlayer.Data.Lyrics
         //  --------------------------------------------------------------------------------
         /// <summary> Update lyrics configuration from settings. </summary>
         /// <param name="config"> Configuration with lyrics settings. </param>
-        public void UpdateConfiguration(Config.Configuration config)
+        public void UpdateConfiguration(ConfigManager configManager)
         {
-            if (config != null)
+            if (configManager != null)
             {
-                AutoLoad = config.AutoLoadLyrics;
-                MatchType = config.LyricsMatchType;
+                AutoLoad = configManager.LyricsAutoLoad;
+                MatchType = configManager.LyricsMatchingType;
             }
         }
 
@@ -644,14 +646,10 @@ namespace chkam05.VisualPlayer.Data.Lyrics
         /// <summary> Update single visualisation configuration from settings. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> Configuration Update Event Arguments. </param>
-        public void UpdateConfiguration(object sender, ConfigurationUpdateEventArgs e)
+        public void UpdateConfiguration(object sender, ConfigUpdateEventArgs e)
         {
-            if (e.PropertyValue != null)
-            {
-                //  Update standard configuration.
-                if (ConfigurationMapping.TryGetValue(e.PropertyName, out string propertyName))
-                    SetProperty(propertyName, e.PropertyValue);
-            }
+            var configManager = (ConfigManager)sender;
+            UpdateConfiguration(configManager);
         }
 
         #endregion UPDATE METHODS

@@ -1,5 +1,7 @@
 ﻿using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Config.Events;
+using chkam05.VisualPlayer.Data.Configuration;
+using chkam05.VisualPlayer.Data.Configuration.Events;
 using chkam05.VisualPlayer.Visualisations.Data;
 using chkam05.VisualPlayer.Visualisations.Spectrum;
 using System;
@@ -13,24 +15,6 @@ namespace chkam05.VisualPlayer.Visualisations
 {
     public class VisualisationsManager
     {
-
-        //  CONST
-
-        public readonly Dictionary<string, string> ConfigurationMapping = new Dictionary<string, string>
-        {
-            { nameof(Configuration.VisualisationBorderColor), nameof(StripesVisualisation.BorderColor) },
-            { nameof(Configuration.VisualisationBorderEnabled), nameof(StripesVisualisation.BorderEnabled) },
-            { nameof(Configuration.VisualisationColor), nameof(StripesVisualisation.FillColor) },
-            { nameof(Configuration.VisualisationColorOpacity), nameof(StripesVisualisation.Opacity) },
-            { nameof(Configuration.VisualisationColorType), nameof(StripesVisualisation.ColorType) },
-            { nameof(Configuration.VisualisationRainbowChangeTime), nameof(StripesVisualisation.RainbowChangeTime) },
-            { nameof(Configuration.VisualisationRainbowShift), nameof(StripesVisualisation.RainbowShift) },
-            { nameof(Configuration.VisualisationRainbowXShift), nameof(StripesVisualisation.RainbowX) },
-            { nameof(Configuration.VisualisationRainbowYShift), nameof(StripesVisualisation.RainbowY) },
-            { nameof(Configuration.VisualisationScalingStrategy), nameof(BaseVisualisation.ScalingStrategy) },
-            { nameof(Configuration.VisualisationStripesFallSpeed), nameof(StripesVisualisation.FallSpeed) }
-        };
-
 
         //  VARIABLES
 
@@ -116,20 +100,26 @@ namespace chkam05.VisualPlayer.Visualisations
         //  --------------------------------------------------------------------------------
         /// <summary> Update visualisation configuration from settings. </summary>
         /// <param name="config"> Configuration with visualisation settings. </param>
-        public void UpdateConfiguration(Configuration config)
+        public void UpdateConfiguration(ConfigManager configManager)
         {
-            if (config != null && _visualisation != null)
+            if (configManager != null && _visualisation != null)
             {
                 //  Update standard configuration.
-                foreach (var map in ConfigurationMapping)
-                {
-                    if (config.TryGetValue(map.Key, out object value))
-                        Visualisation.SetProperty(map.Value, value);
-                }
+                Visualisation.SetProperty("BorderColor", configManager.VisualisationBorderColor);
+                Visualisation.SetProperty("BorderEnabled", configManager.VisualisationBorderEnabled);
+                Visualisation.SetProperty("FillColor", configManager.VisualisationColor);
+                Visualisation.SetProperty("Opacity", configManager.VisualisationColorOpacity);
+                Visualisation.SetProperty("ColorType", configManager.VisualisationColorType);
+                Visualisation.SetProperty("RainbowChangeTime", configManager.VisualisationRainbowChangeTime);
+                Visualisation.SetProperty("RainbowShift", configManager.VisualisationRainbowShift);
+                Visualisation.SetProperty("RainbowX", configManager.VisualisationRainbowXShift);
+                Visualisation.SetProperty("RainbowY", configManager.VisualisationRainbowYShift);
+                Visualisation.SetProperty("ScalingStrategy", configManager.VisualisationScalingStrategy);
+                Visualisation.SetProperty("FallSpeed", configManager.VisualisationAnimationSpeed);
 
                 //  Update extended configuration.
-                _visualisation.BeatLevel.BeatFallSpeed = config.VisualisationBeatFallSpeed;
-                _visualisation.BeatLevel.BeatSensitivity = config.VisualisationBeatSensitivity;
+                _visualisation.BeatLevel.BeatFallSpeed = configManager.LogoAnimationSpeed;
+                _visualisation.BeatLevel.BeatSensitivity = configManager.LogoAnimationSensitivity;
             }
         }
 
@@ -137,31 +127,9 @@ namespace chkam05.VisualPlayer.Visualisations
         /// <summary> Update single visualisation configuration from settings. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> Configuration Update Event Arguments. </param>
-        public void UpdateConfiguration(object sender, ConfigurationUpdateEventArgs e)
+        public void UpdateConfiguration(object sender, ConfigUpdateEventArgs e)
         {
-            if (e.PropertyValue != null && _visualisation != null)
-            {
-                //  Update standard configuration.
-                if (ConfigurationMapping.TryGetValue(e.PropertyName, out string propertyName))
-                    Visualisation.SetProperty(propertyName, e.PropertyValue);
-
-                //  Update extended configuration
-                else
-                {
-                    var config = sender as Configuration;
-
-                    switch (e.PropertyName)
-                    {
-                        case nameof(Configuration.VisualisationBeatFallSpeed):
-                            _visualisation.BeatLevel.BeatFallSpeed = config.VisualisationBeatFallSpeed;
-                            break;
-
-                        case nameof(Configuration.VisualisationBeatSensitivity):
-                            _visualisation.BeatLevel.BeatSensitivity = config.VisualisationBeatSensitivity;
-                            break;
-                    }
-                }
-            }
+            UpdateConfiguration((ConfigManager)sender);
         }
 
         //  --------------------------------------------------------------------------------

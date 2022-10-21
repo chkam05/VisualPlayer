@@ -3,6 +3,7 @@ using chkam05.Tools.ControlsEx.Utilities;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Configuration.Attributes;
+using chkam05.VisualPlayer.Data.Configuration.Events;
 using chkam05.VisualPlayer.Data.Fonts;
 using chkam05.VisualPlayer.Data.Lyrics;
 using chkam05.VisualPlayer.Utilities;
@@ -56,10 +57,48 @@ namespace chkam05.VisualPlayer.Data.Configuration
         public const double INFOBAR_FONT_SPACING_MAX = 8.0;
         public const double INFOBAR_FONT_SPACING_MIN = 2.0;
 
+        public static readonly List<string> AppearanceUpdateProperties = new List<string>()
+        {
+            nameof(AccentColor),
+            nameof(BackgroundOpacity),
+            nameof(ColorType),
+            nameof(ControlsBackgroundOpacity),
+            nameof(ThemeType),
+            nameof(ThemeTypeControls),
+            nameof(ThemeTypeMenus),
+            nameof(LogoAnimated),
+            nameof(LogoEnabled),
+            nameof(LogoThemeType),
+            nameof(LyricsBackgroundOpacity)
+        };
+
+        public static readonly List<string> LyricsUpdateProperties = new List<string>()
+        {
+            nameof(LyricsAutoLoad),
+            nameof(LyricsMatchingType)
+        };
+
+        public static readonly List<string> VisualisationUpdateProperties = new List<string>()
+        {
+            nameof(VisualisationAnimationSpeed),
+            nameof(VisualisationBorderColor),
+            nameof(VisualisationBorderEnabled),
+            nameof(VisualisationColor),
+            nameof(VisualisationColorOpacity),
+            nameof(VisualisationColorType),
+            nameof(VisualisationRainbowChangeTime),
+            nameof(VisualisationRainbowShift),
+            nameof(VisualisationRainbowXShift),
+            nameof(VisualisationRainbowYShift),
+            nameof(VisualisationScalingStrategy),
+            nameof(VisualisationType),
+        };
+
 
         //  EVENTS
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<ConfigUpdateEventArgs> OnConfigUpdate;
 
 
         //  VARIABLES
@@ -119,6 +158,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private Brush _ifaceContextMenuBackgroundBrush;
         private Brush _ifaceContextMenuBorderBrush;
 
+        private Brush _ifaceLyricsBackgroundColorBrush;
+        private Brush _ifaceLyricsForegroundColorBrush;
+
         private Brush _ifaceMenuItemBackgroundColorBrush;
         private Brush _ifaceMenuItemBorderColorBrush;
         private Brush _ifaceMenuItemForegroundColorBrush;
@@ -132,6 +174,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private Brush _ifaceSelectedBackgroundColorBrush;
         private Brush _ifaceSelectedBorderColorBrush;
         private Brush _ifaceSelectedForegroundColorBrush;
+
         private Brush _ifaceTrackBarBackgroundColorBrush;
 
         private Brush _pageBackgroundColorBrush;
@@ -639,6 +682,28 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _ifaceContextMenuBorderBrush = value;
                 OnPropertyChanged(nameof(IfaceContextMenuBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceLyricsBackgroundColorBrush
+        {
+            get => _ifaceLyricsBackgroundColorBrush;
+            set
+            {
+                _ifaceLyricsBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceLyricsBackgroundColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceLyricsForegroundColorBrush
+        {
+            get => _ifaceLyricsForegroundColorBrush;
+            set
+            {
+                _ifaceLyricsForegroundColorBrush = value;
+                OnPropertyChanged(nameof(IfaceLyricsForegroundColorBrush));
             }
         }
 
@@ -1674,6 +1739,10 @@ namespace chkam05.VisualPlayer.Data.Configuration
                 ? ifaceForegroundColor
                 : Colors.Black;
 
+            var ifaceLyricsForegroundOpacityUpdated = (BackgroundOpacity + LyricsBackgroundOpacity > 0.40)
+                ? ifaceForegroundColor
+                : Colors.Black;
+
             IfaceBackgroundColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = ControlsBackgroundOpacity };
             IfaceForegroundColorBrush = new SolidColorBrush(ifaceForegroundOpacityUpdated);
 
@@ -1683,6 +1752,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
             IfaceContextMenuBackgroundColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = 0.85 };
             IfaceContextMenuBorderColorBrush = new SolidColorBrush(ifaceBackgroundColor);
+
+            IfaceLyricsBackgroundColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = LyricsBackgroundOpacity };
+            IfaceLyricsForegroundColorBrush = new SolidColorBrush(ifaceLyricsForegroundOpacityUpdated);
 
             IfaceMenuItemBackgroundColorBrush = new SolidColorBrush(Colors.Transparent);
             IfaceMenuItemBorderColorBrush = new SolidColorBrush(Colors.Transparent);
@@ -1721,6 +1793,13 @@ namespace chkam05.VisualPlayer.Data.Configuration
                     LogoBorderColorBrush = new SolidColorBrush(Colors.Black);
                     break;
             }
+        }
+
+        //  --------------------------------------------------------------------------------
+        public void ForceAppearanceUpdate()
+        {
+            AppearanceUpdate();
+            InvokeConfigUpdate(nameof(ThemeType));
         }
 
         #endregion APPEARANCE MANAGEMENT METHODS
@@ -1820,6 +1899,18 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
+
+            InvokeConfigUpdate(propertyName);
+        }
+
+        //  --------------------------------------------------------------------------------
+        private void InvokeConfigUpdate(string propertyName)
+        {
+            PropertyInfo property = this.GetType().GetProperty(propertyName);
+            object value = property?.GetValue(this) ?? null;
+
+            if (OnConfigUpdate != null && !ObjectUtilities.HasAttribute(property, typeof(ConfigPropertyUpdateAttrib)))
+                OnConfigUpdate.Invoke(this, new ConfigUpdateEventArgs(propertyName, value, property.GetType()));
         }
 
         #endregion NOTIFY PROPERTIES CHANGED INTERFACE METHODS

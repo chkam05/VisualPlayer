@@ -10,21 +10,21 @@
     d:DesignHeight="72"
     d:DesignWidth="400"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
-    Foreground="{Binding Configuration.ForegroundColorBrush}">
+    Foreground="{Binding ConfigManager.IfaceForegroundColorBrush}">
 
     <Border
-        Background="{Binding Configuration.LyricsBackgroundColor}"
+        Background="{Binding ConfigManager.IfaceLyricsBackgroundColorBrush}"
         BorderBrush="{x:Null}"
         BorderThickness="0"
         CornerRadius="8"
         Margin="4,0,4,4">
 
         <TextBlock
-            FontFamily="{Binding Configuration.LyricsFontContainer.FontFamily}"
-            FontSize="{Binding Configuration.LyricsFontSize}"
-            FontStretch="{Binding Configuration.LyricsFontStretch}"
-            FontStyle="{Binding Configuration.LyricsFontStyle}"
-            FontWeight="{Binding Configuration.LyricsFontWeight}"
+            FontFamily="{Binding ConfigManager.LyricsFont}"
+            FontSize="{Binding ConfigManager.LyricsFontSize}"
+            FontStretch="{Binding ConfigManager.LyricsFontStretch}"
+            FontStyle="{Binding ConfigManager.LyricsFontStyle}"
+            FontWeight="{Binding ConfigManager.LyricsFontWeight}"
             HorizontalAlignment="Center"
             Margin="8,8,8,16"
             Text="{Binding Text}"

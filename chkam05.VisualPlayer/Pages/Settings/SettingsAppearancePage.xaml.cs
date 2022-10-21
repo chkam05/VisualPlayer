@@ -49,7 +49,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         public MenuItemType? SpecialMenu
         {
-            get => MenuItemType.SETTINGS_MENU_2;
+            get => MenuItemType.SETTINGS_MENU;
         }
 
         public ObservableCollection<AppearanceColorType> AppearanceColorTypes

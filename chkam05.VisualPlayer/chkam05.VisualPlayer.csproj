@@ -237,6 +237,7 @@
     <Compile Include="Data\Configuration\ColorInfo.cs" />
     <Compile Include="Data\Configuration\Config.cs" />
     <Compile Include="Data\Configuration\ConfigManager.cs" />
+    <Compile Include="Data\Configuration\Events\ConfigUpdateEventArgs.cs" />
     <Compile Include="Data\Configuration\VisualisationProfilesManager.cs" />
     <Compile Include="Data\Lyrics\LyricsMatchingType.cs" />
     <Compile Include="Data\Configuration\VisualisationProfile.cs" />

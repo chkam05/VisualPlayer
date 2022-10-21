@@ -9,6 +9,7 @@ using chkam05.VisualPlayer.Core.Events;
 using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Config.Events;
 using chkam05.VisualPlayer.Data.Configuration;
+using chkam05.VisualPlayer.Data.Configuration.Events;
 using chkam05.VisualPlayer.Data.Files;
 using chkam05.VisualPlayer.Data.Lyrics;
 using chkam05.VisualPlayer.Pages;
@@ -62,7 +63,6 @@ namespace chkam05.VisualPlayer.Windows
         private SystemListener _systemListener;
         private DispatcherHandler _vsDispatcherHandler;
 
-        public Configuration Configuration { get; private set; }
         public ConfigManager ConfigManager { get; private set; }
         public DispatcherHandler DispatcherHandler { get; private set; }
         public FilesManager FilesManager { get; private set; }
@@ -134,11 +134,8 @@ namespace chkam05.VisualPlayer.Windows
             var appVersion = ApplicationHelper.Instance.GetApplicationVersion();
 
             //  Setup modules.
-            Configuration = Configuration.Instance;
             ConfigManager = ConfigManager.Instance;
-            Configuration.OnAppearanceConfigUpdate += UpdateAppearanceConfig;
-            Configuration.OnLyricsConfigUpdate += UpdateLyricsConfig;
-            Configuration.OnVisualisationConfigUpdate += UpdateVisualisationConfig;
+            ConfigManager.OnConfigUpdate += UpdateConfig;
             DispatcherHandler = new DispatcherHandler(this.Dispatcher);
             FilesManager = FilesManager.Instance;
             LyricsManager = LyricsManager.Instance;
@@ -164,10 +161,10 @@ namespace chkam05.VisualPlayer.Windows
             _vsDispatcherHandler = new DispatcherHandler(visualisationRenderImage.Dispatcher);
 
             LyricsManager.Controller = lyricsControl;
-            LyricsManager.UpdateConfiguration(Configuration);
+            LyricsManager.UpdateConfiguration(ConfigManager);
             ScreenVersion = $"{appTitle} {appVersion.ToString(3)} compilation {appVersion.Revision}";
-            VisualisationsManager.Create(Configuration.VisualisationType, null, VisualisationRenderSize);
-            VisualisationsManager.UpdateConfiguration(Configuration);
+            VisualisationsManager.Create(ConfigManager.VisualisationType, null, VisualisationRenderSize);
+            VisualisationsManager.UpdateConfiguration(ConfigManager);
         }
 
         #endregion CLASS METHODS
@@ -175,55 +172,45 @@ namespace chkam05.VisualPlayer.Windows
         #region CONFIGURATION METHODS
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Update appearance configuration from settings. </summary>
-        /// <param name="sender"> Object that invoked method. </param>
-        /// <param name="e"> Configuration Update Event Arguments. </param>
-        private void UpdateAppearanceConfig(object sender, ConfigurationUpdateEventArgs e)
+        /// <summary> Method invoked after updating any configuration property in ConfigManager. </summary>
+        /// <param name="sender"> ConfigManager instance. </param>
+        /// <param name="e"> Config Update Event Arguments. </param>
+        private void UpdateConfig(object sender, ConfigUpdateEventArgs e)
         {
-            //  Update logo appearance.
-            if (!logoControl.LockVisibility)
-                logoControl.Visibility = Configuration.LogoEnabled ? Visibility.Visible : Visibility.Collapsed;
-
-            logoControl.SetShapesBackground(Configuration.LogoBackgroundColor);
-            logoControl.SetShapesBorderBrush(Configuration.LogoBorderColor);
-            logoControl.ScaleToObject(Size);
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Update lyrics configuration from settings. </summary>
-        /// <param name="sender"> Object that invoked method. </param>
-        /// <param name="e"> Configuration Update Event Arguments. </param>
-        private void UpdateLyricsConfig(object sender, ConfigurationUpdateEventArgs e)
-        {
-            LyricsManager.UpdateConfiguration(sender, e);
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Update visualisation configuration from settings. </summary>
-        /// <param name="sender"> Object that invoked method. </param>
-        /// <param name="e"> Configuration Update Event Arguments. </param>
-        private void UpdateVisualisationConfig(object sender, ConfigurationUpdateEventArgs e)
-        {
-            if (e.PropertyName == nameof(Configuration.VisualisationType))
+            if (ConfigManager.AppearanceUpdateProperties.Contains(e.PropertyName))
             {
-                var type = (VisualisationType)e.PropertyValue;
-                var spectrumProvider = Player?.SpectrumProvider;
+                if (!logoControl.LockVisibility)
+                    logoControl.Visibility = ConfigManager.LogoEnabled ? Visibility.Visible : Visibility.Collapsed;
 
-                VisualisationsManager.Create(type, spectrumProvider, VisualisationRenderSize);
+                logoControl.SetShapesBackground(ConfigManager.LogoBackgroundColorBrush);
+                logoControl.SetShapesBorderBrush(ConfigManager.LogoBorderColorBrush);
+                logoControl.ScaleToObject(Size);
+            }
 
-                if (VisualisationsManager.Created)
+            if (ConfigManager.LyricsUpdateProperties.Contains(e.PropertyName))
+                LyricsManager.UpdateConfiguration(sender, e);
+
+            if (ConfigManager.VisualisationUpdateProperties.Contains(e.PropertyName))
+            {
+                if (e.PropertyName == nameof(ConfigManager.VisualisationType))
                 {
-                    var visualisation = VisualisationsManager.Visualisation;
-                    visualisation.Margin = GetVisualisationMargin();
+                    var type = (VisualisationType)e.PropertyValue;
+                    var spectrumProvider = Player?.SpectrumProvider;
 
-                    VisualisationsManager.UpdateConfiguration(sender as Configuration);
-                    VisualisationsManager.UpdateDrawingAreaSize(VisualisationRenderSize);
+                    VisualisationsManager.Create(type, spectrumProvider, VisualisationRenderSize);
+
+                    if (VisualisationsManager.Created)
+                    {
+                        var visualisation = VisualisationsManager.Visualisation;
+                        visualisation.Margin = GetVisualisationMargin();
+
+                        VisualisationsManager.UpdateConfiguration(sender as ConfigManager);
+                        VisualisationsManager.UpdateDrawingAreaSize(VisualisationRenderSize);
+                    }
                 }
 
-                return;
-            };
-
-            VisualisationsManager.UpdateConfiguration(sender, e);
+                VisualisationsManager.UpdateConfiguration(sender, e);
+            }
         }
 
         #endregion CONFIGURATION METHODS
@@ -439,7 +426,7 @@ namespace chkam05.VisualPlayer.Windows
         {
             var filePath = FilesManager.PlayListCache;
 
-            if (Configuration.RestoreLastPlaylist && File.Exists(filePath))
+            if (ConfigManager.RestoreLastPlaylistOnStartup && File.Exists(filePath))
                 Player.PlayList.LoadFromFile(filePath);
         }
 
@@ -449,7 +436,7 @@ namespace chkam05.VisualPlayer.Windows
         {
             var filePath = FilesManager.PlayListCache;
 
-            if (Configuration.RestoreLastPlaylist)
+            if (ConfigManager.RestoreLastPlaylistOnStartup)
                 Player.PlayList.SaveToFile(filePath);
 
             else if (File.Exists(filePath))
@@ -498,31 +485,6 @@ namespace chkam05.VisualPlayer.Windows
                         break;
 
                     case MenuItemType.SETTINGS_MENU:
-                        switch (menuItem.SubType)
-                        {
-                            case MenuItemSubType.ABOUT:
-                                PagesManager.LoadPage(new SettingsOldAboutPage(PagesManager));
-                                break;
-
-                            case MenuItemSubType.APPEARANCE:
-                                PagesManager.LoadPage(new SettingsOldAppearancePage(PagesManager));
-                                break;
-
-                            case MenuItemSubType.GENERAL:
-                                PagesManager.LoadPage(new SettingsOldGeneralPage(PagesManager));
-                                break;
-
-                            case MenuItemSubType.LYRICS:
-                                PagesManager.LoadPage(new SettingsOldLyricsPage(PagesManager));
-                                break;
-
-                            case MenuItemSubType.VISUALISATION:
-                                PagesManager.LoadPage(new SettingsOldVisualisationPage(PagesManager));
-                                break;
-                        }
-                        break;
-
-                    case MenuItemType.SETTINGS_MENU_2:
                         switch (menuItem.SubType)
                         {
                             case MenuItemSubType.ABOUT:
@@ -620,7 +582,7 @@ namespace chkam05.VisualPlayer.Windows
             if (informationBar.CanShow)
                 informationBar.ShowInterface();
 
-            if (Configuration.LogoEnabled)
+            if (ConfigManager.LogoEnabled)
                 logoControl.ShowInterface();
         }
 
@@ -908,17 +870,11 @@ namespace chkam05.VisualPlayer.Windows
         {
             if (_initialized)
             {
-                if (Configuration.AppearanceColorType == AppearanceColorType.SYSTEM)
-                    Configuration.UpdateAccentColor();
-
-                if (Configuration.AppearanceThemeType == chkam05.VisualPlayer.Data.Config.AppearanceThemeType.SYSTEM)
-                    Configuration.UpdateThemeColor();
-
-                if (Configuration.LogoColorType == AppearanceLogoColorType.APPLICATION)
-                    Configuration.UpdateLogoColors();
-
-                if (Configuration.VisualisationColorType == VisualisationColorType.SYSTEM)
-                    Configuration.UpdateVisualisationColor();
+                if (ConfigManager.ColorType == AppearanceColorType.SYSTEM 
+                    || ConfigManager.ThemeType == Data.Configuration.AppearanceThemeType.SYSTEM)
+                {
+                    ConfigManager.ForceAppearanceUpdate();
+                }
             }
         }
 
@@ -975,7 +931,7 @@ namespace chkam05.VisualPlayer.Windows
 
                 visualisation.PreCalculate();
 
-                var beatLevel = Configuration.LogoEnabled && Configuration.LogoAnimated
+                var beatLevel = ConfigManager.LogoEnabled && ConfigManager.LogoAnimated
                     ? visualisation.GetBeatLevel() : 0.0;
 
                 var drawer = Player.PlaybackState == PlaybackState.Playing
@@ -1048,9 +1004,9 @@ namespace chkam05.VisualPlayer.Windows
         /// <param name="e"> Cancel Event Arguments. </param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Configuration.WindowPosition = new Point(this.Left, this.Top);
-            Configuration.WindowSize = new Size(this.ActualWidth, this.ActualHeight);
-            Configuration.Save();
+            ConfigManager.WindowPosition = new Point(this.Left, this.Top);
+            ConfigManager.WindowSize = new Size(this.ActualWidth, this.ActualHeight);
+            ConfigManager.SaveConfiguration();
 
             //  Save current playlist.
             SavePlayListOnClose();
@@ -1084,10 +1040,10 @@ namespace chkam05.VisualPlayer.Windows
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //  Load window position and size.
-            this.Left = Configuration.WindowPosition.X;
-            this.Top = Configuration.WindowPosition.Y;
-            this.Width = Configuration.WindowSize.Width;
-            this.Height = Configuration.WindowSize.Height;
+            this.Left = ConfigManager.WindowPosition.X;
+            this.Top = ConfigManager.WindowPosition.Y;
+            this.Width = ConfigManager.WindowSize.Width;
+            this.Height = ConfigManager.WindowSize.Height;
 
             //  Correct window position on screen.
             var screen = WindowsUtilities.GetScreenWhereIsWindow(this);
@@ -1098,10 +1054,10 @@ namespace chkam05.VisualPlayer.Windows
                 WindowsUtilities.AdjustWindowToPrimaryScreen(this);
 
             //  Create logo.
-            logoControl.Visibility = Configuration.LogoEnabled ? Visibility.Visible : Visibility.Collapsed;
+            logoControl.Visibility = ConfigManager.LogoEnabled ? Visibility.Visible : Visibility.Collapsed;
             logoControl.CreateLogoFromResource(Properties.Resources.BaseLogo);
-            logoControl.SetShapesBackground(Configuration.LogoBackgroundColor);
-            logoControl.SetShapesBorderBrush(Configuration.LogoBorderColor);
+            logoControl.SetShapesBackground(ConfigManager.LogoBackgroundColorBrush);
+            logoControl.SetShapesBorderBrush(ConfigManager.LogoBorderColorBrush);
             logoControl.ScaleToObject(Size);
 
             //  Setup jump list.

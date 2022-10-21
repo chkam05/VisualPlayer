@@ -34,7 +34,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         public MenuItemType? SpecialMenu
         {
-            get => MenuItemType.SETTINGS_MENU_2;
+            get => MenuItemType.SETTINGS_MENU;
         }
 
         public List<MenuItem> MenuItems
@@ -118,7 +118,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
                 {
                     switch (menuItem.Type)
                     {
-                        case MenuItemType.SETTINGS_MENU_2:
+                        case MenuItemType.SETTINGS_MENU:
                             switch (menuItem.SubType)
                             {
                                 case MenuItemSubType.ABOUT:
