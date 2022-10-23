@@ -243,8 +243,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
             set
             {
                 _configuration.AccentColor = value;
-                OnPropertyChanged(nameof(AccentColor));
                 AppearanceUpdate();
+                OnPropertyChanged(nameof(AccentColor));
             }
         }
 
@@ -254,8 +254,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
             set
             {
                 _configuration.BackgroundOpacity = value;
-                OnPropertyChanged(nameof(BackgroundOpacity));
                 AppearanceUpdate();
+                OnPropertyChanged(nameof(BackgroundOpacity));
             }
         }
 
@@ -265,9 +265,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
             set
             {
                 _configuration.ColorType = value;
+                AppearanceUpdate();
                 OnPropertyChanged(nameof(ColorType));
                 OnPropertyChanged(nameof(IsCustomColorType));
-                AppearanceUpdate();
             }
         }
 
@@ -287,8 +287,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
             set
             {
                 _configuration.ControlsBackgroundOpacity = value;
-                OnPropertyChanged(nameof(ControlsBackgroundOpacity));
                 AppearanceUpdate();
+                OnPropertyChanged(nameof(ControlsBackgroundOpacity));
             }
         }
 
@@ -298,9 +298,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
             set
             {
                 _configuration.ThemeType = value;
+                AppearanceUpdate();
                 OnPropertyChanged(nameof(ThemeType));
                 OnPropertyChanged(nameof(IsUserThemeType));
-                AppearanceUpdate();
             }
         }
 
@@ -320,8 +320,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
             set
             {
                 _configuration.ThemeTypeControls = value;
-                OnPropertyChanged(nameof(ThemeTypeControls));
                 AppearanceUpdate();
+                OnPropertyChanged(nameof(ThemeTypeControls));
             }
         }
 
@@ -331,8 +331,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
             set
             {
                 _configuration.ThemeTypeMenus = value;
-                OnPropertyChanged(nameof(ThemeTypeMenus));
                 AppearanceUpdate();
+                OnPropertyChanged(nameof(ThemeTypeMenus));
             }
         }
 
@@ -1163,8 +1163,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
             set
             {
                 _configuration.LogoThemeType = value;
-                OnPropertyChanged(nameof(LogoThemeType));
                 AppearanceUpdate();
+                OnPropertyChanged(nameof(LogoThemeType));
             }
         }
 

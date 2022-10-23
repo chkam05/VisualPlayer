@@ -233,7 +233,7 @@
 
                 <controlsex:ExpanderEx
                     Header="Font"
-                    Margin="0,0,0,8">
+                    Margin="0,0,0,16">
 
                     <StackPanel
                         Orientation="Vertical">
@@ -332,6 +332,7 @@
                         </Border>
 
                         <TextBlock
+                            Margin="0,0,0,8"
                             Text="Header size:"/>
 
                         <controlsex:SliderEx
@@ -342,6 +343,7 @@
                             Value="{Binding ConfigManager.InformationBarTitleTextSizeDiffrence}"/>
 
                         <TextBlock
+                            Margin="0,0,0,8"
                             Text="Spacing:"/>
 
                         <controlsex:SliderEx
@@ -364,8 +366,7 @@
                 </controlsex:ExpanderEx>
 
                 <controlsex:ExpanderEx
-                    Header="Components"
-                    Margin="0,0,0,8">
+                    Header="Components">
 
                     <StackPanel
                         Orientation="Vertical">
@@ -409,6 +410,7 @@
                 </controlsex:ExpanderEx>
 
             </StackPanel>
+            
         </controlsex:ScrollViewerEx>
 
         <Grid

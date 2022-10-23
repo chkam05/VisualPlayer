@@ -10,6 +10,7 @@
     xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
     xmlns:converters_config="clr-namespace:chkam05.VisualPlayer.Converters.Settings"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:visualisations="clr-namespace:chkam05.VisualPlayer.Visualisations"
     mc:Ignorable="d"
     
     d:DesignWidth="800"
@@ -27,6 +28,7 @@
             <converters:VisibilityBoolConverter x:Key="VisibilityBoolConverter"/>
             <converters_config:AppearanceColorTypeNameConverter x:Key="AppearanceColorTypeNameConverter"/>
             <converters_config:AppearanceCustomThemeTypeNameConverter x:Key="AppearanceCustomThemeTypeNameConverter"/>
+            <converters_config:AppearanceLogoThemeNameConverter x:Key="AppearanceLogoThemeNameConverter"/>
             <converters_config:AppearanceThemeTypeNameConverter x:Key="AppearanceThemeTypeNameConverter"/>
             <converters_config:InformationBarAutoHideNameConverter x:Key="InformationBarAutoHideNameConverter"/>
 
@@ -162,13 +164,17 @@
             <DataTemplate x:Key="CustomThemeTypeDataTemplate">
                 <TextBlock Text="{Binding ., Converter={StaticResource AppearanceCustomThemeTypeNameConverter}}"/>
             </DataTemplate>
-            
+
             <DataTemplate x:Key="ColorTypeDataTemplate">
                 <TextBlock Text="{Binding ., Converter={StaticResource AppearanceColorTypeNameConverter}}"/>
             </DataTemplate>
-            
+
             <DataTemplate x:Key="InfoBarAutoHideDataTemplate">
                 <TextBlock Text="{Binding ., Converter={StaticResource InformationBarAutoHideNameConverter}}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="LogoThemeTypeDataTemplate">
+                <TextBlock Text="{Binding ., Converter={StaticResource AppearanceLogoThemeNameConverter}}"/>
             </DataTemplate>
 
         </ResourceDictionary>
@@ -191,7 +197,7 @@
 
                 <controlsex:ExpanderEx
                     Header="Application Theme"
-                    Margin="0,0,0,8">
+                    Margin="0,0,0,16">
 
                     <StackPanel
                         Orientation="Vertical">
@@ -203,10 +209,11 @@
                         <controlsex:ComboBoxEx
                             ItemsSource="{Binding AppearanceThemeTypes}"
                             ItemTemplate="{StaticResource ThemeTypeDataTemplate}"
+                            Margin="0,0,0,16"
                             SelectedItem="{Binding ConfigManager.ThemeType}"/>
 
                         <StackPanel
-                            Margin="0,8,0,0"
+                            Margin="0,0,0,16"
                             Visibility="{Binding ConfigManager.IsUserThemeType, Converter={StaticResource VisibilityBoolConverter}, ConverterParameter=true}">
 
                             <TextBlock
@@ -216,7 +223,7 @@
                             <controlsex:ComboBoxEx
                                 ItemsSource="{Binding AppearanceCustomThemeTypes}"
                                 ItemTemplate="{StaticResource CustomThemeTypeDataTemplate}"
-                                Margin="0,0,0,8"
+                                Margin="0,0,0,16"
                                 SelectedItem="{Binding ConfigManager.ThemeTypeControls}"/>
 
                             <TextBlock
@@ -226,20 +233,21 @@
                             <controlsex:ComboBoxEx
                                 ItemsSource="{Binding AppearanceCustomThemeTypes}"
                                 ItemTemplate="{StaticResource CustomThemeTypeDataTemplate}"
-                                Margin="0,0,0,8"
+                                Margin="0,0,0,0"
                                 SelectedItem="{Binding ConfigManager.ThemeTypeMenus}"/>
 
                         </StackPanel>
 
                         <TextBlock
-                                Margin="0,0,0,8"
-                                Text="Background opacity"/>
+                            Margin="0,0,0,8"
+                            Text="Background opacity"/>
 
                         <controlsex:SliderEx
-                                Maximum="{x:Static config:ConfigManager.COLOR_OPACITY_MAX}"
-                                Minimum="{x:Static config:ConfigManager.COLOR_OPACITY_MIN}"
-                                TickFrequency="0.01"
-                                Value="{Binding ConfigManager.BackgroundOpacity}"/>
+                            Margin="0,0,0,8"
+                            Maximum="{x:Static config:ConfigManager.COLOR_OPACITY_MAX}"
+                            Minimum="{x:Static config:ConfigManager.COLOR_OPACITY_MIN}"
+                            TickFrequency="0.01"
+                            Value="{Binding ConfigManager.BackgroundOpacity}"/>
 
                     </StackPanel>
                     
@@ -247,7 +255,7 @@
 
                 <controlsex:ExpanderEx
                     Header="Theme Color"
-                    Margin="0,0,0,8">
+                    Margin="0,0,0,16">
 
                     <StackPanel
                         Orientation="Vertical">
@@ -259,7 +267,7 @@
                         <controlsex:ComboBoxEx
                             ItemsSource="{Binding AppearanceColorTypes}"
                             ItemTemplate="{StaticResource ColorTypeDataTemplate}"
-                            Margin="0,0,0,8"
+                            Margin="0,0,0,16"
                             SelectedItem="{Binding ConfigManager.ColorType}"/>
 
                         <controlsex:ColorsPaletteEx
@@ -272,7 +280,8 @@
                 </controlsex:ExpanderEx>
 
                 <controlsex:ExpanderEx
-                    Header="Components">
+                    Header="Components"
+                    Margin="0,0,0,16">
 
                     <StackPanel
                         Orientation="Vertical">
@@ -290,7 +299,7 @@
                         <controlsex:CheckBoxEx
                             Content="Playlist Autohide"
                             IsChecked="{Binding ConfigManager.PlayListAutoHide}"
-                            Margin="0,0,0,8"/>
+                            Margin="0,0,0,16"/>
 
                         <TextBlock
                             Margin="0,0,0,8"
@@ -299,7 +308,7 @@
                         <controlsex:ComboBoxEx
                             ItemsSource="{Binding InfoBarAutoHides}"
                             ItemTemplate="{StaticResource InfoBarAutoHideDataTemplate}"
-                            Margin="0,0,0,8"
+                            Margin="0,0,0,16"
                             SelectedItem="{Binding ConfigManager.InformationBarAutoHide}"/>
 
                         <TextBlock
@@ -307,10 +316,63 @@
                             Text="Controls background opacity"/>
 
                         <controlsex:SliderEx
+                            Margin="0,0,0,8"
                             Maximum="{x:Static config:ConfigManager.COLOR_OPACITY_MAX}"
                             Minimum="{x:Static config:ConfigManager.COLOR_OPACITY_MIN}"
                             TickFrequency="0.01"
                             Value="{Binding ConfigManager.ControlsBackgroundOpacity}"/>
+
+                    </StackPanel>
+
+                </controlsex:ExpanderEx>
+
+                <controlsex:ExpanderEx
+                    Header="Logo">
+
+                    <StackPanel
+                        Orientation="Vertical">
+
+                        <controlsex:CheckBoxEx
+                            Content="Enable Logo"
+                            IsChecked="{Binding ConfigManager.LogoEnabled}"
+                            Margin="0,0,0,16"/>
+
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            Text="Logo Color"/>
+
+                        <controlsex:ComboBoxEx
+                            ItemsSource="{Binding AppearanceLogoThemeTypes}"
+                            ItemTemplate="{StaticResource LogoThemeTypeDataTemplate}"
+                            Margin="0,0,0,16"
+                            SelectedItem="{Binding ConfigManager.LogoThemeType}"/>
+
+                        <controlsex:CheckBoxEx
+                            Content="Animate Logo"
+                            IsChecked="{Binding ConfigManager.LogoAnimated}"
+                            Margin="0,0,0,16"/>
+
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            Text="Animation speed:"/>
+
+                        <controlsex:SliderEx
+                            Margin="0,0,0,16"
+                            Maximum="{x:Static visualisations:BeatLevel.FALL_SPEED_MAX}"
+                            Minimum="{x:Static visualisations:BeatLevel.FALL_SPEED_MIN}"
+                            TickFrequency="0.01"
+                            Value="{Binding ConfigManager.LogoAnimationSpeed}"/>
+
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            Text="Animation sensitivity:"/>
+
+                        <controlsex:SliderEx
+                            Margin="0,0,0,8"
+                            Maximum="{x:Static visualisations:BeatLevel.SENSITIVITY_MAX}"
+                            Minimum="{x:Static visualisations:BeatLevel.SENSITIVITY_MIN}"
+                            TickFrequency="0.01"
+                            Value="{Binding ConfigManager.LogoAnimationSensitivity}"/>
 
                     </StackPanel>
 

@@ -210,7 +210,7 @@
 
                 <controlsex:ExpanderEx
                     Header="Appearance"
-                    Margin="0,0,0,8">
+                    Margin="0,0,0,16">
 
                     <StackPanel
                         Orientation="Vertical">
@@ -313,6 +313,7 @@
                             Text="Lyrics background opacity"/>
 
                         <controlsex:SliderEx
+                            Margin="0,0,0,8"
                             Maximum="{x:Static config:ConfigManager.COLOR_OPACITY_MAX}"
                             Minimum="{x:Static config:ConfigManager.COLOR_OPACITY_MIN}"
                             TickFrequency="0.01"
@@ -331,7 +332,7 @@
                         <controlsex:CheckBoxEx
                             Content="Auto load Lyrics from local library"
                             IsChecked="{Binding ConfigManager.LyricsAutoLoad}"
-                            Margin="0,0,0,8"/>
+                            Margin="0,0,0,16"/>
 
                         <TextBlock
                             Margin="0,0,0,8"

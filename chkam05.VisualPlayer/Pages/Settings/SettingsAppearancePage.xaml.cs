@@ -37,6 +37,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         private ObservableCollection<AppearanceColorType> _appearanceColorTypes;
         private ObservableCollection<AppearanceCustomThemeType> _appearanceCustomThemeTypes;
+        private ObservableCollection<AppearanceLogoTheme> _appearanceLogoThemeTypes;
         private ObservableCollection<AppearanceThemeType> _appearanceThemeTypes;
         private ObservableCollection<ColorPaletteItem> _appearanceUsedCustomColors;
         private ObservableCollection<InformationBarAutoHide> _infoBarAutoHides;
@@ -79,6 +80,16 @@ namespace chkam05.VisualPlayer.Pages.Settings
             {
                 _appearanceCustomThemeTypes = value;
                 OnPropertyChanged(nameof(AppearanceCustomThemeTypes));
+            }
+        }
+
+        public ObservableCollection<AppearanceLogoTheme> AppearanceLogoThemeTypes
+        {
+            get => _appearanceLogoThemeTypes;
+            set
+            {
+                _appearanceLogoThemeTypes = value;
+                OnPropertyChanged(nameof(AppearanceLogoThemeTypes));
             }
         }
 
@@ -194,6 +205,9 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
             AppearanceCustomThemeTypes = new ObservableCollection<AppearanceCustomThemeType>(
                 EnumUtilities.ListOf<AppearanceCustomThemeType>());
+
+            AppearanceLogoThemeTypes = new ObservableCollection<AppearanceLogoTheme>(
+                EnumUtilities.ListOf<AppearanceLogoTheme>());
 
             AppearanceThemeTypes = new ObservableCollection<AppearanceThemeType>(
                 EnumUtilities.ListOf<AppearanceThemeType>());

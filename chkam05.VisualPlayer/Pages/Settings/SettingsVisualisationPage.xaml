@@ -247,7 +247,7 @@
 
                 <controlsex:ExpanderEx
                     Header="Visualisation"
-                    Margin="0,0,0,8">
+                    Margin="0,0,0,16">
 
                     <StackPanel
                         Orientation="Vertical">
@@ -259,7 +259,7 @@
                         <controlsex:ComboBoxEx
                             ItemsSource="{Binding VisualisationTypes}"
                             ItemTemplate="{StaticResource TypesDataTemplate}"
-                            Margin="0,0,0,8"
+                            Margin="0,0,0,16"
                             SelectedItem="{Binding ConfigManager.VisualisationType}"/>
 
                         <TextBlock
@@ -276,7 +276,7 @@
 
                 <controlsex:ExpanderEx
                     Header="Animation"
-                    Margin="0,0,0,8">
+                    Margin="0,0,0,16">
 
                     <StackPanel
                         Orientation="Vertical">
@@ -286,6 +286,7 @@
                             Text="Stripes falling speed"/>
 
                         <controlsex:SliderEx
+                            Margin="0,0,0,8"
                             Maximum="{x:Static visualisations:StripesVisualisation.FALL_SPEED_MAX}"
                             Minimum="{x:Static visualisations:StripesVisualisation.FALL_SPEED_MIN}"
                             TickFrequency="0.10"
@@ -296,7 +297,7 @@
 
                 <controlsex:ExpanderEx
                     Header="Appearance Colors"
-                    Margin="0,0,0,8">
+                    Margin="0,0,0,16">
 
                     <StackPanel
                         Orientation="Vertical">
@@ -308,7 +309,7 @@
                         <controlsex:CheckBoxEx
                             Content="Visualisation border visibility"
                             IsChecked="{Binding ConfigManager.VisualisationBorderEnabled}"
-                            Margin="0,0,0,8"/>
+                            Margin="0,0,0,16"/>
 
                         <TextBlock
                             Margin="0,0,0,8"
@@ -317,10 +318,11 @@
                         <controlsex:ComboBoxEx
                             ItemsSource="{Binding VisualisationColorTypes}"
                             ItemTemplate="{StaticResource ColorDataTemplate}"
-                            Margin="0,0,0,8"
+                            Margin="0,0,0,16"
                             SelectedItem="{Binding ConfigManager.VisualisationColorType}"/>
 
-                        <controlsex:TabControlEx>
+                        <controlsex:TabControlEx
+                            Margin="0,0,0,16">
                             <controlsex:TabControlEx.Items>
                                 <controlsex:TabItemEx
                                     Header="Fill"
@@ -349,6 +351,7 @@
                             Text="Opacity"/>
 
                         <controlsex:SliderEx
+                            Margin="0,0,0,8"
                             Maximum="{x:Static visualisations:StripesVisualisation.OPACITY_MAX}"
                             Minimum="{x:Static visualisations:StripesVisualisation.OPACITY_MIN}"
                             TickFrequency="0.01"
@@ -359,7 +362,7 @@
 
                 <controlsex:ExpanderEx
                     Header="Appearance Rainbow"
-                    Margin="0,0,0,8">
+                    Margin="0,0,0,0">
 
                     <StackPanel
                         Orientation="Vertical">
@@ -374,7 +377,7 @@
                             Text="Auto color shift change speed"/>
 
                         <controlsex:SliderEx
-                            Margin="0,0,0,8"
+                            Margin="0,0,0,16"
                             Maximum="{x:Static visualisations:StripesVisualisation.RAINBOW_CHANGE_TIME_MAX}"
                             Minimum="{x:Static visualisations:StripesVisualisation.RAINBOW_CHANGE_TIME_MIN}"
                             TickFrequency="0.01"
@@ -385,7 +388,7 @@
                             Text="Horizontal rainbow color spectrum"/>
 
                         <controlsex:SliderEx
-                            Margin="0,0,0,8"
+                            Margin="0,0,0,16"
                             Maximum="{x:Static controlsex_data:AHSLColor.HUE_MAX_D}"
                             Minimum="{x:Static controlsex_data:AHSLColor.HUE_MIN_D}"
                             TickFrequency="1"
@@ -396,6 +399,7 @@
                             Text="Vertical rainbow color spectrum"/>
 
                         <controlsex:SliderEx
+                            Margin="0,0,0,8"
                             Maximum="{x:Static controlsex_data:AHSLColor.HUE_MAX_D}"
                             Minimum="{x:Static controlsex_data:AHSLColor.HUE_MIN_D}"
                             TickFrequency="1"
@@ -409,7 +413,7 @@
 
         <Grid
             Grid.Row="1"
-            Margin="8,8,8,2">
+            Margin="8,8,8,8">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

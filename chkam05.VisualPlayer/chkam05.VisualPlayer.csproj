@@ -219,6 +219,7 @@
     <Compile Include="Converters\RepeatControlIconConverter.cs" />
     <Compile Include="Converters\Settings\AppearanceColorTypeNameConverter.cs" />
     <Compile Include="Converters\Settings\AppearanceCustomThemeTypeNameConverter.cs" />
+    <Compile Include="Converters\Settings\AppearanceLogoThemeNameConverter.cs" />
     <Compile Include="Converters\Settings\AppearanceThemeTypeNameConverter.cs" />
     <Compile Include="Converters\Settings\InformationBarAutoHideNameConverter.cs" />
     <Compile Include="Converters\Settings\LyricsMatchingTypeNameConverter.cs" />
