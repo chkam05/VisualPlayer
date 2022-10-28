@@ -192,7 +192,15 @@ namespace chkam05.VisualPlayer.Controls
 
         public TimeSpan CurrentTime
         {
-            get => (TimeSpan)GetValue(CurrentTimeProperty);
+            get
+            {
+                var value = GetValue(CurrentTimeProperty);
+
+                if (value == DependencyProperty.UnsetValue)
+                    return new TimeSpan(0);
+
+                return (TimeSpan)value;
+            }
             set
             {
                 SetValue(CurrentTimeProperty, value);
@@ -202,7 +210,15 @@ namespace chkam05.VisualPlayer.Controls
 
         public TimeSpan FullTime
         {
-            get => (TimeSpan)GetValue(FullTimeProperty);
+            get
+            {
+                var value = GetValue(FullTimeProperty);
+
+                if (value == DependencyProperty.UnsetValue)
+                    return new TimeSpan(0);
+
+                return (TimeSpan)value;
+            }
             set
             {
                 SetValue(FullTimeProperty, value);

@@ -1,4 +1,5 @@
 ﻿using chkam05.Tools.ControlsEx.Colors;
+using chkam05.Tools.ControlsEx.Static;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Fonts;
@@ -60,7 +61,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         public bool InformationBarInfoTitleVisible { get; set; } = true;
         public double InformationBarTextSpacing { get; set; } = 2.0d;
         public int InformationBarTitleTextSizeDiffrence { get; set; } = 8;
-        public MarqueeState InformationBarTitleMarqueeState { get; set; } = MarqueeState.TOO_LONG_TEXT;
+        public MarqueeTextBlockState InformationBarTitleMarqueeState { get; set; } = MarqueeTextBlockState.WhenTextIsTooLong;
 
         //  Logo
 
@@ -93,7 +94,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         //  Title Bar
 
         public bool TitleBarSongInfo { get; set; } = true;
-        public MarqueeState TitleBarSongInfoMarqueeState { get; set; } = MarqueeState.TOO_LONG_TEXT;
+        public MarqueeTextBlockState TitleBarSongInfoMarqueeState { get; set; } = MarqueeTextBlockState.WhenTextIsTooLong;
 
         //  Visualisation
 

@@ -1,4 +1,5 @@
 ﻿using chkam05.Tools.ControlsEx.Events;
+using chkam05.Tools.ControlsEx.Static;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Data.Fonts;
@@ -36,7 +37,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
         private ObservableCollection<FontStyle> _fontStyles;
         private ObservableCollection<FontStretch> _fontStretches;
         private ObservableCollection<FontWeight> _fontWeights;
-        private ObservableCollection<MarqueeState> _titleMarqueeStates;
+        private ObservableCollection<MarqueeTextBlockState> _titleMarqueeStates;
         private ObservableCollection<InformationBarAutoHide> _infoBarAutoHides;
 
         public ConfigManager ConfigManager { get; private set; }
@@ -90,7 +91,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
             }
         }
 
-        public ObservableCollection<MarqueeState> TitleMarqueeStates
+        public ObservableCollection<MarqueeTextBlockState> TitleMarqueeStates
         {
             get => _titleMarqueeStates;
             set
@@ -214,8 +215,8 @@ namespace chkam05.VisualPlayer.Pages.Settings
             FontStretches = new ObservableCollection<FontStretch>(FontsManager.GetStretches());
             FontWeights = new ObservableCollection<FontWeight>(FontsManager.GetWeights());
 
-            TitleMarqueeStates = new ObservableCollection<MarqueeState>(
-                EnumUtilities.ListOf<MarqueeState>());
+            TitleMarqueeStates = new ObservableCollection<MarqueeTextBlockState>(
+                EnumUtilities.ListOf<MarqueeTextBlockState>());
 
             InfoBarAutoHides = new ObservableCollection<InformationBarAutoHide>(
                 EnumUtilities.ListOf<InformationBarAutoHide>());

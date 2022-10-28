@@ -1,4 +1,5 @@
-﻿using chkam05.VisualPlayer.Controls.Data;
+﻿using chkam05.Tools.ControlsEx.Static;
+using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Utilities;
 using System;
@@ -30,7 +31,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         //  VARIABLES
 
-        private ObservableCollection<MarqueeState> _titleMarqueeStates;
+        private ObservableCollection<MarqueeTextBlockState> _titleMarqueeStates;
 
         public ConfigManager ConfigManager { get; private set; }
         public IPagesManager PagesManager { get; private set; }
@@ -43,7 +44,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
             get => MenuItemType.SETTINGS_MENU;
         }
 
-        public ObservableCollection<MarqueeState> TitleMarqueeStates
+        public ObservableCollection<MarqueeTextBlockState> TitleMarqueeStates
         {
             get => _titleMarqueeStates;
             set
@@ -138,8 +139,8 @@ namespace chkam05.VisualPlayer.Pages.Settings
         /// <summary> Setup data containers. </summary>
         private void SetupDataContainers()
         {
-            TitleMarqueeStates = new ObservableCollection<MarqueeState>(
-                EnumUtilities.ListOf<MarqueeState>());
+            TitleMarqueeStates = new ObservableCollection<MarqueeTextBlockState>(
+                EnumUtilities.ListOf<MarqueeTextBlockState>());
         }
 
         #endregion SETUP METHODS

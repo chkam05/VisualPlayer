@@ -47,7 +47,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="chkam05.Tools.ControlsEx, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\chkam05.Tools.ControlsEx.2.2.0\lib\net472\chkam05.Tools.ControlsEx.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\chkam05.Tools.ControlsEx.2.2.2\lib\net472\chkam05.Tools.ControlsEx.dll</HintPath>
     </Reference>
     <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
       <HintPath>..\packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>

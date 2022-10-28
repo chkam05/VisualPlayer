@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:controls="clr-namespace:chkam05.VisualPlayer.Controls" 
+    xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
     xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
     xmlns:local="clr-namespace:chkam05.VisualPlayer.Controls"
     xmlns:properties="clr-namespace:chkam05.VisualPlayer.Properties"
@@ -113,23 +114,27 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <controls:MarqueeTextBlock
+                    <controlsex:MarqueeTextBlockEx
                         x:Name="TitleMarqueeTextBlock"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="3"
-                        Grid.Row="0"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0"
                         FontFamily="{Binding ConfigManager.InformationBarFont.FontFamily, RelativeSource={StaticResource RelativeSelf}}"
                         FontSize="{Binding ConfigManager.InformationBarTitleFontSize, RelativeSource={StaticResource RelativeSelf}}"
                         FontStretch="{Binding ConfigManager.InformationBarFontStretch, RelativeSource={StaticResource RelativeSelf}}"
                         FontStyle="{Binding ConfigManager.InformationBarFontStyle, RelativeSource={StaticResource RelativeSelf}}"
                         FontWeight="{Binding ConfigManager.InformationBarFontWeight, RelativeSource={StaticResource RelativeSelf}}"
                         Foreground="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"
-                        Interval="25"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="3"
+                        Grid.Row="0"
                         Margin="{Binding ConfigManager.InformationBarTextMargin, RelativeSource={StaticResource RelativeSelf}}"
-                        MarqueeBehaviour="RIGHT_TO_LEFT_OUT"
-                        MarqueeState="{Binding ConfigManager.InformationBarTitleMarqueeState, RelativeSource={StaticResource RelativeSelf}}"
-                        PauseInterval="2000"
-                        Step="1"
+                        MarqueeBouncing="False"
+                        MarqueeDuration="0:0:5"
+                        MarqueeEnabled="{Binding ConfigManager.InformationBarTitleMarqueeState, RelativeSource={StaticResource RelativeSelf}}"
+                        MarqueeStartPosition="LeftInside"
+                        MarqueeEndPosition="LeftOutside"
+                        Padding="0"
                         Text="{Binding TitleInfo, RelativeSource={StaticResource RelativeSelf}}"
                         Visibility="{Binding ConfigManager.InformationBarInfoTitleVisible, Converter={StaticResource VisibilityBoolConverter}, RelativeSource={StaticResource RelativeSelf}}"/>
 

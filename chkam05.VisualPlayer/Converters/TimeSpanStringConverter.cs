@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace chkam05.VisualPlayer.Converters
@@ -31,8 +32,8 @@ namespace chkam05.VisualPlayer.Converters
         /// <returns> A converted value. If the method returns null, the valid null value is used. </returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var timeSpan = (TimeSpan)values[0];
-            var advancedTimeMode = (bool)values[1];
+            var timeSpan = values[0] != DependencyProperty.UnsetValue ? (TimeSpan)values[0] : new TimeSpan(0);
+            var advancedTimeMode = values[1] != DependencyProperty.UnsetValue ? (bool)values[1] : false;
             var format = advancedTimeMode ? formatWithMs : formatStandard;
 
             if (timeSpan != null)

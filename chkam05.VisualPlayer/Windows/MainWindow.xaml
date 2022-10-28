@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF"
     xmlns:controls="clr-namespace:chkam05.VisualPlayer.Controls"
+    xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
     xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
     xmlns:local="clr-namespace:chkam05.VisualPlayer.Windows"
     xmlns:messages="clr-namespace:chkam05.VisualPlayer.Controls.Messages" 
@@ -48,13 +49,18 @@
             <converters:VisibilityBoolConverter x:Key="VisibilityBoolConverter"/>
             
             <!-- Styles. -->
-            <Style x:Key="MarqueeTextBlock_Style" TargetType="{x:Type controls:MarqueeTextBlock}">
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+            <Style TargetType="{x:Type controlsex:MarqueeTextBlockEx}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="BorderThickness" Value="1,0,0,0"/>
                 <Setter Property="FontSize" Value="14"/>
                 <Setter Property="FontWeight" Value="SemiBold"/>
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 <Setter Property="Margin" Value="8,4"/>
+                <Setter Property="MarqueeBouncing" Value="False"/>
+                <Setter Property="MarqueeDuration" Value="0:0:5"/>
+                <Setter Property="MarqueeStartPosition" Value="LeftInside"/>
+                <Setter Property="MarqueeEndPosition" Value="LeftOutside"/>
                 <Setter Property="Padding" Value="8,0"/>
                 <Setter Property="VerticalAlignment" Value="Stretch"/>
             </Style>
@@ -273,16 +279,11 @@
 
             </Grid>
 
-            <controls:MarqueeTextBlock
+            <controlsex:MarqueeTextBlockEx
                 x:Name="TitleInformationBar"
                 Foreground="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"
+                MarqueeEnabled="{Binding ConfigManager.TitleBarSongInfoMarqueeState, RelativeSource={StaticResource RelativeSelf}}"
                 Grid.Column="2"
-                Interval="25"
-                PauseInterval="2000"
-                MarqueeBehaviour="RIGHT_TO_LEFT_OUT"
-                MarqueeState="{Binding ConfigManager.TitleBarSongInfoMarqueeState, RelativeSource={StaticResource RelativeSelf}}"
-                Step="1"
-                Style="{StaticResource MarqueeTextBlock_Style}"
                 Text="No name"
                 VerticalAlignment="Center"
                 Visibility="{Binding ConfigManager.TitleBarSongInfo, Converter={StaticResource VisibilityBoolConverter}, RelativeSource={StaticResource RelativeSelf}}"/>

@@ -1,4 +1,5 @@
-﻿using chkam05.VisualPlayer.Controls.Data;
+﻿using chkam05.Tools.ControlsEx.Static;
+using chkam05.VisualPlayer.Controls.Data;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,11 +15,11 @@ namespace chkam05.VisualPlayer.Converters
 
         //  CONST
 
-        private static readonly Dictionary<MarqueeState, string> _mapping = new Dictionary<MarqueeState, string>
+        private static readonly Dictionary<MarqueeTextBlockState, string> _mapping = new Dictionary<MarqueeTextBlockState, string>
         {
-            { MarqueeState.DISABLED, "Disabled" },
-            { MarqueeState.ENABLED, "Enabled" },
-            { MarqueeState.TOO_LONG_TEXT, "If text is too long" },
+            { MarqueeTextBlockState.Disabled, "Disabled" },
+            { MarqueeTextBlockState.Enabled, "Enabled" },
+            { MarqueeTextBlockState.WhenTextIsTooLong, "If text is too long" },
         };
 
 
@@ -35,7 +36,7 @@ namespace chkam05.VisualPlayer.Converters
         {
             if (value != null)
             {
-                var enumValue = (MarqueeState)value;
+                var enumValue = (MarqueeTextBlockState)value;
                 return _mapping[enumValue];
             }
 
@@ -56,7 +57,7 @@ namespace chkam05.VisualPlayer.Converters
             if (!string.IsNullOrEmpty(stringValue) && _mapping.Any(m => m.Value == stringValue))
                 return _mapping.Where(m => m.Value == stringValue).First().Key;
 
-            return MarqueeState.DISABLED;
+            return MarqueeTextBlockState.Disabled;
         }
     }
 }

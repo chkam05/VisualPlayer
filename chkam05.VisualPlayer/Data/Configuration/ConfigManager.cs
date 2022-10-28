@@ -1,4 +1,5 @@
 ﻿using chkam05.Tools.ControlsEx.Colors;
+using chkam05.Tools.ControlsEx.Static;
 using chkam05.Tools.ControlsEx.Utilities;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Data.Config;
@@ -1081,7 +1082,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             }
         }
 
-        public MarqueeState InformationBarTitleMarqueeState
+        public MarqueeTextBlockState InformationBarTitleMarqueeState
         {
             get => _configuration.InformationBarTitleMarqueeState;
             set
@@ -1310,7 +1311,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             }
         }
 
-        public MarqueeState TitleBarSongInfoMarqueeState
+        public MarqueeTextBlockState TitleBarSongInfoMarqueeState
         {
             get => _configuration.TitleBarSongInfoMarqueeState;
             set
