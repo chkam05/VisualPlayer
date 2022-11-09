@@ -1,4 +1,5 @@
-﻿using chkam05.VisualPlayer.Components;
+﻿using chkam05.Tools.ControlsEx.InternalMessages;
+using chkam05.VisualPlayer.Components;
 using chkam05.VisualPlayer.Components.Events;
 using chkam05.VisualPlayer.Controls;
 using chkam05.VisualPlayer.Controls.Data;
@@ -15,7 +16,6 @@ using chkam05.VisualPlayer.Data.Lyrics;
 using chkam05.VisualPlayer.Pages;
 using chkam05.VisualPlayer.Pages.Events;
 using chkam05.VisualPlayer.Pages.Settings;
-using chkam05.VisualPlayer.Pages.Settings_old;
 using chkam05.VisualPlayer.Utilities;
 using chkam05.VisualPlayer.Utilities.Data;
 using chkam05.VisualPlayer.Visualisations;
@@ -59,7 +59,6 @@ namespace chkam05.VisualPlayer.Windows
         private bool _anyControlUpdated;
         private List<string> _arguments;
         private bool _initialized = false;
-        private string _screenVersion = "";
         private SystemListener _systemListener;
         private DispatcherHandler _vsDispatcherHandler;
 
@@ -78,24 +77,11 @@ namespace chkam05.VisualPlayer.Windows
             get => _controlsUpdating.Any(d => d.Value == true);
         }
 
-        public IMessagesManager MessagesManager
-        {
-            get => messagesControl;
-        }
+        public InternalMessagesManager MessagesManager { get; private set; }
 
         public IPagesManager PagesManager
         {
             get => pagesControl;
-        }
-
-        public string ScreenVersion
-        {
-            get => _screenVersion;
-            private set
-            {
-                _screenVersion = value;
-                OnPropertyChanged(nameof(ScreenVersion));
-            }
         }
 
         public Size Size
@@ -162,7 +148,7 @@ namespace chkam05.VisualPlayer.Windows
 
             LyricsManager.Controller = lyricsControl;
             LyricsManager.UpdateConfiguration(ConfigManager);
-            ScreenVersion = $"{appTitle} {appVersion.ToString(3)} compilation {appVersion.Revision}";
+            MessagesManager = new InternalMessagesManager(messagesControl, ConfigManager);
             VisualisationsManager.Create(ConfigManager.VisualisationType, null, VisualisationRenderSize);
             VisualisationsManager.UpdateConfiguration(ConfigManager);
         }
@@ -185,6 +171,8 @@ namespace chkam05.VisualPlayer.Windows
                 logoControl.SetShapesBackground(ConfigManager.LogoBackgroundColorBrush);
                 logoControl.SetShapesBorderBrush(ConfigManager.LogoBorderColorBrush);
                 logoControl.ScaleToObject(Size);
+
+                MessagesManager.UpdateConfiguration();
             }
 
             if (ConfigManager.LyricsUpdateProperties.Contains(e.PropertyName))

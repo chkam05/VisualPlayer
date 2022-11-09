@@ -117,14 +117,21 @@
             <!-- Data Templates. -->
             <DataTemplate x:Key="NowPlayingDataTemplate">
                 <StackPanel Orientation="Horizontal">
-                    <materialDesign:PackIcon Height="32" Width="auto">
-                        <materialDesign:PackIcon.Kind>
-                            <MultiBinding Converter="{StaticResource IPlayableNowPlayingConverter}">
-                                <Binding Path="NowPlaying"></Binding>
-                                <Binding Path="Cover"></Binding>
-                            </MultiBinding>
-                        </materialDesign:PackIcon.Kind>
-                    </materialDesign:PackIcon>
+                    <Grid>
+                        <Image
+                            Height="32"
+                            Source="{Binding Cover}"
+                            Width="32"/>
+                        
+                        <materialDesign:PackIcon Height="32" Width="auto">
+                            <materialDesign:PackIcon.Kind>
+                                <MultiBinding Converter="{StaticResource IPlayableNowPlayingConverter}">
+                                    <Binding Path="NowPlaying"></Binding>
+                                    <Binding Path="Cover"></Binding>
+                                </MultiBinding>
+                            </materialDesign:PackIcon.Kind>
+                        </materialDesign:PackIcon>
+                    </Grid>
 
                     <TextBlock
                         Margin="8,0"

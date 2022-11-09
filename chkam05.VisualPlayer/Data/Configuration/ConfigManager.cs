@@ -109,6 +109,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private bool _lockVisualisationConfig = false;
         private bool _lockVisualisationUpdate = false;
         private Config _configuration;
+        private string _screenVersion = "";
         private VisualisationProfilesManager _visualisationProfilesManager;
 
         #region Appearance Brushes
@@ -215,6 +216,16 @@ namespace chkam05.VisualPlayer.Data.Configuration
         public PropertyInfo[] Properties
         {
             get => ObjectUtilities.GetObjectProperties(this.GetType());
+        }
+
+        public string ScreenVersion
+        {
+            get => _screenVersion;
+            private set
+            {
+                _screenVersion = value;
+                OnPropertyChanged(nameof(ScreenVersion));
+            }
         }
 
         public VisualisationProfilesManager VisualisationProfilesManager
@@ -1528,6 +1539,11 @@ namespace chkam05.VisualPlayer.Data.Configuration
             _configuration = new Config();
             _visualisationProfilesManager = new VisualisationProfilesManager();
             _visualisationProfilesManager.PropertyChanged += OnVisualisationProfileUpdate;
+
+            var appTitle = ApplicationHelper.Instance.GetApplicationTitle();
+            var appVersion = ApplicationHelper.Instance.GetApplicationVersion();
+
+            ScreenVersion = $"{appTitle} {appVersion.ToString(3)}{Environment.NewLine}compilation beta.{appVersion.Revision}";
         }
 
         #endregion CLASS METHODS

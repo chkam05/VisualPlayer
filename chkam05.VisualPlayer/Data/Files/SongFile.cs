@@ -183,6 +183,7 @@ namespace chkam05.VisualPlayer.Data.Files
                     bitmapImage.BeginInit();
                     bitmapImage.StreamSource = stream;
                     bitmapImage.EndInit();
+                    bitmapImage.Freeze();
 
                     return bitmapImage;
                 }

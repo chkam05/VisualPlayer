@@ -46,9 +46,8 @@
     <ApplicationIcon>Resources\Logo\Logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="chkam05.Tools.ControlsEx, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\chkam05.Tools.ControlsEx.2.2.2\lib\net472\chkam05.Tools.ControlsEx.dll</HintPath>
+    <Reference Include="chkam05.Tools.ControlsEx, Version=2.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\chkam05.Tools.ControlsEx.2.2.3\lib\net472\chkam05.Tools.ControlsEx.dll</HintPath>
     </Reference>
     <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
       <HintPath>..\packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
@@ -268,6 +267,7 @@
     <Compile Include="Pages\Settings\SettingsVisualisationPage.xaml.cs">
       <DependentUpon>SettingsVisualisationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\InternalMessagesManager.cs" />
     <Compile Include="Utilities\JumpListCreator.cs" />
     <Compile Include="Utilities\SingleInstance.cs" />
     <Compile Include="Data\Config\AppearanceLogoColorType.cs" />
@@ -277,9 +277,6 @@
     <Compile Include="Data\Config\Events\ConfigurationUpdateEventArgs.cs" />
     <Compile Include="Data\Config\LyricsMatchType.cs" />
     <Compile Include="Data\Lyrics\Events\LyricsItemUpdateEventArgs.cs" />
-    <Compile Include="Pages\Settings_old\SettingsOldLyricsPage.cs">
-      <DependentUpon>SettingsOldLyricsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\Data\AHSLColor.cs" />
     <Compile Include="Utilities\Data\DispatcherHandler.cs" />
     <Compile Include="Utilities\Data\SystemTheme.cs" />
@@ -304,21 +301,6 @@
     <Compile Include="Pages\IPagesManager.cs" />
     <Compile Include="Pages\LyricsPage.xaml.cs">
       <DependentUpon>LyricsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Settings_old\SettingsOldAboutPage.xaml.cs">
-      <DependentUpon>SettingsOldAboutPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Settings_old\SettingsOldAppearancePage.xaml.cs">
-      <DependentUpon>SettingsOldAppearancePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Settings_old\SettingsOldGeneralPage.cs">
-      <DependentUpon>SettingsOldGeneralPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Settings_old\SettingsOldHomePage.xaml.cs">
-      <DependentUpon>SettingsOldHomePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Settings_old\SettingsOldVisualisationPage.cs">
-      <DependentUpon>SettingsOldVisualisationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Serializers\LyricsSerializer.cs" />
     <Compile Include="Serializers\PlayListSerializer.cs" />
@@ -449,30 +431,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Settings\SettingsVisualisationPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Settings_old\SettingsOldAboutPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Settings_old\SettingsOldAppearancePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Settings_old\SettingsOldGeneralPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Settings_old\SettingsOldHomePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Settings_old\SettingsOldLyricsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\Settings_old\SettingsOldVisualisationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

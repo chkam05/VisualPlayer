@@ -1,4 +1,5 @@
-﻿using chkam05.VisualPlayer.Controls.Messages;
+﻿using chkam05.Tools.ControlsEx.InternalMessages;
+using chkam05.VisualPlayer.Controls.Messages;
 using chkam05.VisualPlayer.Data.Files;
 using chkam05.VisualPlayer.Data.PlayLists;
 using chkam05.VisualPlayer.Utilities.Data;
@@ -192,7 +193,7 @@ namespace chkam05.VisualPlayer.Utilities
         /// <param name="dispatcherHandler"> Dispatcher handler for invoke action outside. </param>
         /// <param name="progressMessage"> Progress message box. </param>
         public void LoadPlayableFilesAsync(List<string> filesPaths, FileGroup filesGroup, IPlayList<IPlayable> result, 
-            DispatcherHandler dispatcherHandler, IProgressMessage progressMessage = null)
+            DispatcherHandler dispatcherHandler, ProgressInternalMessageEx progressMessage = null)
         {
             int filesCount = filesPaths.Count;
             var suitableExtensions = GetSuitableExtensions(filesGroup);
@@ -226,7 +227,9 @@ namespace chkam05.VisualPlayer.Utilities
                     dispatcherHandler.TryInvoke(() =>
                     {
                         progressMessage.Message = (e.UserState as IFile).FileName;
-                        progressMessage.SetMapProgressValue(e.ProgressPercentage, filesCount);
+                        progressMessage.Progress = (filesCount > 0 && progressMessage.Progress > 0)
+                            ? progressMessage.Progress * 100 / filesCount
+                            : 0;
                     });
             };
 
@@ -234,7 +237,7 @@ namespace chkam05.VisualPlayer.Utilities
             bgWorker.RunWorkerCompleted += (s, e) =>
             {
                 if (progressMessage != null)
-                    dispatcherHandler.TryInvoke(() => progressMessage.CloseMessage());
+                    dispatcherHandler.TryInvoke(() => progressMessage.Close());
             };
 
             bgWorker.RunWorkerAsync();

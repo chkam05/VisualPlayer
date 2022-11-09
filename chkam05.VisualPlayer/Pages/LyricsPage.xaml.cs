@@ -1,4 +1,6 @@
-﻿using chkam05.Tools.ControlsEx.Events;
+﻿using chkam05.Tools.ControlsEx;
+using chkam05.Tools.ControlsEx.Data;
+using chkam05.Tools.ControlsEx.Events;
 using chkam05.VisualPlayer.Components;
 using chkam05.VisualPlayer.Components.Events;
 using chkam05.VisualPlayer.Controls.Data;
@@ -220,7 +222,7 @@ namespace chkam05.VisualPlayer.Pages
             {
                 var window = (MainWindow)Application.Current.MainWindow;
                 
-                window.MessagesManager.CreateBoxMessage(
+                window.MessagesManager.CreateAlertMessageBox(
                     "Opening lyrics from local library",
                     "Lyrics have not been found in local library. \nCreated empty space for new lyrics.");
             }
@@ -301,11 +303,10 @@ namespace chkam05.VisualPlayer.Pages
         private void Lyrics_ClearExtendedContextMenuItem_Click(object sender, RoutedEventArgs e)
         {
             var window = (MainWindow)Application.Current.MainWindow;
-            var message = window.MessagesManager.CreateBoxMessage(
+            var message = window.MessagesManager.CreateQuestionMessageBox(
                 "Cleaning up lyrics",
                 "Do You want to remove all created lyrics texts?",
-                BoxMessageType.QUESTION,
-                (s, me) => { if (me.MessageResult == MessageResult.YES) LyricsManager.Clear(); });
+                (s, me) => { if (me.Result == InternalMessageResult.Yes) LyricsManager.Clear(); });
         }
 
         #endregion LYRICS CONTEXT MENU METHODS
@@ -318,7 +319,7 @@ namespace chkam05.VisualPlayer.Pages
         /// <param name="e"> Routed Event arguments. </param>
         private void StartTimeUpdate_PackIconButton_Click(object sender, RoutedEventArgs e)
         {
-            var lyrics = (e.Source as PackIconButton)?.DataContext as Lyrics;
+            var lyrics = (e.Source as ButtonEx)?.DataContext as Lyrics;
 
             if (lyrics != null && Player.LoadedItem == LyricsManager.LoadedFile)
                 lyrics.StartTime = Player.TrackPosition;
@@ -330,7 +331,7 @@ namespace chkam05.VisualPlayer.Pages
         /// <param name="e"> Routed Event arguments. </param>
         private void EndTimeUpdate_PackIconButton_Click(object sender, RoutedEventArgs e)
         {
-            var lyrics = (e.Source as PackIconButton)?.DataContext as Lyrics;
+            var lyrics = (e.Source as ButtonEx)?.DataContext as Lyrics;
 
             if (lyrics != null && Player.LoadedItem == LyricsManager.LoadedFile)
                 lyrics.EndTime = Player.TrackPosition;
@@ -362,11 +363,10 @@ namespace chkam05.VisualPlayer.Pages
             }
 
             var window = (MainWindow)Application.Current.MainWindow;
-            var message = window.MessagesManager.CreateBoxMessage(
+            var message = window.MessagesManager.CreateQuestionMessageBox(
                 "Creating new lyrics",
                 "Do You want to abandon the previous changes and create new lyrics?",
-                BoxMessageType.QUESTION,
-                (s, me) => { if (me.MessageResult == MessageResult.YES) CreateNewLyrics(); });
+                (s, me) => { if (me.Result == InternalMessageResult.Yes) CreateNewLyrics(); });
         }
 
         //  --------------------------------------------------------------------------------
@@ -383,11 +383,10 @@ namespace chkam05.VisualPlayer.Pages
 
             var window = (MainWindow)Application.Current.MainWindow;
 
-            window.MessagesManager.CreateBoxMessage(
+            window.MessagesManager.CreateQuestionMessageBox(
                 "Opening lyrics from local library",
                 "Do You want to abandon the previous changes and open lyrics from library?",
-                BoxMessageType.QUESTION,
-                (s, me) => { if (me.MessageResult == MessageResult.YES) LoadFromLibrary(); });
+                (s, me) => { if (me.Result == InternalMessageResult.Yes) LoadFromLibrary(); });
         }
 
         //  --------------------------------------------------------------------------------
@@ -404,11 +403,10 @@ namespace chkam05.VisualPlayer.Pages
 
             var window = (MainWindow)Application.Current.MainWindow;
 
-            window.MessagesManager.CreateBoxMessage(
+            window.MessagesManager.CreateQuestionMessageBox(
                 "Opening lyrics from file",
                 "Do You want to abandon the previous changes and open lyrics from file?",
-                BoxMessageType.QUESTION,
-                (s, me) => { if (me.MessageResult == MessageResult.YES) LoadFromFile(); });
+                (s, me) => { if (me.Result == InternalMessageResult.Yes) LoadFromFile(); });
         }
 
         //  --------------------------------------------------------------------------------
@@ -425,11 +423,10 @@ namespace chkam05.VisualPlayer.Pages
 
             var window = (MainWindow)Application.Current.MainWindow;
 
-            window.MessagesManager.CreateBoxMessage(
+            window.MessagesManager.CreateQuestionMessageBox(
                 "Saving lyrics to local library",
                 "Lyrics for this file exists in library. Do You want to overwrite them?",
-                BoxMessageType.QUESTION,
-                (s, me) => { if (me.MessageResult == MessageResult.YES) SaveToLibrary(); });
+                (s, me) => { if (me.Result == InternalMessageResult.Yes) SaveToLibrary(); });
         }
 
         //  --------------------------------------------------------------------------------
@@ -516,12 +513,11 @@ namespace chkam05.VisualPlayer.Pages
                     if (File.Exists(lyricsFilePath))
                     {
                         var window = (MainWindow)Application.Current.MainWindow;
-                        var message = window.MessagesManager.CreateBoxMessage(
+                        var message = window.MessagesManager.CreateQuestionMessageBox(
                             "Removing lyrics",
                             "Do You want to remove selected lyrics from library?",
-                            BoxMessageType.QUESTION,
                             (s, me) => {
-                                if (me.MessageResult == MessageResult.YES)
+                                if (me.Result == InternalMessageResult.Yes)
                                 {
                                     File.Delete(lyricsFilePath);
                                     LoadLibraryLyricsToCache();

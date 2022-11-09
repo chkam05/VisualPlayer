@@ -177,7 +177,7 @@ namespace chkam05.VisualPlayer.Data.Lyrics
         {
             if (LoadedFile != null)
             {
-                var filter = FilesManager.GetFileTypesByGroup(FileGroup.PLAYLIST);
+                var filter = FilesManager.GetFileTypesByGroup(FileGroup.LYRICS);
                 var lyricsStoragePath = FilesManager.Instance.LyricsStoragePath;
 
                 //  Get list of lyrics files matched by similar names to related file.
@@ -248,7 +248,7 @@ namespace chkam05.VisualPlayer.Data.Lyrics
         {
             if (LoadedFile != null)
             {
-                var filter = FilesManager.GetFileTypesByGroup(FileGroup.PLAYLIST);
+                var filter = FilesManager.GetFileTypesByGroup(FileGroup.LYRICS);
                 var lyricsStoragePath = FilesManager.Instance.LyricsStoragePath;
 
                 //  Get list of lyrics files matched by similar names to related file.
@@ -313,7 +313,7 @@ namespace chkam05.VisualPlayer.Data.Lyrics
         {
             if (LoadedFile != null)
             {
-                var ext = FilesManager.GetFileTypeByKind(FileKind.VPL).Extension;
+                var ext = FilesManager.GetFileTypeByKind(FileKind.VPT).Extension;
                 var lyricsStoragePath = FilesManager.Instance.LyricsStoragePath;
                 var lyricsFilePath = Path.Combine(lyricsStoragePath, LoadedFile.FileName + ext);
 

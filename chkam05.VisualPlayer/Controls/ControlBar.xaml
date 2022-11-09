@@ -29,6 +29,7 @@
             <converters:RepeatControlDescriptionConverter x:Key="RepeatControlDescriptionConverter"/>
             <converters:RepeatControlIconConverter x:Key="RepeatControlIconConverter"/>
             <converters:ShuffleControlIconConverter x:Key="ShuffleControlIconConverter"/>
+            <converters:VisibilityBoolConverter x:Key="VisibilityBoolConverter"/>
 
             <!-- Storyboards. -->
             <Storyboard x:Key="ShowHideStoryboard" Completed="Storyboard_Completed">
@@ -162,6 +163,20 @@
                     HorizontalAlignment="Right"
                     Margin="2,4,2,0"
                     Orientation="Horizontal">
+
+                    <TextBlock
+                        x:Name="versionInfoTextBox"
+                        FontFamily="Segoe UI"
+                        FontSize="12"
+                        Foreground="{Binding ConfigManager.IfaceForegroundColorBrush}"
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        HorizontalAlignment="Right"
+                        Margin="0,0,10,2"
+                        Text="{Binding ConfigManager.ScreenVersion}"
+                        TextAlignment="Right"
+                        VerticalAlignment="Bottom"
+                        Visibility="{Binding ConfigManager.ShowVersionOnScreen, Converter={StaticResource VisibilityBoolConverter}}"/>
 
                     <controlsex:ButtonEx
                         Content="Volume"

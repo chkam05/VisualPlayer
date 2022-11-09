@@ -31,7 +31,7 @@ namespace chkam05.VisualPlayer.Converters
                 return PackIconKind.Play;
 
             else if (hasImage)
-                return PackIconKind.MusicNote;
+                return PackIconKind.None;
 
             else
                 return PackIconKind.MusicNote;

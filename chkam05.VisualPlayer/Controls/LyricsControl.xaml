@@ -20,7 +20,7 @@
         Margin="4,0,4,4">
 
         <TextBlock
-            FontFamily="{Binding ConfigManager.LyricsFont}"
+            FontFamily="{Binding ConfigManager.LyricsFont.FontFamily}"
             FontSize="{Binding ConfigManager.LyricsFontSize}"
             FontStretch="{Binding ConfigManager.LyricsFontStretch}"
             FontStyle="{Binding ConfigManager.LyricsFontStyle}"

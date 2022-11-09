@@ -8,6 +8,7 @@
     xmlns:controls="clr-namespace:chkam05.VisualPlayer.Controls"
     xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
     xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
+    xmlns:internalmessages="clr-namespace:chkam05.Tools.ControlsEx.InternalMessages;assembly=chkam05.Tools.ControlsEx"
     xmlns:local="clr-namespace:chkam05.VisualPlayer.Windows"
     xmlns:messages="clr-namespace:chkam05.VisualPlayer.Controls.Messages" 
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -58,8 +59,8 @@
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 <Setter Property="Margin" Value="8,4"/>
                 <Setter Property="MarqueeBouncing" Value="False"/>
-                <Setter Property="MarqueeDuration" Value="0:0:5"/>
-                <Setter Property="MarqueeStartPosition" Value="LeftInside"/>
+                <Setter Property="MarqueeDuration" Value="0:0:15"/>
+                <Setter Property="MarqueeStartPosition" Value="RightOutside"/>
                 <Setter Property="MarqueeEndPosition" Value="LeftOutside"/>
                 <Setter Property="Padding" Value="8,0"/>
                 <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -149,19 +150,6 @@
 
                 </Grid>
 
-                <TextBlock
-                    x:Name="versionInfoTextBox"
-                    FontSize="16"
-                    FontWeight="SemiBold"
-                    Foreground="{Binding ConfigManager.IfaceForegroundColorBrush}"
-                    Grid.Column="1"
-                    Grid.Row="1"
-                    HorizontalAlignment="Right"
-                    Margin="0,0,8,-24"
-                    Text="{Binding ScreenVersion}"
-                    VerticalAlignment="Bottom"
-                    Visibility="{Binding ConfigManager.ShowVersionOnScreen, Converter={StaticResource VisibilityBoolConverter}}"/>
-
                 <controls:LyricsControl
                     x:Name="lyricsControl"
                     Grid.Column="1"
@@ -236,11 +224,10 @@
                     OnSliderValueChanged="volumeControl_OnSliderValueChanged"
                     MouseLeave="volumeControl_MouseLeave"/>
 
-                <messages:MessagesControl
+                <internalmessages:InternalMessagesExContainer
                     x:Name="messagesControl"
                     Grid.ColumnSpan="2"
-                    Grid.RowSpan="3"
-                    Visibility="Collapsed"/>
+                    Grid.RowSpan="3"/>
 
             </Grid>
 

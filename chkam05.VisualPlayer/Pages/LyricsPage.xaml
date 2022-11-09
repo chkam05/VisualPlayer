@@ -127,7 +127,10 @@
             </Style>
 
             <Style x:Key="LyricsFiles_ListViewItemExStyle" BasedOn="{StaticResource Config_ListViewItemExStyle}" TargetType="{x:Type controlsex:ListViewItemEx}"/>
-            <Style x:Key="LyricsGrid_ListViewItemExStyle" BasedOn="{StaticResource Config_ListViewItemExStyle}" TargetType="{x:Type controlsex:ListViewItemEx}"/>
+
+            <Style x:Key="LyricsGrid_ListViewItemExStyle" BasedOn="{StaticResource Config_ListViewItemExStyle}" TargetType="{x:Type controlsex:ListViewItemEx}">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            </Style>
 
             <Style x:Key="LyricsUpdateButtonStyle" TargetType="{x:Type controlsex:ButtonEx}">
                 <Setter Property="Background" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
@@ -392,19 +395,12 @@
                             <GridViewColumn Header="Text" Width="256">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel
-                                            Orientation="Horizontal"
-                                            VerticalAlignment="Center">
-
-                                            <controlsex:TextBoxEx
-                                                HorizontalAlignment="Stretch"
-                                                Margin="0,6"
-                                                MinWidth="96"
-                                                Text="{Binding Text}"
-                                                TextModified="Text_ExtendedTextBox_OnContentUpdated"
-                                                VerticalAlignment="Center"/>
-
-                                        </StackPanel>
+                                        <controlsex:TextBoxEx
+                                            HorizontalAlignment="Stretch"
+                                            Margin="0,6"
+                                            Text="{Binding Text}"
+                                            TextModified="Text_ExtendedTextBox_OnContentUpdated"
+                                            VerticalAlignment="Center"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
