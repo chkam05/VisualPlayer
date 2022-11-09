@@ -1,5 +1,4 @@
 ﻿using chkam05.Tools.ControlsEx;
-using chkam05.VisualPlayer.Components;
 using chkam05.VisualPlayer.Core;
 using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Configuration;
@@ -298,9 +297,9 @@ namespace chkam05.VisualPlayer.Controls
         /// <param name="e"> Mouse Button Event Arguments. </param>
         private void PlayList_ExtendedListViewItem_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (sender is ExtendedListViewItem && e.ClickCount == 1)
+            if (sender is ListViewItemEx && e.ClickCount == 1)
             {
-                ExtendedListViewItem draggedItem = sender as ExtendedListViewItem;
+                ListViewItemEx draggedItem = sender as ListViewItemEx;
                 DragDrop.DoDragDrop(draggedItem, draggedItem.DataContext, DragDropEffects.Move);
             }
         }
@@ -320,7 +319,7 @@ namespace chkam05.VisualPlayer.Controls
                 if (droppedData == null)
                     return;
 
-                IPlayable targetData = ((ExtendedListViewItem)(sender)).DataContext as IPlayable;
+                IPlayable targetData = ((ListViewItemEx)(sender)).DataContext as IPlayable;
 
                 int removedIndex = Player.PlayList.IndexOf(droppedData);
                 int targetIndex = Player.PlayList.IndexOf(targetData);

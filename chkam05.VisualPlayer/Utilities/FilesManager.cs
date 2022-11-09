@@ -1,5 +1,4 @@
 ﻿using chkam05.Tools.ControlsEx.InternalMessages;
-using chkam05.VisualPlayer.Controls.Messages;
 using chkam05.VisualPlayer.Data.Files;
 using chkam05.VisualPlayer.Data.PlayLists;
 using chkam05.VisualPlayer.Utilities.Data;

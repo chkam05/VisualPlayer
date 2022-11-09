@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace chkam05.VisualPlayer.Components.Events
+namespace chkam05.VisualPlayer.Controls.Events
 {
     public class SliderValueChangedEventArgs<T> : RoutedEventArgs
     {

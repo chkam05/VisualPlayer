@@ -10,7 +10,6 @@
     xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
     xmlns:internalmessages="clr-namespace:chkam05.Tools.ControlsEx.InternalMessages;assembly=chkam05.Tools.ControlsEx"
     xmlns:local="clr-namespace:chkam05.VisualPlayer.Windows"
-    xmlns:messages="clr-namespace:chkam05.VisualPlayer.Controls.Messages" 
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     mc:Ignorable="d"
     

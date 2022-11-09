@@ -1,5 +1,4 @@
 ﻿using chkam05.VisualPlayer.Data.Config;
-using chkam05.VisualPlayer.Data.Config.Events;
 using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Data.Configuration.Events;
 using chkam05.VisualPlayer.Visualisations.Data;

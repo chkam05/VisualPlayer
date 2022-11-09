@@ -1,5 +1,4 @@
 ﻿using chkam05.Tools.ControlsEx;
-using chkam05.VisualPlayer.Components;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Controls.Events;
 using chkam05.VisualPlayer.Data.Config;

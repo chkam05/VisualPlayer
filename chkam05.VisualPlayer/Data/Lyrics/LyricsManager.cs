@@ -1,6 +1,5 @@
 ﻿using chkam05.VisualPlayer.Controls;
 using chkam05.VisualPlayer.Data.Config;
-using chkam05.VisualPlayer.Data.Config.Events;
 using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Data.Configuration.Events;
 using chkam05.VisualPlayer.Data.Files;
@@ -23,15 +22,6 @@ namespace chkam05.VisualPlayer.Data.Lyrics
 {
     public class LyricsManager : INotifyPropertyChanged
     {
-
-        //  CONST
-
-        public readonly Dictionary<string, string> ConfigurationMapping = new Dictionary<string, string>
-        {
-            { nameof(Config.Configuration.AutoLoadLyrics), nameof(AutoLoad) },
-            { nameof(Config.Configuration.LyricsMatchType), nameof(MatchType) }
-        };
-
 
         //  EVENTS
 

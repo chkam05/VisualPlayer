@@ -5,7 +5,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
-    xmlns:components="clr-namespace:chkam05.VisualPlayer.Components"
     xmlns:local="clr-namespace:chkam05.VisualPlayer.Controls" 
     xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
     xmlns:convertersData="clr-namespace:chkam05.VisualPlayer.Converters.Data"
@@ -17,9 +16,6 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resources/Styles/Components/Styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
 
             <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type UserControl}"/>
 

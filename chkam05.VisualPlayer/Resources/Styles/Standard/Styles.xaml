@@ -3,11 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Content_TextBlockStyle.xaml"/>
         <ResourceDictionary Source="ContextMenuSeparatorStyle.xaml"/>
-        <ResourceDictionary Source="Header_TextBlockStyle.xaml"/>
-        <ResourceDictionary Source="ProgressBarStyle.xaml"/>
-        <ResourceDictionary Source="Title_TextBlockStyle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
 </ResourceDictionary>

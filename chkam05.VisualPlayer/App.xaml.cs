@@ -1,5 +1,6 @@
 ﻿using chkam05.VisualPlayer.Core;
 using chkam05.VisualPlayer.Data.Configuration;
+using chkam05.VisualPlayer.Data.Fonts;
 using chkam05.VisualPlayer.Utilities;
 using chkam05.VisualPlayer.Utilities.Data;
 using chkam05.VisualPlayer.Windows;
@@ -17,6 +18,11 @@ namespace chkam05.VisualPlayer
 {
     public partial class App : Application, ISingleInstanceApp
     {
+
+        //  VARIABLES
+
+        public FontsManager FontsManager { get; private set; }
+
 
         //  METHODS
 
@@ -77,7 +83,7 @@ namespace chkam05.VisualPlayer
         /// <summary> Application class constructor. </summary>
         public App() : base()
         {
-            //
+            FontsManager = FontsManager.Instance;
         }
 
         #endregion CLASS METHODS

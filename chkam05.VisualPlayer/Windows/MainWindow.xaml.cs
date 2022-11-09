@@ -1,14 +1,10 @@
 ﻿using chkam05.Tools.ControlsEx.InternalMessages;
-using chkam05.VisualPlayer.Components;
-using chkam05.VisualPlayer.Components.Events;
 using chkam05.VisualPlayer.Controls;
 using chkam05.VisualPlayer.Controls.Data;
-using chkam05.VisualPlayer.Controls.Messages;
-using chkam05.VisualPlayer.Controls.Messages.Data;
+using chkam05.VisualPlayer.Controls.Events;
 using chkam05.VisualPlayer.Core;
 using chkam05.VisualPlayer.Core.Events;
 using chkam05.VisualPlayer.Data.Config;
-using chkam05.VisualPlayer.Data.Config.Events;
 using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Data.Configuration.Events;
 using chkam05.VisualPlayer.Data.Files;
