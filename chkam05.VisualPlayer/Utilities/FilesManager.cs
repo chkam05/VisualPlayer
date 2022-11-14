@@ -226,8 +226,8 @@ namespace chkam05.VisualPlayer.Utilities
                     dispatcherHandler.TryInvoke(() =>
                     {
                         progressMessage.Message = (e.UserState as IFile).FileName;
-                        progressMessage.Progress = (filesCount > 0 && progressMessage.Progress > 0)
-                            ? progressMessage.Progress * 100 / filesCount
+                        progressMessage.Progress = (filesCount > 0)
+                            ? e.ProgressPercentage * 100 / filesCount
                             : 0;
                     });
             };

@@ -83,7 +83,11 @@ namespace chkam05.VisualPlayer.Utilities
         //  --------------------------------------------------------------------------------
         public ProgressInternalMessageEx CreateProgressMessage(string title, string messageContent, bool autoShow = true)
         {
-            var message = new ProgressInternalMessageEx(Container, title, messageContent);
+            var message = new ProgressInternalMessageEx(Container, title, messageContent)
+            {
+                ProgressMin = 0,
+                ProgressMax = 100
+            };
             message.OnClose += OnCloseMessage;
             Messages.Add(message);
             UpdateProgressConfiguration(message);
