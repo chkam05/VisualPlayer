@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace chkam05.VisualPlayer.Controls.Data
+namespace chkam05.VisualPlayer.Controls.Static
 {
-    public enum InformationBarState
+    public enum SideBarMenuState
     {
         HIDDEN = 0,
-        VISIBLE = 1
+        VISIBLE = 1,
+        EXTENDED = 2,
+        PLAYLIST = 3
     }
 }

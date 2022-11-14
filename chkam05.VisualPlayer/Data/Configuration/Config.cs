@@ -1,6 +1,7 @@
 ﻿using chkam05.Tools.ControlsEx.Colors;
 using chkam05.Tools.ControlsEx.Static;
 using chkam05.VisualPlayer.Controls.Data;
+using chkam05.VisualPlayer.Controls.Static;
 using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Fonts;
 using chkam05.VisualPlayer.Data.Lyrics;
@@ -49,7 +50,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         public bool InformationBarAdvancedTime { get; set; } = false;
         public InformationBarAutoHide InformationBarAutoHide { get; set; } = InformationBarAutoHide.STAY_3S;
-        public FontContainer InformationBarFont { get; set; }
+        public string InformationBarFont { get; set; }
         public int InformationBarFontSize { get; set; } = 16;
         public FontStyle InformationBarFontStyle { get; set; } = FontStyles.Normal;
         public FontStretch InformationBarFontStretch { get; set; } = FontStretches.Normal;
@@ -75,7 +76,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         public bool LyricsAutoLoad { get; set; } = false;
         public double LyricsBackgroundOpacity { get; set; } = 0.5d;
-        public FontContainer LyricsFont { get; set; } = FontsManager.Instance.DefaultFont;
+        public string LyricsFont { get; set; }
         public int LyricsFontSize { get; set; } = 40;
         public FontStyle LyricsFontStyle { get; set; } = FontStyles.Normal;
         public FontStretch LyricsFontStretch { get; set; } = FontStretches.Normal;
@@ -115,9 +116,15 @@ namespace chkam05.VisualPlayer.Data.Configuration
         //  --------------------------------------------------------------------------------
         /// <summary> Config class constructor. </summary>
         [JsonConstructor]
-        public Config(FontContainer informationBarFont = null)
+        public Config(string informationBarFont = null, string lyricsFont = null)
         {
-            InformationBarFont = informationBarFont ?? FontsManager.Instance.DefaultFont;
+            LyricsFont = !string.IsNullOrEmpty(lyricsFont)
+                ? lyricsFont
+                : FontsManager.Instance.DefaultFont.ToString();
+
+            InformationBarFont = !string.IsNullOrEmpty(informationBarFont)
+                ? informationBarFont
+                : FontsManager.Instance.DefaultFont.ToString();
         }
 
         #endregion CLASS METHODS

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace chkam05.VisualPlayer.Controls.Data
+namespace chkam05.VisualPlayer.Controls.Static
 {
     public enum ControlBarState
     {

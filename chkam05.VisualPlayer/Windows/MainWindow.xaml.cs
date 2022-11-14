@@ -2,6 +2,7 @@
 using chkam05.VisualPlayer.Controls;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Controls.Events;
+using chkam05.VisualPlayer.Controls.Static;
 using chkam05.VisualPlayer.Core;
 using chkam05.VisualPlayer.Core.Events;
 using chkam05.VisualPlayer.Data.Config;

@@ -48,5 +48,25 @@ namespace chkam05.VisualPlayer.Data.Fonts
 
         #endregion CLASS METHODS
 
+        #region OBJECT METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Returns a string that represents the current object. </summary>
+        /// <returns> A string that represents the current object. </returns>
+        public override string ToString()
+        {
+            if (!string.IsNullOrEmpty(Name))
+            {
+                if (!string.IsNullOrEmpty(SubName))
+                    return $"{Name} {SubName}";
+
+                return Name;
+            }
+
+            return base.ToString();
+        }
+
+        #endregion OBJECT METHODS
+
     }
 }

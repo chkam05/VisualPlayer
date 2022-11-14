@@ -2,6 +2,7 @@
 using chkam05.Tools.ControlsEx.Static;
 using chkam05.Tools.ControlsEx.Utilities;
 using chkam05.VisualPlayer.Controls.Data;
+using chkam05.VisualPlayer.Controls.Static;
 using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Configuration.Attributes;
 using chkam05.VisualPlayer.Data.Configuration.Events;
@@ -81,6 +82,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         public static readonly List<string> VisualisationUpdateProperties = new List<string>()
         {
+            nameof(LogoAnimationSensitivity),
+            nameof(LogoAnimationSpeed),
             nameof(VisualisationAnimationSpeed),
             nameof(VisualisationBorderColor),
             nameof(VisualisationBorderEnabled),
@@ -147,6 +150,8 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private Brush _selectedBackgroundColorBrush;
         private Brush _selectedBorderColorBrush;
         private Brush _selectedForegroundColorBrush;
+
+        private Brush _trackBarBackgroundColorBrush;
 
         //  Interface
 
@@ -618,6 +623,17 @@ namespace chkam05.VisualPlayer.Data.Configuration
             }
         }
 
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush TrackBarBackgroundColorBrush
+        {
+            get => _trackBarBackgroundColorBrush;
+            set
+            {
+                _trackBarBackgroundColorBrush = value;
+                OnPropertyChanged(nameof(TrackBarBackgroundColorBrush));
+            }
+        }
+
         //  Interface
 
         [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
@@ -948,12 +964,26 @@ namespace chkam05.VisualPlayer.Data.Configuration
             }
         }
 
-        public FontContainer InformationBarFont
+        public string InformationBarFontName
         {
             get => _configuration.InformationBarFont;
             set
             {
                 _configuration.InformationBarFont = value;
+                OnPropertyChanged(nameof(InformationBarFontName));
+                OnPropertyChanged(nameof(InformationBarFont));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public FontContainer InformationBarFont
+        {
+            get => FontsManager.Instance.Fonts.FirstOrDefault(f => f.ToString() == _configuration.InformationBarFont) 
+                ?? FontsManager.Instance.DefaultFont;
+            set
+            {
+                _configuration.InformationBarFont = value.ToString();
+                OnPropertyChanged(nameof(InformationBarFontName));
                 OnPropertyChanged(nameof(InformationBarFont));
             }
         }
@@ -1204,12 +1234,26 @@ namespace chkam05.VisualPlayer.Data.Configuration
             }
         }
 
-        public FontContainer LyricsFont
+        public string LyricsFontName
         {
             get => _configuration.LyricsFont;
             set
             {
                 _configuration.LyricsFont = value;
+                OnPropertyChanged(nameof(LyricsFontName));
+                OnPropertyChanged(nameof(LyricsFont));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public FontContainer LyricsFont
+        {
+            get => FontsManager.Instance.Fonts.FirstOrDefault(f => f.ToString() == _configuration.LyricsFont)
+                ?? FontsManager.Instance.DefaultFont;
+            set
+            {
+                _configuration.LyricsFont = value.ToString();
+                OnPropertyChanged(nameof(LyricsFontName));
                 OnPropertyChanged(nameof(LyricsFont));
             }
         }
@@ -1751,6 +1795,10 @@ namespace chkam05.VisualPlayer.Data.Configuration
             SubcomponentBackgroundColorBrush = new SolidColorBrush(subcomponentBackground);
             SubcomponentForegroundColorBrush = new SolidColorBrush(subcomponentForeground);
 
+            TrackBarBackgroundColorBrush = useContrastColor
+                ? new SolidColorBrush(contrastColor) { Opacity = 0.25 }
+                : new SolidColorBrush(foregroundColor) { Opacity = 0.25 };
+
             //  Setup interface theme colors.
             var ifaceForegroundOpacityUpdated = (BackgroundOpacity + ControlsBackgroundOpacity > 0.40)
                 ? ifaceForegroundColor
@@ -1845,7 +1893,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         /// <summary> Load configuration from file. </summary>
         public void LoadConfiguration()
         {
-            var path = FilesManager.Instance.ConfigurationFilePath + "2";
+            var path = FilesManager.Instance.ConfigurationFilePath;
 
             if (File.Exists(path))
             {
@@ -1875,7 +1923,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         /// <summary> Save configuration to file. </summary>
         public void SaveConfiguration()
         {
-            var path = FilesManager.Instance.ConfigurationFilePath + "2";
+            var path = FilesManager.Instance.ConfigurationFilePath;
             var serialized = JsonConvert.SerializeObject(_configuration, Formatting.Indented);
             File.WriteAllText(path, serialized);
             VisualisationProfilesManager.SaveProfile();

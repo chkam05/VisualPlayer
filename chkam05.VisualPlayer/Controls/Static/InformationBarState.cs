@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace chkam05.VisualPlayer.Controls.Data
+namespace chkam05.VisualPlayer.Controls.Static
 {
-    public enum MenuItemType
+    public enum InformationBarState
     {
-        MAIN_MENU = 0,
-        SETTINGS_MENU = 1,
+        HIDDEN = 0,
+        VISIBLE = 1
     }
 }

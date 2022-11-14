@@ -26,7 +26,7 @@
 
             <!-- CONVERTERS -->
 
-            <converters:MarqueeStateNameConverter x:Key="MarqueeStateNameConverter"/>
+            <converters_config:MarqueeStateNameConverter x:Key="MarqueeStateNameConverter"/>
             <converters_config:InformationBarAutoHideNameConverter x:Key="InformationBarAutoHideNameConverter"/>
             <converters_font:FontStretchNameConverter x:Key="FontStretchNameConverter"/>
             <converters_font:FontStyleNameConverter x:Key="FontStyleNameConverter"/>
@@ -54,6 +54,16 @@
                 <Setter Property="FontSize" Value="14"/>
             </Style>
 
+            <Style TargetType="{x:Type controlsex:TextBlockEx}">
+                <Setter Property="Background" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="8,0,0,0"/>
+                <Setter Property="Width" Value="48"/>
+            </Style>
+
             <Style TargetType="{x:Type controlsex:ScrollViewerEx}">
                 <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
                 <Setter Property="PanningMode" Value="Both"/>
@@ -78,7 +88,7 @@
                 <Setter Property="HeaderForeground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="IsExpanded" Value="True"/>
                 <Setter Property="Margin" Value="0"/>
-                <Setter Property="Padding" Value="8"/>
+                <Setter Property="Padding" Value="16"/>
             </Style>
 
             <Style x:Key="InternalBorder" TargetType="Border">
@@ -174,7 +184,7 @@
             <!-- DATA TEMPLATES -->
 
             <DataTemplate x:Key="FontFamilyDataTemplate">
-                <TextBlock Text="{Binding Path=Name}"/>
+                <TextBlock Text="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="FontStretchDataTemplate">
@@ -268,7 +278,7 @@
                                     Grid.Row="1"
                                     ItemTemplate="{StaticResource FontFamilyDataTemplate}"
                                     ItemsSource="{Binding Fonts}"
-                                    SelectedItem="{Binding ConfigManager.InformationBarFont}"
+                                    SelectedItem="{Binding ConfigManager.InformationBarFontName}"
                                     Margin="0,0,16,0"
                                     MinWidth="192"/>
 
@@ -335,23 +345,49 @@
                             Margin="0,0,0,8"
                             Text="Header size:"/>
 
-                        <controlsex:SliderEx
-                            Margin="0,0,0,16"
-                            Maximum="{x:Static config:ConfigManager.INFOBAR_FONT_HEADER_DIFFRENCE_MAX}"
-                            Minimum="{x:Static config:ConfigManager.INFOBAR_FONT_HEADER_DIFFRENCE_MIN}"
-                            TickFrequency="1"
-                            Value="{Binding ConfigManager.InformationBarTitleTextSizeDiffrence}"/>
+                        <Grid
+                            Margin="0,0,0,16">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controlsex:SliderEx
+                                Maximum="{x:Static config:ConfigManager.INFOBAR_FONT_HEADER_DIFFRENCE_MAX}"
+                                Minimum="{x:Static config:ConfigManager.INFOBAR_FONT_HEADER_DIFFRENCE_MIN}"
+                                TickFrequency="1"
+                                Value="{Binding ConfigManager.InformationBarTitleTextSizeDiffrence}"/>
+
+                            <controlsex:TextBlockEx
+                                Grid.Column="1"
+                                Text="{Binding ConfigManager.InformationBarTitleTextSizeDiffrence, Mode=OneWay}"/>
+
+                        </Grid>
 
                         <TextBlock
                             Margin="0,0,0,8"
                             Text="Spacing:"/>
 
-                        <controlsex:SliderEx
-                            Margin="0,0,0,16"
-                            Maximum="{x:Static config:ConfigManager.INFOBAR_FONT_SPACING_MAX}"
-                            Minimum="{x:Static config:ConfigManager.INFOBAR_FONT_SPACING_MIN}"
-                            TickFrequency="0.01"
-                            Value="{Binding ConfigManager.InformationBarTextSpacing}"/>
+                        <Grid
+                            Margin="0,0,0,16">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controlsex:SliderEx
+                                Maximum="{x:Static config:ConfigManager.INFOBAR_FONT_SPACING_MAX}"
+                                Minimum="{x:Static config:ConfigManager.INFOBAR_FONT_SPACING_MIN}"
+                                TickFrequency="0.01"
+                                Value="{Binding ConfigManager.InformationBarTextSpacing}"/>
+
+                            <controlsex:TextBlockEx
+                                Grid.Column="1"
+                                Text="{Binding ConfigManager.InformationBarTextSpacing, StringFormat={}{0:0.##}, Mode=OneWay}"/>
+
+                        </Grid>
 
                         <TextBlock
                             Margin="0,0,0,8"

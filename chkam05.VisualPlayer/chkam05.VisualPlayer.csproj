@@ -101,13 +101,11 @@
     <Compile Include="Controls\ControlBar.xaml.cs">
       <DependentUpon>ControlBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Data\ControlBarState.cs" />
-    <Compile Include="Controls\Data\InformationBarAutoHide.cs" />
-    <Compile Include="Controls\Data\MarqueeBehaviour.cs" />
-    <Compile Include="Controls\Data\MarqueeState.cs" />
+    <Compile Include="Controls\Static\ControlBarState.cs" />
+    <Compile Include="Controls\Static\InformationBarAutoHide.cs" />
     <Compile Include="Controls\Data\MenuItem.cs" />
-    <Compile Include="Controls\Data\MenuItemSubType.cs" />
-    <Compile Include="Controls\Data\MenuItemType.cs" />
+    <Compile Include="Controls\Static\MenuItemSubType.cs" />
+    <Compile Include="Controls\Static\MenuItemType.cs" />
     <Compile Include="Controls\Data\ShapeContainer.cs" />
     <Compile Include="Controls\Events\ControlBarAnimateEventArgs.cs" />
     <Compile Include="Controls\Events\ControlBarAnimationFinishEventArgs.cs" />
@@ -124,9 +122,6 @@
     <Compile Include="Controls\LyricsControl.xaml.cs">
       <DependentUpon>LyricsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MarqueeTextBlock.xaml.cs">
-      <DependentUpon>MarqueeTextBlock.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\PagesControl.xaml.cs">
       <DependentUpon>PagesControl.xaml</DependentUpon>
     </Compile>
@@ -139,30 +134,21 @@
     <Compile Include="Controls\InformationBar.xaml.cs">
       <DependentUpon>InformationBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Data\InformationBarState.cs" />
+    <Compile Include="Controls\Static\InformationBarState.cs" />
     <Compile Include="Controls\SideBarMenu.xaml.cs">
       <DependentUpon>SideBarMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Data\SideBarMenuState.cs" />
+    <Compile Include="Controls\Static\SideBarMenuState.cs" />
     <Compile Include="Controls\SideBarPlayList.xaml.cs">
       <DependentUpon>SideBarPlayList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\AppearanceColorTypeNameConverter.cs" />
-    <Compile Include="Converters\AppearanceThemeTypeNameConverter.cs" />
-    <Compile Include="Converters\ColorHueDegreeConverter.cs" />
-    <Compile Include="Converters\ColorSolidColorBrushConverter.cs" />
-    <Compile Include="Converters\AppearanceLogoColorTypeNameConverter.cs" />
-    <Compile Include="Converters\Data\PlaybackStateControlIconConverterParameter.cs" />
-    <Compile Include="Converters\DoublePercentStringConverter.cs" />
-    <Compile Include="Converters\DoubleDecimalShiftConverter.cs" />
+    <Compile Include="Converters\Static\PlaybackStateControlIconConverterParameter.cs" />
     <Compile Include="Converters\Fonts\FontStretchNameConverter.cs" />
     <Compile Include="Converters\Fonts\FontStyleNameConverter.cs" />
     <Compile Include="Converters\Fonts\FontWeightNameConverter.cs" />
-    <Compile Include="Converters\InformationBarAutoHideTypeNameConverter.cs" />
     <Compile Include="Converters\InverseBoolConverter.cs" />
     <Compile Include="Converters\IPlayableNowPlayingConverter.cs" />
-    <Compile Include="Converters\LyricsMatchTypeNameConverter.cs" />
-    <Compile Include="Converters\MarqueeStateNameConverter.cs" />
+    <Compile Include="Converters\Settings\MarqueeStateNameConverter.cs" />
     <Compile Include="Converters\PackIconKindImageSourceConverter.cs" />
     <Compile Include="Converters\PlaybackStateControlDescriptionConverter.cs" />
     <Compile Include="Converters\PlaybackStateControlIconConverter.cs" />
@@ -178,9 +164,9 @@
     <Compile Include="Converters\ShuffleControlIconConverter.cs" />
     <Compile Include="Converters\TimeSpanStringConverter.cs" />
     <Compile Include="Converters\VisibilityBoolConverter.cs" />
-    <Compile Include="Converters\VisualisationColorTypeNameConverter.cs" />
-    <Compile Include="Converters\VisualisationScalingStrategyNameConverter.cs" />
-    <Compile Include="Converters\VisualisationTypeNameConverter.cs" />
+    <Compile Include="Converters\Settings\VisualisationColorTypeNameConverter.cs" />
+    <Compile Include="Converters\Settings\VisualisationScalingStrategyNameConverter.cs" />
+    <Compile Include="Converters\Settings\VisualisationTypeNameConverter.cs" />
     <Compile Include="Core\Events\PlayerLoadedFileEventArgs.cs" />
     <Compile Include="Core\Player.cs" />
     <Compile Include="Data\Configuration\AppearanceCustomThemeType.cs" />
@@ -295,10 +281,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\LyricsControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\MarqueeTextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -436,7 +418,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Data\Configuration\Static\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.5.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.5.0\build\MaterialDesignThemes.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

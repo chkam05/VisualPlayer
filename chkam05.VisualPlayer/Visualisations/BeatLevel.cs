@@ -14,7 +14,7 @@ namespace chkam05.VisualPlayer.Visualisations
 
         public const double FALL_SPEED_MAX = 0.1;
         public const double FALL_SPEED_MIN = 0.01;
-        public const double SENSITIVITY_MAX = 1.0;
+        public const double SENSITIVITY_MAX = 0.5;
         public const double SENSITIVITY_MIN = 0.0;
 
 

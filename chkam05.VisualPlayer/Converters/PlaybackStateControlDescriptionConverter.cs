@@ -1,4 +1,4 @@
-﻿using chkam05.VisualPlayer.Converters.Data;
+﻿using chkam05.VisualPlayer.Converters.Static;
 using CSCore.SoundOut;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using chkam05.VisualPlayer.Visualisations.Data;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -6,10 +7,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace chkam05.VisualPlayer.Converters
+namespace chkam05.VisualPlayer.Converters.Settings
 {
-    public class DoublePercentStringConverter : IValueConverter
+    public class VisualisationTypeNameConverter : IValueConverter
     {
+
+        //  CONST
+
+        private static readonly Dictionary<VisualisationType, string> _mapping = new Dictionary<VisualisationType, string>
+        {
+            { VisualisationType.None, "None" },
+            { VisualisationType.StripesVisualisation, "Stripes" },
+            { VisualisationType.PeaksVisualisation, "Peaks" }
+        };
+
 
         //  METHODS
 
@@ -22,13 +33,13 @@ namespace chkam05.VisualPlayer.Converters
         /// <returns> Converted value. If the method returns null, the valid null value is used. </returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double doubleValue = (double)value;
-            double maxValue = 1.0;
+            if (value != null)
+            {
+                var enumValue = (VisualisationType)value;
+                return _mapping[enumValue];
+            }
 
-            if (!string.IsNullOrEmpty(parameter as string))
-                double.TryParse(parameter as string, out maxValue);
-
-            return $"{(int)(doubleValue * 100 / maxValue)}%";
+            return string.Empty;
         }
 
         //  --------------------------------------------------------------------------------
@@ -40,20 +51,12 @@ namespace chkam05.VisualPlayer.Converters
         /// <returns> Converted value. If the method returns null, the valid null value is used. </returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var stringValue = (string)value;
-            double maxValue = 1.0;
+            var stringValue = value as string;
 
-            if (!string.IsNullOrEmpty(stringValue))
-            {
-                if (stringValue.Contains('%'))
-                    stringValue = stringValue.Remove('%');
+            if (!string.IsNullOrEmpty(stringValue) && _mapping.Any(m => m.Value == stringValue))
+                return _mapping.Where(m => m.Value == stringValue).First().Key;
 
-                if (double.TryParse(stringValue, out double doubleValue))
-                    return doubleValue * maxValue / 100;
-            }
-
-            return 0;
+            return VisualisationType.None;
         }
-
     }
 }

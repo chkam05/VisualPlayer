@@ -1,6 +1,7 @@
 ﻿using chkam05.Tools.ControlsEx.Events;
 using chkam05.Tools.ControlsEx.Static;
 using chkam05.VisualPlayer.Controls.Data;
+using chkam05.VisualPlayer.Controls.Static;
 using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Data.Fonts;
 using chkam05.VisualPlayer.Utilities;
@@ -33,7 +34,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         //  VARIABLES
 
-        private ObservableCollection<FontContainer> _fonts;
+        private ObservableCollection<string> _fonts;
         private ObservableCollection<FontStyle> _fontStyles;
         private ObservableCollection<FontStretch> _fontStretches;
         private ObservableCollection<FontWeight> _fontWeights;
@@ -51,7 +52,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
             get => MenuItemType.SETTINGS_MENU;
         }
 
-        public ObservableCollection<FontContainer> Fonts
+        public ObservableCollection<string> Fonts
         {
             get => _fonts;
             private set
@@ -210,7 +211,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
         /// <summary> Setup data containers. </summary>
         private void SetupDataContainers()
         {
-            Fonts = FontsManager.Instance.Fonts;
+            Fonts = new ObservableCollection<string>(FontsManager.Instance.Fonts.Select(f => f.ToString()));
             FontStyles = new ObservableCollection<FontStyle>(FontsManager.GetStyles());
             FontStretches = new ObservableCollection<FontStretch>(FontsManager.GetStretches());
             FontWeights = new ObservableCollection<FontWeight>(FontsManager.GetWeights());

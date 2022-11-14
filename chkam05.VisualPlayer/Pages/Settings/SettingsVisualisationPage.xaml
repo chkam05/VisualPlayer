@@ -26,9 +26,9 @@
 
             <!-- CONVERTERS -->
 
-            <converters:VisualisationTypeNameConverter x:Key="VisualisationTypeNameConverter"/>
-            <converters:VisualisationColorTypeNameConverter x:Key="VisualisationColorTypeNameConverter"/>
-            <converters:VisualisationScalingStrategyNameConverter x:Key="VisualisationScalingStrategyNameConverter"/>
+            <converters_config:VisualisationTypeNameConverter x:Key="VisualisationTypeNameConverter"/>
+            <converters_config:VisualisationColorTypeNameConverter x:Key="VisualisationColorTypeNameConverter"/>
+            <converters_config:VisualisationScalingStrategyNameConverter x:Key="VisualisationScalingStrategyNameConverter"/>
 
             <!-- STYLES -->
 
@@ -66,6 +66,16 @@
                 <Setter Property="FontSize" Value="14"/>
             </Style>
 
+            <Style TargetType="{x:Type controlsex:TextBlockEx}">
+                <Setter Property="Background" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="8,0,0,0"/>
+                <Setter Property="Width" Value="48"/>
+            </Style>
+
             <Style TargetType="{x:Type controlsex:ScrollViewerEx}">
                 <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
                 <Setter Property="PanningMode" Value="Both"/>
@@ -90,7 +100,7 @@
                 <Setter Property="HeaderForeground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="IsExpanded" Value="True"/>
                 <Setter Property="Margin" Value="0"/>
-                <Setter Property="Padding" Value="8"/>
+                <Setter Property="Padding" Value="16"/>
             </Style>
 
             <Style TargetType="{x:Type controlsex:ComboBoxEx}">
@@ -285,12 +295,25 @@
                             Margin="0,0,0,8"
                             Text="Stripes falling speed"/>
 
-                        <controlsex:SliderEx
-                            Margin="0,0,0,8"
-                            Maximum="{x:Static visualisations:StripesVisualisation.FALL_SPEED_MAX}"
-                            Minimum="{x:Static visualisations:StripesVisualisation.FALL_SPEED_MIN}"
-                            TickFrequency="0.10"
-                            Value="{Binding ConfigManager.VisualisationAnimationSpeed}"/>
+                        <Grid
+                            Margin="0,0,0,8">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controlsex:SliderEx
+                                Maximum="{x:Static visualisations:StripesVisualisation.FALL_SPEED_MAX}"
+                                Minimum="{x:Static visualisations:StripesVisualisation.FALL_SPEED_MIN}"
+                                TickFrequency="0.10"
+                                Value="{Binding ConfigManager.VisualisationAnimationSpeed}"/>
+
+                            <controlsex:TextBlockEx
+                                Grid.Column="1"
+                                Text="{Binding ConfigManager.VisualisationAnimationSpeed, Mode=OneWay}"/>
+
+                        </Grid>
 
                     </StackPanel>
                 </controlsex:ExpanderEx>
@@ -350,12 +373,25 @@
                             Margin="0,0,0,8"
                             Text="Opacity"/>
 
-                        <controlsex:SliderEx
-                            Margin="0,0,0,8"
-                            Maximum="{x:Static visualisations:StripesVisualisation.OPACITY_MAX}"
-                            Minimum="{x:Static visualisations:StripesVisualisation.OPACITY_MIN}"
-                            TickFrequency="0.01"
-                            Value="{Binding ConfigManager.VisualisationColorOpacity}"/>
+                        <Grid
+                            Margin="0,0,0,8">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controlsex:SliderEx
+                                Maximum="{x:Static visualisations:StripesVisualisation.OPACITY_MAX}"
+                                Minimum="{x:Static visualisations:StripesVisualisation.OPACITY_MIN}"
+                                TickFrequency="0.01"
+                                Value="{Binding ConfigManager.VisualisationColorOpacity}"/>
+
+                            <controlsex:TextBlockEx
+                                Grid.Column="1"
+                                Text="{Binding ConfigManager.VisualisationColorOpacity, Mode=OneWay}"/>
+
+                        </Grid>
 
                     </StackPanel>
                 </controlsex:ExpanderEx>
@@ -376,34 +412,73 @@
                             Margin="0,0,0,8"
                             Text="Auto color shift change speed"/>
 
-                        <controlsex:SliderEx
-                            Margin="0,0,0,16"
-                            Maximum="{x:Static visualisations:StripesVisualisation.RAINBOW_CHANGE_TIME_MAX}"
-                            Minimum="{x:Static visualisations:StripesVisualisation.RAINBOW_CHANGE_TIME_MIN}"
-                            TickFrequency="0.01"
-                            Value="{Binding ConfigManager.VisualisationRainbowChangeTime}"/>
+                        <Grid
+                            Margin="0,0,0,16">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controlsex:SliderEx
+                                Maximum="{x:Static visualisations:StripesVisualisation.RAINBOW_CHANGE_TIME_MAX}"
+                                Minimum="{x:Static visualisations:StripesVisualisation.RAINBOW_CHANGE_TIME_MIN}"
+                                TickFrequency="0.01"
+                                Value="{Binding ConfigManager.VisualisationRainbowChangeTime}"/>
+
+                            <controlsex:TextBlockEx
+                                Grid.Column="1"
+                                Text="{Binding ConfigManager.VisualisationRainbowChangeTime, Mode=OneWay}"/>
+
+                        </Grid>
 
                         <TextBlock
                             Margin="0,0,0,8"
                             Text="Horizontal rainbow color spectrum"/>
 
-                        <controlsex:SliderEx
-                            Margin="0,0,0,16"
-                            Maximum="{x:Static controlsex_data:AHSLColor.HUE_MAX_D}"
-                            Minimum="{x:Static controlsex_data:AHSLColor.HUE_MIN_D}"
-                            TickFrequency="1"
-                            Value="{Binding ConfigManager.VisualisationRainbowXShift}"/>
+                        <Grid
+                            Margin="0,0,0,16">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controlsex:SliderEx
+                                Maximum="{x:Static controlsex_data:AHSLColor.HUE_MAX_D}"
+                                Minimum="{x:Static controlsex_data:AHSLColor.HUE_MIN_D}"
+                                TickFrequency="1"
+                                Value="{Binding ConfigManager.VisualisationRainbowXShift}"/>
+
+                            <controlsex:TextBlockEx
+                                Grid.Column="1"
+                                Text="{Binding ConfigManager.VisualisationRainbowXShift, Mode=OneWay}"/>
+
+                        </Grid>
 
                         <TextBlock
                             Margin="0,0,0,8"
                             Text="Vertical rainbow color spectrum"/>
 
-                        <controlsex:SliderEx
-                            Margin="0,0,0,8"
-                            Maximum="{x:Static controlsex_data:AHSLColor.HUE_MAX_D}"
-                            Minimum="{x:Static controlsex_data:AHSLColor.HUE_MIN_D}"
-                            TickFrequency="1"
-                            Value="{Binding ConfigManager.VisualisationRainbowYShift}"/>
+                        <Grid
+                            Margin="0,0,0,8">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controlsex:SliderEx
+                                Maximum="{x:Static controlsex_data:AHSLColor.HUE_MAX_D}"
+                                Minimum="{x:Static controlsex_data:AHSLColor.HUE_MIN_D}"
+                                TickFrequency="1"
+                                Value="{Binding ConfigManager.VisualisationRainbowYShift}"/>
+
+                            <controlsex:TextBlockEx
+                                Grid.Column="1"
+                                Text="{Binding ConfigManager.VisualisationRainbowYShift, Mode=OneWay}"/>
+
+                        </Grid>
 
                     </StackPanel>
                 </controlsex:ExpanderEx>

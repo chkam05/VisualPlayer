@@ -7,18 +7,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace chkam05.VisualPlayer.Converters
+namespace chkam05.VisualPlayer.Converters.Settings
 {
-    public class VisualisationScalingStrategyNameConverter : IValueConverter
+    public class VisualisationColorTypeNameConverter : IValueConverter
     {
 
         //  CONST
 
-        private static readonly Dictionary<ScalingStrategy, string> _mapping = new Dictionary<ScalingStrategy, string>
+        private static readonly Dictionary<VisualisationColorType, string> _mapping = new Dictionary<VisualisationColorType, string>
         {
-            { ScalingStrategy.DB, "Decibel" },
-            { ScalingStrategy.LINEAR, "Linear" },
-            { ScalingStrategy.SQRT, "Square" }
+            { VisualisationColorType.SYSTEM, "System Accent Color" },
+            { VisualisationColorType.CUSTOM, "Custom Color" },
+            { VisualisationColorType.RAINBOW_HORIZONTAL, "Horizontal Rainbow" },
+            { VisualisationColorType.RAINBOW_VERTICAL, "Vertical Rainbow" },
         };
 
 
@@ -35,7 +36,7 @@ namespace chkam05.VisualPlayer.Converters
         {
             if (value != null)
             {
-                var enumValue = (ScalingStrategy)value;
+                var enumValue = (VisualisationColorType)value;
                 return _mapping[enumValue];
             }
 
@@ -56,7 +57,7 @@ namespace chkam05.VisualPlayer.Converters
             if (!string.IsNullOrEmpty(stringValue) && _mapping.Any(m => m.Value == stringValue))
                 return _mapping.Where(m => m.Value == stringValue).First().Key;
 
-            return ScalingStrategy.SQRT;
+            return VisualisationColorType.SYSTEM;
         }
     }
 }

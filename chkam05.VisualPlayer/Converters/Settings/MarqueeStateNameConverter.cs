@@ -1,16 +1,27 @@
-﻿using System;
+﻿using chkam05.Tools.ControlsEx.Static;
+using chkam05.VisualPlayer.Controls.Data;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using System.Windows.Media;
 
-namespace chkam05.VisualPlayer.Converters
+namespace chkam05.VisualPlayer.Converters.Settings
 {
-    public class ColorSolidColorBrushConverter : IValueConverter
+    public class MarqueeStateNameConverter : IValueConverter
     {
+
+        //  CONST
+
+        private static readonly Dictionary<MarqueeTextBlockState, string> _mapping = new Dictionary<MarqueeTextBlockState, string>
+        {
+            { MarqueeTextBlockState.Disabled, "Disabled" },
+            { MarqueeTextBlockState.Enabled, "Enabled" },
+            { MarqueeTextBlockState.WhenTextIsTooLong, "If text is too long" },
+        };
+
 
         //  METHODS
 
@@ -24,9 +35,12 @@ namespace chkam05.VisualPlayer.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value != null)
-                return new SolidColorBrush((Color)value);
+            {
+                var enumValue = (MarqueeTextBlockState)value;
+                return _mapping[enumValue];
+            }
 
-            return new SolidColorBrush(Colors.Transparent);
+            return string.Empty;
         }
 
         //  --------------------------------------------------------------------------------
@@ -38,12 +52,12 @@ namespace chkam05.VisualPlayer.Converters
         /// <returns> Converted value. If the method returns null, the valid null value is used. </returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var solidColorBrush = value as SolidColorBrush;
+            var stringValue = value as string;
 
-            if (solidColorBrush != null)
-                return solidColorBrush.Color;
+            if (!string.IsNullOrEmpty(stringValue) && _mapping.Any(m => m.Value == stringValue))
+                return _mapping.Where(m => m.Value == stringValue).First().Key;
 
-            return Colors.Transparent;
+            return MarqueeTextBlockState.Disabled;
         }
     }
 }

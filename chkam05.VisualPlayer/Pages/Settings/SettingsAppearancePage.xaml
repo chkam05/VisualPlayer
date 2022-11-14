@@ -54,6 +54,16 @@
                 <Setter Property="FontSize" Value="14"/>
             </Style>
 
+            <Style TargetType="{x:Type controlsex:TextBlockEx}">
+                <Setter Property="Background" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Foreground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="8,0,0,0"/>
+                <Setter Property="Width" Value="48"/>
+            </Style>
+
             <Style TargetType="{x:Type controlsex:ScrollViewerEx}">
                 <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
                 <Setter Property="PanningMode" Value="Both"/>
@@ -78,7 +88,7 @@
                 <Setter Property="HeaderForeground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="IsExpanded" Value="True"/>
                 <Setter Property="Margin" Value="0"/>
-                <Setter Property="Padding" Value="8"/>
+                <Setter Property="Padding" Value="16"/>
             </Style>
 
             <Style TargetType="{x:Type controlsex:ComboBoxEx}">
@@ -125,7 +135,7 @@
                 <Setter Property="ThumbDraggingBackground" Value="{Binding ConfigManager.ContrastedPressedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="ThumbDraggingBorderBrush" Value="{Binding ConfigManager.ContrastedPressedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="ThumbWidth" Value="12"/>
-                <Setter Property="TrackBarBackground" Value="{Binding ConfigManager.BackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
+                <Setter Property="TrackBarBackground" Value="{Binding ConfigManager.TrackBarBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="TrackBarBorderBrush" Value="{x:Null}"/>
                 <Setter Property="TrackBarBorderThickness" Value="0"/>
                 <Setter Property="TrackBarHeight" Value="4"/>
@@ -242,12 +252,26 @@
                             Margin="0,0,0,8"
                             Text="Background opacity"/>
 
-                        <controlsex:SliderEx
-                            Margin="0,0,0,8"
-                            Maximum="{x:Static config:ConfigManager.COLOR_OPACITY_MAX}"
-                            Minimum="{x:Static config:ConfigManager.COLOR_OPACITY_MIN}"
-                            TickFrequency="0.01"
-                            Value="{Binding ConfigManager.BackgroundOpacity}"/>
+                        <Grid
+                            Margin="0,0,0,8">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controlsex:SliderEx
+                                Grid.Column="0"
+                                Maximum="{x:Static config:ConfigManager.COLOR_OPACITY_MAX}"
+                                Minimum="{x:Static config:ConfigManager.COLOR_OPACITY_MIN}"
+                                TickFrequency="0.01"
+                                Value="{Binding ConfigManager.BackgroundOpacity}"/>
+
+                            <controlsex:TextBlockEx
+                                Grid.Column="1"
+                                Text="{Binding ConfigManager.BackgroundOpacity, StringFormat={}{0:0.##}, Mode=OneWay}"/>
+
+                        </Grid>
 
                     </StackPanel>
                     
@@ -315,12 +339,25 @@
                             Margin="0,0,0,8"
                             Text="Controls background opacity"/>
 
-                        <controlsex:SliderEx
-                            Margin="0,0,0,8"
-                            Maximum="{x:Static config:ConfigManager.COLOR_OPACITY_MAX}"
-                            Minimum="{x:Static config:ConfigManager.COLOR_OPACITY_MIN}"
-                            TickFrequency="0.01"
-                            Value="{Binding ConfigManager.ControlsBackgroundOpacity}"/>
+                        <Grid
+                            Margin="0,0,0,8">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controlsex:SliderEx
+                                Maximum="{x:Static config:ConfigManager.COLOR_OPACITY_MAX}"
+                                Minimum="{x:Static config:ConfigManager.COLOR_OPACITY_MIN}"
+                                TickFrequency="0.01"
+                                Value="{Binding ConfigManager.ControlsBackgroundOpacity}"/>
+
+                            <controlsex:TextBlockEx
+                                Grid.Column="1"
+                                Text="{Binding ConfigManager.ControlsBackgroundOpacity, StringFormat={}{0:0.##}, Mode=OneWay}"/>
+
+                        </Grid>
 
                     </StackPanel>
 
@@ -356,23 +393,49 @@
                             Margin="0,0,0,8"
                             Text="Animation speed:"/>
 
-                        <controlsex:SliderEx
-                            Margin="0,0,0,16"
-                            Maximum="{x:Static visualisations:BeatLevel.FALL_SPEED_MAX}"
-                            Minimum="{x:Static visualisations:BeatLevel.FALL_SPEED_MIN}"
-                            TickFrequency="0.01"
-                            Value="{Binding ConfigManager.LogoAnimationSpeed}"/>
+                        <Grid
+                            Margin="0,0,0,16">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controlsex:SliderEx
+                                Maximum="{x:Static visualisations:BeatLevel.FALL_SPEED_MAX}"
+                                Minimum="{x:Static visualisations:BeatLevel.FALL_SPEED_MIN}"
+                                TickFrequency="0.01"
+                                Value="{Binding ConfigManager.LogoAnimationSpeed}"/>
+
+                            <controlsex:TextBlockEx
+                                Grid.Column="1"
+                                Text="{Binding ConfigManager.LogoAnimationSpeed, StringFormat={}{0:0.###}, Mode=OneWay}"/>
+
+                        </Grid>
 
                         <TextBlock
                             Margin="0,0,0,8"
                             Text="Animation sensitivity:"/>
 
-                        <controlsex:SliderEx
-                            Margin="0,0,0,8"
-                            Maximum="{x:Static visualisations:BeatLevel.SENSITIVITY_MAX}"
-                            Minimum="{x:Static visualisations:BeatLevel.SENSITIVITY_MIN}"
-                            TickFrequency="0.01"
-                            Value="{Binding ConfigManager.LogoAnimationSensitivity}"/>
+                        <Grid
+                            Margin="0,0,0,16">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <controlsex:SliderEx
+                                Maximum="{x:Static visualisations:BeatLevel.SENSITIVITY_MAX}"
+                                Minimum="{x:Static visualisations:BeatLevel.SENSITIVITY_MIN}"
+                                TickFrequency="0.01"
+                                Value="{Binding ConfigManager.LogoAnimationSensitivity}"/>
+
+                            <controlsex:TextBlockEx
+                                Grid.Column="1"
+                                Text="{Binding ConfigManager.LogoAnimationSensitivity, StringFormat={}{0:0.##}, Mode=OneWay}"/>
+
+                        </Grid>
 
                     </StackPanel>
 

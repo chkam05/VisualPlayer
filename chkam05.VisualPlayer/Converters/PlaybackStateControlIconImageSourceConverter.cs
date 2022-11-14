@@ -1,4 +1,4 @@
-﻿using chkam05.VisualPlayer.Converters.Data;
+﻿using chkam05.VisualPlayer.Converters.Static;
 using CSCore.SoundOut;
 using MaterialDesignThemes.Wpf;
 using System;

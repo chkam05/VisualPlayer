@@ -23,7 +23,7 @@
 
             <!-- CONVERTERS -->
 
-            <converters:MarqueeStateNameConverter x:Key="MarqueeStateNameConverter"/>
+            <converters_config:MarqueeStateNameConverter x:Key="MarqueeStateNameConverter"/>
             
             <!-- STYLES -->
 
@@ -71,7 +71,7 @@
                 <Setter Property="HeaderForeground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
                 <Setter Property="IsExpanded" Value="True"/>
                 <Setter Property="Margin" Value="0"/>
-                <Setter Property="Padding" Value="8"/>
+                <Setter Property="Padding" Value="16"/>
             </Style>
 
             <Style TargetType="controlsex:CheckBoxEx">

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace chkam05.VisualPlayer.Converters.Data
+namespace chkam05.VisualPlayer.Converters.Static
 {
     public enum PlaybackStateControlIconConverterParameter
     {

@@ -1,4 +1,5 @@
 ﻿using chkam05.VisualPlayer.Controls.Data;
+using chkam05.VisualPlayer.Controls.Static;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;

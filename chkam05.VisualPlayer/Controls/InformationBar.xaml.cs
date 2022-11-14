@@ -1,5 +1,6 @@
 ﻿using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Controls.Events;
+using chkam05.VisualPlayer.Controls.Static;
 using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Configuration;
 using System;

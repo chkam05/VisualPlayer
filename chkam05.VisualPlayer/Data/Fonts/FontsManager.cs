@@ -27,7 +27,7 @@ namespace chkam05.VisualPlayer.Data.Fonts
 
         private static FontsManager _instance;
 
-        private ObservableCollection<FontContainer> _fonts;
+        private List<FontContainer> _fonts;
 
 
         //  GETTERS & SETTERS
@@ -48,7 +48,7 @@ namespace chkam05.VisualPlayer.Data.Fonts
             get => Fonts.First(f => f.Name == "Segoe UI");
         }
 
-        public ObservableCollection<FontContainer> Fonts
+        public List<FontContainer> Fonts
         {
             get => _fonts;
             set
@@ -66,7 +66,7 @@ namespace chkam05.VisualPlayer.Data.Fonts
         /// <summary> FontsManager private class constructor. </summary>
         private FontsManager()
         {
-            Fonts = new ObservableCollection<FontContainer>();
+            Fonts = new List<FontContainer>();
 
             LoadApplicationFonts();
             LoadSystemFonts();

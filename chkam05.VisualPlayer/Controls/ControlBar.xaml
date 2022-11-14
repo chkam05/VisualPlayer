@@ -7,7 +7,7 @@
     xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
     xmlns:local="clr-namespace:chkam05.VisualPlayer.Controls" 
     xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
-    xmlns:convertersData="clr-namespace:chkam05.VisualPlayer.Converters.Data"
+    xmlns:convertersData="clr-namespace:chkam05.VisualPlayer.Converters.Static"
     mc:Ignorable="d"
     
     d:DesignWidth="800"
