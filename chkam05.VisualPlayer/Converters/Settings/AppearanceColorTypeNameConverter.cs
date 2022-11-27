@@ -55,7 +55,7 @@ namespace chkam05.VisualPlayer.Converters.Settings
             if (!string.IsNullOrEmpty(stringValue) && _mapping.Any(m => m.Value == stringValue))
                 return _mapping.Where(m => m.Value == stringValue).First().Key;
 
-            return AppearanceThemeType.DARK;
+            return AppearanceColorType.SYSTEM;
         }
 
     }

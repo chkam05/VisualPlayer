@@ -11,6 +11,7 @@ using chkam05.VisualPlayer.Data.Lyrics;
 using chkam05.VisualPlayer.Utilities;
 using chkam05.VisualPlayer.Utilities.Data;
 using chkam05.VisualPlayer.Visualisations.Data;
+using chkam05.VisualPlayer.Visualisations.Profiles;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -110,7 +111,6 @@ namespace chkam05.VisualPlayer.Data.Configuration
         private static ConfigManager _instance;
         private bool _initialized = false;
         private bool _lockVisualisationConfig = false;
-        private bool _lockVisualisationUpdate = false;
         private Config _configuration;
         private string _screenVersion = "";
         private VisualisationProfilesManager _visualisationProfilesManager;
@@ -1385,21 +1385,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
             get => _configuration.VisualisationProfileName;
             set
             {
-                if (!_lockVisualisationUpdate)
-                {
-                    _lockVisualisationUpdate = true;
-                    _configuration.VisualisationProfileName = value;
-
-                    if (!_lockVisualisationConfig)
-                    {
-                        VisualisationProfilesManager.SaveProfile();
-                        VisualisationProfilesManager.SelectProfile(value);
-                        _configuration.VisualisationProfileName = VisualisationProfilesManager.Profile.Name;
-                    }
-
-                    OnPropertyChanged(nameof(VisualisationProfileName));
-                    _lockVisualisationUpdate = false;
-                }
+                _configuration.VisualisationProfileName = value;
+                OnPropertyChanged(nameof(VisualisationProfileName));
+                VisualisationProfileUpdate();
             }
         }
 
@@ -1582,7 +1570,6 @@ namespace chkam05.VisualPlayer.Data.Configuration
         {
             _configuration = new Config();
             _visualisationProfilesManager = new VisualisationProfilesManager();
-            _visualisationProfilesManager.PropertyChanged += OnVisualisationProfileUpdate;
 
             var appTitle = ApplicationHelper.Instance.GetApplicationTitle();
             var appVersion = ApplicationHelper.Instance.GetApplicationVersion();
@@ -1926,7 +1913,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             var path = FilesManager.Instance.ConfigurationFilePath;
             var serialized = JsonConvert.SerializeObject(_configuration, Formatting.Indented);
             File.WriteAllText(path, serialized);
-            VisualisationProfilesManager.SaveProfile();
+            VisualisationProfilesManager.SaveCurrentProfile();
         }
 
         //  --------------------------------------------------------------------------------
@@ -1999,24 +1986,6 @@ namespace chkam05.VisualPlayer.Data.Configuration
         #endregion SETUP METHODS
 
         #region VISUALISATION PROFILES MANAGER METHODS
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Change name of currently loaded visualisation profile. </summary>
-        /// <param name="visualisationProfileName"></param>
-        public void RenameVisualisationProfile(string visualisationProfileName)
-        {
-            VisualisationProfilesManager.RenameProfile(visualisationProfileName);
-            VisualisationProfileUpdate();
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after updating selected profile in VisualisationProfilesManager. </summary>
-        /// <param name="sender"> Object that invoked method. </param>
-        /// <param name="e"> Property Changed Event Arguments. </param>
-        private void OnVisualisationProfileUpdate(object sender, PropertyChangedEventArgs e)
-        {
-            VisualisationProfileUpdate();
-        }
 
         //  --------------------------------------------------------------------------------
         /// <summary> Update visualisation configuration. </summary>

@@ -6,6 +6,7 @@ using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Fonts;
 using chkam05.VisualPlayer.Data.Lyrics;
 using chkam05.VisualPlayer.Utilities;
+using chkam05.VisualPlayer.Visualisations.Profiles;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

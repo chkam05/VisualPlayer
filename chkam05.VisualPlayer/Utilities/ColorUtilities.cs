@@ -1,5 +1,5 @@
 ﻿using chkam05.Tools.ControlsEx.Colors;
-using chkam05.VisualPlayer.Data.Config;
+using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Utilities.Data;
 using System;
 using System.Collections.Generic;

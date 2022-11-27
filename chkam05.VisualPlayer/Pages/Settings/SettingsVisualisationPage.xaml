@@ -252,7 +252,7 @@
 
                 <controlsex:TextBoxEx
                     Margin="0,0,0,16"
-                    Text="{Binding ConfigManager.VisualisationProfileName, Mode=OneWay}"
+                    Text="{Binding VisualisationProfileNameEditable}"
                     TextModified="VisualisationProfileNameTextModified"/>
 
                 <controlsex:ExpanderEx
@@ -311,7 +311,7 @@
 
                             <controlsex:TextBlockEx
                                 Grid.Column="1"
-                                Text="{Binding ConfigManager.VisualisationAnimationSpeed, Mode=OneWay}"/>
+                                Text="{Binding ConfigManager.VisualisationAnimationSpeed, StringFormat={}{0:0.##}, Mode=OneWay}"/>
 
                         </Grid>
 
@@ -389,7 +389,7 @@
 
                             <controlsex:TextBlockEx
                                 Grid.Column="1"
-                                Text="{Binding ConfigManager.VisualisationColorOpacity, Mode=OneWay}"/>
+                                Text="{Binding ConfigManager.VisualisationColorOpacity, StringFormat={}{0:0.##}, Mode=OneWay}"/>
 
                         </Grid>
 
@@ -428,7 +428,7 @@
 
                             <controlsex:TextBlockEx
                                 Grid.Column="1"
-                                Text="{Binding ConfigManager.VisualisationRainbowChangeTime, Mode=OneWay}"/>
+                                Text="{Binding ConfigManager.VisualisationRainbowChangeTime, StringFormat={}{0:0.##}, Mode=OneWay}"/>
 
                         </Grid>
 
@@ -452,7 +452,7 @@
 
                             <controlsex:TextBlockEx
                                 Grid.Column="1"
-                                Text="{Binding ConfigManager.VisualisationRainbowXShift, Mode=OneWay}"/>
+                                Text="{Binding ConfigManager.VisualisationRainbowXShift, StringFormat={}{0:0.##}, Mode=OneWay}"/>
 
                         </Grid>
 
@@ -476,7 +476,7 @@
 
                             <controlsex:TextBlockEx
                                 Grid.Column="1"
-                                Text="{Binding ConfigManager.VisualisationRainbowYShift, Mode=OneWay}"/>
+                                Text="{Binding ConfigManager.VisualisationRainbowYShift, StringFormat={}{0:0.##}, Mode=OneWay}"/>
 
                         </Grid>
 
@@ -493,19 +493,27 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
             <controlsex:ComboBoxEx
                 Grid.Column="0"
                 ItemsSource="{Binding VisualisationProfiles}"
                 Margin="0,0,8,0"
-                SelectedItem="{Binding ConfigManager.VisualisationProfileName}"/>
+                SelectedItem="{Binding VisualisationProfileName}"/>
 
             <controlsex:ButtonEx
                 Grid.Column="1"
                 Content="Remove"
                 IconKind="Delete"
+                Margin="0,0,4,0"
                 Click="RemoveProfileButton_Click"/>
+
+            <controlsex:ButtonEx
+                Grid.Column="2"
+                Content=""
+                IconKind="Add"
+                Click="CreateProfileButton_Click"/>
 
         </Grid>
 

@@ -1,21 +1,58 @@
 ﻿using chkam05.Tools.ControlsEx.Colors;
+using chkam05.VisualPlayer.Utilities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
+
 namespace chkam05.VisualPlayer.Data.Configuration
 {
-    public class ColorInfo
+    public class ColorInfo : INotifyPropertyChanged
     {
+
+        //  EVENTS
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
 
         //  VARIABLES
 
-        public Color Color { get; set; }
-        public string ColorCode { get; set; }
-        public string Name { get; set; }
+        private Color _color = Colors.Transparent;
+        private string _name;
+
+
+        //  GETTERS & SETTERS
+
+        public Color Color
+        {
+            get => _color;
+            set
+            {
+                _color = value;
+                OnPropertyChanged(nameof(Color));
+            }
+        }
+
+        [JsonIgnore]
+        public string ColorCode
+        {
+            get => ColorUtilities.ColorToHex(_color);
+        }
+
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
 
 
         //  METHODS
@@ -30,6 +67,16 @@ namespace chkam05.VisualPlayer.Data.Configuration
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> ColorInfo class constructor. </summary>
+        /// <param name="colorCode"> Hexadecimal color code. </param>
+        /// <param name="colorName"> Color name. </param>
+        public ColorInfo(string colorCode, string colorName)
+        {
+            Color = ColorUtilities.ColorFromHex(colorCode);
+            Name = colorName;
+        }
+
+        //  --------------------------------------------------------------------------------
         /// <summary> ColorInfo class constructor from ColorPaletteItem object. </summary>
         /// <param name="colorPaletteItem"> ColorPaletteItem. </param>
         public ColorInfo(ColorPaletteItem colorPaletteItem)
@@ -37,7 +84,6 @@ namespace chkam05.VisualPlayer.Data.Configuration
             if (colorPaletteItem != null)
             {
                 Color = colorPaletteItem.Color;
-                ColorCode = colorPaletteItem.ColorCode;
                 Name = colorPaletteItem.Name;
             }
         }
@@ -64,6 +110,21 @@ namespace chkam05.VisualPlayer.Data.Configuration
         }
 
         #endregion CAST METHODS
+
+        #region NOTIFY PROPERTIES CHANGED INTERFACE METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method for invoking PropertyChangedEventHandler external method. </summary>
+        /// <param name="propertyName"> Changed property name. </param>
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion NOTIFY PROPERTIES CHANGED INTERFACE METHODS
 
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace chkam05.VisualPlayer.Data.Configuration
+namespace chkam05.VisualPlayer.Visualisations.Profiles
 {
     public class VisualisationProfile
     {

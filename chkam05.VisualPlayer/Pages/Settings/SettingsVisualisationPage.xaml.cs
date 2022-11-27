@@ -5,6 +5,7 @@ using chkam05.VisualPlayer.Controls.Static;
 using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Utilities;
 using chkam05.VisualPlayer.Visualisations.Data;
+using chkam05.VisualPlayer.Visualisations.Profiles;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,9 +34,10 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
 
         //  VARIABLES
-
-        private bool _visualisationChanging = false;
+        private bool _lockVisualisationUpdate = true;
         private ObservableCollection<string> _visualisationProfiles;
+        private string _visualisationProfileName;
+        private string _visualisationProfileEditable;
         private ObservableCollection<VisualisationType> _visualisationTypes;
         private ObservableCollection<ScalingStrategy> _visualisationScalingTypes;
         private ObservableCollection<VisualisationColorType> _visualisationColorTypes;
@@ -60,6 +62,34 @@ namespace chkam05.VisualPlayer.Pages.Settings
             {
                 _visualisationProfiles = value;
                 OnPropertyChanged(nameof(VisualisationProfiles));
+            }
+        }
+
+        public string VisualisationProfileName
+        {
+            get => _visualisationProfileName;
+            set
+            {
+                _visualisationProfileName = value;
+                OnPropertyChanged(nameof(VisualisationProfileName));
+
+                if (!_lockVisualisationUpdate)
+                {
+                    ConfigManager.VisualisationProfilesManager.SelectProfile(value);
+                    string profileName = ConfigManager.VisualisationProfilesManager.Profile.Name;
+                    ConfigManager.VisualisationProfileName = profileName;
+                    VisualisationProfileNameEditable = profileName;
+                }
+            }
+        }
+        
+        public string VisualisationProfileNameEditable
+        {
+            get => _visualisationProfileEditable;
+            set
+            {
+                _visualisationProfileEditable = value;
+                OnPropertyChanged(nameof(VisualisationProfileNameEditable));
             }
         }
 
@@ -123,18 +153,11 @@ namespace chkam05.VisualPlayer.Pages.Settings
         /// <param name="pagesManager"> Pages manager where page will be presented. </param>
         public SettingsVisualisationPage(IPagesManager pagesManager)
         {
-            //  Setup data containers.
-            SetupDataContainers();
-
             //  Setup modules.
             ConfigManager = ConfigManager.Instance;
-            ConfigManager.PropertyChanged += OnConfigurationPropertyChanged;
 
-            VisualisationUsedBorderColors = new ObservableCollection<ColorPaletteItem>(
-                ConfigManager.VisualisationUsedBorderColors.Select(i => i.ToColorPaletteItem()));
-
-            VisualisationUsedFillColors = new ObservableCollection<ColorPaletteItem>(
-                ConfigManager.VisualisationUsedFillColors.Select(i => i.ToColorPaletteItem()));
+            //  Setup data containers.
+            SetupDataContainers();
 
             //  Initialize interface and components.
             InitializeComponent();
@@ -197,20 +220,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
         #region NOTIFY PROPERTIES CHANGED INTERFACE METHODS
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after changing configuration in ConfigurationManager. </summary>
-        /// <param name="sender"> Object that invoked method. </param>
-        /// <param name="e"> Property Changed Event Arguments. </param>
-        private void OnConfigurationPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == nameof(ConfigManager.VisualisationProfileName) && !_visualisationChanging)
-            {
-                _visualisationChanging = true;
-                UpdateVisualisationProfilesList();
-                _visualisationChanging = false;
-            }
-        }
-
-        //  --------------------------------------------------------------------------------
         /// <summary> Method for invoking PropertyChangedEventHandler external method. </summary>
         /// <param name="propertyName"> Changed property name. </param>
         protected void OnPropertyChanged(string propertyName)
@@ -226,12 +235,28 @@ namespace chkam05.VisualPlayer.Pages.Settings
         #region VISUALISATION PROFILES MANAGEMENT METHODS
 
         //  --------------------------------------------------------------------------------
+        private void CreateProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            _lockVisualisationUpdate = true;
+            ConfigManager.VisualisationProfilesManager.CreateProfile();
+            var profileName = ConfigManager.VisualisationProfilesManager.Profile.Name;
+            UpdateVisualisationProfilesList();
+            UpdateVisualisationProfilesName(profileName);
+            _lockVisualisationUpdate = false;
+        }
+
+        //  --------------------------------------------------------------------------------
         /// <summary> Method invoked after clicking Remove Profile Button. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> Routed Event Arguments. </param>
         private void RemoveProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            ConfigManager.VisualisationProfilesManager.RemoveProfile();
+            _lockVisualisationUpdate = true;
+            ConfigManager.VisualisationProfilesManager.RemoveCurrentProfile();
+            var profileName = ConfigManager.VisualisationProfilesManager.Profile.Name;
+            UpdateVisualisationProfilesList();
+            UpdateVisualisationProfilesName(profileName);
+            _lockVisualisationUpdate = false;
         }
 
         //  --------------------------------------------------------------------------------
@@ -239,7 +264,15 @@ namespace chkam05.VisualPlayer.Pages.Settings
         private void UpdateVisualisationProfilesList()
         {
             VisualisationProfiles = new ObservableCollection<string>(
-                VisualisationProfilesManager.GetProfilesList());
+                VisualisationProfilesManager.GetProfilesNamesList());
+        }
+
+        //  --------------------------------------------------------------------------------
+        private void UpdateVisualisationProfilesName(string profileName)
+        {
+            ConfigManager.VisualisationProfileName = profileName;
+            VisualisationProfileName = profileName;
+            VisualisationProfileNameEditable = profileName;
         }
 
         //  --------------------------------------------------------------------------------
@@ -248,8 +281,20 @@ namespace chkam05.VisualPlayer.Pages.Settings
         /// <param name="e"> Text Modified Event Arguments. </param>
         private void VisualisationProfileNameTextModified(object sender, TextModifiedEventArgs e)
         {
-            if (e.UserModified)
-                ConfigManager.RenameVisualisationProfile(e.NewText);
+            if (e.UserModified && !_lockVisualisationUpdate)
+            {
+                _lockVisualisationUpdate = true;
+
+                if (ConfigManager.VisualisationProfilesManager.RenameCurrentProfile(e.NewText))
+                {
+                    var profileName = ConfigManager.VisualisationProfilesManager.Profile.Name;
+
+                    UpdateVisualisationProfilesList();
+                    UpdateVisualisationProfilesName(profileName);
+                }
+
+                _lockVisualisationUpdate = false;
+            }
         }
 
         #endregion VISUALISATION PROFILES MANAGEMENT METHODS
@@ -260,8 +305,11 @@ namespace chkam05.VisualPlayer.Pages.Settings
         /// <summary> Setup data containers. </summary>
         private void SetupDataContainers()
         {
-            VisualisationProfiles = new ObservableCollection<string>(
-                VisualisationProfilesManager.GetProfilesList());
+            _lockVisualisationUpdate = true;
+
+            UpdateVisualisationProfilesList();
+            VisualisationProfileName = ConfigManager.VisualisationProfileName;
+            VisualisationProfileNameEditable = ConfigManager.VisualisationProfileName;
 
             VisualisationTypes = new ObservableCollection<VisualisationType>(
                 EnumUtilities.ListOf<VisualisationType>());
@@ -274,6 +322,14 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
             VisualisationColorTypes = new ObservableCollection<VisualisationColorType>(
                 EnumUtilities.ListOf<VisualisationColorType>());
+
+            VisualisationUsedBorderColors = new ObservableCollection<ColorPaletteItem>(
+                ConfigManager.VisualisationUsedBorderColors.Select(i => i.ToColorPaletteItem()));
+
+            VisualisationUsedFillColors = new ObservableCollection<ColorPaletteItem>(
+                ConfigManager.VisualisationUsedFillColors.Select(i => i.ToColorPaletteItem()));
+
+            _lockVisualisationUpdate = false;
         }
 
         #endregion SETUP METHODS
@@ -290,7 +346,6 @@ namespace chkam05.VisualPlayer.Pages.Settings
             ConfigManager.VisualisationUsedBorderColors = VisualisationUsedBorderColors.Select(i => new ColorInfo(i)).ToList();
             ConfigManager.VisualisationUsedFillColors = VisualisationUsedFillColors.Select(i => new ColorInfo(i)).ToList();
             ConfigManager.SaveConfiguration();
-            ConfigManager.PropertyChanged -= OnConfigurationPropertyChanged;
         }
 
         #endregion PAGE METHODS

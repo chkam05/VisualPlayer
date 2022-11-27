@@ -1,4 +1,4 @@
-﻿using chkam05.VisualPlayer.Data.Config;
+﻿using chkam05.VisualPlayer.Data.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
