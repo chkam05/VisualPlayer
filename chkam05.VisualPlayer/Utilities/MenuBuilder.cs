@@ -28,6 +28,7 @@ namespace chkam05.VisualPlayer.Utilities
                         new MenuItem(menuType, MenuItemSubType.OPEN_CLOSE, "Main Menu", PackIconKind.HamburgerMenu),
                         new MenuItem(menuType, MenuItemSubType.HOME, "Home", PackIconKind.Home),
                         new MenuItem(menuType, MenuItemSubType.OPEN_FILES, "Open", PackIconKind.FolderOpen),
+                        new MenuItem(menuType, MenuItemSubType.EQUALIZER, "Equalizer", PackIconKind.EqualizerVertical),
                         new MenuItem(menuType, MenuItemSubType.SETTINGS, "Settings", PackIconKind.Settings)
                     };
 

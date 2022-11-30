@@ -82,9 +82,33 @@ namespace chkam05.VisualPlayer.Visualisations
                 case VisualisationType.StripesVisualisation:
                     _visualisation = new StripesVisualisation(spectrumProvider);
                     break;
+                
+                case VisualisationType.StripesReversedVisualisation:
+                    _visualisation = new StripesReversedVisualisation(spectrumProvider);
+                    break;
+                
+                case VisualisationType.StripesCenterVisualisation:
+                    _visualisation = new StripesCenterVisualisation(spectrumProvider);
+                    break;
+                
+                case VisualisationType.StripesCenterCollapseVisualisation:
+                    _visualisation = new StripesCenterCollapseVisualisation(spectrumProvider);
+                    break;
 
                 case VisualisationType.PeaksVisualisation:
                     _visualisation = new PeaksVisualisation(spectrumProvider);
+                    break;
+                
+                case VisualisationType.PeaksReversedVisualisation:
+                    _visualisation = new PeaksReversedVisualisation(spectrumProvider);
+                    break;
+                
+                case VisualisationType.PeaksCenterVisualisation:
+                    _visualisation = new PeaksCenterVisualisation(spectrumProvider);
+                    break;
+                
+                case VisualisationType.PeaksCenterCollapseVisualisation:
+                    _visualisation = new PeaksCenterCollapseVisualisation(spectrumProvider);
                     break;
             }
 

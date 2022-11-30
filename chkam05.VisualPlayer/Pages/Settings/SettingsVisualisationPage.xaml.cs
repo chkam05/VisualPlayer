@@ -34,6 +34,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
 
         //  VARIABLES
+
         private bool _lockVisualisationUpdate = true;
         private ObservableCollection<string> _visualisationProfiles;
         private string _visualisationProfileName;
@@ -235,13 +236,16 @@ namespace chkam05.VisualPlayer.Pages.Settings
         #region VISUALISATION PROFILES MANAGEMENT METHODS
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after clicking Create Profile Button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
         private void CreateProfileButton_Click(object sender, RoutedEventArgs e)
         {
             _lockVisualisationUpdate = true;
             ConfigManager.VisualisationProfilesManager.CreateProfile();
             var profileName = ConfigManager.VisualisationProfilesManager.Profile.Name;
             UpdateVisualisationProfilesList();
-            UpdateVisualisationProfilesName(profileName);
+            UpdateVisualisationProfileNames(profileName);
             _lockVisualisationUpdate = false;
         }
 
@@ -255,7 +259,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
             ConfigManager.VisualisationProfilesManager.RemoveCurrentProfile();
             var profileName = ConfigManager.VisualisationProfilesManager.Profile.Name;
             UpdateVisualisationProfilesList();
-            UpdateVisualisationProfilesName(profileName);
+            UpdateVisualisationProfileNames(profileName);
             _lockVisualisationUpdate = false;
         }
 
@@ -268,7 +272,9 @@ namespace chkam05.VisualPlayer.Pages.Settings
         }
 
         //  --------------------------------------------------------------------------------
-        private void UpdateVisualisationProfilesName(string profileName)
+        /// <summary> Update visualisation selected profile name. </summary>
+        /// <param name="profileName"> Selected profile name. </param>
+        private void UpdateVisualisationProfileNames(string profileName)
         {
             ConfigManager.VisualisationProfileName = profileName;
             VisualisationProfileName = profileName;
@@ -290,7 +296,7 @@ namespace chkam05.VisualPlayer.Pages.Settings
                     var profileName = ConfigManager.VisualisationProfilesManager.Profile.Name;
 
                     UpdateVisualisationProfilesList();
-                    UpdateVisualisationProfilesName(profileName);
+                    UpdateVisualisationProfileNames(profileName);
                 }
 
                 _lockVisualisationUpdate = false;
@@ -314,11 +320,8 @@ namespace chkam05.VisualPlayer.Pages.Settings
             VisualisationTypes = new ObservableCollection<VisualisationType>(
                 EnumUtilities.ListOf<VisualisationType>());
 
-            VisualisationScalingTypes = new ObservableCollection<ScalingStrategy>()
-            {
-                ScalingStrategy.LINEAR,
-                ScalingStrategy.SQRT
-            };
+            VisualisationScalingTypes = new ObservableCollection<ScalingStrategy>(
+                EnumUtilities.ListOf<ScalingStrategy>());
 
             VisualisationColorTypes = new ObservableCollection<VisualisationColorType>(
                 EnumUtilities.ListOf<VisualisationColorType>());

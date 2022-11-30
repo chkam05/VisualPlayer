@@ -126,6 +126,7 @@ namespace chkam05.VisualPlayer.Windows
             Player.OnContiniousUpdate += InterfaceContiniousUpdate;
             Player.OnLoadedFile += OnLoadedFile;
             Player.OnStateUpdate += InterfaceStateUpdate;
+            Player.EqualizerManager.ApplyConfiguration(ConfigManager);
             _systemListener = SystemListener.Instance;
             _systemListener.UserPreferenceChangedHandler += UserPreferenceChanged;
             VisualisationsManager = VisualisationsManager.Instance;
@@ -455,6 +456,10 @@ namespace chkam05.VisualPlayer.Windows
                                 OpenFilesByDialog();
                                 break;
 
+                            case MenuItemSubType.EQUALIZER:
+                                MainMenu_LoadEqualizerPage();
+                                break;
+
                             case MenuItemSubType.SETTINGS:
                                 MainMenu_LoadSettingsPage();
                                 break;
@@ -503,6 +508,14 @@ namespace chkam05.VisualPlayer.Windows
         {
             if (PagesManager.LoadedPage != null)
                 PagesManager.HideInterface();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Load Equalizer Page. </summary>
+        private void MainMenu_LoadEqualizerPage()
+        {
+            PagesManager.LoadPage(new EqualizerPage(PagesManager));
+            PagesManager.ShowInterface();
         }
 
         //  --------------------------------------------------------------------------------

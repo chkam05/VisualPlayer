@@ -19,6 +19,10 @@ namespace chkam05.VisualPlayer.Visualisations.Profiles
         //  CONST
 
         private const string NEW_PROFILE_NAME = "New Profile";
+        public static readonly string[] DEFAULT_PROFILES_NAMES = new string[]
+        {
+            VisualisationProfile.DEFAULT_PROFILE_NAME
+        };
 
 
         //  EVENTS
@@ -60,6 +64,8 @@ namespace chkam05.VisualPlayer.Visualisations.Profiles
         #region LOAD & SAVE METHODS
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Load visualisation profile from file or defaults. </summary>
+        /// <param name="profileName"> Visualisation profile. </param>
         private void LoadProfile(string profileName)
         {
             var profileFileExt = FilesManager.GetFileTypeByKind(FileKind.JSON).Extension;
@@ -82,6 +88,7 @@ namespace chkam05.VisualPlayer.Visualisations.Profiles
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Save current loaded visualisation profile. </summary>
         public void SaveCurrentProfile()
         {
             if (Profile != null)
@@ -89,6 +96,8 @@ namespace chkam05.VisualPlayer.Visualisations.Profiles
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Save visualisation profile to file. </summary>
+        /// <param name="profileName"> Visualisation profile name. </param>
         private void SaveProfile(string profileName)
         {
             var profileFileExt = FilesManager.GetFileTypeByKind(FileKind.JSON).Extension;
@@ -119,6 +128,7 @@ namespace chkam05.VisualPlayer.Visualisations.Profiles
         #region PROFILES MANAGEMENT METHODS
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Create new visualisation profile. </summary>
         public void CreateProfile()
         {
             SaveCurrentProfile();
@@ -144,6 +154,9 @@ namespace chkam05.VisualPlayer.Visualisations.Profiles
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Remove visualisation profile. </summary>
+        /// <param name="newProfileName"> Visualisation profile name. </param>
+        /// <returns> True - visualisation profile removed; False - otherwise. </returns>
         public bool RenameCurrentProfile(string newProfileName)
         {
             var defaultProfileName = VisualisationProfile.DEFAULT_PROFILE_NAME.ToLower();
@@ -167,6 +180,7 @@ namespace chkam05.VisualPlayer.Visualisations.Profiles
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Remove current loaded visualisation profile. </summary>
         public void RemoveCurrentProfile()
         {
             var profileFileExt = FilesManager.GetFileTypeByKind(FileKind.JSON).Extension;
@@ -180,6 +194,8 @@ namespace chkam05.VisualPlayer.Visualisations.Profiles
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Select visualisation profile. </summary>
+        /// <param name="profileName"> Visualisation profile name. </param>
         public void SelectProfile(string profileName)
         {
             SaveCurrentProfile();
@@ -210,10 +226,11 @@ namespace chkam05.VisualPlayer.Visualisations.Profiles
             var profiles = GetProfilesList();
             var result = new List<string>();
 
-            if (!profiles.Any(p => Path.GetFileNameWithoutExtension(p) == VisualisationProfile.DEFAULT_PROFILE_NAME))
-                result.Add(VisualisationProfile.DEFAULT_PROFILE_NAME);
+            result.AddRange(DEFAULT_PROFILES_NAMES);
 
-            result.AddRange(profiles.Select(p => Path.GetFileNameWithoutExtension(p)));
+            result.AddRange(profiles
+                .Select(p => Path.GetFileNameWithoutExtension(p))
+                .Where(p => !DEFAULT_PROFILES_NAMES.Contains(p)));
 
             return result;
         }

@@ -12,33 +12,17 @@ using System.Windows.Media;
 
 namespace chkam05.VisualPlayer.Visualisations
 {
-    public class PeaksVisualisation : StripesVisualisation
+    public class PeaksReversedVisualisation : PeaksVisualisation
     {
-
-        //  VARIABLES
-
-        protected double _peakHeight = 4.0;
-        protected double _peakSpaceY = 3.0;
-        protected double _peakCountY = 0;
-
-
-        //  GETTERS & SETTERS
-
-        public double PeakSpaceY
-        {
-            get => _peakSpaceY;
-            set => _peakSpaceY = Math.Max(1, value);
-        }
-
 
         //  METHODS
 
         #region CLASS METHODS
 
         //  --------------------------------------------------------------------------------
-        /// <summary> PeaksVisualisation class constructor. </summary>
+        /// <summary> PeaksReversedVisualisation class constructor. </summary>
         /// <param name="spectrumProvider"> Spectrum provider with FFT data. </param>
-        public PeaksVisualisation(SpectrumProvider spectrumProvider) : base(spectrumProvider)
+        public PeaksReversedVisualisation(SpectrumProvider spectrumProvider) : base(spectrumProvider)
         {
             //
         }
@@ -85,7 +69,7 @@ namespace chkam05.VisualPlayer.Visualisations
             {
                 var level = _spectrumData[iX];
                 var pX = _firstX + (_stripeWidth * iX + _peakSpaceX * iX);
-                var pY = DrawingAreaSize.Height - Margin.Bottom - level.Value;
+                var pY = Margin.Top;
                 var pJump = _peakHeight + _peakSpaceY;
                 double rainbowY = RainbowY * pJump / (int)_peakCountY;
 
@@ -111,14 +95,14 @@ namespace chkam05.VisualPlayer.Visualisations
                         break;
                 }
 
-                for (double iY = DrawingAreaSize.Height - Margin.Bottom - (_peakHeight * 2); iY > pY; iY -= pJump)
+                for (double iY = pY; iY < pY + level.Value - Margin.Bottom; iY += pJump)
                 {
-                    var point = new Point(pX, iY + _peakHeight);
+                    var point = new Point(pX, iY);
                     var size = new Size(_stripeWidth, _peakHeight);
 
                     if (ColorType == VisualisationColorType.RAINBOW_VERTICAL)
                     {
-                        fColor = ColorUtilities.UpdateColor(fColor, h: fColor.H + (int) Math.Round(rainbowY));
+                        fColor = ColorUtilities.UpdateColor(fColor, h: fColor.H + (int)Math.Round(rainbowY));
                         fillBrush = new SolidColorBrush(fColor.ToColor()) { Opacity = _opacity };
 
                         if (BorderEnabled)

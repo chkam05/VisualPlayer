@@ -50,6 +50,7 @@ namespace chkam05.VisualPlayer.Core
         private Repeat _repeat = Repeat.NORMAL;
         private bool _shuffle = false;
 
+        public EqualizerManager EqualizerManager { get; private set; }
         public PlayList PlayList { get; private set; }
         public FftSize SpectrumFFTSize { get; private set; }
         public SpectrumProvider SpectrumProvider { get; private set; }
@@ -157,6 +158,7 @@ namespace chkam05.VisualPlayer.Core
         private Player()
         {
             //  Setup data containers.
+            EqualizerManager = new EqualizerManager();
             PlayList = new PlayList();
 
             //  Setup initial data.
@@ -188,7 +190,10 @@ namespace chkam05.VisualPlayer.Core
             //  Load audio file and initialize device with source.
             ISampleSource sampleSource = CodecFactory.Instance.GetCodec(filePath)
                 .ToSampleSource()
-                .AppendSource(src => new PitchShifter(src), out pitchShifter);
+                .AppendSource(src => new PitchShifter(src), out pitchShifter)
+                .AppendSource(Equalizer.Create10BandEqualizer, out Equalizer eq);
+
+            EqualizerManager.Equalizer = eq;
 
             SpectrumProvider = SetupSpectrumProvider(sampleSource, SpectrumFFTSize);
 

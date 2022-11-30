@@ -13,9 +13,10 @@ namespace chkam05.VisualPlayer.Controls.Static
         OPEN_CLOSE = 0,
         HOME = 1,
         OPEN_FILES = 2,
-        SETTINGS = 3,
-        NOW_PLAYING = 4,
-        LYRICS = 5,
+        EQUALIZER = 3,
+        SETTINGS = 4,
+        NOW_PLAYING = 5,
+        LYRICS = 6,
 
         //  SETTINGS
         ABOUT = 10,

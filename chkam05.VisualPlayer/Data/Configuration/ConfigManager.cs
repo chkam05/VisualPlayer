@@ -75,6 +75,12 @@ namespace chkam05.VisualPlayer.Data.Configuration
             nameof(LyricsBackgroundOpacity)
         };
 
+        public static readonly List<string> EqualizerUpdateProperties = new List<string>()
+        {
+            nameof(EqualizerEnabled),
+            nameof(EqualizerPresetName),
+        };
+
         public static readonly List<string> LyricsUpdateProperties = new List<string>()
         {
             nameof(LyricsAutoLoad),
@@ -941,6 +947,30 @@ namespace chkam05.VisualPlayer.Data.Configuration
         }
 
         #endregion Control Bar
+
+        #region Equalizer
+
+        public bool EqualizerEnabled
+        {
+            get => _configuration.EqualizerEnabled;
+            set
+            {
+                _configuration.EqualizerEnabled = value;
+                OnPropertyChanged(nameof(EqualizerEnabled));
+            }
+        }
+
+        public string EqualizerPresetName
+        {
+            get => _configuration.EqualizerPresetName;
+            set
+            {
+                _configuration.EqualizerPresetName = value;
+                OnPropertyChanged(nameof(EqualizerPresetName));
+            }
+        }
+
+        #endregion Equalizer
 
         #region Information Bar
 

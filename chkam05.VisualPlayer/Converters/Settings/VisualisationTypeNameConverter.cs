@@ -18,7 +18,13 @@ namespace chkam05.VisualPlayer.Converters.Settings
         {
             { VisualisationType.None, "None" },
             { VisualisationType.StripesVisualisation, "Stripes" },
-            { VisualisationType.PeaksVisualisation, "Peaks" }
+            { VisualisationType.StripesReversedVisualisation, "Stripes Reversed" },
+            { VisualisationType.StripesCenterVisualisation, "Stripes Centered" },
+            { VisualisationType.StripesCenterCollapseVisualisation, "Stripes Centered Collapsing" },
+            { VisualisationType.PeaksVisualisation, "Peaks" },
+            { VisualisationType.PeaksReversedVisualisation, "Peaks Reversed" },
+            { VisualisationType.PeaksCenterVisualisation, "Peaks Centered" },
+            { VisualisationType.PeaksCenterCollapseVisualisation, "Peaks Centered Collapsing" },
         };
 
 

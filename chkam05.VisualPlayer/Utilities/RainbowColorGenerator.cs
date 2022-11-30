@@ -55,7 +55,7 @@ namespace chkam05.VisualPlayer.Utilities
         /// <param name="size"> Size of object to fill with gradient. </param>
         /// <param name="maxSize"> Max side of object to fill gradient. </param>
         /// <returns> Linear gradient brush. </returns>
-        public static LinearGradientBrush GetRainbowGradient(AHSLColor color, int jump, int size, double maxSize)
+        public static LinearGradientBrush GetRainbowGradient(AHSLColor color, int jump, int size, double maxSize, bool reverse = false)
         {
             var limit = Math.Min(AHSLColor.HUE_MAX, jump);
 
@@ -79,10 +79,13 @@ namespace chkam05.VisualPlayer.Utilities
             grandients.Add(new GradientStop(
                 ColorUtilities.UpdateColor(color, h: color.H + finalHue).ToColor(), 1.0));
 
+            double startY = reverse ? 0.0 : 1.0;
+            double endY = reverse ? 1.0 : 0.0;
+
             return new LinearGradientBrush()
             {
-                StartPoint = new Point(0.5, 1),
-                EndPoint = new Point(0.5, 0),
+                StartPoint = new Point(0.5, startY),
+                EndPoint = new Point(0.5, endY),
                 GradientStops = grandients
             };
         }

@@ -37,6 +37,7 @@ namespace chkam05.VisualPlayer.Utilities
         private static FilesManager _instance;
 
         public string ConfigurationFilePath { get; private set; }
+        public string EqualizerStoragePath { get; private set; }
         public string LyricsStoragePath { get; private set; }
         public string PlayListCache { get; private set; }
         public string StoragePath { get; private set; }
@@ -166,12 +167,16 @@ namespace chkam05.VisualPlayer.Utilities
             StoragePath = Path.Combine(appDataPath, appName);
 
             ConfigurationFilePath = Path.Combine(StoragePath, "config.json");
+            EqualizerStoragePath = Path.Combine(StoragePath, "Equalizer");
             LyricsStoragePath = Path.Combine(StoragePath, "Lyrics");
             PlayListCache = Path.Combine(StoragePath, "PlaylistCache.vpl");
             VisualisationsStoragePath = Path.Combine(StoragePath, "Visualisations");
 
             if (!Directory.Exists(StoragePath))
                 Directory.CreateDirectory(StoragePath);
+
+            if (!Directory.Exists(EqualizerStoragePath))
+                Directory.CreateDirectory(EqualizerStoragePath);
 
             if (!Directory.Exists(LyricsStoragePath))
                 Directory.CreateDirectory(LyricsStoragePath);

@@ -43,7 +43,7 @@ namespace chkam05.VisualPlayer.Visualisations.Spectrum
         /// <returns> Index of band with specified frequency. </returns>
         public int GetFFTBandIndex(float frequency)
         {
-            int fftSize = (int)base.FftSize;
+            int fftSize = (int)FftSize;
             double singleChannel = _sampleRate / 2.0;
             double bandIndex = (frequency / singleChannel) * (fftSize / 2);
 

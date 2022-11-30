@@ -167,7 +167,10 @@
     <Compile Include="Converters\Settings\VisualisationColorTypeNameConverter.cs" />
     <Compile Include="Converters\Settings\VisualisationScalingStrategyNameConverter.cs" />
     <Compile Include="Converters\Settings\VisualisationTypeNameConverter.cs" />
+    <Compile Include="Core\Data\EqualizerPreset.cs" />
+    <Compile Include="Core\EqualizerManager.cs" />
     <Compile Include="Core\Events\PlayerLoadedFileEventArgs.cs" />
+    <Compile Include="Core\Events\EqualizerPresetValueChangedEventArgs.cs" />
     <Compile Include="Core\Player.cs" />
     <Compile Include="Data\Configuration\AppearanceCustomThemeType.cs" />
     <Compile Include="Data\Configuration\AppearanceLogoTheme.cs" />
@@ -180,6 +183,9 @@
     <Compile Include="Data\Lyrics\LyricsMatchingType.cs" />
     <Compile Include="Data\Fonts\FontContainer.cs" />
     <Compile Include="Data\Fonts\FontsManager.cs" />
+    <Compile Include="Pages\EqualizerPage.xaml.cs">
+      <DependentUpon>EqualizerPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Settings\SettingsAboutPage.xaml.cs">
       <DependentUpon>SettingsAboutPage.xaml</DependentUpon>
     </Compile>
@@ -255,12 +261,18 @@
     <Compile Include="Visualisations\Data\VisualisationColorType.cs" />
     <Compile Include="Visualisations\Data\VisualisationType.cs" />
     <Compile Include="Visualisations\IVisualisation.cs" />
+    <Compile Include="Visualisations\PeaksCenterCollapseVisualisation.cs" />
+    <Compile Include="Visualisations\PeaksCenterVisualisation.cs" />
+    <Compile Include="Visualisations\PeaksReversedVisualisation.cs" />
     <Compile Include="Visualisations\PeaksVisualisation.cs" />
     <Compile Include="Visualisations\Profiles\VisualisationProfile.cs" />
     <Compile Include="Visualisations\Profiles\VisualisationProfilesManager.cs" />
     <Compile Include="Visualisations\Spectrum\ISpectrumProvider.cs" />
     <Compile Include="Visualisations\Spectrum\SpectrumProvider.cs" />
     <Compile Include="Visualisations\BitmapDrawer.cs" />
+    <Compile Include="Visualisations\StripesCenterCollapseVisualisation.cs" />
+    <Compile Include="Visualisations\StripesCenterVisualisation.cs" />
+    <Compile Include="Visualisations\StripesReversedVisualisation.cs" />
     <Compile Include="Visualisations\StripesVisualisation.cs" />
     <Compile Include="Visualisations\VisualisationsManager.cs" />
     <Compile Include="Windows\MainWindow.xaml.cs">
@@ -303,6 +315,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SideBarPlayList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\EqualizerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

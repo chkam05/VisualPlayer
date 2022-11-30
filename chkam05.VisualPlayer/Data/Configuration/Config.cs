@@ -2,6 +2,7 @@
 using chkam05.Tools.ControlsEx.Static;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Controls.Static;
+using chkam05.VisualPlayer.Core.Data;
 using chkam05.VisualPlayer.Data.Config;
 using chkam05.VisualPlayer.Data.Fonts;
 using chkam05.VisualPlayer.Data.Lyrics;
@@ -46,6 +47,11 @@ namespace chkam05.VisualPlayer.Data.Configuration
         //  Control Bar
 
         public bool ControlBarAutoHide { get; set; } = false;
+
+        //  Equalizer
+
+        public bool EqualizerEnabled { get; set; } = true;
+        public string EqualizerPresetName { get; set; } = nameof(EqualizerPreset.Default);
 
         //  Information Bar
 

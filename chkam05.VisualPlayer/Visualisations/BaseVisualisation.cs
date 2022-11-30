@@ -171,8 +171,8 @@ namespace chkam05.VisualPlayer.Visualisations
                 _maxFrequencyIndex = Math.Min(_spectrumProvider.GetFFTBandIndex(MaxFrequency) + 1, _maxFFTIndex);
                 _minFrequencyIndex = Math.Min(_spectrumProvider.GetFFTBandIndex(MinFrequency), _maxFFTIndex);
 
-                int frequencyIndexCount = _maxFrequencyIndex - _minFrequencyIndex;
-                double linearIndexBucketSize = Math.Round(frequencyIndexCount / (double)_spectrumSize, 3);
+                int indexCount = _maxFrequencyIndex - _minFrequencyIndex;
+                double linearIndexBucketSize = Math.Round(indexCount / (double)_spectrumSize, 3);
 
                 _spectrumMaxIndex = _spectrumMaxIndex.CheckBuffer(_spectrumSize, true);
                 _spectrumMaxLogScaleIndex = _spectrumMaxLogScaleIndex.CheckBuffer(_spectrumSize, true);
@@ -182,7 +182,7 @@ namespace chkam05.VisualPlayer.Visualisations
                 for (int i = 1; i < _spectrumSize; i++)
                 {
                     int logIndex = (int)
-                        ((maxLog - Math.Log((_spectrumSize + 1) - i, (_spectrumSize + 1))) * frequencyIndexCount)
+                        ((maxLog - Math.Log((_spectrumSize + 1) - i, (_spectrumSize + 1))) * indexCount)
                         + _minFrequencyIndex;
 
                     _spectrumMaxIndex[i - 1] = _minFrequencyIndex + (int)(i * linearIndexBucketSize);
@@ -212,20 +212,19 @@ namespace chkam05.VisualPlayer.Visualisations
         {
             var positions = new List<SpectrumLevel>();
 
-            double firstValue = 0;
-            double lastValue = 0;
-            double value = 0;
+            double firstValue = 0.0;
+            double lastValue = 0.0;
+            double value = 0.0;
 
             double localMaxValue = maxValue;
             int positionIndex = 0;
-            bool recalculate = true;
 
             for (int i = _minFrequencyIndex; i <= _maxFrequencyIndex; i++)
             {
                 switch (scalingStrategy)
                 {
                     case ScalingStrategy.DB:
-                        firstValue = (20 * Math.Log10(fftBuffer[i] - MIN_DB_VALUE) / DB_SCALE) * localMaxValue;
+                        firstValue = (((20 * Math.Log10(fftBuffer[i])) - MIN_DB_VALUE) / DB_SCALE) * localMaxValue;
                         break;
 
                     case ScalingStrategy.LINEAR:
@@ -237,7 +236,7 @@ namespace chkam05.VisualPlayer.Visualisations
                         break;
                 }
 
-                recalculate = true;
+                bool recalculate = true;
                 value = Math.Max(0, Math.Max(firstValue, value));
 
                 while (GetSpectrumFreqCondition(i, positionIndex, useLogScale))
@@ -254,9 +253,9 @@ namespace chkam05.VisualPlayer.Visualisations
 
                     positions.Add(spectrumPosition);
                     lastValue = value;
+                    value = 0.0;
                     positionIndex++;
                     recalculate = false;
-                    value = 0.0;
                 }
             }
 
@@ -271,16 +270,10 @@ namespace chkam05.VisualPlayer.Visualisations
         /// <returns> T/F. </returns>
         private bool GetSpectrumFreqCondition(int frequencyIndex, int positionIndex, bool useLogScale)
         {
-            if (positionIndex <= _spectrumMaxIndex.Length - 1)
-            {
-                int spectrumMax = useLogScale
+            return positionIndex <= _spectrumMaxIndex.Length - 1
+                && frequencyIndex == (useLogScale
                     ? _spectrumMaxLogScaleIndex[positionIndex]
-                    : _spectrumMaxIndex[positionIndex];
-
-                return frequencyIndex == spectrumMax;
-            }
-
-            return false;
+                    : _spectrumMaxIndex[positionIndex]);
         }
 
         #endregion CALCULATION METHODS

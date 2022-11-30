@@ -19,6 +19,7 @@ namespace chkam05.VisualPlayer.Visualisations
 
         public const double FALL_SPEED_MAX = 16.0;
         public const double FALL_SPEED_MIN = 8.0;
+        public const double FALL_SPEED_FLOATER_MIN = 2.0;
         public const double OPACITY_MAX = 1.0;
         public const double OPACITY_MIN = 0.0;
         public const double RAINBOW_CHANGE_TIME_MAX = 1.0;
@@ -28,12 +29,14 @@ namespace chkam05.VisualPlayer.Visualisations
         //  VARIABLES
 
         protected double _fallSpeed = 8.0;
+        protected double _fallSpeedFloater = 2.0;
         protected double _opacity = 0.8;
         protected double _peakSpaceX = 4.0;
 
         protected double _firstX = 0;
         protected double _spectrumHeight = 0;
         protected SpectrumLevel[] _spectrumData = null;
+        protected SpectrumLevel[] _spectrumFloaterData = null;
         protected double _stripeWidth = 0;
         protected DateTime _startRun = DateTime.Now;
 
@@ -69,6 +72,12 @@ namespace chkam05.VisualPlayer.Visualisations
         {
             get => _fallSpeed;
             set => _fallSpeed = Math.Min(Math.Max(value, FALL_SPEED_MIN), FALL_SPEED_MAX);
+        }
+
+        public double FallSpeedFloater
+        {
+            get => _fallSpeedFloater;
+            set => _fallSpeedFloater = Math.Min(Math.Max(value, FALL_SPEED_FLOATER_MIN), FallSpeed);
         }
 
         public Color FillColor
@@ -147,16 +156,23 @@ namespace chkam05.VisualPlayer.Visualisations
             var spectrum = GetSpectrum(_spectrumHeight, fftBuffer, ScalingStrategy, true, true);
 
             if (_spectrumData == null || _spectrumData.Length != spectrum.Count)
+            {
                 _spectrumData = spectrum.ToArray();
+                _spectrumFloaterData = spectrum.ToArray();
+            }
 
             //  Pre calculation visualisation graphics.
             for (int iX = 0; iX < _spectrumData.Length; iX++)
             {
                 if (_spectrumData[iX].Value < spectrum[iX].Value)
                     _spectrumData[iX] = spectrum[iX];
-
                 else
                     _spectrumData[iX].Value = Math.Max(0, _spectrumData[iX].Value - _fallSpeed);
+
+                if (_spectrumFloaterData[iX].Value < spectrum[iX].Value)
+                    _spectrumFloaterData[iX] = spectrum[iX];
+                else
+                    _spectrumFloaterData[iX].Value = Math.Max(0, _spectrumFloaterData[iX].Value - _fallSpeedFloater);
             }
         }
 
@@ -266,7 +282,10 @@ namespace chkam05.VisualPlayer.Visualisations
                 return null;
 
             for (int iX = 0; iX < _spectrumData.Length; iX++)
+            {
                 _spectrumData[iX].Value = 0;
+                _spectrumFloaterData[iX].Value = 0;
+            }
 
             return new BitmapDrawer(DrawingAreaSize);
         }
@@ -296,7 +315,7 @@ namespace chkam05.VisualPlayer.Visualisations
         #region UTILITY METHODS
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Check if runtime reach rainbow change time and reset run time. </summary>
+        /// <summary> Check if runtime reach rainbow change time. </summary>
         /// <returns> True - rainbow change time reached; False - other way. </returns>
         protected bool IsRainbowTimeChangeReached()
         {
