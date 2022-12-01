@@ -1,8 +1,10 @@
 ﻿using chkam05.Tools.ControlsEx.Events;
 using chkam05.VisualPlayer.Controls.Static;
 using chkam05.VisualPlayer.Core;
+using chkam05.VisualPlayer.Core.BiQuad;
 using chkam05.VisualPlayer.Data.Configuration;
 using chkam05.VisualPlayer.Data.Lyrics;
+using chkam05.VisualPlayer.Utilities;
 using chkam05.VisualPlayer.Visualisations.Profiles;
 using System;
 using System.Collections.Generic;
@@ -34,6 +36,7 @@ namespace chkam05.VisualPlayer.Pages
         //  VARIABLES
 
         private bool _lockEqualizerPresetUpdate = true;
+        private ObservableCollection<BiQuadFilterType> _biQuadFilterTypes;
         private ObservableCollection<string> _equalizerPresets;
         private string _equalizerPresetName;
         private string _equalizerPresetNameEditable;
@@ -44,6 +47,16 @@ namespace chkam05.VisualPlayer.Pages
 
 
         //  GETTERS & SETTERS
+
+        public ObservableCollection<BiQuadFilterType> BiQuadFilterTypes
+        {
+            get => _biQuadFilterTypes;
+            set
+            {
+                _biQuadFilterTypes = value;
+                OnPropertyChanged(nameof(BiQuadFilterTypes));
+            }
+        }
 
         public ObservableCollection<string> EqualizerPresets
         {
@@ -130,6 +143,30 @@ namespace chkam05.VisualPlayer.Pages
         }
 
         #endregion CONTROL BUTTONS METHODS
+
+        #region EFFECTS MANAGEMENT METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after clicking Reset Pitch button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void ResetBiQuadButton_Click(object sender, RoutedEventArgs e)
+        {
+            Player.EffectsManager.BandWidth = EffectsManager.BAND_WIDTH_VALUE_MIN;
+            Player.EffectsManager.Frequency = EffectsManager.FREQUENCY_VALUE_MIN;
+            Player.EffectsManager.GainDB = 0;
+        }
+        
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after clicking Reset Pitch button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void ResetPitchButton_Click(object sender, RoutedEventArgs e)
+        {
+            Player.EffectsManager.Pitch = 0;
+        }
+
+        #endregion EFFECTS MANAGEMENT METHODS
 
         #region EQUALIZER PRESETS MANAGEMENT METHODS
 
@@ -272,6 +309,9 @@ namespace chkam05.VisualPlayer.Pages
             UpdateEqualizerPresetsList();
             EqualizerPresetName = ConfigManager.EqualizerPresetName;
             EqualizerPresetNameEditable = ConfigManager.EqualizerPresetName;
+
+            BiQuadFilterTypes = new ObservableCollection<BiQuadFilterType>(
+                EnumUtilities.ListOf<BiQuadFilterType>());
 
             _lockEqualizerPresetUpdate = false;
         }

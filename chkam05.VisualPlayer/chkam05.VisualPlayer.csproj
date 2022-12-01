@@ -142,6 +142,7 @@
     <Compile Include="Controls\SideBarPlayList.xaml.cs">
       <DependentUpon>SideBarPlayList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\Settings\BiQuadFilterTypeNameConverter.cs" />
     <Compile Include="Converters\Static\PlaybackStateControlIconConverterParameter.cs" />
     <Compile Include="Converters\Fonts\FontStretchNameConverter.cs" />
     <Compile Include="Converters\Fonts\FontStyleNameConverter.cs" />
@@ -167,11 +168,17 @@
     <Compile Include="Converters\Settings\VisualisationColorTypeNameConverter.cs" />
     <Compile Include="Converters\Settings\VisualisationScalingStrategyNameConverter.cs" />
     <Compile Include="Converters\Settings\VisualisationTypeNameConverter.cs" />
+    <Compile Include="Core\BiQuad\BiQuadFilterType.cs" />
+    <Compile Include="Core\BiQuad\BiQuadFilterSource.cs" />
     <Compile Include="Core\Data\EqualizerPreset.cs" />
+    <Compile Include="Core\EffectsManager.cs" />
     <Compile Include="Core\EqualizerManager.cs" />
     <Compile Include="Core\Events\PlayerLoadedFileEventArgs.cs" />
     <Compile Include="Core\Events\EqualizerPresetValueChangedEventArgs.cs" />
     <Compile Include="Core\Player.cs" />
+    <Compile Include="Core\SoundTouch\ISoundTouch.cs" />
+    <Compile Include="Core\SoundTouch\SoundTouchBase.cs" />
+    <Compile Include="Core\SoundTouch\SoundTouchSource.cs" />
     <Compile Include="Data\Configuration\AppearanceCustomThemeType.cs" />
     <Compile Include="Data\Configuration\AppearanceLogoTheme.cs" />
     <Compile Include="Data\Configuration\AppearanceThemeType.cs" />
@@ -428,6 +435,9 @@
     <EmbeddedResource Include="Resources\Icons\Subtitles.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Libraries\SoundTouch.dll">
+      <TargetPath>SoundTouch.dll</TargetPath>
+    </Content>
     <Content Include="Resources.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

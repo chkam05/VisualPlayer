@@ -19,9 +19,12 @@ namespace chkam05.VisualPlayer.Visualisations
 
         //  CONST
 
-        private const double MAX_DB_VALUE = 0;
-        private const double MIN_DB_VALUE = -90;
-        private const double DB_SCALE = (MAX_DB_VALUE - MIN_DB_VALUE);
+        public const double DB_MAX_VALUE = 0;
+        public const double DB_MIN_VALUE = -90;
+        public const int FREQUENCY_MIN_VALUE = 20;
+        public const int FREQUENCY_MAX_VALUE = 20000;
+
+        private const double DB_SCALE = (DB_MAX_VALUE - DB_MIN_VALUE);
         private const int SCALE_FACTOR_LINEAR = 9;
         private const int SCALE_FACTOR_SQR = 2;
 
@@ -36,8 +39,8 @@ namespace chkam05.VisualPlayer.Visualisations
         private ScalingStrategy _scalingStrategy = ScalingStrategy.SQRT;
         internal ISpectrumProvider _spectrumProvider;
 
-        private int _minFrequency = 20;
-        private int _maxFrequency = 20000;
+        private int _minFrequency = FREQUENCY_MIN_VALUE;
+        private int _maxFrequency = FREQUENCY_MAX_VALUE;
         private int _spectrumSize = 64;
 
         private int _maxFFTIndex;
@@ -224,7 +227,7 @@ namespace chkam05.VisualPlayer.Visualisations
                 switch (scalingStrategy)
                 {
                     case ScalingStrategy.DB:
-                        firstValue = (((20 * Math.Log10(fftBuffer[i])) - MIN_DB_VALUE) / DB_SCALE) * localMaxValue;
+                        firstValue = (((20 * Math.Log10(fftBuffer[i])) - DB_MIN_VALUE) / DB_SCALE) * localMaxValue;
                         break;
 
                     case ScalingStrategy.LINEAR:

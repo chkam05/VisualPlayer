@@ -1,4 +1,6 @@
-﻿using chkam05.VisualPlayer.Core.Events;
+﻿using chkam05.VisualPlayer.Core.BiQuad;
+using chkam05.VisualPlayer.Core.Events;
+using chkam05.VisualPlayer.Core.SoundTouch;
 using chkam05.VisualPlayer.Data.Files;
 using chkam05.VisualPlayer.Data.PlayLists;
 using chkam05.VisualPlayer.Data.Static;
@@ -42,7 +44,6 @@ namespace chkam05.VisualPlayer.Core
         private bool _isLoaded;
         private IPlayable _loadedItem;
 
-        private PitchShifter _pitchShifter;
         private ISoundOut _soundOut;
         private IWaveSource _source = null;
         private float _volume = 0.5f;
@@ -50,6 +51,7 @@ namespace chkam05.VisualPlayer.Core
         private Repeat _repeat = Repeat.NORMAL;
         private bool _shuffle = false;
 
+        public EffectsManager EffectsManager { get; private set; }
         public EqualizerManager EqualizerManager { get; private set; }
         public PlayList PlayList { get; private set; }
         public FftSize SpectrumFFTSize { get; private set; }
@@ -158,6 +160,7 @@ namespace chkam05.VisualPlayer.Core
         private Player()
         {
             //  Setup data containers.
+            EffectsManager = new EffectsManager();
             EqualizerManager = new EqualizerManager();
             PlayList = new PlayList();
 
@@ -166,7 +169,8 @@ namespace chkam05.VisualPlayer.Core
         }
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        /// <summary> Performs application-defined tasks associated with freeing, releasing, 
+        /// or resetting unmanaged resources. </summary>
         public void Dispose()
         {
             StopUpdater();
@@ -185,12 +189,14 @@ namespace chkam05.VisualPlayer.Core
             if (!File.Exists(filePath))
                 return;
 
+            BiQuadFilterSource biQuadFilterSource;
             PitchShifter pitchShifter;
 
             //  Load audio file and initialize device with source.
             ISampleSource sampleSource = CodecFactory.Instance.GetCodec(filePath)
                 .ToSampleSource()
                 .AppendSource(src => new PitchShifter(src), out pitchShifter)
+                .AppendSource(src => new BiQuadFilterSource(src), out biQuadFilterSource)
                 .AppendSource(Equalizer.Create10BandEqualizer, out Equalizer eq);
 
             EqualizerManager.Equalizer = eq;
@@ -204,7 +210,8 @@ namespace chkam05.VisualPlayer.Core
             CleanupPlayback();
 
             //  Setup source and audio output class variables.
-            _pitchShifter = pitchShifter;
+            EffectsManager.BiQuadFilterSource = biQuadFilterSource;
+            EffectsManager.PitchShifter = pitchShifter;
             _source = waveSource;
             _soundOut = soundOutput;
 
