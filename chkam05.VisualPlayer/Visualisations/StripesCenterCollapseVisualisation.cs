@@ -87,8 +87,9 @@ namespace chkam05.VisualPlayer.Visualisations
                 var pX = _firstX + (_stripeWidth * iX + _peakSpaceX * iX);
                 var pY = Margin.Top + (DrawingAreaSize.Height - Margin.Top - Margin.Bottom) / 2;
 
-                var halfLevel = level.Value / 2;
-                var halfLevelFloater = levelFloater.Value / 2;
+                //  Notice, that the level value, should be divided by 2 like in StripesCenterVisualisation.
+                var halfLevel = level.Value;
+                var halfLevelFloater = levelFloater.Value;
 
                 var point = new Point(pX, pY + halfLevel);
                 var size = new Size(_stripeWidth, Math.Max(0, halfLevelFloater - halfLevel));
@@ -141,7 +142,19 @@ namespace chkam05.VisualPlayer.Visualisations
                         break;
                 }
 
+                if (point.Y + size.Height > DrawingAreaSize.Height - Margin.Bottom)
+                {
+                    size.Height = Math.Max(0, DrawingAreaSize.Height - Margin.Bottom - point.Y);
+                }
+
                 bitmapDrawer.DrawRectangle(fillBrush, pen, point, size);
+
+                if (point2.Y < Margin.Top)
+                {
+                    size2.Height = Math.Max(0, size2.Height - Margin.Top);
+                    point2.Y = Margin.Top;
+                }
+
                 bitmapDrawer.DrawRectangle(fillBrush2, pen2, point2, size2);
             }
 

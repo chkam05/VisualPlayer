@@ -11,7 +11,7 @@ using System.Windows.Media;
 
 namespace chkam05.VisualPlayer.Visualisations
 {
-    public class StripesCenterVisualisation : StripesVisualisation
+    public class StripesCenterCollapseExtendedVisualisation : StripesCenterCollapseVisualisation
     {
 
         //  METHODS
@@ -19,9 +19,9 @@ namespace chkam05.VisualPlayer.Visualisations
         #region CLASS METHODS
 
         //  --------------------------------------------------------------------------------
-        /// <summary> StripesCenterVisualisation class constructor. </summary>
+        /// <summary> StripesCenterCollapseExtendedVisualisation class constructor. </summary>
         /// <param name="spectrumProvider"> Spectrum provider with FFT data. </param>
-        public StripesCenterVisualisation(SpectrumProvider spectrumProvider) : base(spectrumProvider)
+        public StripesCenterCollapseExtendedVisualisation(SpectrumProvider spectrumProvider) : base(spectrumProvider)
         {
             //
         }
@@ -79,18 +79,23 @@ namespace chkam05.VisualPlayer.Visualisations
 
             for (int iX = 0; iX < _spectrumData.Length; iX++)
             {
+                Pen pen = null;
+                Pen pen2 = null;
+
                 var level = _spectrumData[iX];
+                var levelFloater = _spectrumFloaterData[iX];
                 var pX = _firstX + (_stripeWidth * iX + _peakSpaceX * iX);
                 var pY = Margin.Top + (DrawingAreaSize.Height - Margin.Top - Margin.Bottom) / 2;
 
-                var point = new Point(pX, pY);
-                var size = new Size(_stripeWidth, level.Value / 2);
+                //  Notice, that the level value, should be divided by 2 like in StripesCenterVisualisation.
+                var halfLevel = level.Value / 2;
+                var halfLevelFloater = levelFloater.Value;
 
-                var point2 = new Point(pX, pY - level.Value / 2);
-                var size2 = new Size(_stripeWidth, level.Value);
+                var point = new Point(pX, pY + halfLevel);
+                var size = new Size(_stripeWidth, Math.Max(0, halfLevelFloater - halfLevel));
 
-                Pen pen = null;
-                Pen pen2 = null;
+                var point2 = new Point(pX, pY - halfLevelFloater);
+                var size2 = new Size(_stripeWidth, Math.Max(0, halfLevelFloater - halfLevel));
 
                 switch (ColorType)
                 {
@@ -111,19 +116,19 @@ namespace chkam05.VisualPlayer.Visualisations
 
                     case VisualisationColorType.RAINBOW_VERTICAL:
                         var vFColor = ColorUtilities.UpdateColor(_initFillColor, h: _initFillColor.H + (RainbowX / SpectrumSize) * iX);
-                        fillBrush = RainbowColorGenerator.GetRainbowGradient(vFColor, RainbowY, (int)level.Value, _spectrumHeight);
+                        fillBrush = RainbowColorGenerator.GetRainbowGradient(vFColor, RainbowY, (int)level.Value, _spectrumHeight, true);
                         fillBrush.Opacity = _opacity;
 
-                        fillBrush2 = RainbowColorGenerator.GetRainbowGradient(vFColor, RainbowY, (int)level.Value, _spectrumHeight, true);
+                        fillBrush2 = RainbowColorGenerator.GetRainbowGradient(vFColor, RainbowY, (int)level.Value, _spectrumHeight);
                         fillBrush2.Opacity = _opacity;
 
                         if (BorderEnabled)
                         {
                             var vBColor = ColorUtilities.UpdateColor(_initBorderColor, h: _initBorderColor.H + (RainbowX / SpectrumSize) * iX);
-                            borderBrush = RainbowColorGenerator.GetRainbowGradient(vBColor, RainbowY, (int)level.Value, _spectrumHeight);
+                            borderBrush = RainbowColorGenerator.GetRainbowGradient(vBColor, RainbowY, (int)level.Value, _spectrumHeight, true);
                             borderBrush.Opacity = _opacity;
 
-                            borderBrush2 = RainbowColorGenerator.GetRainbowGradient(vBColor, RainbowY, (int)level.Value, _spectrumHeight, true);
+                            borderBrush2 = RainbowColorGenerator.GetRainbowGradient(vBColor, RainbowY, (int)level.Value, _spectrumHeight);
                             borderBrush2.Opacity = _opacity;
                         }
 
@@ -137,32 +142,23 @@ namespace chkam05.VisualPlayer.Visualisations
                         break;
                 }
 
-                //if (point.Y + size.Height > DrawingAreaSize.Height - Margin.Bottom)
-                //    size.Height = DrawingAreaSize.Height - Margin.Bottom - point.Y;
+                if (point.Y + size.Height > DrawingAreaSize.Height - Margin.Bottom)
+                {
+                    size.Height = Math.Max(0, DrawingAreaSize.Height - Margin.Bottom - point.Y);
+                }
 
                 bitmapDrawer.DrawRectangle(fillBrush, pen, point, size);
 
-                //if (point2.Y < Margin.Top)
-                //    point2.Y = Margin.Top;
-
-                //if (point2.Y + size2.Height > DrawingAreaSize.Height / 2)
-                //    size2.Height = DrawingAreaSize.Height / 2 - point2.Y;
+                if (point2.Y < Margin.Top)
+                {
+                    size2.Height = Math.Max(0, size2.Height - Margin.Top);
+                    point2.Y = Margin.Top;
+                }
 
                 bitmapDrawer.DrawRectangle(fillBrush2, pen2, point2, size2);
             }
 
             return bitmapDrawer;
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Update graphics configuration. </summary>
-        public override void UpdateGraphics()
-        {
-            double width = DrawingAreaSize.Width - (Margin.Left + Margin.Right + (_peakSpaceX * 2));
-            double spacesSize = _peakSpaceX * (SpectrumSize - 1);
-
-            _firstX = Margin.Left + _peakSpaceX;
-            _stripeWidth = (width - spacesSize) / SpectrumSize;
         }
 
         #endregion DRAWING METHODS

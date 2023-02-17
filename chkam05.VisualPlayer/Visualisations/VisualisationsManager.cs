@@ -95,6 +95,10 @@ namespace chkam05.VisualPlayer.Visualisations
                     _visualisation = new StripesCenterCollapseVisualisation(spectrumProvider);
                     break;
 
+                case VisualisationType.StripesCenterCollapseExtendedVisualisation:
+                    _visualisation = new StripesCenterCollapseExtendedVisualisation(spectrumProvider);
+                    break;
+
                 case VisualisationType.PeaksVisualisation:
                     _visualisation = new PeaksVisualisation(spectrumProvider);
                     break;
@@ -109,6 +113,10 @@ namespace chkam05.VisualPlayer.Visualisations
                 
                 case VisualisationType.PeaksCenterCollapseVisualisation:
                     _visualisation = new PeaksCenterCollapseVisualisation(spectrumProvider);
+                    break;
+
+                case VisualisationType.PeaksCenterCollapseExtendedVisualisation:
+                    _visualisation = new PeaksCenterCollapseExtendedVisualisation(spectrumProvider);
                     break;
             }
 

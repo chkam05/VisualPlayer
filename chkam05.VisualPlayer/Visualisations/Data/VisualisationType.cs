@@ -13,9 +13,11 @@ namespace chkam05.VisualPlayer.Visualisations.Data
         StripesReversedVisualisation = 2,
         StripesCenterVisualisation = 3,
         StripesCenterCollapseVisualisation = 4,
-        PeaksVisualisation = 5,
-        PeaksReversedVisualisation = 6,
-        PeaksCenterVisualisation = 7,
-        PeaksCenterCollapseVisualisation = 8,
+        StripesCenterCollapseExtendedVisualisation = 5,
+        PeaksVisualisation = 6,
+        PeaksReversedVisualisation = 7,
+        PeaksCenterVisualisation = 8,
+        PeaksCenterCollapseVisualisation = 9,
+        PeaksCenterCollapseExtendedVisualisation = 10,
     }
 }

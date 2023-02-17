@@ -144,6 +144,10 @@ namespace chkam05.VisualPlayer.Pages.Settings
                                 case MenuItemSubType.VISUALISATION:
                                     PagesManager.LoadPage(new SettingsVisualisationPage(PagesManager));
                                     break;
+
+                                case MenuItemSubType.EXTERNAL_DEVICES:
+                                    PagesManager.LoadPage(new SettingsExternalDevicesPage(PagesManager));
+                                    break;
                             }
                             break;
                     }

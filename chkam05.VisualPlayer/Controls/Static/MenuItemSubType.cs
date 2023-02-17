@@ -24,6 +24,7 @@ namespace chkam05.VisualPlayer.Controls.Static
         INFOBAR = 12,
         GENERAL = 13,
         VISUALISATION = 14,
+        EXTERNAL_DEVICES = 15,
 
     }
 }

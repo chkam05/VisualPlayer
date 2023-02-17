@@ -15,6 +15,7 @@ using chkam05.VisualPlayer.Pages.Events;
 using chkam05.VisualPlayer.Pages.Settings;
 using chkam05.VisualPlayer.Utilities;
 using chkam05.VisualPlayer.Utilities.Data;
+using chkam05.VisualPlayer.Utilities.Serial;
 using chkam05.VisualPlayer.Visualisations;
 using chkam05.VisualPlayer.Visualisations.Data;
 using CSCore.SoundOut;
@@ -59,11 +60,16 @@ namespace chkam05.VisualPlayer.Windows
         private SystemListener _systemListener;
         private DispatcherHandler _vsDispatcherHandler;
 
+        private double _posTop, _posLeft;
+        private double _startW, _startH;
+        private double _startX, _startY;
+
         public ConfigManager ConfigManager { get; private set; }
         public DispatcherHandler DispatcherHandler { get; private set; }
         public FilesManager FilesManager { get; private set; }
         public LyricsManager LyricsManager { get; private set; }
         public Player Player { get; private set; }
+        public SerialController SerialController { get; private set; }
         public VisualisationsManager VisualisationsManager { get; private set; }
 
 
@@ -127,6 +133,7 @@ namespace chkam05.VisualPlayer.Windows
             Player.OnLoadedFile += OnLoadedFile;
             Player.OnStateUpdate += InterfaceStateUpdate;
             Player.EqualizerManager.ApplyConfiguration(ConfigManager);
+            SerialController = SerialController.Instnace;
             _systemListener = SystemListener.Instance;
             _systemListener.UserPreferenceChangedHandler += UserPreferenceChanged;
             VisualisationsManager = VisualisationsManager.Instance;
@@ -495,6 +502,10 @@ namespace chkam05.VisualPlayer.Windows
 
                             case MenuItemSubType.VISUALISATION:
                                 PagesManager.LoadPage(new SettingsVisualisationPage(PagesManager));
+                                break;
+
+                            case MenuItemSubType.EXTERNAL_DEVICES:
+                                PagesManager.LoadPage(new SettingsExternalDevicesPage(PagesManager));
                                 break;
                         }
                         break;
@@ -986,6 +997,45 @@ namespace chkam05.VisualPlayer.Windows
         #region WINDOW METHODS
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing Close Button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void CloseButtonEx_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing Maximize Button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void MaximizeButtonEx_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            else
+                WindowState = WindowState.Maximized;
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing Minimize Button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void MinimizeButtonEx_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing left mouse button on TitleBar. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Mouse Button Event Arguments. </param>
+        private void TitleBarBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        //  --------------------------------------------------------------------------------
         /// <summary> Method invoked during window closing. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> Cancel Event Arguments. </param>
@@ -1074,5 +1124,165 @@ namespace chkam05.VisualPlayer.Windows
 
         #endregion WINDOW METHODS
 
+        private void ResizeBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _posTop = Top;
+            _posLeft = Left;
+            _startX = e.GetPosition(this).X;
+            _startY = e.GetPosition(this).Y;
+            _startW = Width;
+            _startH = Height;
+
+            Border border = sender as Border;
+            switch (border.Name)
+            {
+                case "ResizeBorderTopLeft":
+                    Cursor = Cursors.SizeNWSE;
+                    break;
+                case "ResizeBorderTopRight":
+                    Cursor = Cursors.SizeNESW;
+                    break;
+                case "ResizeBorderBottomLeft":
+                    Cursor = Cursors.SizeNESW;
+                    break;
+                case "ResizeBorderBottomRight":
+                    Cursor = Cursors.SizeNWSE;
+                    break;
+                case "ResizeBorderTop":
+                    Cursor = Cursors.SizeNS;
+                    break;
+                case "ResizeBorderLeft":
+                    Cursor = Cursors.SizeWE;
+                    break;
+                case "ResizeBorderRight":
+                    Cursor = Cursors.SizeWE;
+                    break;
+                case "ResizeBorderBottom":
+                    Cursor = Cursors.SizeNS;
+                    break;
+            }
+
+            border.CaptureMouse();
+        }
+
+        private void ResizeBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Border border = sender as Border;
+            border.ReleaseMouseCapture();
+            Cursor = Cursors.Arrow;
+        }
+
+        private void ResizeBorder_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Border border = sender as Border;
+                double x = e.GetPosition(this).X;
+                double y = e.GetPosition(this).Y;
+                double fX = System.Windows.Forms.Cursor.Position.X;
+                double fY = System.Windows.Forms.Cursor.Position.Y;
+                double w = Width;
+                double h = Height;
+
+                switch (border.Name)
+                {
+                    case "ResizeBorderTopLeft":
+                        w = _startW - (fX - _posLeft);
+                        h = _startH - (fY - _posTop);
+
+                        if (w < MinWidth)
+                            w = MinWidth;
+
+                        if (h < MinHeight)
+                            h = MinHeight;
+
+                        if (w > MinWidth)
+                            Left = fX;
+
+                        if (h > MinHeight)
+                            Top = fY;
+                        break;
+
+                    case "ResizeBorderTopRight":
+                        w = _startW + (x - _startX);
+                        h = _startH - (fY - _posTop);
+
+                        if (w < MinWidth)
+                            w = MinWidth;
+
+                        if (h < MinHeight)
+                            h = MinHeight;
+
+                        if (h > MinHeight)
+                            Top = fY;
+                        break;
+
+                    case "ResizeBorderBottomLeft":
+                        w = _startW - (fX - _posLeft);
+                        h = _startH + (y - _startY);
+
+                        if (w < MinWidth)
+                            w = MinWidth;
+
+                        if (h < MinHeight)
+                            h = MinHeight;
+
+                        if (w > MinWidth)
+                            Left = fX;
+                        break;
+
+                    case "ResizeBorderBottomRight":
+                        w = _startW + (x - _startX);
+                        h = _startH + (y - _startY);
+
+                        if (w < MinWidth)
+                            w = MinWidth;
+
+                        if (h < MinHeight)
+                            h = MinHeight;
+                        break;
+
+                    case "ResizeBorderTop":
+                        h = _startH - (fY - _posTop);
+
+                        if (h < MinHeight)
+                            h = MinHeight;
+
+                        if (h > MinHeight)
+                            Top = fY;
+                        break;
+
+                    case "ResizeBorderLeft":
+                        w = _startW - (fX - _posLeft);
+
+                        if (w < MinWidth)
+                            w = MinWidth;
+
+                        if (w > MinWidth)
+                            Left = fX;
+                        break;
+
+                    case "ResizeBorderRight":
+                        w = _startW + (x - _startX);
+
+                        if (w < MinWidth)
+                            w = MinWidth;
+                        break;
+
+                    case "ResizeBorderBottom":
+                        h = _startH + (y - _startY);
+
+                        if (h < MinHeight)
+                            h = MinHeight;
+                        break;
+                }
+
+                if (w >= MinWidth)
+                    Width = w;
+
+                if (h >= MinHeight)
+                    Height = h;
+            }
+        }
     }
 }

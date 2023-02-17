@@ -12,7 +12,7 @@ using System.Windows.Media;
 
 namespace chkam05.VisualPlayer.Visualisations
 {
-    public class PeaksCenterVisualisation : PeaksVisualisation
+    public class PeaksCenterCollapseExtendedVisualisation : PeaksCenterCollapseVisualisation
     {
 
         //  METHODS
@@ -20,9 +20,9 @@ namespace chkam05.VisualPlayer.Visualisations
         #region CLASS METHODS
 
         //  --------------------------------------------------------------------------------
-        /// <summary> PeaksCenterVisualisation class constructor. </summary>
+        /// <summary> PeaksCenterCollapseExtendedVisualisation class constructor. </summary>
         /// <param name="spectrumProvider"> Spectrum provider with FFT data. </param>
-        public PeaksCenterVisualisation(SpectrumProvider spectrumProvider) : base(spectrumProvider)
+        public PeaksCenterCollapseExtendedVisualisation(SpectrumProvider spectrumProvider) : base(spectrumProvider)
         {
             //
         }
@@ -74,8 +74,9 @@ namespace chkam05.VisualPlayer.Visualisations
             for (int iX = 0; iX < _spectrumData.Length; iX++)
             {
                 var level = _spectrumData[iX];
+                var levelFloater = _spectrumFloaterData[iX];
                 var pX = _firstX + (_stripeWidth * iX + _peakSpaceX * iX);
-                var pY = Margin.Top + (DrawingAreaSize.Height - Margin.Top - Margin.Bottom ) / 2;
+                var pY = Margin.Top + (DrawingAreaSize.Height - Margin.Top - Margin.Bottom) / 2 - _peakHeight;
                 var pJump = _peakHeight + _peakSpaceY;
                 double rainbowY = RainbowY * pJump / (int)_peakCountY;
 
@@ -103,9 +104,11 @@ namespace chkam05.VisualPlayer.Visualisations
                         break;
                 }
 
-                var yLimiter = pY - level.Value / 2 + pJump;
+                //  Notice, that the level value, should be divided by 2 like in PeaksCenterVisualisation.
+                var start = pY - level.Value / 2;
+                var end = pY - levelFloater.Value + pJump;
 
-                for (double iY = pY; iY > yLimiter; iY -= pJump)
+                for (double iY = start; iY > end; iY -= pJump)
                 {
                     var point = new Point(pX, iY + _peakHeight);
                     var size = new Size(_stripeWidth, _peakHeight);
@@ -131,26 +134,13 @@ namespace chkam05.VisualPlayer.Visualisations
 
                     if (point.Y > Margin.Top)
                         bitmapDrawer.DrawRectangle(fillBrush, pen, point, size);
-                    
+
                     if (point2.Y < DrawingAreaSize.Height - Margin.Bottom - pJump)
                         bitmapDrawer.DrawRectangle(fillBrush, pen, point2, size2);
                 }
             }
 
             return bitmapDrawer;
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Update graphics configuration. </summary>
-        public override void UpdateGraphics()
-        {
-            double width = DrawingAreaSize.Width - (Margin.Left + Margin.Right + (_peakSpaceX * 2));
-            double spacesSize = _peakSpaceX * (SpectrumSize - 1);
-
-            _firstX = Margin.Left + _peakSpaceX;
-            _stripeWidth = (width - spacesSize) / SpectrumSize;
-            _peakHeight = _stripeWidth * 0.5;
-            _peakCountY = (DrawingAreaSize.Height - (Margin.Bottom + Margin.Top) - (_peakHeight * 2) / (_peakHeight + _peakSpaceY));
         }
 
         #endregion DRAWING METHODS

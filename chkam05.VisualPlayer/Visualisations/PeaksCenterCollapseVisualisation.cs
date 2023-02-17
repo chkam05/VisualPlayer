@@ -104,8 +104,9 @@ namespace chkam05.VisualPlayer.Visualisations
                         break;
                 }
 
-                var start = pY - level.Value / 2;
-                var end = pY - levelFloater.Value / 2 + pJump;
+                //  Notice, that the level value, should be divided by 2 like in PeaksCenterVisualisation.
+                var start = pY - level.Value;
+                var end = pY - levelFloater.Value + pJump;
 
                 for (double iY = start; iY > end; iY -= pJump)
                 {
@@ -131,8 +132,11 @@ namespace chkam05.VisualPlayer.Visualisations
 
                     var pen = BorderEnabled ? new Pen(borderBrush, 1.0) : null;
 
-                    bitmapDrawer.DrawRectangle(fillBrush, pen, point, size);
-                    bitmapDrawer.DrawRectangle(fillBrush, pen, point2, size2);
+                    if (point.Y > Margin.Top)
+                        bitmapDrawer.DrawRectangle(fillBrush, pen, point, size);
+
+                    if (point2.Y < DrawingAreaSize.Height - Margin.Bottom - pJump)
+                        bitmapDrawer.DrawRectangle(fillBrush, pen, point2, size2);
                 }
             }
 

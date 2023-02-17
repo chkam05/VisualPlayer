@@ -52,9 +52,6 @@
     <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
       <HintPath>..\packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
     </Reference>
-    <Reference Include="FluentWPF, Version=0.8.0.6, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentWPF.0.8.0\lib\net45\FluentWPF.dll</HintPath>
-    </Reference>
     <Reference Include="MaterialDesignColors, Version=2.0.6.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.2.0.6\lib\net452\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -142,6 +139,7 @@
     <Compile Include="Controls\SideBarPlayList.xaml.cs">
       <DependentUpon>SideBarPlayList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\SerialPortStateStringConverter.cs" />
     <Compile Include="Converters\Settings\BiQuadFilterTypeNameConverter.cs" />
     <Compile Include="Converters\Static\PlaybackStateControlIconConverterParameter.cs" />
     <Compile Include="Converters\Fonts\FontStretchNameConverter.cs" />
@@ -176,6 +174,12 @@
     <Compile Include="Core\Events\PlayerLoadedFileEventArgs.cs" />
     <Compile Include="Core\Events\EqualizerPresetValueChangedEventArgs.cs" />
     <Compile Include="Core\Player.cs" />
+    <Compile Include="Pages\Settings\SettingsExternalDevicesPage.xaml.cs">
+      <DependentUpon>SettingsExternalDevicesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Serial\Data\ComPort.cs" />
+    <Compile Include="Utilities\Serial\Events\SerialPortReceivedMessageEventArgs.cs" />
+    <Compile Include="Utilities\Serial\SerialController.cs" />
     <Compile Include="Core\SoundTouch\ISoundTouch.cs" />
     <Compile Include="Core\SoundTouch\SoundTouchBase.cs" />
     <Compile Include="Core\SoundTouch\SoundTouchSource.cs" />
@@ -216,6 +220,7 @@
     </Compile>
     <Compile Include="Utilities\InternalMessagesManager.cs" />
     <Compile Include="Utilities\JumpListCreator.cs" />
+    <Compile Include="Utilities\Serial\Static\ReceivedMessageState.cs" />
     <Compile Include="Utilities\SingleInstance.cs" />
     <Compile Include="Data\Configuration\AppearanceLogoColorType.cs" />
     <Compile Include="Data\Configuration\LyricsMatchType.cs" />
@@ -268,6 +273,7 @@
     <Compile Include="Visualisations\Data\VisualisationColorType.cs" />
     <Compile Include="Visualisations\Data\VisualisationType.cs" />
     <Compile Include="Visualisations\IVisualisation.cs" />
+    <Compile Include="Visualisations\PeaksCenterCollapseExtendedVisualisation.cs" />
     <Compile Include="Visualisations\PeaksCenterCollapseVisualisation.cs" />
     <Compile Include="Visualisations\PeaksCenterVisualisation.cs" />
     <Compile Include="Visualisations\PeaksReversedVisualisation.cs" />
@@ -277,6 +283,7 @@
     <Compile Include="Visualisations\Spectrum\ISpectrumProvider.cs" />
     <Compile Include="Visualisations\Spectrum\SpectrumProvider.cs" />
     <Compile Include="Visualisations\BitmapDrawer.cs" />
+    <Compile Include="Visualisations\StripesCenterCollapseExtendedVisualisation.cs" />
     <Compile Include="Visualisations\StripesCenterCollapseVisualisation.cs" />
     <Compile Include="Visualisations\StripesCenterVisualisation.cs" />
     <Compile Include="Visualisations\StripesReversedVisualisation.cs" />
@@ -338,6 +345,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Settings\SettingsAppearancePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\SettingsExternalDevicesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
