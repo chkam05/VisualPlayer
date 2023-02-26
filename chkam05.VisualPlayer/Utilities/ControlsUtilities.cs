@@ -26,7 +26,8 @@ namespace chkam05.VisualPlayer.Utilities
         {
             if (interfaceObject != null)
             {
-                if (interfaceObject.GetType() == typeof(T))
+                if (interfaceObject.GetType() == typeof(T)
+                    || interfaceObject.GetType().IsSubclassOf(typeof(T)))
                     return (T)interfaceObject;
 
                 else

@@ -1,0 +1,32 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:config="clr-namespace:chkam05.VisualPlayer.Data.Configuration"
+    xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx">
+
+    <x:Static x:Key="ConfigManager" Member="config:ConfigManager.Instance" />
+
+    <Style x:Key="SettingsBaseTabItemExStyle" TargetType="{x:Type controlsex:TabItemEx}">
+        <Setter Property="Background" Value="{Binding AccentColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{Binding BorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="Foreground" Value="{Binding AccentForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="MouseOverBackground" Value="{Binding MouseOverBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="MouseOverBorderBrush" Value="{Binding MouseOverBorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="MouseOverForeground" Value="{Binding MouseOverForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedBackground" Value="{Binding SelectedBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedBorderBrush" Value="{Binding SelectedBorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedForeground" Value="{Binding SelectedForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+    </Style>
+
+    <Style x:Key="SettingsBaseTabControlExStyle" TargetType="{x:Type controlsex:TabControlEx}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HeaderBackground" Value="Transparent"/>
+        <Setter Property="HeaderBorderBrush" Value="{Binding BorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="HeaderBorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{Binding ForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="Margin" Value="0,0,0,16"/>
+    </Style>
+
+</ResourceDictionary>

@@ -105,6 +105,19 @@ namespace chkam05.VisualPlayer.Pages.Settings
 
         #endregion CONTROL BUTTONS METHODS
 
+        #region INTERACTION METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing left mouse button when cursor is over title grid. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Mouse Button Event Arguments. </param>
+        private void TitleGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.MainWindow.DragMove();
+        }
+
+        #endregion INTERACTION METHODS
+
         #region NOTIFY PROPERTIES CHANGED INTERFACE METHODS
 
         //  --------------------------------------------------------------------------------

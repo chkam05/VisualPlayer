@@ -76,6 +76,12 @@ namespace chkam05.VisualPlayer.Controls
             typeof(InformationBar),
             new PropertyMetadata(false));
 
+        public static readonly DependencyProperty ShowAdditionalControlsProperty = DependencyProperty.Register(
+            nameof(ShowAdditionalControls),
+            typeof(bool),
+            typeof(InformationBar),
+            new PropertyMetadata(true));
+
         public static readonly DependencyProperty TitleInfoProperty = DependencyProperty.Register(
             nameof(TitleInfo),
             typeof(string),
@@ -88,6 +94,9 @@ namespace chkam05.VisualPlayer.Controls
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<InformationBarAnimateEventArgs> OnAnimate;
         public event EventHandler<InformationBarAnimationFinishEventArgs> OnAnimationFinish;
+        public event EventHandler OnMinimizeButtonClick;
+        public event EventHandler OnMaximizeButtonClick;
+        public event EventHandler OnCloseButtonClick;
 
 
         //  VARIABLES
@@ -167,6 +176,12 @@ namespace chkam05.VisualPlayer.Controls
         {
             get => (bool)GetValue(LockVisibilityProperty);
             set => SetValue(LockVisibilityProperty, value);
+        }
+
+        public bool ShowAdditionalControls
+        {
+            get => (bool)GetValue(ShowAdditionalControlsProperty);
+            set => SetValue(ShowAdditionalControlsProperty, value);
         }
 
 
@@ -321,6 +336,7 @@ namespace chkam05.VisualPlayer.Controls
         #region AUTOHIDE CONTROL
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Setup auto hide timer. </summary>
         private void SetupAutoHideTimer()
         {
             _autoHideTime = DateTime.UtcNow;
@@ -341,6 +357,9 @@ namespace chkam05.VisualPlayer.Controls
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after auto hide timer tick. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Event Arguments. </param>
         private void AutoHideTimer_Tick(object sender, EventArgs e)
         {
             TimeSpan diffrence = DateTime.UtcNow - _autoHideTime;
@@ -387,6 +406,37 @@ namespace chkam05.VisualPlayer.Controls
         }
 
         #endregion AUTOHIDE CONTROL
+
+        #region CONTROL BUTTONS METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing Minimize Button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void MinimizeButtonEx_Click(object sender, RoutedEventArgs e)
+        {
+            OnMinimizeButtonClick?.Invoke(this, new EventArgs());
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing Maximize Button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void MaximizeButtonEx_Click(object sender, RoutedEventArgs e)
+        {
+            OnMaximizeButtonClick?.Invoke(this, new EventArgs());
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing Close Button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void CloseButtonEx_Click(object sender, RoutedEventArgs e)
+        {
+            OnCloseButtonClick?.Invoke(this, new EventArgs());
+        }
+
+        #endregion CONTROL BUTTONS METHODS
 
         #region CONTROL STATE MANAGEMENT
 

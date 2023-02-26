@@ -667,7 +667,8 @@
         
         <Grid
             Grid.Row="0"
-            Margin="8,8,8,2">
+            Margin="8,8,8,2"
+            MouseLeftButtonDown="TitleGrid_MouseLeftButtonDown">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>

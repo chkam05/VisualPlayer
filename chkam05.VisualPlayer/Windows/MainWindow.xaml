@@ -39,6 +39,7 @@
             <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type Window}"/>
 
             <!-- Converters. -->
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
             <converters:PackIconKindImageSourceConverter x:Key="PackIconKindImageSourceConverter"/>
             <converters:PlaybackStateControlIconImageSourceConverter x:Key="PlaybackStateControlIconImageSourceConverter"/>
             <converters:VisibilityBoolConverter x:Key="VisibilityBoolConverter"/>
@@ -151,11 +152,12 @@
             <Grid>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <Grid
+                    ClipToBounds="True"
                     Grid.Row="1">
 
                     <Grid>
@@ -207,7 +209,12 @@
                             Margin="-32,0,0,0"
                             VerticalAlignment="Top"
                             OnAnimate="informationBar_OnAnimate"
-                            OnAnimationFinish="informationBar_OnAnimationFinish"/>
+                            OnAnimationFinish="informationBar_OnAnimationFinish"
+                            MouseLeftButtonDown="TitleBarBorder_MouseLeftButtonDown"
+                            OnCloseButtonClick="informationBar_OnCloseButtonClick"
+                            OnMaximizeButtonClick="informationBar_OnMaximizeButtonClick"
+                            OnMinimizeButtonClick="informationBar_OnMinimizeButtonClick"
+                            ShowAdditionalControls="{Binding ConfigManager.ClassicTaskBar, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"/>
 
                         <controls:ControlBar
                             x:Name="controlBar"
@@ -278,7 +285,9 @@
                     Background="{Binding ConfigManager.AccentColorBrush}"
                     CornerRadius="5,5,0,0"
                     Grid.Row="0"
-                    MouseLeftButtonDown="TitleBarBorder_MouseLeftButtonDown">
+                    Height="30"
+                    MouseLeftButtonDown="TitleBarBorder_MouseLeftButtonDown"
+                    Visibility="{Binding ConfigManager.ClassicTaskBar, Mode=OneWay, Converter={StaticResource VisibilityBoolConverter}}">
 
                     <Grid>
 
@@ -353,6 +362,8 @@
             </Grid>
 
         </Border>
+        
+        <!--#region Resize Borders -->
 
         <Border
             x:Name="ResizeBorderTop"
@@ -453,6 +464,8 @@
             MouseLeftButtonDown="ResizeBorder_MouseLeftButtonDown"
             MouseLeftButtonUp="ResizeBorder_MouseLeftButtonUp"
             MouseMove="ResizeBorder_MouseMove"/>
+        
+        <!--#endregion Resize Borders -->
 
     </Grid>
 

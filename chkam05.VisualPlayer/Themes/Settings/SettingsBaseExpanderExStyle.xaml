@@ -1,0 +1,26 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:config="clr-namespace:chkam05.VisualPlayer.Data.Configuration"
+    xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx">
+
+    <x:Static x:Key="ConfigManager" Member="config:ConfigManager.Instance" />
+
+    <Style x:Key="SettingsBaseExpanderExStyle" TargetType="{x:Type controlsex:ExpanderEx}">
+        <Setter Property="ArrowBrush" Value="{Binding ContrastedForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ArrowMouseOverBrush" Value="{Binding ContrastedMouseOverForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ArrowPressedBrush" Value="{Binding ContrastedPressedForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="Background" Value="{Binding BackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{Binding BorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HeaderBackground" Value="{Binding AccentColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="HeaderBorderBrush" Value="{Binding BorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="HeaderFontSize" Value="18"/>
+        <Setter Property="HeaderFontWeight" Value="SemiBold"/>
+        <Setter Property="HeaderForeground" Value="{Binding AccentForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="IsExpanded" Value="True"/>
+        <Setter Property="Margin" Value="16"/>
+        <Setter Property="Padding" Value="32,24"/>
+    </Style>
+
+</ResourceDictionary>

@@ -1,0 +1,19 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:config="clr-namespace:chkam05.VisualPlayer.Data.Configuration"
+    xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx">
+
+    <x:Static x:Key="ConfigManager" Member="config:ConfigManager.Instance" />
+
+    <Style x:Key="SettingsBaseScrollViewerExStyle" TargetType="{x:Type controlsex:ScrollViewerEx}">
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="PanningMode" Value="Both"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="ScrollBarDraggingThumbBackground" Value="{Binding PressedBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ScrollBarMouseOverThumbBackground" Value="{Binding MouseOverBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ScrollBarThumbBackground" Value="{Binding AccentColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
+    </Style>
+
+</ResourceDictionary>

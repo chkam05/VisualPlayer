@@ -1,0 +1,29 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+
+        <!-- SETTINGS -->
+
+        <ResourceDictionary Source="/Themes/Settings/SettingsBaseButtonExStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsBaseCheckBoxExStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsBaseColorsPaletteExStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsBaseComboBoxExStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsBaseExpanderExStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsBaseScrollViewerExStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsBaseSliderExStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsBaseTabControlExStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsBaseTextBlockExStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsBaseTextBlockStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsBaseTextBoxExStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsBaseUpDownTextBoxExStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsTitleBarButtonExStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsTitleBarTextBlockStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsHomeListViewExStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsInfoBarInternalBorderStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/Settings/SettingsDataTemplates.xaml"/>
+
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

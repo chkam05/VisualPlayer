@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 
@@ -71,12 +72,15 @@ namespace chkam05.VisualPlayer.Controls
         private ObservableCollection<MenuItem> _mainMenuItems;
         private ObservableCollection<MenuItem> _moreMenuItems;
 
+        private double _playListStartW, _playListStartX;
+
         private Thickness _hideMargin = CONTROL_MARGIN_VISIBLE;
         private SideBarMenuState _menuState = SideBarMenuState.HIDDEN;
         private SideBarMenuState? _nextMenuState = null;
         private double _menuWidth = MENU_WIDTH_MAX;
         private double _playListWidth = 0;
         private double _playListWidthCache = PLAYLIST_WIDTH_MIN;
+        private string _storyboardName = null;
 
         public ConfigManager ConfigManager { get; private set; }
 
@@ -178,6 +182,11 @@ namespace chkam05.VisualPlayer.Controls
                 _menuWidth = value;
                 OnPropertyChanged(nameof(MenuWidth));
             }
+        }
+
+        public double PlayListExpandedWidth
+        {
+            get => _playListWidthCache;
         }
 
         public double PlayListWidth
@@ -309,6 +318,8 @@ namespace chkam05.VisualPlayer.Controls
                 AnimateCollapseMenu();
 
             PlayListWidth = _playListWidthCache;
+            _storyboardName = "OpenClosePlayListStoryboard";
+
             Storyboard storyboard = Resources["OpenClosePlayListStoryboard"] as Storyboard;
             PrepareUpdateState(SideBarMenuState.PLAYLIST);
             OnAnimate?.Invoke(this, new SideBarAnimateEventArgs(_nextMenuState));
@@ -320,6 +331,8 @@ namespace chkam05.VisualPlayer.Controls
         private void AnimateClosePlayList()
         {
             PlayListWidth = 0;
+            _storyboardName = "OpenClosePlayListStoryboard";
+
             Storyboard storyboard = Resources["OpenClosePlayListStoryboard"] as Storyboard;
             PrepareUpdateState(SideBarMenuState.VISIBLE);
             OnAnimate?.Invoke(this, new SideBarAnimateEventArgs(_nextMenuState));
@@ -332,6 +345,20 @@ namespace chkam05.VisualPlayer.Controls
         /// <param name="e"> Event Arguments. </param>
         private void Storyboard_Completed(object sender, EventArgs e)
         {
+            if (!string.IsNullOrEmpty(_storyboardName))
+            {
+                if (_storyboardName == "OpenClosePlayListStoryboard")
+                {
+                    double finalWidth = PlayListWidth;
+                    PlayListGrid.Width = finalWidth;
+
+                    if (finalWidth > 0)
+                        _playListWidthCache = finalWidth;
+                }
+                
+                _storyboardName = null;
+            }
+
             UpdateState();
             OnAnimationFinish?.Invoke(this, new SideBarAnimationFinishEventArgs(MenuState));
         }
@@ -576,6 +603,80 @@ namespace chkam05.VisualPlayer.Controls
 
         #endregion PLAYLIST METHODS
 
+        #region PLAYLIST RESIZE METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing left mouse button when cursor is over resize border. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Mouse Button Event Arguments. </param>
+        private void ResizeBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _playListStartX = e.GetPosition(this).X;
+            _playListStartW = PlayListWidth;
+
+            Border resizeBorder = sender as Border;
+            resizeBorder.CaptureMouse();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after releasing left mouse button when cursor is over resize border. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Mouse Button Event Arguments. </param>
+        private void ResizeBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Border resizeBorder = sender as Border;
+            resizeBorder.ReleaseMouseCapture();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after moving cursor over resize border. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Mouse Button Event Arguments. </param>
+        private void ResizeBorder_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                Border border = sender as Border;
+                double x = e.GetPosition(this).X;
+                double fX = System.Windows.Forms.Cursor.Position.X;
+                double w = PlayListGrid.Width;
+                double maxWidth = GetMaxPlayListGridWidth();
+
+                w = _playListStartW + (x - _playListStartX);
+
+                if (w < PLAYLIST_WIDTH_MIN)
+                    w = PLAYLIST_WIDTH_MIN;
+
+                if (w > maxWidth)
+                    w = maxWidth;
+
+                if (w >= PLAYLIST_WIDTH_MIN && w <= maxWidth)
+                {
+                    PlayListGrid.Width = w;
+                    _playListWidthCache = w;
+                }
+            }
+        }
+
+        #endregion PLAYLIST RESIZE METHODS
+
+        #region UPDATE INTERFACE METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> React on parent component size change. </summary>
+        public void OnParentSizeChanged()
+        {
+            double maxWidth = GetMaxPlayListGridWidth();
+
+            if (IsPlayList && PlayListGrid.ActualWidth > maxWidth)
+                PlayListGrid.Width = Math.Max(PLAYLIST_WIDTH_MIN, maxWidth);
+
+            if (_playListWidthCache > maxWidth)
+                _playListWidthCache = Math.Max(PLAYLIST_WIDTH_MIN, maxWidth);
+        }
+
+        #endregion UPDATE INTERFACE METHODS
+
         #region USER CONTROL METHODS
 
         //  --------------------------------------------------------------------------------
@@ -585,6 +686,9 @@ namespace chkam05.VisualPlayer.Controls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             AnimateShowControl();
+
+            _playListWidthCache = Math.Max(PLAYLIST_WIDTH_MIN,
+                Math.Min(GetMaxPlayListGridWidth(), ConfigManager.PlayListWidth));
         }
 
         #endregion USER CONTROL METHODS
@@ -598,6 +702,24 @@ namespace chkam05.VisualPlayer.Controls
         {
             double marginLeft = CONTROL_MARGIN_PART + MENU_WIDTH_MIN;
             return new Thickness(-marginLeft, 0, 0, 0);
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Get max width of PlayListGrid. </summary>
+        /// <returns> Max PlayListGrid width. </returns>
+        private double GetMaxPlayListGridWidth()
+        {
+            Window parentWindow = ControlsUtilities.FindParent<Window>(this);
+
+            if (parentWindow != null)
+            {
+                double halfWidth = parentWindow.ActualWidth / 2;
+                double menuGridWidth = MenuGrid.ActualWidth;
+
+                return halfWidth - menuGridWidth;
+            }
+
+            return PLAYLIST_WIDTH_MIN;
         }
 
         #endregion UTILITY METHODS

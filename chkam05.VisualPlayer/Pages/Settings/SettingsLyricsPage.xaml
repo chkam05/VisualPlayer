@@ -7,9 +7,6 @@
     xmlns:local="clr-namespace:chkam05.VisualPlayer.Pages.Settings"
     xmlns:config="clr-namespace:chkam05.VisualPlayer.Data.Configuration"
     xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
-    xmlns:converters="clr-namespace:chkam05.VisualPlayer.Converters"
-    xmlns:converters_conf="clr-namespace:chkam05.VisualPlayer.Converters.Settings"
-    xmlns:converters_font="clr-namespace:chkam05.VisualPlayer.Converters.Fonts"
     mc:Ignorable="d"
     
     d:DesignWidth="800"
@@ -19,186 +16,11 @@
 
     <Page.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
             <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type Page}"/>
-
-            <!-- CONVERTERS -->
-
-            <converters_conf:LyricsMatchingTypeNameConverter x:Key="LyricsMatchingTypeNameConverter"/>
-            <converters_font:FontStretchNameConverter x:Key="FontStretchNameConverter"/>
-            <converters_font:FontStyleNameConverter x:Key="FontStyleNameConverter"/>
-            <converters_font:FontWeightNameConverter x:Key="FontWeightNameConverter"/>
-
-            <!-- STYLES -->
-
-            <Style x:Key="HeaderButtonStyle" TargetType="{x:Type controlsex:ButtonEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MinHeight" Value="40"/>
-                <Setter Property="MinWidth" Value="40"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedForeground" Value="{Binding ConfigManager.PressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-
-            <Style TargetType="TextBlock">
-                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="FontSize" Value="14"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:TextBlockEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="8,0,0,0"/>
-                <Setter Property="Width" Value="48"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ScrollViewerEx}">
-                <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
-                <Setter Property="PanningMode" Value="Both"/>
-                <Setter Property="Padding" Value="2"/>
-                <Setter Property="ScrollBarDraggingThumbBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarMouseOverThumbBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarThumbBackground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ExpanderEx}">
-                <Setter Property="ArrowBrush" Value="{Binding ConfigManager.ContrastedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ArrowMouseOverBrush" Value="{Binding ConfigManager.ContrastedMouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ArrowPressedBrush" Value="{Binding ConfigManager.ContrastedPressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Background" Value="{Binding ConfigManager.BackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="HeaderBackground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="HeaderBorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="HeaderFontSize" Value="18"/>
-                <Setter Property="HeaderFontWeight" Value="SemiBold"/>
-                <Setter Property="HeaderForeground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="IsExpanded" Value="True"/>
-                <Setter Property="Margin" Value="0"/>
-                <Setter Property="Padding" Value="16"/>
-            </Style>
-
-            <Style x:Key="InternalBorder" TargetType="Border">
-                <Setter Property="Background" Value="{Binding ConfigManager.BackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{x:Null}"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="CornerRadius" Value="8"/>
-                <Setter Property="Padding" Value="8"/>
-                <Setter Property="Width" Value="Auto"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ComboBoxEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="DropDownBackground" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="DropDownBorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="DropDownForeground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="DropDownIconBrush" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="DropDownMouseOverIconBrush" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="DropDownSelectedIconBrush" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MinWidth" Value="128"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ComboBoxItemEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Margin" Value="1"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.SelectedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.SelectedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.SelectedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:UpDownTextBoxEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ButtonBackground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ButtonBorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ButtonForeground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ButtonMouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ButtonMouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ButtonMouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ButtonPressedBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ButtonPressedBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ButtonPressedForeground" Value="{Binding ConfigManager.PressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:SliderEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="{x:Null}"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.ContrastedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbCornerRadius" Value="8"/>
-                <Setter Property="ThumbBorderBrush" Value="{Binding ConfigManager.ContrastedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbMouseOverBackground" Value="{Binding ConfigManager.ContrastedMouseOverColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbMouseOverBorderBrush" Value="{Binding ConfigManager.ContrastedMouseOverColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbDraggingBackground" Value="{Binding ConfigManager.ContrastedPressedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbDraggingBorderBrush" Value="{Binding ConfigManager.ContrastedPressedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbWidth" Value="12"/>
-                <Setter Property="TrackBarBackground" Value="{Binding ConfigManager.BackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="TrackBarBorderBrush" Value="{x:Null}"/>
-                <Setter Property="TrackBarBorderThickness" Value="0"/>
-                <Setter Property="TrackBarHeight" Value="4"/>
-            </Style>
-
-            <Style TargetType="controlsex:CheckBoxEx">
-                <Setter Property="CheckBoxStyle" Value="Bordered"/>
-                <Setter Property="CheckMarkBrush" Value="{Binding ConfigManager.ContrastedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="MouseOverCheckMarkBrush" Value="{Binding ConfigManager.ContrastedMouseOverColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedCheckMarkBrush" Value="{Binding ConfigManager.ContrastedPressedColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <!-- DATA TEMPLATES -->
-
-            <DataTemplate x:Key="FontFamilyDataTemplate">
-                <TextBlock Text="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="FontStretchDataTemplate">
-                <TextBlock Text="{Binding ., Converter={StaticResource FontStretchNameConverter}}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="FontStyleDataTemplate">
-                <TextBlock Text="{Binding ., Converter={StaticResource FontStyleNameConverter}}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="FontWeightDataTemplate">
-                <TextBlock Text="{Binding ., Converter={StaticResource FontWeightNameConverter}}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="LyricsMatchingTypeDataTemplate">
-                <TextBlock Text="{Binding ., Converter={StaticResource LyricsMatchingTypeNameConverter}}"/>
-            </DataTemplate>
 
         </ResourceDictionary>
     </Page.Resources>
@@ -212,22 +34,23 @@
 
         <controlsex:ScrollViewerEx
             Grid.Row="1"
-            Padding="8,8,4,8">
+            Padding="8,8,4,8"
+            Style="{StaticResource SettingsBaseScrollViewerExStyle}">
 
             <StackPanel
                 Margin="0"
                 Orientation="Vertical">
 
+                <!-- Appearance configuration. -->
                 <controlsex:ExpanderEx
                     Header="Appearance"
-                    Margin="0,0,0,16">
+                    Style="{StaticResource SettingsBaseExpanderExStyle}">
 
                     <StackPanel
                         Orientation="Vertical">
 
                         <Border
-                            Margin="0,0,0,16"
-                            Style="{StaticResource InternalBorder}">
+                            Style="{StaticResource SettingsInfoBarInternalBorderStyle}">
 
                             <Grid>
 
@@ -247,22 +70,25 @@
                                 <TextBlock
                                     Grid.Column="0"
                                     Grid.Row="0"
-                                    Margin="0,0,16,4"
+                                    Margin="0,0,0,4"
+                                    Style="{StaticResource SettingsBaseTextBlockStyle}"
                                     Text="Font Family"/>
 
                                 <controlsex:ComboBoxEx
                                     Grid.Column="0"
                                     Grid.Row="1"
-                                    ItemTemplate="{StaticResource FontFamilyDataTemplate}"
+                                    ItemTemplate="{StaticResource SettingsLyricsFontFamilyComboBoxExDataTemplate}"
                                     ItemsSource="{Binding Fonts}"
                                     SelectedItem="{Binding ConfigManager.LyricsFontName}"
                                     Margin="0,0,16,0"
-                                    MinWidth="192"/>
+                                    MinWidth="192"
+                                    Style="{StaticResource SettingsBaseComboBoxExStyle}"/>
 
                                 <TextBlock
                                     Grid.Column="1"
                                     Grid.Row="0"
-                                    Margin="0,0,16,4"
+                                    Margin="0,0,0,4"
+                                    Style="{StaticResource SettingsBaseTextBlockStyle}"
                                     Text="Font Size"/>
 
                                 <controlsex:UpDownTextBoxEx
@@ -270,56 +96,65 @@
                                     Grid.Row="1"
                                     ConversionType="Decimal"
                                     Margin="0,0,16,0"
+                                    MinWidth="64"
+                                    Style="{StaticResource SettingsBaseUpDownTextBoxExStyle}"
                                     Text="{Binding ConfigManager.LyricsFontSize, Mode=OneWay}"
                                     TextModified="LyricsFontSizeChanged"/>
 
                                 <TextBlock
                                     Grid.Column="2"
                                     Grid.Row="0"
-                                    Margin="0,0,16,4"
+                                    Margin="0,0,0,4"
+                                    Style="{StaticResource SettingsBaseTextBlockStyle}"
                                     Text="Font Style"/>
 
                                 <controlsex:ComboBoxEx
                                     Grid.Column="2"
                                     Grid.Row="1"
-                                    ItemTemplate="{StaticResource FontStyleDataTemplate}"
+                                    ItemTemplate="{StaticResource SettingsLyricsFontStyleComboBoxExDataTemplate}"
                                     ItemsSource="{Binding FontStyles}"
                                     SelectedItem="{Binding ConfigManager.LyricsFontStyle}"
-                                    Margin="0,0,16,0"/>
+                                    Margin="0,0,16,0"
+                                    Style="{StaticResource SettingsBaseComboBoxExStyle}"/>
 
                                 <TextBlock
                                     Grid.Column="3"
                                     Grid.Row="0"
-                                    Margin="0,0,16,4"
+                                    Margin="0,0,0,4"
+                                    Style="{StaticResource SettingsBaseTextBlockStyle}"
                                     Text="Font Stretch"/>
 
                                 <controlsex:ComboBoxEx
                                     Grid.Column="3"
                                     Grid.Row="1"
-                                    ItemTemplate="{StaticResource FontStretchDataTemplate}"
+                                    ItemTemplate="{StaticResource SettingsLyricsFontStretchComboBoxExDataTemplate}"
                                     ItemsSource="{Binding FontStretches}"
                                     SelectedItem="{Binding ConfigManager.LyricsFontStretch}"
-                                    Margin="0,0,16,0"/>
+                                    Margin="0,0,16,0"
+                                    Style="{StaticResource SettingsBaseComboBoxExStyle}"/>
 
                                 <TextBlock
                                     Grid.Column="4"
                                     Grid.Row="0"
-                                    Margin="0,0,16,4"
+                                    Margin="0,0,0,4"
+                                    Style="{StaticResource SettingsBaseTextBlockStyle}"
                                     Text="Font Weight"/>
 
                                 <controlsex:ComboBoxEx
                                     Grid.Column="4"
                                     Grid.Row="1"
-                                    ItemTemplate="{StaticResource FontWeightDataTemplate}"
+                                    ItemTemplate="{StaticResource SettingsLyricsFontWeightComboBoxExDataTemplate}"
                                     ItemsSource="{Binding FontWeights}"
                                     SelectedItem="{Binding ConfigManager.LyricsFontWeight}"
-                                    Margin="0,0,16,0"/>
+                                    Margin="0,0,16,0"
+                                    Style="{StaticResource SettingsBaseComboBoxExStyle}"/>
 
                             </Grid>
                         </Border>
 
                         <TextBlock
                             Margin="0,0,0,8"
+                            Style="{StaticResource SettingsBaseTextBlockStyle}"
                             Text="Lyrics background opacity"/>
 
                         <Grid
@@ -333,11 +168,13 @@
                             <controlsex:SliderEx
                                 Maximum="{x:Static config:ConfigManager.COLOR_OPACITY_MAX}"
                                 Minimum="{x:Static config:ConfigManager.COLOR_OPACITY_MIN}"
+                                Style="{StaticResource SettingsBaseSliderExStyle}"
                                 TickFrequency="0.01"
                                 Value="{Binding ConfigManager.LyricsBackgroundOpacity}"/>
 
                             <controlsex:TextBlockEx
                                 Grid.Column="1"
+                                Style="{StaticResource SettingsBaseTextBlockExStyle}"
                                 Text="{Binding ConfigManager.LyricsBackgroundOpacity, StringFormat={}{0:0.##}, Mode=OneWay}"/>
 
                         </Grid>
@@ -345,9 +182,10 @@
                     </StackPanel>
                 </controlsex:ExpanderEx>
 
+                <!-- Behaviour configuration. -->
                 <controlsex:ExpanderEx
                     Header="Lyrics"
-                    Margin="0,0,0,8">
+                    Style="{StaticResource SettingsBaseExpanderExStyle}">
 
                     <StackPanel
                         Orientation="Vertical">
@@ -355,16 +193,19 @@
                         <controlsex:CheckBoxEx
                             Content="Auto load Lyrics from local library"
                             IsChecked="{Binding ConfigManager.LyricsAutoLoad}"
-                            Margin="0,0,0,16"/>
+                            Style="{StaticResource SettingsBaseCheckBoxExStyle}"/>
 
                         <TextBlock
                             Margin="0,0,0,8"
+                            Style="{StaticResource SettingsBaseTextBlockStyle}"
                             Text="Matching lyrics and song mode"/>
 
                         <controlsex:ComboBoxEx
                             ItemsSource="{Binding LyricsMatchTypes}"
-                            ItemTemplate="{StaticResource LyricsMatchingTypeDataTemplate}"
-                            SelectedItem="{Binding ConfigManager.LyricsMatchingType}"/>
+                            ItemTemplate="{StaticResource SettingsLyricsMatchingTypeComboBoxExDataTemplate}"
+                            Margin="0,0,0,16"
+                            SelectedItem="{Binding ConfigManager.LyricsMatchingType}"
+                            Style="{StaticResource SettingsBaseComboBoxExStyle}"/>
 
                     </StackPanel>
                 </controlsex:ExpanderEx>
@@ -374,7 +215,8 @@
 
         <Grid
             Grid.Row="0"
-            Margin="8,8,8,2">
+            Margin="8,8,8,2"
+            MouseLeftButtonDown="TitleGrid_MouseLeftButtonDown">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
@@ -385,21 +227,18 @@
             <controlsex:ButtonEx
                 Grid.Column="0"
                 IconKind="ArrowBack"
-                Style="{StaticResource HeaderButtonStyle}"
+                Style="{StaticResource SettingsTitleBarButtonExStyle}"
                 Click="BackButton_Click"/>
 
             <TextBlock
                 Grid.Column="1"
-                FontSize="18"
-                FontWeight="SemiBold"
-                Margin="8,0"
-                Text="Settings - Lyrics"
-                VerticalAlignment="Center"/>
+                Style="{StaticResource SettingsTitleBarTextBlockStyle}"
+                Text="Settings - Lyrics"/>
 
             <controlsex:ButtonEx
                 Grid.Column="2"
                 IconKind="Close"
-                Style="{StaticResource HeaderButtonStyle}"
+                Style="{StaticResource SettingsTitleBarButtonExStyle}"
                 Click="CloseButton_Click"/>
 
         </Grid>

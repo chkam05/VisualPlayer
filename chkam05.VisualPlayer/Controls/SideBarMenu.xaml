@@ -40,7 +40,7 @@
                     To="{Binding Path=MenuWidth, Mode=TwoWay}"/>
             </Storyboard>
 
-            <Storyboard x:Key="OpenClosePlayListStoryboard" Completed="Storyboard_Completed">
+            <Storyboard x:Key="OpenClosePlayListStoryboard" Completed="Storyboard_Completed" FillBehavior="Stop">
                 <DoubleAnimation 
                     BeginTime="00:00:0"
                     Duration="00:00:0.25"
@@ -128,7 +128,6 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="32"/>
         </Grid.ColumnDefinitions>
 
@@ -145,8 +144,8 @@
             <Grid>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid
@@ -179,11 +178,35 @@
                 <Grid
                     x:Name="PlayListGrid"
                     Grid.Column="1"
-                    Width="256">
+                    Width="320">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
                     <local:SideBarPlayList
                         x:Name="sideBarPlayList"
+                        Grid.Column="0"
                         OnBackClick="sideBarPlayList_OnBackClick"/>
+
+                    <Border
+                        x:Name="ResizeBorder"
+                        Background="Transparent"
+                        Cursor="SizeWE"
+                        Grid.Column="1"
+                        Width="8"
+                        MouseLeftButtonDown="ResizeBorder_MouseLeftButtonDown"
+                        MouseLeftButtonUp="ResizeBorder_MouseLeftButtonUp"
+                        MouseMove="ResizeBorder_MouseMove">
+
+                        <materialDesign:PackIcon
+                            Foreground="{Binding ConfigManager.IfaceForegroundColorBrush}"
+                            HorizontalAlignment="Center"
+                            Kind="MoreVert"
+                            VerticalAlignment="Center"/>
+
+                    </Border>
 
                 </Grid>
 

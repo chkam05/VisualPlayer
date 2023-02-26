@@ -324,6 +324,36 @@ namespace chkam05.VisualPlayer.Windows
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing InformationBar close button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Event Arguments. </param>
+        private void informationBar_OnCloseButtonClick(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing InformationBar maximize button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Event Arguments. </param>
+        private void informationBar_OnMaximizeButtonClick(object sender, EventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+            else
+                WindowState = WindowState.Maximized;
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing InformationBar minimize button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Event Arguments. </param>
+        private void informationBar_OnMinimizeButtonClick(object sender, EventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        //  --------------------------------------------------------------------------------
         /// <summary> Method invoked after starting ControlBar show/hide animation. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> ControlBar Animate Event Arguments. </param>
@@ -732,7 +762,7 @@ namespace chkam05.VisualPlayer.Windows
                 controlBar.TrackLength = Player.TrackLength.TotalSeconds;
                 controlBar.TrackPosition = Player.TrackPosition.TotalSeconds;
 
-                TitleInformationBar.Text = Player.LoadedItem?.Title;
+                //TitleInformationBar.Text = Player.LoadedItem?.Title;
                 informationBar.TitleInfo = Player.LoadedItem?.Title;
                 informationBar.AlbumInfo = Player.LoadedItem?.Album;
                 informationBar.ArtistInfo = Player.LoadedItem?.Artist;
@@ -1041,6 +1071,7 @@ namespace chkam05.VisualPlayer.Windows
         /// <param name="e"> Cancel Event Arguments. </param>
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            ConfigManager.PlayListWidth = sideBarMenu.PlayListExpandedWidth;
             ConfigManager.WindowPosition = new Point(this.Left, this.Top);
             ConfigManager.WindowSize = new Size(this.ActualWidth, this.ActualHeight);
             ConfigManager.SaveConfiguration();
@@ -1120,10 +1151,18 @@ namespace chkam05.VisualPlayer.Windows
 
             if (logoControl.IsVisible)
                 logoControl.ScaleToObject(Size);
+
+            sideBarMenu.OnParentSizeChanged();
         }
 
         #endregion WINDOW METHODS
 
+        #region WINDOW RESIZE METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing left mouse button when cursor is over resize border. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Mouse Button Event Arguments. </param>
         private void ResizeBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _posTop = Top;
@@ -1165,6 +1204,10 @@ namespace chkam05.VisualPlayer.Windows
             border.CaptureMouse();
         }
 
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after releasing left mouse button when cursor is over resize border. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Mouse Button Event Arguments. </param>
         private void ResizeBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             Border border = sender as Border;
@@ -1172,6 +1215,10 @@ namespace chkam05.VisualPlayer.Windows
             Cursor = Cursors.Arrow;
         }
 
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after moving cursor over resize border. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Mouse Button Event Arguments. </param>
         private void ResizeBorder_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -1284,5 +1331,8 @@ namespace chkam05.VisualPlayer.Windows
                     Height = h;
             }
         }
+
+        #endregion WINDOW RESIZE METHODS
+
     }
 }

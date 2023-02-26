@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-
+using System.Windows.Input;
 using MenuItem = chkam05.VisualPlayer.Controls.Data.MenuItem;
 
 
@@ -98,6 +98,19 @@ namespace chkam05.VisualPlayer.Pages.Settings
         }
 
         #endregion CONTROL BUTTONS METHODS
+
+        #region INTERACTION METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing left mouse button when cursor is over title grid. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Mouse Button Event Arguments. </param>
+        private void TitleGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.MainWindow.DragMove();
+        }
+
+        #endregion INTERACTION METHODS
 
         #region MENU MANAGEMENT METHODS
 

@@ -1,5 +1,6 @@
 ﻿using chkam05.Tools.ControlsEx.Colors;
 using chkam05.Tools.ControlsEx.Static;
+using chkam05.VisualPlayer.Controls;
 using chkam05.VisualPlayer.Controls.Data;
 using chkam05.VisualPlayer.Controls.Static;
 using chkam05.VisualPlayer.Core.Data;
@@ -94,6 +95,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         public bool MenuBarAutoHide { get; set; } = false;
         public bool PlayListAutoHide { get; set; } = false;
+        public double PlayListWidth { get; set; } = SideBarMenu.PLAYLIST_WIDTH_MIN;
 
         //  Player
 
@@ -112,6 +114,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         //  Window
 
+        public bool ClassicTaskBar { get; set; } = false;
         public Point WindowPosition { get; set; } = new Point(0, 0);
         public Size WindowSize { get; set; } = new Size(800, 600);
 

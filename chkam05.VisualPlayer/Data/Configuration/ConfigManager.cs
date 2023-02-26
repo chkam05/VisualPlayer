@@ -1368,6 +1368,16 @@ namespace chkam05.VisualPlayer.Data.Configuration
             }
         }
 
+        public double PlayListWidth
+        {
+            get => _configuration.PlayListWidth;
+            set
+            {
+                _configuration.PlayListWidth = value;
+                OnPropertyChanged(nameof(PlayListWidth));
+            }
+        }
+
         #endregion Menu Bar
 
         #region Player
@@ -1566,6 +1576,16 @@ namespace chkam05.VisualPlayer.Data.Configuration
         #endregion Visualisation
 
         #region Window
+
+        public bool ClassicTaskBar
+        {
+            get => _configuration.ClassicTaskBar;
+            set
+            {
+                _configuration.ClassicTaskBar = value;
+                OnPropertyChanged(nameof(ClassicTaskBar));
+            }
+        }
 
         public Point WindowPosition
         {
