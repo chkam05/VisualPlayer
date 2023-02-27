@@ -27,6 +27,7 @@ namespace chkam05.VisualPlayer.Converters.Settings
             { VisualisationType.PeaksCenterVisualisation, "Peaks Centered" },
             { VisualisationType.PeaksCenterCollapseVisualisation, "Peaks Centered Collapsing" },
             { VisualisationType.PeaksCenterCollapseExtendedVisualisation, "Peaks Centered Collapsing Extended" },
+            { VisualisationType.SimpleWaveVisualisation, "Simple Wave" },
         };
 
 

@@ -118,6 +118,10 @@ namespace chkam05.VisualPlayer.Visualisations
                 case VisualisationType.PeaksCenterCollapseExtendedVisualisation:
                     _visualisation = new PeaksCenterCollapseExtendedVisualisation(spectrumProvider);
                     break;
+
+                case VisualisationType.SimpleWaveVisualisation:
+                    _visualisation = new SimpleWaveVisualisation(spectrumProvider);
+                    break;
             }
 
             if (_visualisation != null && drawingAreaSize.HasValue)

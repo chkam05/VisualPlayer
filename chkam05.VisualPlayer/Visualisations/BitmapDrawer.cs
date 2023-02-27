@@ -124,6 +124,27 @@ namespace chkam05.VisualPlayer.Visualisations
                 _context.DrawRectangle(fill, stroke, new Rect(point.X, point.Y, size.Width, size.Height));
         }
 
+        //  --------------------------------------------------------------------------------
+        /// <summary> Draw line. </summary>
+        /// <param name="stroke"> Stroke brush and size. </param>
+        /// <param name="startPoint"> Line start point. </param>
+        /// <param name="endPoint"> Line end point. </param>
+        public void DrawLine(Pen stroke, Point startPoint, Point endPoint)
+        {
+            if (IsDrawing)
+                _context.DrawLine(stroke, startPoint, endPoint);
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Draw figure. </summary>
+        /// <param name="fill"> Fill brush. </param>
+        /// <param name="stroke"> Stroke brush and size. </param>
+        /// <param name="geometry"> Shape geometry definition. </param>
+        public void DrawFigure(Brush fill, Pen stroke, Geometry geometry)
+        {
+            _context.DrawGeometry(fill, stroke, geometry);
+        }
+
         #endregion DRAWING METHODS
 
         #region RENDERING METHODS
