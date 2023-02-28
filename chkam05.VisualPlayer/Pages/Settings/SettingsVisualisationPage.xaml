@@ -150,6 +150,16 @@
                         <TextBlock
                             Margin="0,0,0,8"
                             Style="{StaticResource SettingsBaseTextBlockStyle}"
+                            Text="Fill"/>
+
+                        <controlsex:CheckBoxEx
+                            Content="Visualisation fill"
+                            IsChecked="{Binding ConfigManager.VisualisationFillEnabled}"
+                            Style="{StaticResource SettingsBaseCheckBoxExStyle}"/>
+
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            Style="{StaticResource SettingsBaseTextBlockStyle}"
                             Text="Color scheme"/>
 
                         <controlsex:ComboBoxEx

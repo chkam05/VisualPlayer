@@ -55,7 +55,7 @@ namespace chkam05.VisualPlayer.Utilities
         /// <param name="size"> Size of object to fill with gradient. </param>
         /// <param name="maxSize"> Max side of object to fill gradient. </param>
         /// <returns> Linear gradient brush. </returns>
-        public static LinearGradientBrush GetRainbowGradient(AHSLColor color, int jump, int size, double maxSize, bool reverse = false)
+        public static LinearGradientBrush GetRainbowGradient(AHSLColor color, int jump, int size, double maxSize, bool reverse = false, double direction = 270)
         {
             var limit = Math.Min(AHSLColor.HUE_MAX, jump);
 
@@ -79,13 +79,12 @@ namespace chkam05.VisualPlayer.Utilities
             grandients.Add(new GradientStop(
                 ColorUtilities.UpdateColor(color, h: color.H + finalHue).ToColor(), 1.0));
 
-            double startY = reverse ? 0.0 : 1.0;
-            double endY = reverse ? 1.0 : 0.0;
+            var points = GetDirection(direction);
 
             return new LinearGradientBrush()
             {
-                StartPoint = new Point(0.5, startY),
-                EndPoint = new Point(0.5, endY),
+                StartPoint = reverse ? points[1] : points[0],
+                EndPoint = reverse ? points[0] : points[1],
                 GradientStops = grandients
             };
         }
@@ -102,6 +101,28 @@ namespace chkam05.VisualPlayer.Utilities
         private static double CalculateGradientPoint(int point, int size)
         {
             return 100d * point / size / 100;
+        }
+
+        //  --------------------------------------------------------------------------------
+        private static Point[] GetDirection(double direction)
+        {
+            Point[] points = new Point[2];
+            double angle = direction * Math.PI / 180d;
+
+            double centerX = 0.5;
+            double centerY = 0.5;
+            double radiusX = 0.5;
+            double radiusY = 0.5;
+
+            points[0] = new Point(
+                centerX + radiusX * Math.Cos(angle),
+                centerY + radiusY * Math.Sin(angle));
+
+            points[1] = new Point(
+                centerX + radiusX * Math.Cos(angle + Math.PI),
+                centerY + radiusY * Math.Sin(angle + Math.PI));
+
+            return points;
         }
 
         #endregion GRADIENT UTILITIES METHODS

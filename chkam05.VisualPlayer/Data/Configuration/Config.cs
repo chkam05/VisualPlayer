@@ -100,6 +100,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
         //  Player
 
         public bool RestoreLastPlaylistOnStartup { get; set; } = true;
+        public int Volume { get; set; } = 50;
 
         //  Title Bar
 

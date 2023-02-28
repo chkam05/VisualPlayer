@@ -133,6 +133,7 @@ namespace chkam05.VisualPlayer.Windows
             Player.OnLoadedFile += OnLoadedFile;
             Player.OnStateUpdate += InterfaceStateUpdate;
             Player.EqualizerManager.ApplyConfiguration(ConfigManager);
+            Player.Volume = ConfigManager.Volume;
             SerialController = SerialController.Instnace;
             _systemListener = SystemListener.Instance;
             _systemListener.UserPreferenceChangedHandler += UserPreferenceChanged;
@@ -1004,7 +1005,21 @@ namespace chkam05.VisualPlayer.Windows
         /// <param name="e"> Routed Event Arguments. </param>
         private void volumeControl_OnVolumeMuteClick(object sender, RoutedEventArgs e)
         {
-            //
+            int currentVolume = Player.Volume;
+
+            if (currentVolume == 0)
+            {
+                Player.Volume = ConfigManager.Volume;
+                volumeControl.Volume = ConfigManager.Volume;
+            }
+            else
+            {
+                Player.Volume = 0;
+                volumeControl.Volume = 0;
+
+                ConfigManager.Volume = currentVolume;
+                ConfigManager.SaveConfiguration();
+            }
         }
 
         //  --------------------------------------------------------------------------------
@@ -1014,6 +1029,9 @@ namespace chkam05.VisualPlayer.Windows
         private void volumeControl_OnSliderValueChanged(object sender, SliderValueChangedEventArgs<double> e)
         {
             Player.Volume = (int)e.Value;
+
+            ConfigManager.Volume = Player.Volume;
+            ConfigManager.SaveConfiguration();
         }
 
         //  --------------------------------------------------------------------------------
@@ -1127,6 +1145,9 @@ namespace chkam05.VisualPlayer.Windows
             logoControl.SetShapesBackground(ConfigManager.LogoBackgroundColorBrush);
             logoControl.SetShapesBorderBrush(ConfigManager.LogoBorderColorBrush);
             logoControl.ScaleToObject(Size);
+
+            //  Other configuration.
+            volumeControl.Volume = Player.Volume;
 
             //  Setup jump list.
             SetupJumpList();

@@ -97,6 +97,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
             nameof(VisualisationColor),
             nameof(VisualisationColorOpacity),
             nameof(VisualisationColorType),
+            nameof(VisualisationFillEnabled),
             nameof(VisualisationRainbowChangeTime),
             nameof(VisualisationRainbowShift),
             nameof(VisualisationRainbowXShift),
@@ -1392,6 +1393,16 @@ namespace chkam05.VisualPlayer.Data.Configuration
             }
         }
 
+        public int Volume
+        {
+            get => _configuration.Volume;
+            set
+            {
+                _configuration.Volume = value;
+                OnPropertyChanged(nameof(Volume));
+            }
+        }
+
         #endregion Player
 
         #region Title Bar
@@ -1458,6 +1469,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _visualisationProfilesManager.Profile.BorderEnabled = value;
                 OnPropertyChanged(nameof(VisualisationBorderEnabled));
+
+                if (!value && !VisualisationFillEnabled)
+                    VisualisationFillEnabled = true;
             }
         }
 
@@ -1488,6 +1502,19 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _visualisationProfilesManager.Profile.ColorType = value;
                 OnPropertyChanged(nameof(VisualisationColorType));
+            }
+        }
+
+        public bool VisualisationFillEnabled
+        {
+            get => _visualisationProfilesManager.Profile.FillEnabled;
+            set
+            {
+                _visualisationProfilesManager.Profile.FillEnabled = value;
+                OnPropertyChanged(nameof(VisualisationFillEnabled));
+
+                if (!value && !VisualisationBorderEnabled)
+                    VisualisationBorderEnabled = true;
             }
         }
 

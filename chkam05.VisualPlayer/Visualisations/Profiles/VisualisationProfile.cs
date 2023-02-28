@@ -26,6 +26,7 @@ namespace chkam05.VisualPlayer.Visualisations.Profiles
         public Color Color { get; set; } = DEFAULT_COLOR;
         public double ColorOpacity { get; set; } = 0.8d;
         public VisualisationColorType ColorType { get; set; } = VisualisationColorType.SYSTEM;
+        public bool FillEnabled { get; set; } = true;
         public double RainbowChangeTime { get; set; } = 0.0d;
         public bool RainbowShift { get; set; } = false;
         public int RainbowXShift { get; set; } = 0;

@@ -19,6 +19,6 @@ namespace chkam05.VisualPlayer.Visualisations.Data
         PeaksCenterVisualisation = 8,
         PeaksCenterCollapseVisualisation = 9,
         PeaksCenterCollapseExtendedVisualisation = 10,
-        SimpleWaveVisualisation = 11,
+        WaveVisualisation = 11,
     }
 }

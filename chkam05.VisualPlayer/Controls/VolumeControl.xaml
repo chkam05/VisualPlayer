@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:conv="clr-namespace:chkam05.VisualPlayer.Converters"
     xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
     mc:Ignorable="d" 
     
@@ -16,6 +17,8 @@
         <ResourceDictionary>
 
             <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type UserControl}"/>
+
+            <conv:VolumeIconConverter x:Key="VolumeIconConverter"/>
 
             <!-- Storyboards. -->
             <Storyboard x:Key="ShowHideStoryboard" Completed="Storyboard_Completed">
@@ -108,7 +111,7 @@
                 <controlsex:ButtonEx
                     Grid.Row="1"
                     Content="{x:Null}"
-                    IconKind="VolumeMedium"
+                    IconKind="{Binding Volume, Mode=OneWay, Converter={StaticResource VolumeIconConverter}}"
                     Click="VolumeButton_Click"/>
 
             </Grid>

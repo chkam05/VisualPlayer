@@ -119,8 +119,8 @@ namespace chkam05.VisualPlayer.Visualisations
                     _visualisation = new PeaksCenterCollapseExtendedVisualisation(spectrumProvider);
                     break;
 
-                case VisualisationType.SimpleWaveVisualisation:
-                    _visualisation = new SimpleWaveVisualisation(spectrumProvider);
+                case VisualisationType.WaveVisualisation:
+                    _visualisation = new WaveVisualisation(spectrumProvider);
                     break;
             }
 
@@ -145,6 +145,7 @@ namespace chkam05.VisualPlayer.Visualisations
                 Visualisation.SetProperty("FillColor", configManager.VisualisationColor);
                 Visualisation.SetProperty("Opacity", configManager.VisualisationColorOpacity);
                 Visualisation.SetProperty("ColorType", configManager.VisualisationColorType);
+                Visualisation.SetProperty("FillEnabled", configManager.VisualisationFillEnabled);
                 Visualisation.SetProperty("RainbowChangeTime", configManager.VisualisationRainbowChangeTime);
                 Visualisation.SetProperty("RainbowShift", configManager.VisualisationRainbowShift);
                 Visualisation.SetProperty("RainbowX", configManager.VisualisationRainbowXShift);

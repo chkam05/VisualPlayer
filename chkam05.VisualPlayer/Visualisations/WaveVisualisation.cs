@@ -10,11 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Media3D;
+
 
 namespace chkam05.VisualPlayer.Visualisations
 {
-    public class SimpleWaveVisualisation : BaseVisualisation
+    public class WaveVisualisation : BaseVisualisation
     {
 
         //  VARIABLES
@@ -22,7 +22,6 @@ namespace chkam05.VisualPlayer.Visualisations
         protected double _fallSpeed = 8.0;
         protected double _opacity = 0.8;
 
-        protected double _spectrumHeight = 0;
         protected SpectrumLevel[] _spectrumData = null;
         protected DateTime _startRun = DateTime.Now;
 
@@ -31,19 +30,35 @@ namespace chkam05.VisualPlayer.Visualisations
         protected double _startX = 0;
         protected double _startY = 0;
 
+        protected Color _borderColor = Color.FromArgb(244, 0, 120, 215);
         protected Color _fillColor = Color.FromArgb(244, 0, 120, 215);
 
+        protected double _borderThickness = 4;
+        protected AHSLColor _initBorderColor = AHSLColor.FromColor(Color.FromRgb(0, 255, 0));
         protected AHSLColor _initFillColor = AHSLColor.FromColor(Color.FromRgb(0, 255, 0));
         protected int _rainbowX = AHSLColor.HUE_MAX;
         protected int _rainbowY = 1000;
         protected double _rainbowChangeTime = 0.0;
         protected TimeSpan _runTime = new TimeSpan(0);
 
+        public bool BorderEnabled { get; set; } = false;
         public VisualisationColorType ColorType { get; set; } = VisualisationColorType.SYSTEM;
+        public bool FillEnabled { get; set; } = true;
         public bool RainbowShift { get; set; } = false;
 
 
         //  GETTERS & SETTERS
+
+        public Color BorderColor
+        {
+            get => _borderColor;
+            set
+            {
+                _borderColor = value;
+                _initBorderColor = ColorUtilities.UpdateColor(
+                    AHSLColor.FromColor(value), l: 50, s: 100);
+            }
+        }
 
         public double FallSpeed
         {
@@ -100,7 +115,7 @@ namespace chkam05.VisualPlayer.Visualisations
         //  --------------------------------------------------------------------------------
         /// <summary> WaveVisualisation class constructor. </summary>
         /// <param name="spectrumProvider"> Spectrum provider with FFT data. </param>
-        public SimpleWaveVisualisation(SpectrumProvider spectrumProvider) : base(spectrumProvider)
+        public WaveVisualisation(SpectrumProvider spectrumProvider) : base(spectrumProvider)
         {
             //
         }
@@ -120,11 +135,11 @@ namespace chkam05.VisualPlayer.Visualisations
             var fftBuffer = new float[_fftSize];
             _spectrumProvider.GetFFTData(fftBuffer, this);
 
-            _spectrumHeight = DrawingAreaSize.Height - (Margin.Top + Margin.Bottom);
-            BeatLevel.SpectrumMaxLevelValue = _spectrumHeight;
+            var spectrumHeight = DrawingAreaSize.Height - (Margin.Top + Margin.Bottom);
+            BeatLevel.SpectrumMaxLevelValue = spectrumHeight;
 
             //  Calculate spectrum line points.
-            var spectrum = GetSpectrum(_spectrumHeight, fftBuffer, ScalingStrategy, true, true);
+            var spectrum = GetSpectrum(spectrumHeight, fftBuffer, ScalingStrategy, true, true);
 
             if (_spectrumData == null || _spectrumData.Length != spectrum.Count)
             {
@@ -144,7 +159,7 @@ namespace chkam05.VisualPlayer.Visualisations
         }
 
         //  --------------------------------------------------------------------------------
-        protected Point[] CalculateSharpYPoints()
+        protected Point[] CalculateSharpPoints()
         {
             double halfHeight = _borderedHeight / 2;
             int intWidth = (int)_borderedWidth;
@@ -178,7 +193,7 @@ namespace chkam05.VisualPlayer.Visualisations
         }
 
         //  --------------------------------------------------------------------------------
-        protected Point[] CalculateSmoothYPoints()
+        protected Point[] CalculateSmoothPoints()
         {
             double halfHeight = _borderedHeight / 2;
             double xStep = _borderedWidth / (SpectrumSize - 1);
@@ -200,66 +215,6 @@ namespace chkam05.VisualPlayer.Visualisations
         #region DRAWING METHODS
 
         //  --------------------------------------------------------------------------------
-        private void SimpleDraw(BitmapDrawer bitmapDrawer)
-        {
-            Point startPoint = new Point(
-                _startX,
-                _startY + _borderedHeight / 2.0);
-
-            Point endPoint = new Point(
-                _startX + _borderedWidth,
-                _startY + _borderedHeight / 2.0);
-
-            Point[] points = CalculateSharpYPoints();
-
-            Brush fillBrush = null;
-
-            switch (ColorType)
-            {
-                case VisualisationColorType.RAINBOW_HORIZONTAL:
-                case VisualisationColorType.RAINBOW_VERTICAL:
-                    if (RainbowShift && IsRainbowTimeChangeReached())
-                    {
-                        _initFillColor = ColorUtilities.UpdateColor(_initFillColor, h: _initFillColor.H + 1);
-                    }
-                    break;
-
-                case VisualisationColorType.CUSTOM:
-                case VisualisationColorType.SYSTEM:
-                default:
-                    fillBrush = new SolidColorBrush(FillColor) { Opacity = _opacity };
-                    break;
-            }
-
-            for (int x = 0; x < points.Length - 1; x++)
-            {
-                Point p1 = points[x];
-                Point p2 = points[x + 1];
-
-                switch (ColorType)
-                {
-                    case VisualisationColorType.RAINBOW_HORIZONTAL:
-                    case VisualisationColorType.RAINBOW_VERTICAL:
-                        var hFColor = ColorUtilities.UpdateColor(_initFillColor, h: _initFillColor.H + (RainbowX / points.Length) * x);
-                        fillBrush = new SolidColorBrush(hFColor.ToColor()) { Opacity = _opacity };
-                        break;
-
-                    default:
-                        break;
-                }
-
-                if (x == 0)
-                    bitmapDrawer.DrawLine(new Pen(fillBrush, 2), startPoint, p2);
-
-                else if (x == points.Length - 2)
-                    bitmapDrawer.DrawLine(new Pen(fillBrush, 2), p1, endPoint);
-
-                else
-                    bitmapDrawer.DrawLine(new Pen(fillBrush, 2), p1, p2);
-            }
-        }
-
-        //  --------------------------------------------------------------------------------
         private void AdvancedDraw(BitmapDrawer bitmapDrawer)
         {
             Point startPoint = new Point(
@@ -270,29 +225,70 @@ namespace chkam05.VisualPlayer.Visualisations
                 _startX + _borderedWidth,
                 _startY + _borderedHeight / 2.0);
 
-            Point[] points = CalculateSharpYPoints();
+            Point[] points = CalculateSharpPoints();
 
+            Brush borderBrush = null;
             Brush fillBrush = null;
+            int pointsCount = points.Length;
+
+            UpdateRunTime();
 
             switch (ColorType)
             {
                 case VisualisationColorType.RAINBOW_HORIZONTAL:
-                case VisualisationColorType.RAINBOW_VERTICAL:
                     if (RainbowShift && IsRainbowTimeChangeReached())
                     {
+                        _initBorderColor = ColorUtilities.UpdateColor(_initBorderColor, h: _initBorderColor.H + 1);
                         _initFillColor = ColorUtilities.UpdateColor(_initFillColor, h: _initFillColor.H + 1);
                     }
 
-                    var vFColor = ColorUtilities.UpdateColor(
-                        _initFillColor, h: _initFillColor.H + (RainbowX / (int)_borderedWidth) * (points.Length - 1));
+                    int hFHue = _initFillColor.H + (RainbowX / (int)_borderedWidth) * pointsCount;
+                    var hFColor = ColorUtilities.UpdateColor(_initFillColor, h: hFHue);
 
-                    fillBrush = RainbowColorGenerator.GetRainbowGradient(vFColor, RainbowY, points.Length - 1, points.Length - 1);
+                    fillBrush = RainbowColorGenerator.GetRainbowGradient(hFColor, RainbowX, pointsCount, pointsCount, direction: 180);
                     fillBrush.Opacity = _opacity;
+
+                    if (BorderEnabled)
+                    {
+                        int hBHue = _initBorderColor.H + (RainbowX / (int)_borderedWidth) * pointsCount;
+                        var hBColor = ColorUtilities.UpdateColor(_initBorderColor, h: hBHue);
+
+                        borderBrush = RainbowColorGenerator.GetRainbowGradient(hBColor, RainbowX, pointsCount, pointsCount, direction: 180);
+                        borderBrush.Opacity = _opacity;
+                    }
+
+                    break;
+
+                case VisualisationColorType.RAINBOW_VERTICAL:
+                    if (RainbowShift && IsRainbowTimeChangeReached())
+                    {
+                        _initBorderColor = ColorUtilities.UpdateColor(_initBorderColor, h: _initBorderColor.H + 1);
+                        _initFillColor = ColorUtilities.UpdateColor(_initFillColor, h: _initFillColor.H + 1);
+                    }
+
+                    int vFHue = _initFillColor.H + (RainbowX / (int)_borderedWidth) * pointsCount;
+                    var vFColor = ColorUtilities.UpdateColor(_initFillColor, h: vFHue);
+                    int rDirection = GetRainbowDirection();
+                    int rJump = GetRainbowJump();
+
+                    fillBrush = RainbowColorGenerator.GetRainbowGradient(vFColor, rJump, pointsCount, pointsCount, direction: rDirection);
+                    fillBrush.Opacity = _opacity;
+
+                    if (BorderEnabled)
+                    {
+                        int vBHue = _initBorderColor.H + (RainbowX / (int)_borderedWidth) * pointsCount;
+                        var vBColor = ColorUtilities.UpdateColor(_initBorderColor, h: vBHue);
+
+                        borderBrush = RainbowColorGenerator.GetRainbowGradient(vBColor, rJump, pointsCount, pointsCount, direction: rDirection);
+                        borderBrush.Opacity = _opacity;
+                    }
+
                     break;
 
                 case VisualisationColorType.CUSTOM:
                 case VisualisationColorType.SYSTEM:
                 default:
+                    borderBrush = new SolidColorBrush(BorderColor) { Opacity = _opacity };
                     fillBrush = new SolidColorBrush(FillColor) { Opacity = _opacity };
                     break;
             }
@@ -328,7 +324,7 @@ namespace chkam05.VisualPlayer.Visualisations
                 ctx.LineTo(endPoint, true, false);
             }
 
-            bitmapDrawer.DrawFigure(null, new Pen(fillBrush, 2), geometry);
+            bitmapDrawer.DrawFigure(FillEnabled ? fillBrush : null, new Pen(borderBrush ?? fillBrush, _borderThickness), geometry);
         }
 
         //  --------------------------------------------------------------------------------
@@ -342,29 +338,70 @@ namespace chkam05.VisualPlayer.Visualisations
                 _startX + _borderedWidth,
                 _startY + _borderedHeight / 2.0);
 
-            Point[] sinPoints = CalculateSmoothYPoints();
+            Point[] points = CalculateSmoothPoints();
 
+            Brush borderBrush = null;
             Brush fillBrush = null;
+            int pointsCount = points.Length;
+
+            UpdateRunTime();
 
             switch (ColorType)
             {
                 case VisualisationColorType.RAINBOW_HORIZONTAL:
-                case VisualisationColorType.RAINBOW_VERTICAL:
                     if (RainbowShift && IsRainbowTimeChangeReached())
                     {
+                        _initBorderColor = ColorUtilities.UpdateColor(_initBorderColor, h: _initBorderColor.H + 1);
                         _initFillColor = ColorUtilities.UpdateColor(_initFillColor, h: _initFillColor.H + 1);
                     }
 
-                    var vFColor = ColorUtilities.UpdateColor(
-                        _initFillColor, h: _initFillColor.H + (RainbowX / (int)_borderedWidth) * (sinPoints.Length - 1));
+                    int hFHue = _initFillColor.H + (RainbowX / (int)_borderedWidth) * pointsCount;
+                    var hFColor = ColorUtilities.UpdateColor(_initFillColor, h: hFHue);
 
-                    fillBrush = RainbowColorGenerator.GetRainbowGradient(vFColor, RainbowY, sinPoints.Length - 1, sinPoints.Length - 1);
+                    fillBrush = RainbowColorGenerator.GetRainbowGradient(hFColor, RainbowX, pointsCount, pointsCount, direction: 180);
                     fillBrush.Opacity = _opacity;
+
+                    if (BorderEnabled)
+                    {
+                        int hBHue = _initBorderColor.H + (RainbowX / (int)_borderedWidth) * pointsCount;
+                        var hBColor = ColorUtilities.UpdateColor(_initBorderColor, h: hBHue);
+
+                        borderBrush = RainbowColorGenerator.GetRainbowGradient(hBColor, RainbowX, pointsCount, pointsCount, direction: 180);
+                        borderBrush.Opacity = _opacity;
+                    }
+
+                    break;
+
+                case VisualisationColorType.RAINBOW_VERTICAL:
+                    if (RainbowShift && IsRainbowTimeChangeReached())
+                    {
+                        _initBorderColor = ColorUtilities.UpdateColor(_initBorderColor, h: _initBorderColor.H + 1);
+                        _initFillColor = ColorUtilities.UpdateColor(_initFillColor, h: _initFillColor.H + 1);
+                    }
+
+                    int vFHue = _initFillColor.H + (RainbowX / (int)_borderedWidth) * pointsCount;
+                    var vFColor = ColorUtilities.UpdateColor(_initFillColor, h: vFHue);
+                    int rDirection = GetRainbowDirection();
+                    int rJump = GetRainbowJump();
+
+                    fillBrush = RainbowColorGenerator.GetRainbowGradient(vFColor, rJump, pointsCount, pointsCount, direction: rDirection);
+                    fillBrush.Opacity = _opacity;
+
+                    if (BorderEnabled)
+                    {
+                        int vBHue = _initBorderColor.H + (RainbowX / (int)_borderedWidth) * pointsCount;
+                        var vBColor = ColorUtilities.UpdateColor(_initBorderColor, h: vBHue);
+
+                        borderBrush = RainbowColorGenerator.GetRainbowGradient(vBColor, rJump, pointsCount, pointsCount, direction: rDirection);
+                        borderBrush.Opacity = _opacity;
+                    }
+
                     break;
 
                 case VisualisationColorType.CUSTOM:
                 case VisualisationColorType.SYSTEM:
                 default:
+                    borderBrush = new SolidColorBrush(BorderColor) { Opacity = _opacity };
                     fillBrush = new SolidColorBrush(FillColor) { Opacity = _opacity };
                     break;
             }
@@ -375,10 +412,10 @@ namespace chkam05.VisualPlayer.Visualisations
             {
                 ctx.BeginFigure(startPoint, true, false);
 
-                for (int i = 0; i < sinPoints.Length - 1; i++)
+                for (int i = 0; i < points.Length - 1; i++)
                 {
-                    Point point1 = (i == 0) ? startPoint : sinPoints[i];
-                    Point point2 = (i == sinPoints.Length - 2) ? endPoint : sinPoints[i+1];
+                    Point point1 = (i == 0) ? startPoint : points[i];
+                    Point point2 = (i == points.Length - 2) ? endPoint : points[i+1];
 
                     Point midpoint = new Point((point1.X + point2.X) / 2, (point1.Y + point2.Y) / 2);
 
@@ -388,7 +425,7 @@ namespace chkam05.VisualPlayer.Visualisations
                 ctx.LineTo(endPoint, true, true);
             }
 
-            bitmapDrawer.DrawFigure(fillBrush, new Pen(fillBrush, 2), geometry);
+            bitmapDrawer.DrawFigure(FillEnabled ? fillBrush : null, new Pen(borderBrush ?? fillBrush, _borderThickness), geometry);
         }
 
         //  --------------------------------------------------------------------------------
@@ -448,6 +485,47 @@ namespace chkam05.VisualPlayer.Visualisations
         #region UTILITY METHODS
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Get spectrum level data as cos value. </summary>
+        /// <param name="frequencyIndex"></param>
+        /// <returns></returns>
+        protected double GetCosLevel(int frequencyIndex)
+        {
+            return Math.Cos(_spectrumData[frequencyIndex].Value / (double)SpectrumSize * Math.PI * 2.0);
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Get spectrum level data as sin value. </summary>
+        /// <param name="frequencyIndex"></param>
+        /// <returns></returns>
+        protected double GetSinLevel(int frequencyIndex)
+        {
+            return Math.Sin(_spectrumData[frequencyIndex].Value / (double)SpectrumSize * Math.PI * 2.0);
+        }
+
+        //  --------------------------------------------------------------------------------
+        protected int GetRainbowDirection()
+        {
+            int baseDirection = 135;
+
+            int xShift = 45 * RainbowX / 1530;
+            int yShift = 45 * RainbowY / 1530;
+
+            return baseDirection + xShift - yShift;
+        }
+
+        //  --------------------------------------------------------------------------------
+        protected int GetRainbowJump()
+        {
+            if (RainbowX == 0)
+                return RainbowY;
+
+            if (RainbowY == 0)
+                return RainbowX;
+
+            return (RainbowX + RainbowY) / 2;
+        }
+
+        //  --------------------------------------------------------------------------------
         /// <summary> Check if runtime reach rainbow change time. </summary>
         /// <returns> True - rainbow change time reached; False - other way. </returns>
         protected bool IsRainbowTimeChangeReached()
@@ -470,24 +548,6 @@ namespace chkam05.VisualPlayer.Visualisations
 
             else if (_runTime.TotalMilliseconds > 0)
                 _runTime = new TimeSpan(0);
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Get spectrum level data as sin value. </summary>
-        /// <param name="frequencyIndex"></param>
-        /// <returns></returns>
-        protected double GetSinLevel(int frequencyIndex)
-        {
-            return Math.Sin(_spectrumData[frequencyIndex].Value / (double)SpectrumSize * Math.PI * 2.0);
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Get spectrum level data as cos value. </summary>
-        /// <param name="frequencyIndex"></param>
-        /// <returns></returns>
-        protected double GetCosLevel(int frequencyIndex)
-        {
-            return Math.Cos(_spectrumData[frequencyIndex].Value / (double)SpectrumSize * Math.PI * 2.0);
         }
 
         #endregion UTILITY METHODS
