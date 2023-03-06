@@ -13,12 +13,14 @@
     d:DesignWidth="800"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Foreground="White"
+    Title="Lyrics"
     Loaded="Page_Loaded"
     Unloaded="Page_Unloaded">
 
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/Generic.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/chkam05.Tools.ControlsEx;component/Themes/GridViewColumnHeaderStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/chkam05.Tools.ControlsEx;component/Themes/ListViewExStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -37,160 +39,11 @@
                     </ThicknessAnimationUsingKeyFrames.KeyFrames>
                 </ThicknessAnimationUsingKeyFrames>
             </Storyboard>
-            
+
             <!-- Styles. -->
-            <Style TargetType="TextBlock">
-                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
 
-            <Style x:Key="HeaderButtonStyle" TargetType="{x:Type controlsex:ButtonEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Margin" Value="2"/>
-                <Setter Property="MinHeight" Value="40"/>
-                <Setter Property="MinWidth" Value="40"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedForeground" Value="{Binding ConfigManager.PressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-
-            <Style x:Key="MenuButtonStyle" TargetType="{x:Type controlsex:ButtonEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ContentSide" Value="Right"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Margin" Value="2"/>
-                <Setter Property="MinWidth" Value="72"/>
-                <Setter Property="MaxWidth" Value="192"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Padding" Value="4,4,8,4"/>
-                <Setter Property="PressedBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedForeground" Value="{Binding ConfigManager.PressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ScrollViewerEx}">
-                <Setter Property="ScrollBarThumbMargin" Value="0,2,8,2"/>
-                <Setter Property="ScrollBarVerticalWidth" Value="16"/>
-                <Setter Property="ScrollBarThumbBackground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarThumbBorderBrush" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarDraggingThumbBackground" Value="{Binding ConfigManager.IfacePressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarDraggingThumbBorderBrush" Value="{Binding ConfigManager.IfacePressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarMouseOverThumbBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarMouseOverThumbBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style BasedOn="{StaticResource ListViewExStyle}" TargetType="{x:Type controlsex:ListViewEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="{x:Null}"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="ColumnHeaderBackground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ColumnHeaderBorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ColumnHeaderEmptyBackground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ColumnHeaderEmptyBorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ColumnHeaderForeground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ColumnHeaderMouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ColumnHeaderMouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ColumnHeaderMouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ColumnHeaderPressedBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ColumnHeaderPressedBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ColumnHeaderPressedForeground" Value="{Binding ConfigManager.PressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible"/>
-            </Style>
-
-            <Style x:Key="Config_ListViewItemExStyle" TargetType="{x:Type controlsex:ListViewItemEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.SelectedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.SelectedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.SelectedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedInactiveBackground" Value="{Binding ConfigManager.InactiveBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedInactiveBorderBrush" Value="{Binding ConfigManager.InactiveBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedInactiveForeground" Value="{Binding ConfigManager.InactiveForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-
-            <Style x:Key="LyricsFiles_ListViewItemExStyle" BasedOn="{StaticResource Config_ListViewItemExStyle}" TargetType="{x:Type controlsex:ListViewItemEx}"/>
-
-            <Style x:Key="LyricsGrid_ListViewItemExStyle" BasedOn="{StaticResource Config_ListViewItemExStyle}" TargetType="{x:Type controlsex:ListViewItemEx}">
-                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            </Style>
-
-            <Style x:Key="LyricsUpdateButtonStyle" TargetType="{x:Type controlsex:ButtonEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="IconHeight" Value="20"/>
-                <Setter Property="IconMargin" Value="0"/>
-                <Setter Property="Margin" Value="4,0"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Padding" Value="4"/>
-                <Setter Property="PressedBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedForeground" Value="{Binding ConfigManager.PressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-            
-            <Style TargetType="{x:Type controlsex:TextBoxEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.SelectedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.SelectedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.SelectedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedTextBackground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-            
-            <Style TargetType="{x:Type controlsex:ContextMenuEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.BackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ContextMenuItemEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="IconColorBrush" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <!-- Data Templates. -->
-            <DataTemplate x:Key="LyricsFilesDataTemplate">
-                <StackPanel Orientation="Horizontal">
-
-                    <materialDesign:PackIcon
-                        Kind="FileDocument"
-                        Height="20"
-                        Width="auto"/>
-
-                    <TextBlock
-                        Margin="8,0"
-                        Text="{Binding .}"
-                        VerticalAlignment="Center"/>
-                    
-                </StackPanel>
-            </DataTemplate>
+            <Style BasedOn="{StaticResource LyricsScrollViewerExStyle}" TargetType="{x:Type controlsex:ScrollViewerEx}"/>
+            <Style BasedOn="{StaticResource LyricsListViewExStyle}" TargetType="{x:Type controlsex:ListViewEx}"/>
 
         </ResourceDictionary>
     </Page.Resources>
@@ -199,20 +52,19 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <Border
-            Grid.Row="3"
+            Grid.Row="2"
             Background="{Binding ConfigManager.BackgroundColorBrush}"
             CornerRadius="8"
             Margin="8,2,8,8"
             Padding="4">
 
             <Grid>
-                
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
@@ -225,37 +77,37 @@
 
                     <controlsex:ButtonEx
                         IconKind="Rewind"
-                        Style="{StaticResource HeaderButtonStyle}"
+                        Style="{StaticResource PageTitleBarButtonExStyle}"
                         ToolTip="Revind 100 ms"
                         Click="FastRewindBackButton_Click"/>
 
                     <controlsex:ButtonEx
                         IconKind="StepBackward"
-                        Style="{StaticResource HeaderButtonStyle}"
+                        Style="{StaticResource PageTitleBarButtonExStyle}"
                         ToolTip="Revind 10 ms"
                         Click="RewindBackButton_Click"/>
 
                     <controlsex:ButtonEx
                         IconKind="Stop"
-                        Style="{StaticResource HeaderButtonStyle}"
+                        Style="{StaticResource PageTitleBarButtonExStyle}"
                         ToolTip="Stop and back to point"
                         Click="StopBackButton_Click"/>
 
                     <controlsex:ButtonEx
                         IconKind="StepForward2"
-                        Style="{StaticResource HeaderButtonStyle}"
+                        Style="{StaticResource PageTitleBarButtonExStyle}"
                         ToolTip="Set point and play"
                         Click="CheckPointPlayButton_Click"/>
 
                     <controlsex:ButtonEx
                         IconKind="StepForward"
-                        Style="{StaticResource HeaderButtonStyle}"
+                        Style="{StaticResource PageTitleBarButtonExStyle}"
                         ToolTip="Forward 10 ms"
                         Click="ForwardButton_Click"/>
 
                     <controlsex:ButtonEx
                         IconKind="FastForward"
-                        Style="{StaticResource HeaderButtonStyle}"
+                        Style="{StaticResource PageTitleBarButtonExStyle}"
                         ToolTip="Forward 100 ms"
                         Click="FastForwardButton_Click"/>
 
@@ -267,31 +119,33 @@
 
                     <StackPanel
                         Orientation="Vertical"
-                        VerticalAlignment="Center"
-                        Width="96">
+                        VerticalAlignment="Center">
 
                         <TextBlock
                             Foreground="{Binding ConfigManager.ForegroundColorBrush}"
+                            Style="{StaticResource GlobalTextBlockStyle}"
                             Text="Check point:"/>
 
                         <TextBlock
                             Foreground="{Binding ConfigManager.ForegroundColorBrush}"
+                            Style="{StaticResource GlobalTextBlockStyle}"
                             Text="{Binding CheckPoint, StringFormat=hh\\:mm\\:ss\\.fff}"/>
 
                     </StackPanel>
 
                     <StackPanel
-                        Margin="8,0"
+                        Margin="32,0,16,0"
                         Orientation="Vertical"
-                        VerticalAlignment="Center"
-                        Width="96">
+                        VerticalAlignment="Center">
 
                         <TextBlock
                             Foreground="{Binding ConfigManager.ForegroundColorBrush}"
+                            Style="{StaticResource GlobalTextBlockStyle}"
                             Text="Current position:"/>
 
                         <TextBlock
                             Foreground="{Binding ConfigManager.ForegroundColorBrush}"
+                            Style="{StaticResource GlobalTextBlockStyle}"
                             Text="{Binding CurrentPosition, StringFormat=hh\\:mm\\:ss\\.fff}"/>
 
                     </StackPanel>
@@ -302,7 +156,7 @@
                         Click="AddLyricsButton_Click">
 
                         <controlsex:ButtonEx.Style>
-                            <Style BasedOn="{StaticResource HeaderButtonStyle}" TargetType="{x:Type controlsex:ButtonEx}">
+                            <Style BasedOn="{StaticResource PageTitleBarButtonExStyle}" TargetType="{x:Type controlsex:ButtonEx}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
                                         <Setter Property="IsEnabled" Value="False"/>
@@ -320,7 +174,7 @@
         </Border>
 
         <Grid
-            Grid.Row="2">
+            Grid.Row="1">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -330,7 +184,7 @@
             <controlsex:ListViewEx
                 x:Name="lyricsListView"
                 Grid.Column="0"
-                ItemContainerStyle="{StaticResource LyricsGrid_ListViewItemExStyle}"
+                ItemContainerStyle="{StaticResource LyricsGridListViewItemExStyle}"
                 ItemsSource="{Binding LyricsManager.DataContext, Mode=TwoWay}"
                 Margin="8"
                 SelectedItem="{Binding SelectedLyrics}">
@@ -350,13 +204,14 @@
                                             <controlsex:TextBoxEx
                                                 ConversionType="TimeSpan"
                                                 MinWidth="96"
+                                                Style="{StaticResource LyricsTextBoxExStyle}"
                                                 Text="{Binding Path=DataContext.StartTime, RelativeSource={RelativeSource AncestorType={x:Type controlsex:ListViewItemEx}}, StringFormat=hh\\:mm\\:ss\\.fff}"
                                                 TextModified="StartTime_ExtendedTextBox_OnContentUpdated"
                                                 VerticalAlignment="Center"/>
 
                                             <controlsex:ButtonEx
                                                 IconKind="Update"
-                                                Style="{StaticResource LyricsUpdateButtonStyle}"
+                                                Style="{StaticResource LyricsUpdateButtonExStyle}"
                                                 ToolTip="Set current time"
                                                 Click="StartTimeUpdate_PackIconButton_Click"/>
 
@@ -374,13 +229,14 @@
                                             <controlsex:TextBoxEx
                                                 ConversionType="TimeSpan"
                                                 MinWidth="96"
+                                                Style="{StaticResource LyricsTextBoxExStyle}"
                                                 Text="{Binding Path=DataContext.EndTime, RelativeSource={RelativeSource AncestorType={x:Type controlsex:ListViewItemEx}}, StringFormat=hh\\:mm\\:ss\\.fff}"
                                                 TextModified="EndTime_ExtendedTextBox_OnContentUpdated"
                                                 VerticalAlignment="Center"/>
 
                                             <controlsex:ButtonEx
                                                 IconKind="Update"
-                                                Style="{StaticResource LyricsUpdateButtonStyle}"
+                                                Style="{StaticResource LyricsUpdateButtonExStyle}"
                                                 ToolTip="Set current time"
                                                 Click="EndTimeUpdate_PackIconButton_Click"/>
 
@@ -395,6 +251,7 @@
                                         <controlsex:TextBoxEx
                                             HorizontalAlignment="Stretch"
                                             Margin="0,6"
+                                            Style="{StaticResource LyricsTextBoxExStyle}"
                                             Text="{Binding Text}"
                                             TextModified="Text_ExtendedTextBox_OnContentUpdated"
                                             VerticalAlignment="Center"/>
@@ -455,6 +312,7 @@
                             FontWeight="SemiBold"
                             HorizontalAlignment="Left"
                             Margin="8"
+                            Style="{StaticResource GlobalTextBlockStyle}"
                             Text="Local library:"
                             VerticalAlignment="Center"/>
 
@@ -473,6 +331,7 @@
 
                                 <controlsex:TextBoxEx
                                     x:Name="lyricsSearchExtendedTextBox"
+                                    Style="{StaticResource LyricsTextBoxExStyle}"
                                     Width="160"
                                     TextModified="LyricsFilesSearch_TextModified"/>
 
@@ -490,7 +349,7 @@
                         <controlsex:ListViewEx
                             x:Name="lyricsFilesView"
                             Grid.Row="2"
-                            ItemContainerStyle="{StaticResource LyricsFiles_ListViewItemExStyle}"
+                            ItemContainerStyle="{StaticResource LyricsFilesListViewItemExStyle}"
                             ItemsSource="{Binding LyricsFilesList, Mode=TwoWay}"
                             ItemTemplate="{StaticResource LyricsFilesDataTemplate}"
                             Margin="8">
@@ -517,7 +376,7 @@
         </Grid>
 
         <Border
-            Grid.Row="1"
+            Grid.Row="0"
             Background="{Binding ConfigManager.BackgroundColorBrush}"
             CornerRadius="8"
             Margin="8,2"
@@ -536,100 +395,119 @@
                     Orientation="Horizontal">
 
                     <controlsex:ButtonEx
-                        Content="Create"
-                        IconKind="File"
-                        Click="NewLyricsButton_Click">
+                        Content="File"
+                        ContentSide="Left"
+                        IconKind="ChevronDown"
+                        Padding="4,4,0,4"
+                        Style="{StaticResource LyricsWideButtonExStyle}"
+                        PreviewMouseDown="FileButtonEx_PreviewMouseDown">
 
-                        <controlsex:ButtonEx.Style>
-                            <Style BasedOn="{StaticResource MenuButtonStyle}" TargetType="{x:Type controlsex:ButtonEx}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </controlsex:ButtonEx.Style>
+                        <controlsex:ButtonEx.ContextMenu>
+                            <controlsex:ContextMenuEx>
 
-                    </controlsex:ButtonEx>
+                                <controlsex:ContextMenuItemEx
+                                    Header="Create"
+                                    IconKind="File"
+                                    Click="CreateLyricsContextMenuItemEx_Click">
 
-                    <controlsex:ButtonEx
-                        Content="Library Search"
-                        IconKind="FolderSearch"
-                        Click="OpenFromLibraryLyricsButton_Click">
+                                    <controlsex:ContextMenuItemEx.Style>
+                                        <Style BasedOn="{StaticResource GlobalContextMenuItemExStyle}" TargetType="{x:Type controlsex:ContextMenuItemEx}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </controlsex:ContextMenuItemEx.Style>
 
-                        <controlsex:ButtonEx.Style>
-                            <Style BasedOn="{StaticResource MenuButtonStyle}" TargetType="{x:Type controlsex:ButtonEx}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </controlsex:ButtonEx.Style>
+                                </controlsex:ContextMenuItemEx>
 
-                    </controlsex:ButtonEx>
+                                <controlsex:ContextMenuItemEx
+                                    Header="Open"
+                                    IconKind="FolderOpen"
+                                    Click="OpenLyricsContextMenuItemEx_Click">
 
-                    <controlsex:ButtonEx
-                        Content="Open"
-                        IconKind="FolderOpen"
-                        Click="OpenLyricsButton_Click">
+                                    <controlsex:ContextMenuItemEx.Style>
+                                        <Style BasedOn="{StaticResource GlobalContextMenuItemExStyle}" TargetType="{x:Type controlsex:ContextMenuItemEx}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </controlsex:ContextMenuItemEx.Style>
 
-                        <controlsex:ButtonEx.Style>
-                            <Style BasedOn="{StaticResource MenuButtonStyle}" TargetType="{x:Type controlsex:ButtonEx}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </controlsex:ButtonEx.Style>
+                                </controlsex:ContextMenuItemEx>
 
-                    </controlsex:ButtonEx>
+                                <controlsex:ContextMenuItemEx
+                                    Header="Save As"
+                                    IconKind="ContentSaveEdit"
+                                    Click="SaveAsLyricsContextMenuItemEx_Click">
 
-                    <controlsex:ButtonEx
-                        Content="Save to Library"
-                        IconKind="ContentSave"
-                        Click="SaveLyricsButton_Click">
+                                    <controlsex:ContextMenuItemEx.Style>
+                                        <Style BasedOn="{StaticResource GlobalContextMenuItemExStyle}" TargetType="{x:Type controlsex:ContextMenuItemEx}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding LyricsManager.DataContext.Count}" Value="0">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </controlsex:ContextMenuItemEx.Style>
 
-                        <controlsex:ButtonEx.Style>
-                            <Style BasedOn="{StaticResource MenuButtonStyle}" TargetType="{x:Type controlsex:ButtonEx}">
-                                <Style.Triggers>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding LyricsManager.DataContext.Count}" Value="0"/>
-                                            <Condition Binding="{Binding LyricsManager.LyricsChanged}" Value="False"/>
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                    </MultiDataTrigger>
-                                    <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding LyricsManager.LyricsChanged}" Value="False">
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </controlsex:ButtonEx.Style>
+                                </controlsex:ContextMenuItemEx>
 
-                    </controlsex:ButtonEx>
+                                <Separator
+                                    Style="{StaticResource ContextMenuSeparatorStyle}"/>
 
-                    <controlsex:ButtonEx
-                        Content="Save As"
-                        IconKind="ContentSaveEdit"
-                        Click="SaveLyricsAsButton_Click">
+                                <controlsex:ContextMenuItemEx
+                                    Header="Open from Library"
+                                    IconKind="FolderSearch"
+                                    Click="OpenFromLibLyricsContextMenuItemEx_Click">
 
-                        <controlsex:ButtonEx.Style>
-                            <Style BasedOn="{StaticResource MenuButtonStyle}" TargetType="{x:Type controlsex:ButtonEx}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding LyricsManager.DataContext.Count}" Value="0">
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
-                                        <Setter Property="IsEnabled" Value="False"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </controlsex:ButtonEx.Style>
+                                    <controlsex:ContextMenuItemEx.Style>
+                                        <Style BasedOn="{StaticResource GlobalContextMenuItemExStyle}" TargetType="{x:Type controlsex:ContextMenuItemEx}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </controlsex:ContextMenuItemEx.Style>
+
+                                </controlsex:ContextMenuItemEx>
+
+                                <controlsex:ContextMenuItemEx
+                                    Header="Save to Library"
+                                    IconKind="ContentSave"
+                                    Click="SaveToLibLyricsContextMenuItemEx_Click">
+
+                                    <controlsex:ContextMenuItemEx.Style>
+                                        <Style BasedOn="{StaticResource GlobalContextMenuItemExStyle}" TargetType="{x:Type controlsex:ContextMenuItemEx}">
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding LyricsManager.DataContext.Count}" Value="0"/>
+                                                        <Condition Binding="{Binding LyricsManager.LyricsChanged}" Value="False"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </MultiDataTrigger>
+                                                <DataTrigger Binding="{Binding LyricsManager.LoadedFile}" Value="{x:Null}">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding LyricsManager.LyricsChanged}" Value="False">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </controlsex:ContextMenuItemEx.Style>
+
+                                </controlsex:ContextMenuItemEx>
+
+                            </controlsex:ContextMenuEx>
+                        </controlsex:ButtonEx.ContextMenu>
 
                     </controlsex:ButtonEx>
 
@@ -639,6 +517,7 @@
                     Grid.Column="1"
                     HorizontalAlignment="Center"
                     Margin="8,0"
+                    Style="{StaticResource GlobalTextBlockStyle}"
                     Text="{Binding LyricsManager.LoadedFile.FileName}"
                     TextWrapping="WrapWithOverflow"
                     VerticalAlignment="Center"/>
@@ -648,15 +527,29 @@
                     Orientation="Horizontal">
 
                     <controlsex:ButtonEx
-                        IconKind="SortTimeAscending"
-                        Style="{StaticResource HeaderButtonStyle}"
-                        ToolTip="Sort by Start Time"
-                        Click="SortLyrics_PackIconButton_Click"/>
+                        Content="Sort"
+                        IconKind="Sort"
+                        Style="{StaticResource LyricsWideButtonExStyle}"
+                        PreviewMouseDown="SortButtonEx_PreviewMouseDown">
+
+                        <controlsex:ButtonEx.ContextMenu>
+                            <controlsex:ContextMenuEx>
+
+                                <controlsex:ContextMenuItemEx
+                                    Header="By time ascending"
+                                    IconKind="SortTimeAscending"
+                                    Style="{StaticResource GlobalContextMenuItemExStyle}"
+                                    Click="SortLyricsTextsByTimeContextMenuItemEx_Click"/>
+
+                            </controlsex:ContextMenuEx>
+                        </controlsex:ButtonEx.ContextMenu>
+
+                    </controlsex:ButtonEx>
 
                     <controlsex:ButtonEx
+                        Content="Library"
                         IconKind="ViewList"
-                        Style="{StaticResource HeaderButtonStyle}"
-                        ToolTip="Library"
+                        Style="{StaticResource LyricsWideButtonExStyle}"
                         Click="LocalLyrics_PackIconButton_Click"/>
 
                 </StackPanel>
@@ -664,34 +557,7 @@
             </Grid>
 
         </Border>
-        
-        <Grid
-            Grid.Row="0"
-            Margin="8,8,8,2"
-            MouseLeftButtonDown="TitleGrid_MouseLeftButtonDown">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-
-            <controlsex:ButtonEx
-                Grid.Column="0"
-                IconKind="ArrowBack"
-                Style="{StaticResource HeaderButtonStyle}"
-                Click="BackButton_Click"/>
-
-            <TextBlock
-                Grid.Column="1"
-                FontSize="18"
-                FontWeight="SemiBold"
-                Margin="8,0"
-                Text="Lyrics Manager"
-                VerticalAlignment="Center"/>
-
-        </Grid>
 
     </Grid>
-    
+
 </Page>

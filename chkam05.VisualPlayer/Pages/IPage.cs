@@ -11,6 +11,7 @@ namespace chkam05.VisualPlayer.Pages
 
         MenuItemType? SpecialMenu { get; }
         IPagesManager PagesManager { get; }
+        string Title { get; set; }
 
     }
 }

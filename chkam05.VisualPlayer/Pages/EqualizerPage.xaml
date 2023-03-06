@@ -16,306 +16,28 @@
     d:DesignWidth="800"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Foreground="White"
+    Title="Equalizer"
     Loaded="Page_Loaded"
     Unloaded="Page_Unloaded">
 
     <Page.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
             <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type Page}"/>
 
-            <convSettings:BiQuadFilterTypeNameConverter x:Key="BiQuadFilterTypeNameConverter"/>
-
-            <!-- Styles. -->
-            
-            <Style TargetType="TextBlock">
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style x:Key="BandWidthTextBlockStyle" TargetType="TextBlock">
-                <Setter Property="FontWeight" Value="SemiBold"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="2"/>
-            </Style>
-
-            <Style x:Key="BandWidthTextBlockExStyle" TargetType="{x:Type controlsex:TextBlockEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                <Setter Property="Margin" Value="2"/>
-                <Setter Property="Width" Value="48"/>
-            </Style>
-
-            <Style x:Key="HeaderButtonStyle" TargetType="{x:Type controlsex:ButtonEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Margin" Value="2"/>
-                <Setter Property="MinHeight" Value="40"/>
-                <Setter Property="MinWidth" Value="40"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedForeground" Value="{Binding ConfigManager.PressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-
-            <Style x:Key="MenuButtonStyle" TargetType="{x:Type controlsex:ButtonEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ContentSide" Value="Right"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Margin" Value="2,0"/>
-                <Setter Property="MinWidth" Value="72"/>
-                <Setter Property="MaxWidth" Value="192"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Padding" Value="4,4,8,4"/>
-                <Setter Property="PressedBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedForeground" Value="{Binding ConfigManager.PressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-
-            <Style x:Key="SmallMenuButtonStyle" TargetType="{x:Type controlsex:ButtonEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ContentSide" Value="Right"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Margin" Value="2,0"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedForeground" Value="{Binding ConfigManager.PressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ScrollViewerEx}">
-                <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
-                <Setter Property="PanningMode" Value="Both"/>
-                <Setter Property="ScrollBarThumbMargin" Value="0,2,8,2"/>
-                <Setter Property="ScrollBarVerticalWidth" Value="16"/>
-                <Setter Property="ScrollBarThumbBackground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarThumbBorderBrush" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarDraggingThumbBackground" Value="{Binding ConfigManager.IfacePressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarDraggingThumbBorderBrush" Value="{Binding ConfigManager.IfacePressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarMouseOverThumbBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarMouseOverThumbBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:TabControlEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="HeaderBackground" Value="Transparent"/>
-                <Setter Property="HeaderBorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="HeaderPadding" Value="8,4"/>
-            </Style>
-
-            <Style x:Key="EqualizerTabItemExStyle" TargetType="{x:Type controlsex:TabItemEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.SelectedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.SelectedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.SelectedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:TextBoxEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.SelectedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.SelectedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.SelectedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedTextBackground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:SliderEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="{x:Null}"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="MinHeight" Value="192"/>
-                <Setter Property="Margin" Value="12,4,12,4"/>
-                <Setter Property="Orientation" Value="Vertical"/>
-                <Setter Property="ThumbCornerRadius" Value="8"/>
-                <Setter Property="ThumbBorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbMouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbMouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbDraggingBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbDraggingBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbHeight" Value="12"/>
-                <Setter Property="TicksColorBrush" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="TickPlacement" Value="Both"/>
-                <Setter Property="TrackBarBackground" Value="{Binding ConfigManager.BackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="TrackBarBorderBrush" Value="{x:Null}"/>
-                <Setter Property="TrackBarBorderThickness" Value="0"/>
-                <Setter Property="TrackBarWidth" Value="4"/>
-            </Style>
-
-            <Style x:Key="EffectSliderExStyle" TargetType="{x:Type controlsex:SliderEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="{x:Null}"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                <Setter Property="Margin" Value="0"/>
-                <Setter Property="Orientation" Value="Horizontal"/>
-                <Setter Property="ThumbCornerRadius" Value="8"/>
-                <Setter Property="ThumbBorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbMouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbMouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbDraggingBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbDraggingBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ThumbWidth" Value="12"/>
-                <Setter Property="TicksColorBrush" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="TickPlacement" Value="Both"/>
-                <Setter Property="TrackBarBackground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="TrackBarBorderBrush" Value="{x:Null}"/>
-                <Setter Property="TrackBarBorderThickness" Value="0"/>
-                <Setter Property="TrackBarHeight" Value="4"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:SwitcherEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="CheckMarkBrush" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="CheckMarkHeight" Value="32"/>
-                <Setter Property="CheckMarkOutline" Value="True"/>
-                <Setter Property="CheckMarkWidth" Value="32"/>
-                <Setter Property="MouseOverCheckMarkBrush" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedCheckMarkBrush" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style x:Key="PresetsListViewItemExStyle" TargetType="{x:Type controlsex:ListViewItemEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.ForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.SelectedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.SelectedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.SelectedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedInactiveBackground" Value="{Binding ConfigManager.InactiveBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedInactiveBorderBrush" Value="{Binding ConfigManager.InactiveBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedInactiveForeground" Value="{Binding ConfigManager.InactiveForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ContextMenuEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.IfaceContextMenuBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.IfaceContextMenuBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ContextMenuItemEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.IfaceMouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="IconColorBrush" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ComboBoxEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="DropDownBackground" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="DropDownBorderBrush" Value="{Binding ConfigManager.BorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="DropDownForeground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="DropDownIconBrush" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="DropDownMouseOverIconBrush" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="DropDownSelectedIconBrush" Value="{Binding ConfigManager.AccentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.SubcomponentBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.PressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ComboBoxItemEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.SubcomponentForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Margin" Value="1"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.MouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.SelectedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.SelectedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.SelectedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <!-- DATA TEMPLATES -->
-
-            <DataTemplate x:Key="PresetsDataTemplate">
-                <Grid
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch">
-
-                    <TextBlock
-                        FontWeight="SemiBold"
-                        HorizontalAlignment="Stretch"
-                        Margin="8"
-                        Text="{Binding .}"
-                        TextAlignment="Left"
-                        VerticalAlignment="Center"/>
-
-                    <Grid.ContextMenu>
-                        <controlsex:ContextMenuEx>
-
-                            <controlsex:ContextMenuItemEx
-                                IconKind="Remove"
-                                Header="Delete"/>
-
-                        </controlsex:ContextMenuEx>
-                    </Grid.ContextMenu>
-
-                </Grid>
-            </DataTemplate>
-
-            <DataTemplate x:Key="BiQuadFilterTypeDataTemplate">
-                <TextBlock Text="{Binding ., Converter={StaticResource BiQuadFilterTypeNameConverter}}"/>
-            </DataTemplate>
+            <Style BasedOn="{StaticResource EqualizerScrollViewerExStyle}" TargetType="{x:Type controlsex:ScrollViewerEx}"/>
+            <Style BasedOn="{StaticResource EqualizerPresetListViewExStyle}" TargetType="{x:Type controlsex:ListViewEx}"/>
 
         </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
         <controlsex:TabControlEx
-            Grid.Row="1"
-            ItemContainerStyle="{StaticResource EqualizerTabItemExStyle}">
+            Style="{StaticResource PageTabControlExStyle}">
 
             <controlsex:TabItemEx
                 Header="Equalizer"
@@ -349,6 +71,7 @@
                             Content="EQ Enabled"
                             Grid.Column="0"
                             IsChecked="{Binding Player.EqualizerManager.Enabled}"
+                            Style="{StaticResource EqualizerSwitcherExStyle}"
                             Checked="EqualizerEnableSwitcherEx_Switched"
                             Unchecked="EqualizerEnableSwitcherEx_Switched"/>
 
@@ -356,7 +79,7 @@
                             Grid.Column="1"
                             IconKind="Add"
                             IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                            Style="{StaticResource SmallMenuButtonStyle}"
+                            Style="{StaticResource EqualizerSmallButtonExStyle}"
                             ToolTip="Add new preset"
                             Click="CreateEqualizerPresetButton_Click"/>
 
@@ -364,7 +87,7 @@
                             Grid.Column="2"
                             IconKind="Delete"
                             IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                            Style="{StaticResource SmallMenuButtonStyle}"
+                            Style="{StaticResource EqualizerSmallButtonExStyle}"
                             ToolTip="Remove preset"
                             Click="RemoveEqualizerPresetButton_Click"/>
 
@@ -382,13 +105,15 @@
                         <Border
                             Background="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"
                             BorderThickness="0"
-                            CornerRadius="8"
+                            CornerRadius="4"
                             Grid.Column="0"
+                            Height="36"
                             Margin="4"
                             Padding="4">
 
                             <controlsex:TextBoxEx
                                 IsEnabled="{Binding Player.EqualizerManager.Enabled}"
+                                Style="{StaticResource EqualizerTextBoxExStyle}"
                                 Text="{Binding EqualizerPresetNameEditable}"
                                 TextModified="EqualizerPresetNameTextModified"/>
 
@@ -399,7 +124,7 @@
                             Grid.Column="1"
                             IconKind="Restore"
                             IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                            Style="{StaticResource MenuButtonStyle}"
+                            Style="{StaticResource EqualizerButtonExStyle}"
                             Click="ResetEqualizerPresetButton_Click"/>
 
                     </Grid>
@@ -407,14 +132,9 @@
                     <controlsex:ListViewEx
                         Grid.Column="0"
                         Grid.Row="1"
-                        Background="{Binding ConfigManager.BackgroundColorBrush}"
-                        CornerRadius="8"
-                        ItemContainerStyle="{StaticResource PresetsListViewItemExStyle}"
                         ItemsSource="{Binding EqualizerPresets}"
-                        ItemTemplate="{StaticResource PresetsDataTemplate}"
+                        ItemTemplate="{StaticResource EqualizerPresetsDataTemplate}"
                         IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                        Padding="2"
-                        ScrollViewer.VerticalScrollBarVisibility="Visible"
                         SelectedItem="{Binding EqualizerPresetName}"/>
 
                     <controlsex:ScrollViewerEx
@@ -450,211 +170,201 @@
                             <TextBlock
                                 Grid.Column="0"
                                 Grid.Row="0"
-                                Style="{StaticResource BandWidthTextBlockStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockStyle}"
                                 Text="50Hz"/>
 
                             <controlsex:SliderEx
                                 Grid.Column="0"
                                 Grid.Row="1"
                                 IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                                Maximum="{x:Static playerData:EqualizerPreset.EQ_MAX_VALUE}"
-                                Minimum="{x:Static playerData:EqualizerPreset.EQ_MIN_VALUE}"
+                                Style="{StaticResource EqualizerSliderExStyle}"
                                 TickFrequency="1"
                                 Value="{Binding Player.EqualizerManager.Preset.Value0}"/>
 
                             <controlsex:TextBlockEx
                                 Grid.Column="0"
                                 Grid.Row="2"
-                                Style="{StaticResource BandWidthTextBlockExStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                 Text="{Binding Player.EqualizerManager.Preset.Value0, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                             <TextBlock
                                 Grid.Column="1"
                                 Grid.Row="0"
-                                Style="{StaticResource BandWidthTextBlockStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockStyle}"
                                 Text="2kHz"/>
 
                             <controlsex:SliderEx
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                                Maximum="{x:Static playerData:EqualizerPreset.EQ_MAX_VALUE}"
-                                Minimum="{x:Static playerData:EqualizerPreset.EQ_MIN_VALUE}"
+                                Style="{StaticResource EqualizerSliderExStyle}"
                                 TickFrequency="1"
                                 Value="{Binding Player.EqualizerManager.Preset.Value1}"/>
 
                             <controlsex:TextBlockEx
                                 Grid.Column="1"
                                 Grid.Row="2"
-                                Style="{StaticResource BandWidthTextBlockExStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                 Text="{Binding Player.EqualizerManager.Preset.Value1, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                             <TextBlock
                                 Grid.Column="2"
                                 Grid.Row="0"
-                                Style="{StaticResource BandWidthTextBlockStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockStyle}"
                                 Text="4kHz"/>
 
                             <controlsex:SliderEx
                                 Grid.Column="2"
                                 Grid.Row="1"
                                 IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                                Maximum="{x:Static playerData:EqualizerPreset.EQ_MAX_VALUE}"
-                                Minimum="{x:Static playerData:EqualizerPreset.EQ_MIN_VALUE}"
+                                Style="{StaticResource EqualizerSliderExStyle}"
                                 TickFrequency="1"
                                 Value="{Binding Player.EqualizerManager.Preset.Value2}"/>
 
                             <controlsex:TextBlockEx
                                 Grid.Column="2"
                                 Grid.Row="2"
-                                Style="{StaticResource BandWidthTextBlockExStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                 Text="{Binding Player.EqualizerManager.Preset.Value2, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                             <TextBlock
                                 Grid.Column="3"
                                 Grid.Row="0"
-                                Style="{StaticResource BandWidthTextBlockStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockStyle}"
                                 Text="6kHz"/>
 
                             <controlsex:SliderEx
                                 Grid.Column="3"
                                 Grid.Row="1"
                                 IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                                Maximum="{x:Static playerData:EqualizerPreset.EQ_MAX_VALUE}"
-                                Minimum="{x:Static playerData:EqualizerPreset.EQ_MIN_VALUE}"
+                                Style="{StaticResource EqualizerSliderExStyle}"
                                 TickFrequency="1"
                                 Value="{Binding Player.EqualizerManager.Preset.Value3}"/>
 
                             <controlsex:TextBlockEx
                                 Grid.Column="3"
                                 Grid.Row="2"
-                                Style="{StaticResource BandWidthTextBlockExStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                 Text="{Binding Player.EqualizerManager.Preset.Value3, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                             <TextBlock
                                 Grid.Column="4"
                                 Grid.Row="0"
-                                Style="{StaticResource BandWidthTextBlockStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockStyle}"
                                 Text="8kHz"/>
 
                             <controlsex:SliderEx
                                 Grid.Column="4"
                                 Grid.Row="1"
                                 IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                                Maximum="{x:Static playerData:EqualizerPreset.EQ_MAX_VALUE}"
-                                Minimum="{x:Static playerData:EqualizerPreset.EQ_MIN_VALUE}"
+                                Style="{StaticResource EqualizerSliderExStyle}"
                                 TickFrequency="1"
                                 Value="{Binding Player.EqualizerManager.Preset.Value4}"/>
 
                             <controlsex:TextBlockEx
                                 Grid.Column="4"
                                 Grid.Row="2"
-                                Style="{StaticResource BandWidthTextBlockExStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                 Text="{Binding Player.EqualizerManager.Preset.Value4, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                             <TextBlock
                                 Grid.Column="5"
                                 Grid.Row="0"
-                                Style="{StaticResource BandWidthTextBlockStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockStyle}"
                                 Text="10kHz"/>
 
                             <controlsex:SliderEx
                                 Grid.Column="5"
                                 Grid.Row="1"
                                 IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                                Maximum="{x:Static playerData:EqualizerPreset.EQ_MAX_VALUE}"
-                                Minimum="{x:Static playerData:EqualizerPreset.EQ_MIN_VALUE}"
+                                Style="{StaticResource EqualizerSliderExStyle}"
                                 TickFrequency="1"
                                 Value="{Binding Player.EqualizerManager.Preset.Value5}"/>
 
                             <controlsex:TextBlockEx
                                 Grid.Column="5"
                                 Grid.Row="2"
-                                Style="{StaticResource BandWidthTextBlockExStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                 Text="{Binding Player.EqualizerManager.Preset.Value5, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                             <TextBlock
                                 Grid.Column="6"
                                 Grid.Row="0"
-                                Style="{StaticResource BandWidthTextBlockStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockStyle}"
                                 Text="12kHz"/>
 
                             <controlsex:SliderEx
                                 Grid.Column="6"
                                 Grid.Row="1"
                                 IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                                Maximum="{x:Static playerData:EqualizerPreset.EQ_MAX_VALUE}"
-                                Minimum="{x:Static playerData:EqualizerPreset.EQ_MIN_VALUE}"
+                                Style="{StaticResource EqualizerSliderExStyle}"
                                 TickFrequency="1"
                                 Value="{Binding Player.EqualizerManager.Preset.Value6}"/>
 
                             <controlsex:TextBlockEx
                                 Grid.Column="6"
                                 Grid.Row="2"
-                                Style="{StaticResource BandWidthTextBlockExStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                 Text="{Binding Player.EqualizerManager.Preset.Value6, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                             <TextBlock
                                 Grid.Column="7"
                                 Grid.Row="0"
-                                Style="{StaticResource BandWidthTextBlockStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockStyle}"
                                 Text="14kHz"/>
 
                             <controlsex:SliderEx
                                 Grid.Column="7"
                                 Grid.Row="1"
                                 IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                                Maximum="{x:Static playerData:EqualizerPreset.EQ_MAX_VALUE}"
-                                Minimum="{x:Static playerData:EqualizerPreset.EQ_MIN_VALUE}"
+                                Style="{StaticResource EqualizerSliderExStyle}"
                                 TickFrequency="1"
                                 Value="{Binding Player.EqualizerManager.Preset.Value7}"/>
 
                             <controlsex:TextBlockEx
                                 Grid.Column="7"
                                 Grid.Row="2"
-                                Style="{StaticResource BandWidthTextBlockExStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                 Text="{Binding Player.EqualizerManager.Preset.Value7, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                             <TextBlock
                                 Grid.Column="8"
                                 Grid.Row="0"
-                                Style="{StaticResource BandWidthTextBlockStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockStyle}"
                                 Text="16kHz"/>
 
                             <controlsex:SliderEx
                                 Grid.Column="8"
                                 Grid.Row="1"
                                 IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                                Maximum="{x:Static playerData:EqualizerPreset.EQ_MAX_VALUE}"
-                                Minimum="{x:Static playerData:EqualizerPreset.EQ_MIN_VALUE}"
+                                Style="{StaticResource EqualizerSliderExStyle}"
                                 TickFrequency="1"
                                 Value="{Binding Player.EqualizerManager.Preset.Value8}"/>
 
                             <controlsex:TextBlockEx
                                 Grid.Column="8"
                                 Grid.Row="2"
-                                Style="{StaticResource BandWidthTextBlockExStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                 Text="{Binding Player.EqualizerManager.Preset.Value8, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                             <TextBlock
                                 Grid.Column="9"
                                 Grid.Row="0"
-                                Style="{StaticResource BandWidthTextBlockStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockStyle}"
                                 Text="18kHz"/>
 
                             <controlsex:SliderEx
                                 Grid.Column="9"
                                 Grid.Row="1"
                                 IsEnabled="{Binding Player.EqualizerManager.Enabled}"
-                                Maximum="{x:Static playerData:EqualizerPreset.EQ_MAX_VALUE}"
-                                Minimum="{x:Static playerData:EqualizerPreset.EQ_MIN_VALUE}"
+                                Style="{StaticResource EqualizerSliderExStyle}"
                                 TickFrequency="1"
                                 Value="{Binding Player.EqualizerManager.Preset.Value9}"/>
 
                             <controlsex:TextBlockEx
                                 Grid.Column="9"
                                 Grid.Row="2"
-                                Style="{StaticResource BandWidthTextBlockExStyle}"
+                                Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                 Text="{Binding Player.EqualizerManager.Preset.Value9, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                         </Grid>
@@ -662,7 +372,7 @@
                     </controlsex:ScrollViewerEx>
 
                 </Grid>
-                
+
             </controlsex:TabItemEx>
 
             <controlsex:TabItemEx
@@ -679,7 +389,7 @@
                         VerticalScrollBarVisibility="Visible">
 
                         <StackPanel
-                            Margin="8"
+                            Margin="16"
                             Orientation="Vertical">
 
                             <Border
@@ -687,8 +397,8 @@
                                 BorderBrush="{Binding ConfigManager.AccentColorBrush}"
                                 BorderThickness="1"
                                 CornerRadius="8"
-                                Margin="0,0,0,8"
-                                Padding="8">
+                                Margin="0,0,0,16"
+                                Padding="16">
 
                                 <StackPanel
                                     Orientation="Vertical">
@@ -696,22 +406,25 @@
                                     <TextBlock
                                         FontWeight="SemiBold"
                                         Margin="0,0,0,8"
+                                        Style="{StaticResource GlobalTextBlockStyle}"
                                         Text="BiQuad Filter:"/>
 
                                     <controlsex:ComboBoxEx
                                         ItemsSource="{Binding BiQuadFilterTypes}"
                                         ItemTemplate="{StaticResource BiQuadFilterTypeDataTemplate}"
-                                        Margin="0,0,0,16"
+                                        Margin="0,0,0,32"
+                                        Style="{StaticResource EqualizerComboBoxExStyle}"
                                         SelectedItem="{Binding Player.EffectsManager.BiQuadFilterType}"/>
 
                                     <TextBlock
                                         FontWeight="SemiBold"
                                         Margin="0,0,0,8"
+                                        Style="{StaticResource GlobalTextBlockStyle}"
                                         Text="Band width:"/>
 
                                     <Grid
                                         HorizontalAlignment="Stretch"
-                                        Margin="0,0,0,8">
+                                        Margin="0,0,0,16">
 
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -723,14 +436,14 @@
                                             IsEnabled="{Binding Player.EffectsManager.BandWidthEnabled}"
                                             Maximum="{x:Static playerCore:EffectsManager.BAND_WIDTH_VALUE_MAX}"
                                             Minimum="{x:Static playerCore:EffectsManager.BAND_WIDTH_VALUE_MIN}"
-                                            Style="{StaticResource EffectSliderExStyle}"
+                                            Style="{StaticResource EqualizerEffectsSliderExStyle}"
                                             TickFrequency="1"
                                             Value="{Binding Player.EffectsManager.BandWidth}"/>
 
                                         <controlsex:TextBlockEx
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
-                                            Style="{StaticResource BandWidthTextBlockExStyle}"
+                                            Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                             Text="{Binding Player.EffectsManager.BandWidth, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                                     </Grid>
@@ -738,11 +451,12 @@
                                     <TextBlock
                                         FontWeight="SemiBold"
                                         Margin="0,0,0,8"
+                                        Style="{StaticResource GlobalTextBlockStyle}"
                                         Text="Frequency:"/>
 
                                     <Grid
                                         HorizontalAlignment="Stretch"
-                                        Margin="0,0,0,8">
+                                        Margin="0,0,0,16">
 
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -755,14 +469,14 @@
                                             IsSnapToTickEnabled="True"
                                             Maximum="{x:Static playerCore:EffectsManager.FREQUENCY_VALUE_MAX}"
                                             Minimum="{x:Static playerCore:EffectsManager.FREQUENCY_VALUE_MIN}"
-                                            Style="{StaticResource EffectSliderExStyle}"
+                                            Style="{StaticResource EqualizerEffectsSliderExStyle}"
                                             TickFrequency="10"
                                             Value="{Binding Player.EffectsManager.Frequency}"/>
 
                                         <controlsex:TextBlockEx
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
-                                            Style="{StaticResource BandWidthTextBlockExStyle}"
+                                            Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                             Text="{Binding Player.EffectsManager.Frequency, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                                     </Grid>
@@ -770,11 +484,12 @@
                                     <TextBlock
                                         FontWeight="SemiBold"
                                         Margin="0,0,0,8"
+                                        Style="{StaticResource GlobalTextBlockStyle}"
                                         Text="Gain DB:"/>
 
                                     <Grid
                                         HorizontalAlignment="Stretch"
-                                        Margin="0,0,0,8">
+                                        Margin="0,0,0,32">
 
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -786,14 +501,14 @@
                                             IsEnabled="{Binding Player.EffectsManager.GainDBEnabled}"
                                             Maximum="{x:Static playerCore:EffectsManager.GAIN_DB_VALUE_MAX}"
                                             Minimum="{x:Static playerCore:EffectsManager.GAIN_DB_VALUE_MIN}"
-                                            Style="{StaticResource EffectSliderExStyle}"
+                                            Style="{StaticResource EqualizerEffectsSliderExStyle}"
                                             TickFrequency="1"
                                             Value="{Binding Player.EffectsManager.GainDB}"/>
 
                                         <controlsex:TextBlockEx
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
-                                            Style="{StaticResource BandWidthTextBlockExStyle}"
+                                            Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                             Text="{Binding Player.EffectsManager.GainDB, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                                     </Grid>
@@ -804,7 +519,7 @@
                                         HorizontalAlignment="Left"
                                         IconKind="Restore"
                                         Margin="0"
-                                        Style="{StaticResource MenuButtonStyle}"
+                                        Style="{StaticResource EqualizerButtonExStyle}"
                                         Click="ResetBiQuadButton_Click"/>
 
                                 </StackPanel>
@@ -816,8 +531,8 @@
                                 BorderBrush="{Binding ConfigManager.AccentColorBrush}"
                                 BorderThickness="1"
                                 CornerRadius="8"
-                                Margin="0,0,0,8"
-                                Padding="8">
+                                Margin="0"
+                                Padding="16">
 
                                 <StackPanel
                                     Orientation="Vertical">
@@ -825,11 +540,12 @@
                                     <TextBlock
                                         FontWeight="SemiBold"
                                         Margin="0,0,0,8"
+                                        Style="{StaticResource GlobalTextBlockStyle}"
                                         Text="Pitch:"/>
 
                                     <Grid
                                         HorizontalAlignment="Stretch"
-                                        Margin="0,0,0,8">
+                                        Margin="0,0,0,32">
 
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -840,14 +556,14 @@
                                             Grid.Column="0"
                                             Maximum="{x:Static playerCore:EffectsManager.PITCH_VALUE_MAX}"
                                             Minimum="{x:Static playerCore:EffectsManager.PITCH_VALUE_MIN}"
-                                            Style="{StaticResource EffectSliderExStyle}"
+                                            Style="{StaticResource EqualizerEffectsSliderExStyle}"
                                             TickFrequency="1"
                                             Value="{Binding Player.EffectsManager.Pitch}"/>
 
                                         <controlsex:TextBlockEx
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
-                                            Style="{StaticResource BandWidthTextBlockExStyle}"
+                                            Style="{StaticResource EqualizerBandWidthTextBlockExStyle}"
                                             Text="{Binding Player.EffectsManager.Pitch, StringFormat={}{0:0}, Mode=OneWay}"/>
 
                                     </Grid>
@@ -858,7 +574,7 @@
                                         HorizontalAlignment="Left"
                                         IconKind="Restore"
                                         Margin="0"
-                                        Style="{StaticResource MenuButtonStyle}"
+                                        Style="{StaticResource EqualizerButtonExStyle}"
                                         Click="ResetPitchButton_Click"/>
 
                                 </StackPanel>
@@ -874,33 +590,6 @@
             </controlsex:TabItemEx>
 
         </controlsex:TabControlEx>
-
-        <Grid
-            Grid.Row="0"
-            Margin="8,8,8,2"
-            MouseLeftButtonDown="TitleGrid_MouseLeftButtonDown">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-
-            <controlsex:ButtonEx
-                Grid.Column="0"
-                IconKind="ArrowBack"
-                Style="{StaticResource HeaderButtonStyle}"
-                Click="BackButton_Click"/>
-
-            <TextBlock
-                Grid.Column="1"
-                FontSize="18"
-                FontWeight="SemiBold"
-                Margin="8,0"
-                Text="Equalizer &amp; Effects"
-                VerticalAlignment="Center"/>
-
-        </Grid>
 
     </Grid>
     

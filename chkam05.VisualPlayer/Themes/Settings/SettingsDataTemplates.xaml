@@ -47,6 +47,14 @@
     <DataTemplate x:Key="SettingsAppearanceLogoThemeTypeComboBoxExDataTemplate">
         <TextBlock Text="{Binding ., Converter={StaticResource AppearanceLogoThemeNameConverter}}"/>
     </DataTemplate>
+    
+    
+    <!-- EXTERNAL DEVICES SETTINGS -->
+
+    <DataTemplate x:Key="DevicesDataTemplate">
+        <TextBlock
+            Text="{Binding PortName}"/>
+    </DataTemplate>
 
 
     <!-- GENERAL SETTINGS -->

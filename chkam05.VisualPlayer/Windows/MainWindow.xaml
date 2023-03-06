@@ -32,9 +32,6 @@
 
     <Window.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resources/Styles/Standard/Styles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
 
             <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type Window}"/>
 
@@ -255,7 +252,11 @@
                             Grid.Column="1"
                             Grid.Row="1"
                             Margin="-32,-32,0,-32"
+                            ShowAdditionalControls="{Binding ConfigManager.ClassicTaskBar, Mode=OneWay, Converter={StaticResource InverseBoolConverter}}"
                             Visibility="Collapsed"
+                            OnCloseButtonClick="informationBar_OnCloseButtonClick"
+                            OnMaximizeButtonClick="informationBar_OnMaximizeButtonClick"
+                            OnMinimizeButtonClick="informationBar_OnMinimizeButtonClick"
                             OnHide="pagesControl_OnHide"
                             OnPageBack="pagesControl_OnPageBack"
                             OnPageLoaded="pagesControl_OnPageLoaded"

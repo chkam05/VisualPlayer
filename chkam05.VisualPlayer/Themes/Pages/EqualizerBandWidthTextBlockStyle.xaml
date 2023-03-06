@@ -1,0 +1,15 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:config="clr-namespace:chkam05.VisualPlayer.Data.Configuration">
+
+    <x:Static x:Key="ConfigManager" Member="config:ConfigManager.Instance" />
+
+    <Style x:Key="EqualizerBandWidthTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{Binding ForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="2"/>
+    </Style>
+
+</ResourceDictionary>

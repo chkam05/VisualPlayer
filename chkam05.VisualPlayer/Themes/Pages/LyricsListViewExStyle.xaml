@@ -1,0 +1,55 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:config="clr-namespace:chkam05.VisualPlayer.Data.Configuration"
+    xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/chkam05.Tools.ControlsEx;component/Themes/GridViewColumnHeaderStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/chkam05.Tools.ControlsEx;component/Themes/ListViewExStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <x:Static x:Key="ConfigManager" Member="config:ConfigManager.Instance" />
+
+    <Style x:Key="LyricsListViewItemExStyle" BasedOn="{StaticResource ListViewItemExStyle}" TargetType="{x:Type controlsex:ListViewItemEx}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{Binding ForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="MouseOverBackground" Value="{Binding MouseOverBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="MouseOverBorderBrush" Value="{Binding MouseOverBorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="MouseOverForeground" Value="{Binding MouseOverForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedBackground" Value="{Binding SelectedBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedBorderBrush" Value="{Binding SelectedBorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedForeground" Value="{Binding SelectedForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedInactiveBackground" Value="{Binding InactiveBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedInactiveBorderBrush" Value="{Binding InactiveBorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedInactiveForeground" Value="{Binding InactiveForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="LyricsFilesListViewItemExStyle" BasedOn="{StaticResource LyricsListViewItemExStyle}" TargetType="{x:Type controlsex:ListViewItemEx}"/>
+
+    <Style x:Key="LyricsGridListViewItemExStyle" BasedOn="{StaticResource LyricsListViewItemExStyle}" TargetType="{x:Type controlsex:ListViewItemEx}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    </Style>
+
+    <Style x:Key="LyricsListViewExStyle" BasedOn="{StaticResource ListViewExStyle}" TargetType="{x:Type controlsex:ListViewEx}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ColumnHeaderBackground" Value="{Binding AccentColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ColumnHeaderBorderBrush" Value="{Binding BorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ColumnHeaderEmptyBackground" Value="{Binding AccentColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ColumnHeaderEmptyBorderBrush" Value="{Binding BorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ColumnHeaderForeground" Value="{Binding AccentForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ColumnHeaderMouseOverBackground" Value="{Binding MouseOverBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ColumnHeaderMouseOverBorderBrush" Value="{Binding MouseOverBorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ColumnHeaderMouseOverForeground" Value="{Binding MouseOverForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ColumnHeaderPressedBackground" Value="{Binding PressedBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ColumnHeaderPressedBorderBrush" Value="{Binding PressedBorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ColumnHeaderPressedForeground" Value="{Binding PressedForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible"/>
+    </Style>
+
+</ResourceDictionary>

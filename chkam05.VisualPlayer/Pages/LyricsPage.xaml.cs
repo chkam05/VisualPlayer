@@ -232,7 +232,7 @@ namespace chkam05.VisualPlayer.Pages
             if (!LyricsManager.LoadFromLibrary())
             {
                 var window = (MainWindow)Application.Current.MainWindow;
-                
+
                 window.MessagesManager.CreateAlertMessageBox(
                     "Opening lyrics from local library",
                     "Lyrics have not been found in local library. \nCreated empty space for new lyrics.");
@@ -353,19 +353,29 @@ namespace chkam05.VisualPlayer.Pages
         #region LYRICS TOOLBAR BUTTONS METHODS
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after clicking Add Lyrics ControlButton. </summary>
+        /// <summary> Method invoked after clicking File ControlButton. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> Routed Event Arguments. </param>
-        private void AddLyricsButton_Click(object sender, RoutedEventArgs e)
+        private void FileButtonEx_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            LyricsManager.Add(new Lyrics(CheckPoint, CheckPoint, string.Empty));
+            if (e.ChangedButton == MouseButton.Middle)
+                return;
+
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                ButtonEx button = sender as ButtonEx;
+                ContextMenuEx contextMenu = button.ContextMenu as ContextMenuEx;
+                contextMenu.PlacementTarget = button;
+                contextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                contextMenu.IsOpen = true;
+            }
         }
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after clicking NewLyrics ControlButton. </summary>
+        /// <summary> Method invoked after clicking Create Lyrics ContextMenuItem. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> Routed Event Arguments. </param>
-        private void NewLyricsButton_Click(object sender, RoutedEventArgs e)
+        private void CreateLyricsContextMenuItemEx_Click(object sender, RoutedEventArgs e)
         {
             if (!LyricsManager.LyricsChanged)
             {
@@ -381,30 +391,10 @@ namespace chkam05.VisualPlayer.Pages
         }
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after clicking Find Local Lyrics ControlButton. </summary>
+        /// <summary> Method invoked after clicking Open Lyrics ContextMenuItem. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> Routed Event Arguments. </param>
-        private void OpenFromLibraryLyricsButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!LyricsManager.LyricsChanged)
-            {
-                LoadFromLibrary();
-                return;
-            }
-
-            var window = (MainWindow)Application.Current.MainWindow;
-
-            window.MessagesManager.CreateQuestionMessageBox(
-                "Opening lyrics from local library",
-                "Do You want to abandon the previous changes and open lyrics from library?",
-                (s, me) => { if (me.Result == InternalMessageResult.Yes) LoadFromLibrary(); });
-        }
-
-        //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after clicking Open Lyrics ControlButton. </summary>
-        /// <param name="sender"> Object that invoked method. </param>
-        /// <param name="e"> Routed Event Arguments. </param>
-        private void OpenLyricsButton_Click(object sender, RoutedEventArgs e)
+        private void OpenLyricsContextMenuItemEx_Click(object sender, RoutedEventArgs e)
         {
             if (!LyricsManager.LyricsChanged)
             {
@@ -421,10 +411,39 @@ namespace chkam05.VisualPlayer.Pages
         }
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after clicking Save Local Lyrics ControlButton. </summary>
+        /// <summary> Method invoked after clicking Save As Lyrics ContextMenuItem. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> Routed Event Arguments. </param>
-        private void SaveLyricsButton_Click(object sender, RoutedEventArgs e)
+        private void SaveAsLyricsContextMenuItemEx_Click(object sender, RoutedEventArgs e)
+        {
+            SaveToFile();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after clicking Open from Library Lyrics ContextMenuItem. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void OpenFromLibLyricsContextMenuItemEx_Click(object sender, RoutedEventArgs e)
+        {
+            if (!LyricsManager.LyricsChanged)
+            {
+                LoadFromLibrary();
+                return;
+            }
+
+            var window = (MainWindow)Application.Current.MainWindow;
+
+            window.MessagesManager.CreateQuestionMessageBox(
+                "Opening lyrics from local library",
+                "Do You want to abandon the previous changes and open lyrics from library?",
+                (s, me) => { if (me.Result == InternalMessageResult.Yes) LoadFromLibrary(); });
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after clicking Save to Library Lyrics ContextMenuItem. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void SaveToLibLyricsContextMenuItemEx_Click(object sender, RoutedEventArgs e)
         {
             if (!LyricsManager.ExistsInLibrary())
             {
@@ -441,16 +460,29 @@ namespace chkam05.VisualPlayer.Pages
         }
 
         //  --------------------------------------------------------------------------------
-        /// <summary> Method invoked after clicking Save Lyrics As ControlButton. </summary>
+        /// <summary> Method invoked after clicking Sort ControlButton. </summary>
         /// <param name="sender"> Object that invoked method. </param>
         /// <param name="e"> Routed Event Arguments. </param>
-        private void SaveLyricsAsButton_Click(object sender, RoutedEventArgs e)
+        private void SortButtonEx_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            SaveToFile();
+            if (e.ChangedButton == MouseButton.Middle)
+                return;
+
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                ButtonEx button = sender as ButtonEx;
+                ContextMenuEx contextMenu = button.ContextMenu as ContextMenuEx;
+                contextMenu.PlacementTarget = button;
+                contextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+                contextMenu.IsOpen = true;
+            }
         }
 
         //  --------------------------------------------------------------------------------
-        private void SortLyrics_PackIconButton_Click(object sender, RoutedEventArgs e)
+        /// <summary> Method invoked after clicking Sort Lyrics Texts by Time ContextMenuItem. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void SortLyricsTextsByTimeContextMenuItemEx_Click(object sender, RoutedEventArgs e)
         {
             LyricsManager.ArrangeLyricsByTime();
         }
@@ -465,6 +497,15 @@ namespace chkam05.VisualPlayer.Pages
                 AnimateShowLyricsFiles();
             else
                 AnimateHideLyricsFiles();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after clicking Add Lyrics ControlButton. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void AddLyricsButton_Click(object sender, RoutedEventArgs e)
+        {
+            LyricsManager.Add(new Lyrics(CheckPoint, CheckPoint, string.Empty));
         }
 
         #endregion LYRICS TOOLBAR BUTTONS METHODS
@@ -485,7 +526,7 @@ namespace chkam05.VisualPlayer.Pages
         /// <summary> Load lyrics from library to cache. </summary>
         private void LoadLibraryLyricsToCache()
         {
-            var filter = FilesManager.GetFileTypesByGroup(FileGroup.PLAYLIST);
+            var filter = FilesManager.GetFileTypesByGroup(FileGroup.LYRICS);
             var lyricsStoragePath = FilesManager.Instance.LyricsStoragePath;
 
             _lyricsFilesListCache = FilesManager.GetFilesList(lyricsStoragePath, filter, false)

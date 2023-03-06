@@ -1,0 +1,33 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:config="clr-namespace:chkam05.VisualPlayer.Data.Configuration"
+    xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx">
+
+    <x:Static x:Key="ConfigManager" Member="config:ConfigManager.Instance" />
+
+    <Style x:Key="EqualizerPresetListViewItemExStyle" TargetType="{x:Type controlsex:ListViewItemEx}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{Binding ForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="MouseOverBackground" Value="{Binding MouseOverBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="MouseOverBorderBrush" Value="{Binding MouseOverBorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="MouseOverForeground" Value="{Binding MouseOverForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="SelectedBackground" Value="{Binding SelectedBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedBorderBrush" Value="{Binding SelectedBorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedForeground" Value="{Binding SelectedForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedInactiveBackground" Value="{Binding InactiveBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedInactiveBorderBrush" Value="{Binding InactiveBorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="SelectedInactiveForeground" Value="{Binding InactiveForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+    </Style>
+
+    <Style x:Key="EqualizerPresetListViewExStyle" TargetType="{x:Type controlsex:ListViewEx}">
+        <Setter Property="Background" Value="{Binding BackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource EqualizerPresetListViewItemExStyle}"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible"/>
+    </Style>
+    
+</ResourceDictionary>

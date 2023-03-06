@@ -5,12 +5,27 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:chkam05.VisualPlayer.Controls"
+    xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
+    xmlns:conv="clr-namespace:chkam05.VisualPlayer.Converters"
     mc:Ignorable="d" 
     
     d:DesignHeight="450"
     d:DesignWidth="800"
     
     DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type UserControl}"/>
+
+            <conv:VisibilityBoolConverter x:Key="VisibilityBoolConverter"/>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
     
     <Border
         Background="{Binding BorderBackground}"
@@ -19,11 +34,83 @@
         CornerRadius="8"
         Margin="4">
 
-        <Frame
-            x:Name="ContentFrame"
-            Grid.Row="1"
-            NavigationUIVisibility="Hidden"
-            Navigated="ContentFrame_Navigated"/>
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Frame
+                x:Name="ContentFrame"
+                Grid.Row="1"
+                NavigationUIVisibility="Hidden"
+                Navigated="ContentFrame_Navigated"/>
+
+            <Grid
+                Grid.Row="0"
+                Margin="6,8,6,2"
+                MouseLeftButtonDown="TitleGrid_MouseLeftButtonDown">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <controlsex:ButtonEx
+                    Grid.Column="0"
+                    IconKind="ArrowBack"
+                    Style="{StaticResource PageTitleBarButtonExStyle}"
+                    Click="BackButton_Click"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Style="{StaticResource PageTitleBarTextBlockStyle}"
+                    Text="{Binding LoadedPage.Title}"/>
+
+                <StackPanel
+                    Grid.Column="2"
+                    Orientation="Horizontal">
+
+                    <!--controlsex:ButtonEx
+                        IconKind="Close"
+                        Style="{StaticResource PageTitleBarButtonExStyle}"
+                        Click="CloseButton_Click"/-->
+
+                    <StackPanel
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        Margin="0,-8,-6,0"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Top"
+                        Visibility="{Binding ShowAdditionalControls, Converter={StaticResource VisibilityBoolConverter}}">
+
+                        <controlsex:ButtonEx
+                            IconKind="WindowMinimize"
+                            Style="{StaticResource InformationBarWindowButtonExStyle}"
+                            Click="MinimizeWindowButton_Click"/>
+
+                        <controlsex:ButtonEx
+                            IconKind="WindowMaximize"
+                            Style="{StaticResource InformationBarWindowButtonExStyle}"
+                            Click="MaximizeWindowButton_Click"/>
+
+                        <controlsex:ButtonEx
+                            CornerRadius="0,8,0,0"
+                            IconKind="Power"
+                            MouseOverBackground="#C42B1C"
+                            PressedBackground="#B22A1B"
+                            Style="{StaticResource InformationBarWindowButtonExStyle}"
+                            Click="CloseWindowButton_Click"/>
+
+                    </StackPanel>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Grid>
 
     </Border>
     

@@ -1,0 +1,36 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:config="clr-namespace:chkam05.VisualPlayer.Data.Configuration"
+    xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx"
+    xmlns:playerData="clr-namespace:chkam05.VisualPlayer.Core.Data">
+
+    <x:Static x:Key="ConfigManager" Member="config:ConfigManager.Instance" />
+
+    <Style x:Key="EqualizerSliderExStyle" TargetType="{x:Type controlsex:SliderEx}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{Binding AccentColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="MinHeight" Value="192"/>
+        <Setter Property="Margin" Value="12,4,12,4"/>
+        <Setter Property="Maximum" Value="{x:Static playerData:EqualizerPreset.EQ_MAX_VALUE}"/>
+        <Setter Property="Minimum" Value="{x:Static playerData:EqualizerPreset.EQ_MIN_VALUE}"/>
+        <Setter Property="Orientation" Value="Vertical"/>
+        <Setter Property="ThumbCornerRadius" Value="8"/>
+        <Setter Property="ThumbBorderBrush" Value="{Binding BorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ThumbMouseOverBackground" Value="{Binding MouseOverBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ThumbMouseOverBorderBrush" Value="{Binding MouseOverBorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ThumbDraggingBackground" Value="{Binding PressedBackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ThumbDraggingBorderBrush" Value="{Binding PressedBorderColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="ThumbHeight" Value="12"/>
+        <Setter Property="TicksColorBrush" Value="{Binding AccentColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="TickPlacement" Value="Both"/>
+        <Setter Property="TrackBarBackground" Value="{Binding BackgroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="TrackBarBorderBrush" Value="{x:Null}"/>
+        <Setter Property="TrackBarBorderThickness" Value="0"/>
+        <Setter Property="TrackBarWidth" Value="4"/>
+    </Style>
+
+</ResourceDictionary>

@@ -171,6 +171,7 @@ namespace chkam05.VisualPlayer.Data.Configuration
 
         private Brush _ifaceContextMenuBackgroundBrush;
         private Brush _ifaceContextMenuBorderBrush;
+        private Brush _ifaceContextMenuForegroundBrush;
 
         private Brush _ifaceLyricsBackgroundColorBrush;
         private Brush _ifaceLyricsForegroundColorBrush;
@@ -717,6 +718,17 @@ namespace chkam05.VisualPlayer.Data.Configuration
             {
                 _ifaceContextMenuBorderBrush = value;
                 OnPropertyChanged(nameof(IfaceContextMenuBorderColorBrush));
+            }
+        }
+
+        [ConfigPropertyUpdateAttrib(AllowUpdate = false)]
+        public Brush IfaceContextMenuForegroundColorBrush
+        {
+            get => _ifaceContextMenuForegroundBrush;
+            set
+            {
+                _ifaceContextMenuForegroundBrush = value;
+                OnPropertyChanged(nameof(IfaceContextMenuForegroundColorBrush));
             }
         }
 
@@ -1879,8 +1891,9 @@ namespace chkam05.VisualPlayer.Data.Configuration
             IfaceButtonBorderColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = 0.25 };
             IfaceButtonForegroundColorBrush = new SolidColorBrush(ifaceForegroundOpacityUpdated);
 
-            IfaceContextMenuBackgroundColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = 0.85 };
-            IfaceContextMenuBorderColorBrush = new SolidColorBrush(ifaceBackgroundColor);
+            IfaceContextMenuBackgroundColorBrush = new SolidColorBrush(backgroundColor) { Opacity = 0.90 };
+            IfaceContextMenuBorderColorBrush = new SolidColorBrush(accentColor);
+            IfaceContextMenuForegroundColorBrush = new SolidColorBrush(foregroundColor);
 
             IfaceLyricsBackgroundColorBrush = new SolidColorBrush(ifaceBackgroundColor) { Opacity = LyricsBackgroundOpacity };
             IfaceLyricsForegroundColorBrush = new SolidColorBrush(ifaceLyricsForegroundOpacityUpdated);

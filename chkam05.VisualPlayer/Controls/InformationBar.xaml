@@ -18,6 +18,9 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
             <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type UserControl}"/>
             
@@ -37,39 +40,6 @@
                     </ThicknessAnimationUsingKeyFrames.KeyFrames>
                 </ThicknessAnimationUsingKeyFrames>
             </Storyboard>
-
-            <!-- Styles. -->
-            <Style x:Key="Base_TextBlockStyle" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontFamily" Value="{Binding ConfigManager.InformationBarFont.FontFamily, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="FontSize" Value="{Binding ConfigManager.InformationBarFontSize, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="FontStretch" Value="{Binding ConfigManager.InformationBarFontStretch, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="FontStyle" Value="{Binding ConfigManager.InformationBarFontStyle, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="FontWeight" Value="{Binding ConfigManager.InformationBarFontWeight, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Margin" Value="0"/>
-            </Style>
-
-            <Style x:Key="Info_TextBlockStyle" BasedOn="{StaticResource Base_TextBlockStyle}" TargetType="{x:Type TextBlock}">
-                <Setter Property="Margin" Value="{Binding ConfigManager.InformationBarTextMargin, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style x:Key="TitleBarButtonExStyle" TargetType="{x:Type controlsex:ButtonEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="CornerRadius" Value="0"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.AccentForegroundColorBrush}"/>
-                <Setter Property="IconHeight" Value="18"/>
-                <Setter Property="IconWidth" Value="18"/>
-                <Setter Property="Margin" Value="0"/>
-                <Setter Property="MinWidth" Value="40"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.MouseOverBackgroundColorBrush}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.MouseOverBorderColorBrush}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.AccentForegroundColorBrush}"/>
-                <Setter Property="PressedBackground" Value="{Binding ConfigManager.PressedBackgroundColorBrush}"/>
-                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.PressedBorderColorBrush}"/>
-                <Setter Property="PressedForeground" Value="{Binding ConfigManager.AccentForegroundColorBrush}"/>
-            </Style>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -129,12 +99,12 @@
 
                         <controlsex:ButtonEx
                             IconKind="WindowMinimize"
-                            Style="{StaticResource TitleBarButtonExStyle}"
+                            Style="{StaticResource InformationBarWindowButtonExStyle}"
                             Click="MinimizeButtonEx_Click"/>
 
                         <controlsex:ButtonEx
                             IconKind="WindowMaximize"
-                            Style="{StaticResource TitleBarButtonExStyle}"
+                            Style="{StaticResource InformationBarWindowButtonExStyle}"
                             Click="MaximizeButtonEx_Click"/>
 
                         <controlsex:ButtonEx
@@ -142,7 +112,7 @@
                             IconKind="Power"
                             MouseOverBackground="#C42B1C"
                             PressedBackground="#B22A1B"
-                            Style="{StaticResource TitleBarButtonExStyle}"
+                            Style="{StaticResource InformationBarWindowButtonExStyle}"
                             Click="CloseButtonEx_Click"/>
 
                     </StackPanel>
@@ -194,14 +164,14 @@
                     <TextBlock
                         Grid.Column="0"
                         Grid.Row="1"
-                        Style="{StaticResource Info_TextBlockStyle}"
+                        Style="{StaticResource InformationBarInfoTextBlockStyle}"
                         Text="Artist: "
                         Visibility="{Binding ConfigManager.InformationBarInfoArtistVisible, Converter={StaticResource VisibilityBoolConverter}}"/>
 
                     <TextBlock
                         Grid.Column="1"
                         Grid.Row="1"
-                        Style="{StaticResource Info_TextBlockStyle}"
+                        Style="{StaticResource InformationBarInfoTextBlockStyle}"
                         Text="{Binding ArtistInfo}"
                         Visibility="{Binding ConfigManager.InformationBarInfoArtistVisible, Converter={StaticResource VisibilityBoolConverter}}"/>
 
@@ -209,7 +179,7 @@
                         Grid.Column="0"
                         Grid.Row="2"
                         Margin="0"
-                        Style="{StaticResource Info_TextBlockStyle}"
+                        Style="{StaticResource InformationBarInfoTextBlockStyle}"
                         Text="Album: "
                         Visibility="{Binding ConfigManager.InformationBarInfoAlbumVisible, Converter={StaticResource VisibilityBoolConverter}}"/>
 
@@ -217,7 +187,7 @@
                         Grid.Column="1"
                         Grid.Row="2"
                         Margin="0"
-                        Style="{StaticResource Info_TextBlockStyle}"
+                        Style="{StaticResource InformationBarInfoTextBlockStyle}"
                         Text="{Binding AlbumInfo}"
                         Visibility="{Binding ConfigManager.InformationBarInfoAlbumVisible, Converter={StaticResource VisibilityBoolConverter}}"/>
 
@@ -229,7 +199,7 @@
                         Visibility="{Binding ConfigManager.InformationBarInfoTimeVisible, Converter={StaticResource VisibilityBoolConverter}}">
 
                         <TextBlock
-                            Style="{StaticResource Base_TextBlockStyle}">
+                            Style="{StaticResource InformationBarBaseTextBlockStyle}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource TimeSpanStringConverter}">
                                     <Binding Path="CurrentTime"
@@ -241,11 +211,11 @@
                         </TextBlock>
 
                         <TextBlock
-                            Style="{StaticResource Base_TextBlockStyle}"
+                            Style="{StaticResource InformationBarBaseTextBlockStyle}"
                             Text=" / "/>
 
                         <TextBlock
-                            Style="{StaticResource Base_TextBlockStyle}">
+                            Style="{StaticResource InformationBarBaseTextBlockStyle}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource TimeSpanStringConverter}">
                                     <Binding Path="FullTime" 

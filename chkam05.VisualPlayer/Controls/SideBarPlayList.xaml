@@ -19,124 +19,17 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resources/Styles/Standard/Styles.xaml"/>
+                <ResourceDictionary Source="/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <RelativeSource x:Key="RelativeSelf" Mode="FindAncestor" AncestorType="{x:Type UserControl}"/>
 
             <!-- Converters. -->
-            <converters:IPlayableNowPlayingConverter x:Key="IPlayableNowPlayingConverter"/>
             <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
-
-            <!-- Styles. -->
-            <Style TargetType="{x:Type controlsex:ButtonEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.IfaceButtonBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.IfaceButtonBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceButtonForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="IconHeight" Value="28"/>
-                <Setter Property="IconWidth" Value="28"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.IfaceMouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Padding" Value="4"/>
-                <Setter Property="PressedBackground" Value="{Binding ConfigManager.IfacePressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedBorderBrush" Value="{Binding ConfigManager.IfacePressedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="PressedForeground" Value="{Binding ConfigManager.IfacePressedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ContextMenuEx}">
-                <Setter Property="Background" Value="{Binding ConfigManager.IfaceContextMenuBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderBrush" Value="{Binding ConfigManager.IfaceContextMenuBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ContextMenuItemEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.IfaceMouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="IconColorBrush" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style BasedOn="{StaticResource ContextMenuSeparatorStyle}" TargetType="{x:Type Separator}">
-                <Setter Property="Background" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <Style TargetType="{x:Type controlsex:ScrollViewerEx}">
-                <Setter Property="ScrollBarThumbMargin" Value="0,2,8,2"/>
-                <Setter Property="ScrollBarVerticalWidth" Value="16"/>
-                <Setter Property="ScrollBarThumbBackground" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarThumbBorderBrush" Value="{Binding ConfigManager.AccentColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarDraggingThumbBackground" Value="{Binding ConfigManager.IfacePressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarDraggingThumbBorderBrush" Value="{Binding ConfigManager.IfacePressedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarMouseOverThumbBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="ScrollBarMouseOverThumbBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
             
-            <Style TargetType="{x:Type controlsex:ListViewEx}">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                <Setter Property="Margin" Value="0"/>
-                <Setter Property="Padding" Value="6,0,2,0"/>
-                <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
-                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-                <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
-                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-                <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-            </Style>
-
-            <Style x:Key="PlayList_ListViewItemExStyle" TargetType="{x:Type controlsex:ListViewItemEx}">
-                <EventSetter Event="Drop" Handler="PlayList_ExtendedListViewItem_Drop"/>
-                <EventSetter Event="MouseDoubleClick" Handler="PlayListItem_DoubleClick"/>
-                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="PlayList_ExtendedListViewItem_PreviewMouseDown"/>
-                <Setter Property="AllowDrop" Value="True"/>
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{Binding ConfigManager.IfaceForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="Margin" Value="2,2,2,0"/>
-                <Setter Property="MouseOverBackground" Value="{Binding ConfigManager.IfaceMouseOverBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverBorderBrush" Value="{Binding ConfigManager.IfaceMouseOverBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="MouseOverForeground" Value="{Binding ConfigManager.IfaceMouseOverForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBackground" Value="{Binding ConfigManager.IfaceSelectedBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedBorderBrush" Value="{Binding ConfigManager.IfaceSelectedBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedForeground" Value="{Binding ConfigManager.IfaceSelectedForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedInactiveBackground" Value="{Binding ConfigManager.InactiveBackgroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedInactiveBorderBrush" Value="{Binding ConfigManager.InactiveBorderColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-                <Setter Property="SelectedInactiveForeground" Value="{Binding ConfigManager.InactiveForegroundColorBrush, RelativeSource={StaticResource RelativeSelf}}"/>
-            </Style>
-
-            <!-- Data Templates. -->
-            <DataTemplate x:Key="NowPlayingDataTemplate">
-                <StackPanel Orientation="Horizontal">
-                    <Grid>
-                        <Image
-                            Height="32"
-                            Source="{Binding Cover}"
-                            Width="32"/>
-                        
-                        <materialDesign:PackIcon Height="32" Width="auto">
-                            <materialDesign:PackIcon.Kind>
-                                <MultiBinding Converter="{StaticResource IPlayableNowPlayingConverter}">
-                                    <Binding Path="NowPlaying"></Binding>
-                                    <Binding Path="Cover"></Binding>
-                                </MultiBinding>
-                            </materialDesign:PackIcon.Kind>
-                        </materialDesign:PackIcon>
-                    </Grid>
-
-                    <TextBlock
-                        Margin="8,0"
-                        Text="{Binding FileName}"
-                        VerticalAlignment="Center"/>
-                </StackPanel>
-            </DataTemplate>
+            <!-- Styles. -->
+            <Style BasedOn="{StaticResource SideBarPlayListScrollViewerExStyle}" TargetType="{x:Type controlsex:ScrollViewerEx}"/>
+            <Style BasedOn="{StaticResource SideBarPlayListViewExStyle}" TargetType="{x:Type controlsex:ListViewEx}"/>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -150,12 +43,19 @@
 
         <controlsex:ListViewEx
             x:Name="playListView"
-            ItemContainerStyle="{StaticResource PlayList_ListViewItemExStyle}"
             ItemsSource="{Binding Player.PlayList.DataContext, Mode=TwoWay}"
-            ItemTemplate="{StaticResource NowPlayingDataTemplate}"
+            ItemTemplate="{StaticResource SideBarPlayListViewItemExDataTemplate}"
             Grid.Row="1"
             SelectedItem="{Binding SelectedItem}"
             PreviewMouseDown="PlayListView_PreviewMouseDown">
+
+            <controlsex:ListViewEx.ItemContainerStyle>
+                <Style BasedOn="{StaticResource SideBarPlayListViewItemExStyle}" TargetType="{x:Type controlsex:ListViewItemEx}">
+                    <EventSetter Event="Drop" Handler="PlayList_ExtendedListViewItem_Drop"/>
+                    <EventSetter Event="MouseDoubleClick" Handler="PlayListItem_DoubleClick"/>
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="PlayList_ExtendedListViewItem_PreviewMouseDown"/>
+                </Style>
+            </controlsex:ListViewEx.ItemContainerStyle>
 
             <controlsex:ListViewEx.ContextMenu>
                 <controlsex:ContextMenuEx
@@ -189,6 +89,7 @@
                 Grid.Column="0"
                 Content="{x:Null}"
                 IconKind="ArrowBack"
+                Style="{StaticResource SideBarPlayListTitleBarButtonExStyle}"
                 Click="BackButton_Click"/>
 
             <TextBlock
@@ -204,6 +105,7 @@
                 Grid.Column="2"
                 Content="{x:Null}"
                 IconKind="MoreHoriz"
+                Style="{StaticResource SideBarPlayListTitleBarButtonExStyle}"
                 Click="OptionButton_Click"
                 PreviewMouseDown="OptionButton_PreviewMouseDown">
 

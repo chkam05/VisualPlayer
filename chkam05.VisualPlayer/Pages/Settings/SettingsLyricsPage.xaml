@@ -12,6 +12,7 @@
     d:DesignWidth="800"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Foreground="White"
+    Title="Settings - Lyrics"
     Unloaded="Page_Unloaded">
 
     <Page.Resources>
@@ -27,13 +28,7 @@
 
     <Grid>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
         <controlsex:ScrollViewerEx
-            Grid.Row="1"
             Padding="8,8,4,8"
             Style="{StaticResource SettingsBaseScrollViewerExStyle}">
 
@@ -212,36 +207,6 @@
 
             </StackPanel>
         </controlsex:ScrollViewerEx>
-
-        <Grid
-            Grid.Row="0"
-            Margin="8,8,8,2"
-            MouseLeftButtonDown="TitleGrid_MouseLeftButtonDown">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-
-            <controlsex:ButtonEx
-                Grid.Column="0"
-                IconKind="ArrowBack"
-                Style="{StaticResource SettingsTitleBarButtonExStyle}"
-                Click="BackButton_Click"/>
-
-            <TextBlock
-                Grid.Column="1"
-                Style="{StaticResource SettingsTitleBarTextBlockStyle}"
-                Text="Settings - Lyrics"/>
-
-            <controlsex:ButtonEx
-                Grid.Column="2"
-                IconKind="Close"
-                Style="{StaticResource SettingsTitleBarButtonExStyle}"
-                Click="CloseButton_Click"/>
-
-        </Grid>
 
     </Grid>
 </Page>

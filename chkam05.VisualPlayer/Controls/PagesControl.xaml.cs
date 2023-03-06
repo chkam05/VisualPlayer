@@ -1,4 +1,5 @@
-﻿using chkam05.VisualPlayer.Pages;
+﻿using chkam05.VisualPlayer.Data.Configuration;
+using chkam05.VisualPlayer.Pages;
 using chkam05.VisualPlayer.Pages.Events;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,10 @@ namespace chkam05.VisualPlayer.Controls
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public event EventHandler OnMinimizeButtonClick;
+        public event EventHandler OnMaximizeButtonClick;
+        public event EventHandler OnCloseButtonClick;
+
         public event EventHandler<PageLoadedEventArgs> OnPageBack;
         public event EventHandler<PageLoadedEventArgs> OnPageLoaded;
         public event EventHandler OnShow;
@@ -39,10 +44,18 @@ namespace chkam05.VisualPlayer.Controls
             typeof(PagesControl),
             new PropertyMetadata(new SolidColorBrush(Color.FromArgb(128, 0, 0, 0))));
 
+        public static readonly DependencyProperty ShowAdditionalControlsProperty = DependencyProperty.Register(
+            nameof(ShowAdditionalControls),
+            typeof(bool),
+            typeof(PagesControl),
+            new PropertyMetadata(true));
+
 
         //  VARIABLES
 
         private List<IPage> _loadedPages;
+
+        public ConfigManager ConfigManager { get; private set; }
 
 
         //  GETTERS & SETTERS
@@ -77,6 +90,12 @@ namespace chkam05.VisualPlayer.Controls
             get => Visibility == Visibility.Visible;
         }
 
+        public bool ShowAdditionalControls
+        {
+            get => (bool)GetValue(ShowAdditionalControlsProperty);
+            set => SetValue(ShowAdditionalControlsProperty, value);
+        }
+
 
         //  METHODS
 
@@ -86,6 +105,9 @@ namespace chkam05.VisualPlayer.Controls
         /// <summary> PagesControl class constructor. </summary>
         public PagesControl()
         {
+            //  Setup modules.
+            ConfigManager = ConfigManager.Instance;
+
             //  Setup Data Containers.
             _loadedPages = new List<IPage>();
 
@@ -135,6 +157,71 @@ namespace chkam05.VisualPlayer.Controls
 
         #endregion CONTENT FRAME METHODS
 
+        #region CONTROL BUTTONS METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after clicking Back ControlButton. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (CanGoBack)
+                GoBack();
+            else
+                HideInterface();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after clicking Close ControlButton. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            HideInterface();
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing Minimize Button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void MinimizeWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            OnMinimizeButtonClick?.Invoke(this, new EventArgs());
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing Maximize Button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void MaximizeWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            OnMaximizeButtonClick?.Invoke(this, new EventArgs());
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing Close Button. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Routed Event Arguments. </param>
+        private void CloseWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            OnCloseButtonClick?.Invoke(this, new EventArgs());
+        }
+
+        #endregion CONTROL BUTTONS METHODS
+
+        #region INTERACTION METHODS
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after pressing left mouse button when cursor is over title grid. </summary>
+        /// <param name="sender"> Object that invoked method. </param>
+        /// <param name="e"> Mouse Button Event Arguments. </param>
+        private void TitleGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.MainWindow.DragMove();
+        }
+
+        #endregion INTERACTION METHODS
+
         #region INTERFACE MANAGEMENT METHODS
 
         //  --------------------------------------------------------------------------------
@@ -145,6 +232,8 @@ namespace chkam05.VisualPlayer.Controls
             {
                 Visibility = Visibility.Visible;
                 OnShow?.Invoke(this, new EventArgs());
+
+                OnPropertyChanged(nameof(IsVisible));
             }
         }
 
@@ -162,6 +251,9 @@ namespace chkam05.VisualPlayer.Controls
             //  Invoke external event.
             var args = new PageLoadedEventArgs(null);
             OnPageBack?.Invoke(this, args);
+
+            OnPropertyChanged(nameof(CanGoBack));
+            OnPropertyChanged(nameof(IsVisible));
         }
 
         #endregion INTERFACE MANAGEMENT METHODS
@@ -190,6 +282,9 @@ namespace chkam05.VisualPlayer.Controls
                 //  Invoke external event.
                 var args = new PageLoadedEventArgs(destPage);
                 OnPageBack?.Invoke(this, args);
+
+                OnPropertyChanged(nameof(CanGoBack));
+                OnPropertyChanged(nameof(LoadedPage));
             }
         }
 
@@ -211,6 +306,9 @@ namespace chkam05.VisualPlayer.Controls
                 //  Invoke external event.
                 var args = new PageLoadedEventArgs(page);
                 OnPageLoaded?.Invoke(this, args);
+
+                OnPropertyChanged(nameof(CanGoBack));
+                OnPropertyChanged(nameof(LoadedPage));
             }
         }
 

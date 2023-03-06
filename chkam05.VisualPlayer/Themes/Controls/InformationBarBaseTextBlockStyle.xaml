@@ -1,0 +1,19 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:config="clr-namespace:chkam05.VisualPlayer.Data.Configuration"
+    xmlns:controlsex="clr-namespace:chkam05.Tools.ControlsEx;assembly=chkam05.Tools.ControlsEx">
+
+    <x:Static x:Key="ConfigManager" Member="config:ConfigManager.Instance" />
+
+    <Style x:Key="InformationBarBaseTextBlockStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontFamily" Value="{Binding InformationBarFont.FontFamily, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="FontSize" Value="{Binding InformationBarFontSize, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="FontStretch" Value="{Binding InformationBarFontStretch, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="FontStyle" Value="{Binding InformationBarFontStyle, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="FontWeight" Value="{Binding InformationBarFontWeight, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="Foreground" Value="{Binding IfaceForegroundColorBrush, Source={StaticResource ConfigManager}, Mode=OneWay}"/>
+        <Setter Property="Margin" Value="0"/>
+    </Style>
+
+</ResourceDictionary>
