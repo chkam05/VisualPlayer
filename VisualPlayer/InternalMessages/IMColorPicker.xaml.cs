@@ -83,8 +83,6 @@ namespace VisualPlayer.InternalMessages
         /// <summary> Create internal message color selector. </summary>
         /// <param name="imControl"> Internal message control. </param>
         /// <param name="title"> Message title. </param>
-        /// <param name="message"> Message. </param>
-        /// <param name="icon"> Message title icon. </param>
         /// <param name="onClose"> On close method. </param>
         /// <returns> Internal message box. </returns>
         public static IMColorPicker CreateMessage(IIMControl imControl, string title,

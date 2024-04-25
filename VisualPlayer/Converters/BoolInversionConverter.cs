@@ -6,11 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace VisualPlayer.Converters
 {
-    public class BoolSelectionModeConverter : IValueConverter
+    public class BoolInversionConverter : IValueConverter
     {
 
         //  METHODS
@@ -18,20 +17,15 @@ namespace VisualPlayer.Converters
         //  --------------------------------------------------------------------------------
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var selectionMode = (bool)value;
-
-            if (selectionMode)
-            {
-                return SelectionMode.Extended;
-            }
-            
-            return SelectionMode.Single;
+            var boolValue = (bool)value;
+            return !boolValue;
         }
 
         //  --------------------------------------------------------------------------------
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (SelectionMode)value == SelectionMode.Single ? false : true;
+            var boolValue = (bool)value;
+            return !boolValue;
         }
 
     }

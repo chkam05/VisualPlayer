@@ -124,6 +124,7 @@
     <Compile Include="Controls\VolumeControlBar.xaml.cs">
       <DependentUpon>VolumeControlBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BoolInversionConverter.cs" />
     <Compile Include="Converters\BoolSelectionModeConverter.cs" />
     <Compile Include="Converters\BoolVisibilityConverter.cs" />
     <Compile Include="Converters\BrushOpacityConverter.cs" />
@@ -179,6 +180,9 @@
     </Compile>
     <Compile Include="InternalMessages\IMControl.xaml.cs">
       <DependentUpon>IMControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InternalMessages\IMFilesSelector.xaml.cs">
+      <DependentUpon>IMFilesSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="InternalMessages\IMProgress.xaml.cs">
       <DependentUpon>IMProgress.xaml</DependentUpon>
@@ -283,6 +287,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InternalMessages\IMControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InternalMessages\IMFilesSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -113,17 +113,23 @@ namespace VisualPlayer.Pages
 
                 if (files.Any())
                 {
-                    if (directories.Any())
+                    if (directories.Any() && _dataContext.LoadFilesFromSubdirectories)
+                    {
                         finalFiles.AddRange(directories.SelectMany(d => GetFilesFromSubDirectories(d.Path)));
+                    }
 
                     finalFiles.AddRange(files.Select(f => f.Path));
                 }
                 else if (directories.Any())
                 {
                     if (directories.Count() == 1)
+                    {
                         _dataContext.Path = directories.First().Path;
-                    else
+                    }
+                    else if (_dataContext.LoadFilesFromSubdirectories)
+                    {
                         finalFiles.AddRange(directories.SelectMany(d => GetFilesFromSubDirectories(d.Path)));
+                    }
                 }
 
                 if (finalFiles.Any())
@@ -185,15 +191,15 @@ namespace VisualPlayer.Pages
             if (!string.IsNullOrEmpty(path))
             {
                 var directories = SystemHelper.GetDirectories(path,
-                    _dataContext.SearchPhrase,
-                    _dataContext.ShowHiddenFiles,
-                    _dataContext.ShowSystemFiles);
+                    _dataContext.ApplyFilterToFilesFromSubdirectories ? _dataContext.SearchPhrase : null,
+                    _dataContext.ApplyFilterToFilesFromSubdirectories ? _dataContext.ShowHiddenFiles : false,
+                    _dataContext.ApplyFilterToFilesFromSubdirectories ? _dataContext.ShowSystemFiles : false);
 
                 var files = SystemHelper.GetFiles(path,
-                    _dataContext.SearchPhrase,
+                    _dataContext.ApplyFilterToFilesFromSubdirectories ? _dataContext.SearchPhrase : null,
                     _dataContext.FileExtension?.Extensions,
-                    _dataContext.ShowHiddenFiles,
-                    _dataContext.ShowSystemFiles);
+                    _dataContext.ApplyFilterToFilesFromSubdirectories ? _dataContext.ShowHiddenFiles : false,
+                    _dataContext.ApplyFilterToFilesFromSubdirectories ? _dataContext.ShowSystemFiles : false);
 
                 result.AddRange(directories.SelectMany(d => GetFilesFromSubDirectories(d.FullName)));
                 result.AddRange(files.Select(f => f.FullName));

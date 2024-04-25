@@ -1,34 +1,43 @@
-﻿<base:BasePage
-    xmlns:base="clr-namespace:VisualPlayer.Pages.Base"
-    x:Class="VisualPlayer.Pages.FilesManagerPage"
+﻿<imbase:IMBase
+    xmlns:imbase="clr-namespace:VisualPlayer.InternalMessages.Base"
+    x:Class="VisualPlayer.InternalMessages.IMFilesSelector"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cfg="clr-namespace:VisualPlayer.Data.Configuration"
     xmlns:conv="clr-namespace:VisualPlayer.Converters"
     xmlns:ctrls="clr-namespace:VisualPlayer.Controls"
+    xmlns:imbaseEnum="clr-namespace:VisualPlayer.InternalMessages.Enums"
+    xmlns:imbaseConv="clr-namespace:VisualPlayer.InternalMessages.Converters"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:player="clr-namespace:VisualPlayer.Data.Player"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:VisualPlayer.InternalMessages"
     xmlns:utils="clr-namespace:VisualPlayer.Utilities"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:VisualPlayer.Pages"
-    mc:Ignorable="d" 
-    d:DesignWidth="800"
-    Title="Files Explorer">
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    mc:Ignorable="d"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
-    <base:BasePage.Resources>
+    <imbase:IMBase.Resources>
         <ResourceDictionary>
-
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/PlayListHeaderCustomButtonStyle.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Generic.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Pages/HeadersPageStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/InternalMessages/IMBaseCustomButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!-- STATIC -->
 
             <x:Static x:Key="ConfigMgr" Member="cfg:ConfigurationManager.Instance"/>
-            <RelativeSource x:Key="FilesManagerPage.Source" Mode="FindAncestor" AncestorType="{x:Type Page}"/>
             <utils:DataContextProxy x:Key="DataContextProxy" Data="{Binding}"/>
+            <sys:Double x:Key="IMBox.CustomButton.Height">32</sys:Double>
+            <sys:Double x:Key="IMBox.CustomButton.Width">80</sys:Double>
+
+
+            <!-- CONVERTERS -->
+
+            <conv:BoolInversionConverter x:Key="BoolInversionConverter"/>
+            <imbaseConv:IMButtonVisibilityConverter x:Key="IMButtonVisibilityConverter"/>
 
 
             <!-- STYLES -->
@@ -46,19 +55,19 @@
                 <Setter Property="Margin" Value="0"/>
                 <Setter Property="Padding" Value="2,0"/>
             </Style>
-            
-            
+
+
             <!-- DATA TEMPLATES -->
 
             <DataTemplate x:Key="FileExtensionDataTemplate">
                 <TextBlock
                     Text="{Binding Name}"/>
             </DataTemplate>
+
             
-
         </ResourceDictionary>
-    </base:BasePage.Resources>
-
+    </imbase:IMBase.Resources>
+    
     <Grid>
 
         <Grid.RowDefinitions>
@@ -66,82 +75,81 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!-- Header -->
         
-        <Grid
-            x:Name="_headerGrid"
-            Grid.Row="0">
+        <Border
+            x:Name="_topBorder"
+            BorderBrush="{Binding BorderBrush, Mode=OneWay}"
+            BorderThickness="0,0,0,1"
+            ClipToBounds="True"
+            Grid.Row="0"
+            Padding="8">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+            <Grid>
 
-            <ctrls:CustomButton
-                Grid.Column="0"
-                IconKind="ChevronLeft"
-                Style="{StaticResource PlayListHeader.CustomButtonStyle}"
-                Click="BackButtonClick"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBlock
-                Grid.Column="1"
-                FontSize="20"
-                FontWeight="SemiBold"
-                Margin="8,0"
-                Text="{Binding Title, Mode=OneWay, RelativeSource={StaticResource FilesManagerPage.Source}}"
-                VerticalAlignment="Center"/>
+                <StackPanel
+                    Grid.Column="0"
+                    Orientation="Horizontal">
 
-            <ctrls:CustomButton
-                Grid.Column="2"
-                IconKind="MoreHoriz"
-                Style="{StaticResource PlayListHeader.CustomButtonStyle}"
-                PreviewMouseUp="OptionsButtonPreviewMouseUp">
+                    <materialDesign:PackIcon
+                        Height="32"
+                        Kind="FolderOpen"
+                        Width="32"/>
 
-                <ctrls:CustomButton.ContextMenu>
-                    <ctrls:CustomContextMenu
-                        DataContext="{Binding Data, Source={StaticResource DataContextProxy}}">
+                    <TextBlock
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Foreground="{Binding Appearance.ThemeForegroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
+                        Margin="8,0,0,0"
+                        Text="{Binding Title}"/>
 
-                        <ctrls:CustomContextMenuItem
-                            Header="Load Files from selected subdirectories"
-                            IconKind="FileTreeOutline"
-                            IsCheckable="True"
-                            IsChecked="{Binding LoadFilesFromSubdirectories, Mode=TwoWay}"/>
+                </StackPanel>
 
-                        <ctrls:CustomContextMenuItem
-                            Header="Apply filter to Files from selected subdirectories"
-                            IconKind="FilterMenuOutline"
-                            IsEnabled="{Binding LoadFilesFromSubdirectories, Mode=OneWay}"
-                            IsCheckable="True"
-                            IsChecked="{Binding ApplyFilterToFilesFromSubdirectories, Mode=TwoWay}"/>
+                <ctrls:CustomButton
+                    Grid.Column="1"
+                    IconKind="MoreHoriz"
+                    Style="{StaticResource PlayListHeader.CustomButtonStyle}"
+                    PreviewMouseUp="OptionsButtonPreviewMouseUp">
 
-                        <Separator/>
+                    <ctrls:CustomButton.ContextMenu>
+                        <ctrls:CustomContextMenu
+                            DataContext="{Binding Data, Source={StaticResource DataContextProxy}}">
 
-                        <ctrls:CustomContextMenuItem
-                            Header="Multiple files selection"
-                            IconKind="SelectionMultiple"
-                            IsCheckable="True"
-                            IsChecked="{Binding MultiSelect, Mode=TwoWay}"/>
+                            <ctrls:CustomContextMenuItem
+                                Header="Multiple files selection"
+                                IconKind="SelectionMultiple"
+                                IsEnabled="{Binding SaveMode, Mode=OneWay, Converter={StaticResource BoolInversionConverter}}"
+                                IsCheckable="True"
+                                IsChecked="{Binding MultiSelect, Mode=TwoWay}"/>
+                            
+                            <ctrls:CustomContextMenuItem
+                                Header="Show hidden files"
+                                IconKind="FileHidden"
+                                IsCheckable="True"
+                                IsChecked="{Binding ShowHiddenFiles, Mode=TwoWay}"/>
 
-                        <ctrls:CustomContextMenuItem
-                            Header="Show hidden files"
-                            IconKind="FileHidden"
-                            IsCheckable="True"
-                            IsChecked="{Binding ShowHiddenFiles, Mode=TwoWay}"/>
+                            <ctrls:CustomContextMenuItem
+                                Header="Show system files"
+                                IconKind="FileCogOutline"
+                                IsCheckable="True"
+                                IsChecked="{Binding ShowSystemFiles, Mode=TwoWay}"/>
 
-                        <ctrls:CustomContextMenuItem
-                            Header="Show system files"
-                            IconKind="FileCogOutline"
-                            IsCheckable="True"
-                            IsChecked="{Binding ShowSystemFiles, Mode=TwoWay}"/>
+                        </ctrls:CustomContextMenu>
+                    </ctrls:CustomButton.ContextMenu>
+                </ctrls:CustomButton>
 
-                    </ctrls:CustomContextMenu>
-                </ctrls:CustomButton.ContextMenu>
-            </ctrls:CustomButton>
+            </Grid>
 
-        </Grid>
+        </Border>
 
         <!-- ToolBar -->
 
@@ -156,7 +164,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- Previous / Forward -->
-            
+
             <StackPanel
                 Grid.Column="0"
                 Orientation="Horizontal">
@@ -174,7 +182,7 @@
                     Click="NavigationForwardCustomButtonClick"/>
 
             </StackPanel>
-            
+
             <!-- Address Bar -->
 
             <Border
@@ -182,7 +190,7 @@
                 BorderBrush="{Binding Appearance.AccentColorBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
                 CornerRadius="8"
                 Grid.Column="1"
-                Margin="0,0,6,0"
+                Margin="0,4,6,0"
                 Padding="4">
 
                 <Grid>
@@ -214,7 +222,7 @@
                 </Grid>
 
             </Border>
-            
+
             <!-- Search Bar -->
 
             <Border
@@ -222,7 +230,7 @@
                 BorderBrush="{Binding Appearance.AccentColorBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
                 CornerRadius="8"
                 Grid.Column="2"
-                Margin="0,0,6,0"
+                Margin="0,4,4,0"
                 Padding="4">
 
                 <Grid>
@@ -258,7 +266,7 @@
         </Grid>
 
         <!-- Content -->
-        
+
         <Grid
             x:Name="_contentGrid"
             Grid.Row="2">
@@ -270,6 +278,7 @@
 
             <ctrls:FilesTreeViewer
                 Grid.Column="0"
+                MaxWidth="320"
                 ItemSelected="FilesTreeViewerItemSelected"/>
 
             <ctrls:FilesViewer
@@ -277,6 +286,7 @@
                 FileExtension="{Binding FileExtension}"
                 Grid.Column="1"
                 ItemsSize="{Binding ItemsSize, Mode=OneWay}"
+                MaxWidth="640"
                 MultipleSelection="{Binding MultiSelect}"
                 SearchPhrase="{Binding SearchPhrase}"
                 ShowHiddenFiles="{Binding ShowHiddenFiles}"
@@ -293,12 +303,13 @@
 
             <StackPanel
                 HorizontalAlignment="Right"
-                Margin="4"
+                Margin="8"
                 Orientation="Horizontal">
 
                 <ctrls:CustomSlider
                     Maximum="{Binding Source={x:Static player:FilesManagerDataContext.ITEMS_SIZE_MAX}, Mode=OneWay}"
                     Minimum="{Binding Source={x:Static player:FilesManagerDataContext.ITEMS_SIZE_MIN}, Mode=OneWay}"
+                    MinHeight="16"
                     MinWidth="160"
                     Orientation="Horizontal"
                     ThumbCornerRadius="8"
@@ -306,21 +317,107 @@
                     TickPlacement="Both"
                     ThumbHeight="12"
                     ThumbWidth="12"
+                    TrackBarBackground="{Binding Appearance.ThemeBackgroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
                     Value="{Binding ItemsSize, Mode=TwoWay}"
                     VerticalAlignment="Center"/>
-
-                <ctrls:CustomComboBox
-                    ItemsSource="{Binding FilesExtensions}"
-                    ItemTemplate="{StaticResource FileExtensionDataTemplate}"
-                    Margin="8,0,0,0"
-                    MinWidth="192"
-                    SelectedItem="{Binding FileExtension}"/>
-                    
 
             </StackPanel>
 
         </Grid>
 
+        <!-- FileName / Extensions -->
+
+        <Grid
+            x:Name="_fileExtensionGrid"
+            Grid.Row="4">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border
+                Background="{Binding Appearance.ThemeBackgroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
+                BorderBrush="{Binding Appearance.AccentColorBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
+                CornerRadius="8"
+                Grid.Column="0"
+                Margin="4,4,2,4"
+                Padding="4">
+
+                <ctrls:CustomTextBox
+                    x:Name="_fileNameBarTextBox"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    Grid.Column="0"
+                    Margin="0"
+                    Style="{StaticResource ToolBar.CustomTextBoxStyle}"
+                    Text="{Binding SelectedFileName, Mode=TwoWay}"
+                    GotFocus="FileNameBarCustomTextBoxGotFocus"
+                    LostFocus="FileNameBarCustomTextBoxLostFocus"
+                    PreviewKeyDown="FileNameBarCustomTextBoxPreviewKeyDown"/>
+
+            </Border>
+
+            <Border
+                Background="{Binding Appearance.ThemeBackgroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
+                BorderBrush="{Binding Appearance.AccentColorBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
+                CornerRadius="8"
+                Grid.Column="1"
+                Margin="2,4,4,4"
+                Padding="4">
+
+                <ctrls:CustomComboBox
+                    DropDownBackground="{Binding Appearance.ThemeBackgroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
+                    DropDownForeground="{Binding Appearance.ThemeForegroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
+                    Grid.Column="1"
+                    ItemsSource="{Binding FilesExtensions}"
+                    ItemTemplate="{StaticResource FileExtensionDataTemplate}"
+                    MinWidth="192"
+                    SelectedItem="{Binding FileExtension}"
+                    VerticalContentAlignment="Center"/>
+
+            </Border>
+        </Grid>
+
+        <!-- BUTTONS -->
+
+        <Border
+            x:Name="_bottomBorder"
+            BorderBrush="{Binding BorderBrush}"
+            BorderThickness="0,1,0,0"
+            ClipToBounds="True"
+            Grid.Row="5"
+            Padding="8">
+
+            <StackPanel
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+
+                <ctrls:CustomButton
+                    Content="Open"
+                    IsEnabled="True"
+                    Click="OkCustomButtonClick">
+
+                    <ctrls:CustomButton.Style>
+                        <Style BasedOn="{StaticResource IMBase.CustomButtonStyle}" TargetType="{x:Type ctrls:CustomButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedFileName}" Value="{x:Null}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ctrls:CustomButton.Style>
+
+                </ctrls:CustomButton>
+
+                <ctrls:CustomButton
+                    Content="Cancel"
+                    Style="{StaticResource IMBase.CustomButtonStyle}"
+                    Click="CancelCustomButtonClick"/>
+
+            </StackPanel>
+        </Border>
+
     </Grid>
     
-</base:BasePage>
+</imbase:IMBase>

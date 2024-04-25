@@ -1,0 +1,128 @@
+﻿<base:BasePage
+    xmlns:base="clr-namespace:VisualPlayer.Pages.Base"
+    x:Class="VisualPlayer.Pages.Debug.ColorSelectorsDebugPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cfg="clr-namespace:VisualPlayer.Data.Configuration"
+    xmlns:conv="clr-namespace:VisualPlayer.Converters"
+    xmlns:ctrls="clr-namespace:VisualPlayer.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:VisualPlayer.Pages.Debug"
+    mc:Ignorable="d" 
+    d:DesignWidth="800"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    Title="Color Selectors - Debug">
+
+    <base:BasePage.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/PlayListHeaderCustomButtonStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Generic.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Pages/HeadersPageStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- STATIC -->
+
+            <x:Static x:Key="ConfigMgr" Member="cfg:ConfigurationManager.Instance"/>
+            <RelativeSource x:Key="SettingsDebugPage.Source" Mode="FindAncestor" AncestorType="{x:Type Page}"/>
+
+        </ResourceDictionary>
+    </base:BasePage.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid
+            x:Name="_headerGrid">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <ctrls:CustomButton
+                Grid.Column="0"
+                IconKind="ChevronLeft"
+                Style="{StaticResource PlayListHeader.CustomButtonStyle}"
+                Click="BackButtonClick"/>
+
+            <TextBlock
+                Grid.Column="1"
+                FontSize="20"
+                FontWeight="SemiBold"
+                Margin="8,0"
+                Text="{Binding Title, Mode=OneWay, RelativeSource={StaticResource SettingsDebugPage.Source}}"
+                VerticalAlignment="Center"/>
+
+            <StackPanel
+                Grid.Column="2"
+                Margin="8"
+                Orientation="Horizontal">
+
+                <TextBlock
+                    Margin="0,0,16,0"
+                    Text="Selected color:"
+                    VerticalAlignment="Center"/>
+
+                <Border
+                    Background="{Binding SelectedColor.ColorBrush, Mode=OneWay}"
+                    CornerRadius="8"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    Width="40"
+                    VerticalAlignment="Stretch"/>
+
+            </StackPanel>
+
+        </Grid>
+
+        <ctrls:CustomScrollViewer
+            Grid.Row="1"
+            VerticalScrollBarVisibility="Visible">
+
+            <StackPanel
+                Margin="0,0,0,16">
+
+                <TextBlock
+                    Margin="4,8,4,4"
+                    Style="{StaticResource Header1.Page.TextBlock}"
+                    Text="Color Selector"/>
+
+                <TextBlock
+                    Margin="4,0,4,8"
+                    Style="{StaticResource Normal.Page.TextBlock}"
+                    Text="Color selector test"/>
+
+                <ctrls:ColorSelector
+                    Height="Auto"
+                    ShowContextMenu="True"
+                    SelectedColor="{Binding SelectedColor, Mode=TwoWay}"/>
+
+                <TextBlock
+                    Margin="4,8,4,4"
+                    Style="{StaticResource Header1.Page.TextBlock}"
+                    Text="Color Picker"/>
+
+                <TextBlock
+                    Margin="4,0,4,8"
+                    Style="{StaticResource Normal.Page.TextBlock}"
+                    Text="Color picker test"/>
+
+                <ctrls:ColorPicker
+                    Height="256"
+                    SelectedColor="{Binding SelectedColor, Mode=TwoWay}"/>
+
+            </StackPanel>
+
+        </ctrls:CustomScrollViewer>
+
+    </Grid>
+
+</base:BasePage>

@@ -34,6 +34,9 @@ namespace VisualPlayer.Data.Player
         private bool _showHiddenFiles = false;
         private bool _showSystemFiles = false;
 
+        private bool _applyFilterToFilesFromSubdirectories = false;
+        private bool _loadFilesFromSubdirectories = false;
+
         private bool _pathFocused = false;
         private bool _searchFocused = false;
 
@@ -129,6 +132,18 @@ namespace VisualPlayer.Data.Player
         {
             get => _showSystemFiles;
             set => UpdateProperty(ref _showSystemFiles, value);
+        }
+
+        public bool ApplyFilterToFilesFromSubdirectories
+        {
+            get => _applyFilterToFilesFromSubdirectories;
+            set => UpdateProperty(ref _applyFilterToFilesFromSubdirectories, value);
+        }
+
+        public bool LoadFilesFromSubdirectories
+        {
+            get => _loadFilesFromSubdirectories;
+            set => UpdateProperty(ref _loadFilesFromSubdirectories, value);
         }
 
         public bool PathFocused

@@ -192,6 +192,28 @@ namespace VisualPlayer.Controls
         }
 
         //  --------------------------------------------------------------------------------
+        /// <summary> Method invoked after releasing key on list view. </summary>
+        /// <param name="sender"> Object that invoked the method. </param>
+        /// <param name="e"> Key Event Arguments. </param>
+        private void ListViewPreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            ListView listView = sender as ListView;
+
+            if (e.Key == Key.Enter)
+            {
+                if (listView.SelectedItems != null && listView.SelectedItems.Count > 0)
+                {
+                    var selectedItems = listView.SelectedItems.Cast<FileItem>().ToList();
+                    ItemsSelected?.Invoke(this, new FilesViewerItemsSelectedEventArgs(selectedItems));
+                }
+                else
+                {
+                    ItemsSelected?.Invoke(this, new FilesViewerItemsSelectedEventArgs(Enumerable.Empty<FileItem>()));
+                }
+            }
+        }
+
+        //  --------------------------------------------------------------------------------
         /// <summary> Method invoked after double clicking on list view. </summary>
         /// <param name="sender"> Object that invoked the method. </param>
         /// <param name="e"> Mouse Button Event Arguments. </param>
@@ -203,6 +225,10 @@ namespace VisualPlayer.Controls
             {
                 var selectedItems = listView.SelectedItems.Cast<FileItem>().ToList();
                 ItemsSelected?.Invoke(this, new FilesViewerItemsSelectedEventArgs(selectedItems));
+            }
+            else
+            {
+                ItemsSelected?.Invoke(this, new FilesViewerItemsSelectedEventArgs(Enumerable.Empty<FileItem>()));
             }
         }
 
@@ -221,7 +247,10 @@ namespace VisualPlayer.Controls
                 var targetListView = ObjectHelper.FindParentElementByTemplate<CustomListView>(frameworkElement);
 
                 if (targetListView != null && targetListView == listView)
+                {
                     listView.SelectedItem = null;
+                    listView.SelectedItems.Clear();
+                }
             }
         }
 
@@ -386,6 +415,7 @@ namespace VisualPlayer.Controls
             SetListViewSelectedItemChanged(listView, ListViewSelectionChanged);
             SetListViewPreviewMouseDoubleClick(listView, ListViewPreviewMouseDoubleClick);
             SetPreviewMouseDown(listView, ListViewPreviewMouseDown);
+            SetPreviewKeyUp(listView, ListViewPreviewKeyUp);
         }
 
         //  --------------------------------------------------------------------------------
@@ -395,6 +425,15 @@ namespace VisualPlayer.Controls
         private ListView GetListView(string listViewName)
         {
             return this.Template.FindName(listViewName, this) as ListView;
+        }
+
+        //  --------------------------------------------------------------------------------
+        /// <summary> Set framework element preview key up event handler. </summary>
+        /// <param name="frameworkElement"> Framework element. </param>
+        /// <param name="handler"> Key event handler. </param>
+        private void SetPreviewKeyUp(FrameworkElement frameworkElement, KeyEventHandler handler)
+        {
+            frameworkElement.PreviewKeyUp += handler;
         }
 
         //  --------------------------------------------------------------------------------
