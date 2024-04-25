@@ -1,0 +1,164 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:cfg="clr-namespace:VisualPlayer.Data.Configuration"
+    xmlns:ctrls="clr-namespace:VisualPlayer.Controls"
+    xmlns:enums="clr-namespace:VisualPlayer.Data.Enums"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomButtonStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <!-- STATIC -->
+
+    <x:Static x:Key="ConfigMgr" Member="cfg:ConfigurationManager.Instance"/>
+    <RelativeSource x:Key="CustomUpDown.Source" AncestorType="{x:Type ctrls:CustomUpDown}"/>
+    <sys:Double x:Key="CustomUpDown.CustomButton.IconSize">16</sys:Double>
+    <sys:Double x:Key="CustomUpDown.CustomButton.Size">18</sys:Double>
+    
+    
+    <!-- RELATED STYLES -->
+
+    <Style x:Key="CustomUpDown.CustomButtonStyle" BasedOn="{StaticResource CustomButtonStyle}" TargetType="{x:Type ctrls:CustomButton}">
+        <Setter Property="BackgroundMouseOver" Value="{Binding Appearance.AccentColorBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="Height" Value="{StaticResource CustomUpDown.CustomButton.Size}"/>
+        <Setter Property="IconHeight" Value="{StaticResource CustomUpDown.CustomButton.IconSize}"/>
+        <Setter Property="IconWidth" Value="{StaticResource CustomUpDown.CustomButton.IconSize}"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Width" Value="24"/>
+    </Style>
+
+
+    <!-- CONTROL TEMPLATE -->
+
+    <ControlTemplate x:Key="CustomUpDown.ControlTemplate" TargetType="{x:Type ctrls:CustomUpDown}">
+        <Border
+            x:Name="border"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Padding="0"
+            SnapsToDevicePixels="True">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border
+                    x:Name="innerBorder"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    BorderThickness="0,0,0,1"
+                    Grid.Column="0"
+                    Margin="{TemplateBinding Padding}"
+                    Padding="0">
+
+                    <ctrls:CustomScrollViewer
+                        x:Name="PART_ContentHost"
+                        Focusable="false"
+                        Foreground="{TemplateBinding Foreground}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        HorizontalScrollBarVisibility="Hidden"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                        VerticalScrollBarVisibility="Hidden"/>
+
+                </Border>
+
+                <Grid
+                    Grid.Column="1">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <ctrls:CustomButton
+                        x:Name="_upButton"
+                        Grid.Row="0"
+                        IconKind="ChevronUp"
+                        Style="{TemplateBinding ButtonStyle}"/>
+
+                    <ctrls:CustomButton
+                        x:Name="_downButton"
+                        Grid.Row="1"
+                        IconKind="ChevronDown"
+                        Style="{TemplateBinding ButtonStyle}"/>
+
+                </Grid>
+
+            </Grid>
+        </Border>
+        <ControlTemplate.Triggers>
+
+            <!-- Is Disabled. -->
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+            </Trigger>
+
+            <!-- Is Mouse Over. -->
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Background" TargetName="border" Value="{Binding BackgroundMouseOver, RelativeSource={StaticResource CustomUpDown.Source}}"/>
+                <Setter Property="BorderBrush" TargetName="border" Value="{Binding BorderBrushMouseOver, RelativeSource={StaticResource CustomUpDown.Source}}"/>
+                <Setter Property="Foreground" TargetName="PART_ContentHost" Value="{Binding ForegroundMouseOver, RelativeSource={StaticResource CustomUpDown.Source}}"/>
+            </Trigger>
+
+            <!-- Is Keyboard Focused. -->
+            <Trigger Property="IsKeyboardFocused" Value="true">
+                <Setter Property="Background" TargetName="border" Value="{Binding BackgroundSelected, RelativeSource={StaticResource CustomUpDown.Source}}"/>
+                <Setter Property="BorderBrush" TargetName="border" Value="{Binding BorderBrushSelected, RelativeSource={StaticResource CustomUpDown.Source}}"/>
+                <Setter Property="BorderBrush" TargetName="innerBorder" Value="{Binding SelectedTextBrush, RelativeSource={StaticResource CustomUpDown.Source}}"/>
+                <Setter Property="Foreground" TargetName="PART_ContentHost" Value="{Binding ForegroundSelected, RelativeSource={StaticResource CustomUpDown.Source}}"/>
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+
+    <!-- STYLE -->
+
+    <Style x:Key="CustomUpDownStyle" TargetType="{x:Type ctrls:CustomUpDown}">
+        <Setter Property="Background" Value="{Binding Appearance.ThemeBackgroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="BackgroundMouseOver" Value="{Binding Appearance.AccentMouseOverBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="BackgroundSelected" Value="{Binding Appearance.ThemeShadeBackgroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="BorderBrush" Value="{Binding Appearance.AccentColorBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="BorderBrushMouseOver" Value="{Binding Appearance.AccentColorBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="BorderBrushSelected" Value="{Binding Appearance.AccentSelectedBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="ButtonStyle" Value="{StaticResource CustomUpDown.CustomButtonStyle}"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Foreground" Value="{Binding Appearance.ThemeForegroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="ForegroundMouseOver" Value="{Binding Appearance.AccentForegroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="ForegroundSelected" Value="{Binding Appearance.ThemeForegroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="Template" Value="{StaticResource CustomUpDown.ControlTemplate}"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+        <Style.Triggers>
+            <MultiTrigger>
+
+                <!-- Is Text Selected?. -->
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsInactiveSelectionHighlightEnabled" Value="true"/>
+                    <Condition Property="IsSelectionActive" Value="false"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="SelectionBrush" Value="{Binding SelectedTextBrush, RelativeSource={StaticResource CustomUpDown.Source}}"/>
+            </MultiTrigger>
+
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

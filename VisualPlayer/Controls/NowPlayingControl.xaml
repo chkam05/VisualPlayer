@@ -1,0 +1,326 @@
+﻿<UserControl
+    x:Class="VisualPlayer.Controls.NowPlayingControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cfg="clr-namespace:VisualPlayer.Data.Configuration"
+    xmlns:conv="clr-namespace:VisualPlayer.Converters"
+    xmlns:ctrls="clr-namespace:VisualPlayer.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:enums="clr-namespace:VisualPlayer.Data.Enums"
+    xmlns:local="clr-namespace:VisualPlayer.Controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:utls="clr-namespace:VisualPlayer.Utilities"
+    mc:Ignorable="d"
+    
+    d:DesignHeight="450">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomListViewItemStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/PlayListHeaderCustomButtonStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- STATIC -->
+            <x:Static x:Key="ConfigMgr" Member="cfg:ConfigurationManager.Instance"/>
+            <RelativeSource x:Key="NowPlayingControl.Source" AncestorType="{x:Type local:NowPlayingControl}"/>
+            <sys:Double x:Key="NowPlayingControl.OuterGrid.MinWidth">320</sys:Double>
+            <sys:Double x:Key="NowPlayingItem.PackIcon.Size">32</sys:Double>
+            <sys:String x:Key="NowPlayingItem.Text.Separator"> / </sys:String>
+            
+            
+            <!-- CONVERTERS -->
+
+            <conv:ListViewItemWidthConverter x:Key="ListViewItemWidthConverter"/>
+            <conv:StringsCombineConverter x:Key="StringsCombineConverter"/>
+            <utls:DataContextProxy x:Key="DataContextProxy" Data="{Binding}"/>
+
+
+            <!-- STYLES -->
+
+            <Style x:Key="NowPlayingListViewItemStyle" BasedOn="{StaticResource CustomListViewItemStyle}" TargetType="ctrls:CustomListViewItem">
+                <EventSetter Event="MouseDoubleClick" Handler="NowPlayingListViewItemMouseDoubleClick"/>
+                <EventSetter Event="PreviewMouseDown" Handler="NowPlayingListViewItemPreviewMouseDown"/>
+                <EventSetter Event="PreviewMouseUp" Handler="NowPlayingListViewItemPreviewMouseUp"/>
+                <Setter Property="Margin" Value="2,4"/>
+                <Setter Property="ToolTip" Value="{Binding Title}"/>
+                <Setter Property="Width">
+                    <Setter.Value>
+                        <MultiBinding
+                            Converter="{StaticResource ListViewItemWidthConverter}"
+                            Mode="OneWay">
+                            <Binding Path="ActualWidth" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=ctrls:CustomListView}"/>
+                            <Binding Path="Padding" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=ctrls:CustomListView}"/>
+                            <Binding Source="{StaticResource CustomListView.ScrollBar.Size}"/>
+                            <Binding Path="." RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=ctrls:CustomListView}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+
+                <Setter Property="ContextMenu">
+                    <Setter.Value>
+                        <ctrls:CustomContextMenu
+                            IsVisibleChanged="ContextMenuIsVisibleChanged">
+
+                            <ctrls:CustomContextMenuItem
+                                Header="Play"
+                                IconKind="Play"
+                                Command="{Binding Data.PlayItemCommand, Source={StaticResource DataContextProxy}}"
+                                CommandParameter="{Binding .}"/>
+
+                            <ctrls:CustomContextMenuItem
+                                Header="Remove"
+                                IconKind="BinOutline"
+                                Command="{Binding Data.RemoveItemCommand, Source={StaticResource DataContextProxy}}"
+                                CommandParameter="{Binding .}"/>
+
+                        </ctrls:CustomContextMenu>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+
+            <!-- DATA TEMPLATES -->
+
+            <DataTemplate x:Key="NowPlayingItemDataTemplate">
+                <Grid
+                    HorizontalAlignment="Stretch">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <materialDesign:PackIcon
+                        x:Name="_icon"
+                        Grid.Column="0"
+                        Height="{StaticResource NowPlayingItem.PackIcon.Size}"
+                        Kind="{Binding Icon}"
+                        Width="{StaticResource NowPlayingItem.PackIcon.Size}"
+                        VerticalAlignment="Center"/>
+
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Vertical">
+
+                        <TextBlock
+                            Text="{Binding Title}"/>
+
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding
+                                    Converter="{StaticResource StringsCombineConverter}"
+                                    ConverterParameter="{StaticResource NowPlayingItem.Text.Separator}"
+                                    Mode="OneWay">
+                                    <Binding Path="Album"/>
+                                    <Binding Path="Artist"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+
+                    </StackPanel>
+
+                </Grid>
+                
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsPlaying}" Value="True">
+                        <DataTrigger.Setters>
+                            <Setter Property="Kind" Value="Play" TargetName="_icon"/>
+                        </DataTrigger.Setters>
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+            
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid
+        x:Name="_outerGrid"
+        MinWidth="{StaticResource NowPlayingControl.OuterGrid.MinWidth}"
+        Width="{StaticResource NowPlayingControl.OuterGrid.MinWidth}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Border
+            Grid.Column="1"
+            Background="Transparent"
+            BorderBrush="{x:Null}"
+            BorderThickness="0"
+            Cursor="SizeWE">
+
+            <materialDesign:PackIcon
+                Foreground="{Binding Appearance.ThemeForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"
+                HorizontalAlignment="Stretch"
+                Kind="MoreVert"
+                Margin="-2,0"
+                VerticalAlignment="Center"/>
+
+        </Border>
+
+        <Grid
+            x:Name="_innerGrid"
+            Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid
+                x:Name="_headerGrid">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <ctrls:CustomButton
+                    Grid.Column="0"
+                    IconKind="ChevronLeft"
+                    Style="{StaticResource PlayListHeader.CustomButtonStyle}"
+                    Click="BackButtonClick"/>
+
+                <StackPanel
+                    Grid.Column="1"
+                    Margin="8,0"
+                    Orientation="Vertical"
+                    VerticalAlignment="Center">
+
+                    <TextBlock
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        Text="Now Playing:"/>
+
+                    <TextBlock
+                        Margin="0,2,0,0"
+                        Text="Playlist name"/>
+
+                </StackPanel>
+
+                <ctrls:CustomButton
+                    Grid.Column="2"
+                    IconKind="MoreHoriz"
+                    Style="{StaticResource PlayListHeader.CustomButtonStyle}"
+                    PreviewMouseUp="MoreButtonPreviewMouseUp">
+
+                    <ctrls:CustomButton.ContextMenu>
+                        <ctrls:CustomContextMenu
+                            IsVisibleChanged="ContextMenuIsVisibleChanged">
+
+                            <ctrls:CustomContextMenuItem
+                                Header="Play from beginning"
+                                IconKind="Replay"
+                                Command="{Binding Data.PlayFromBeginningCommand, Source={StaticResource DataContextProxy}}"/>
+
+                            <ctrls:CustomContextMenuItem
+                                Header="Clear"
+                                IconKind="DeleteEmptyOutline"
+                                Command="{Binding Data.ClearCommand, Source={StaticResource DataContextProxy}}"/>
+
+                            <Separator
+                                Margin="0,2"/>
+
+                            <ctrls:CustomContextMenuItem
+                                Header="Add"
+                                IconKind="MusicNoteAdd"
+                                Command="{Binding Data.AddSongsCommand, Source={StaticResource DataContextProxy}}"/>
+
+                            <ctrls:CustomContextMenuItem
+                                Header="Open Playlist"
+                                IconKind="FolderOpenOutline"
+                                Command="{Binding Data.OpenPlayListCommand, Source={StaticResource DataContextProxy}}"/>
+
+                            <ctrls:CustomContextMenuItem
+                                Header="Save Playlist"
+                                IconKind="ContentSaveEditOutline"
+                                Command="{Binding Data.SavePlayListCommand, Source={StaticResource DataContextProxy}}"/>
+
+                            <ctrls:CustomContextMenuItem
+                                Header="Sort"
+                                IconKind="Sort">
+
+                                <ctrls:CustomContextMenuItem.Items>
+
+                                    <ctrls:CustomContextMenuItem
+                                        Header="By Title asc"
+                                        IconKind="SortAlphabeticalAscending"
+                                        Command="{Binding Data.SortCommand, Source={StaticResource DataContextProxy}}"
+                                        CommandParameter="{x:Static enums:SongSortType.TitleAsc}"/>
+
+                                    <ctrls:CustomContextMenuItem
+                                        Header="By Title desc"
+                                        IconKind="SortAlphabeticalDescending"
+                                        Command="{Binding Data.SortCommand, Source={StaticResource DataContextProxy}}"
+                                        CommandParameter="{x:Static enums:SongSortType.TitleDesc}"/>
+
+                                    <ctrls:CustomContextMenuItem
+                                        Header="By Album asc"
+                                        IconKind="Image"
+                                        Command="{Binding Data.SortCommand, Source={StaticResource DataContextProxy}}"
+                                        CommandParameter="{x:Static enums:SongSortType.AlbumAsc}"/>
+
+                                    <ctrls:CustomContextMenuItem
+                                        Header="By Album desc"
+                                        IconKind="ImageOutline"
+                                        Command="{Binding Data.SortCommand, Source={StaticResource DataContextProxy}}"
+                                        CommandParameter="{x:Static enums:SongSortType.AlbumDesc}"/>
+
+                                    <ctrls:CustomContextMenuItem
+                                        Header="By Artist asc"
+                                        IconKind="Artist"
+                                        Command="{Binding Data.SortCommand, Source={StaticResource DataContextProxy}}"
+                                        CommandParameter="{x:Static enums:SongSortType.ArtistAsc}"/>
+
+                                    <ctrls:CustomContextMenuItem
+                                        Header="By Artist desc"
+                                        IconKind="ArtistOutline"
+                                        Command="{Binding Data.SortCommand, Source={StaticResource DataContextProxy}}"
+                                        CommandParameter="{x:Static enums:SongSortType.ArtistDesc}"/>
+
+                                </ctrls:CustomContextMenuItem.Items>
+                            </ctrls:CustomContextMenuItem>
+
+                            <Separator
+                                Margin="0,2"/>
+
+                            <ctrls:CustomContextMenuItem
+                                Header="Stay on top"
+                                IconKind="DockWindow"
+                                IsCheckable="True"
+                                IsChecked="{Binding Config.UserInterface.NowPlayingStayOnTop, Source={StaticResource ConfigMgr}}"/>
+
+                        </ctrls:CustomContextMenu>
+                    </ctrls:CustomButton.ContextMenu>
+
+                </ctrls:CustomButton>
+
+            </Grid>
+
+            <ctrls:CustomListView
+                x:Name="_listView"
+                AllowDrop="True"
+                Grid.Row="1"
+                ItemContainerStyle="{StaticResource NowPlayingListViewItemStyle}"
+                ItemsSource="{Binding Items}"
+                ItemTemplate="{StaticResource NowPlayingItemDataTemplate}"
+                Margin="4,0,4,8"
+                Padding="0,0,2,0"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Drop="NowPlayingListViewDrop"
+                PreviewMouseMove="NowPlayingListPreviewMouseMove"
+                MouseLeave="NowPlayingListMouseLeave">
+
+            </ctrls:CustomListView>
+
+        </Grid>
+
+    </Grid>
+    
+</UserControl>

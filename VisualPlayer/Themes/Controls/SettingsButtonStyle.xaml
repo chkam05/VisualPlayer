@@ -1,0 +1,184 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:cfg="clr-namespace:VisualPlayer.Data.Configuration"
+    xmlns:ctrls="clr-namespace:VisualPlayer.Controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- STATIC -->
+
+    <x:Static x:Key="ConfigMgr" Member="cfg:ConfigurationManager.Instance"/>
+    <RelativeSource x:Key="SettingsButton.Source" AncestorType="{x:Type ctrls:SettingsButton}"/>
+    
+    
+    <!-- DATA TEMPLATE -->
+
+    <Style x:Key="SettingsButton.FocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle
+                        Margin="2"
+                        SnapsToDevicePixels="true"
+                        Stroke="{Binding BackgroundMouseOver, RelativeSource={StaticResource SettingsButton.Source}}"
+                        StrokeDashArray="1 2"
+                        StrokeThickness="1"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="SettingsButton.ControlTemplate" TargetType="{x:Type ctrls:SettingsButton}">
+        <Border
+            x:Name="_backgroundBorder"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"
+            SnapsToDevicePixels="true">
+
+            <Grid
+                HorizontalAlignment="Stretch"
+                Margin="{TemplateBinding Padding}"
+                VerticalAlignment="Stretch">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="_iconColumn" Width="Auto"/>
+                    <ColumnDefinition x:Name="_titleColumn" Width="*"/>
+                    <ColumnDefinition x:Name="_contentColumn" Width="Auto"/>
+                    <ColumnDefinition x:Name="_arrowColumn" Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <materialDesign:PackIcon
+                    x:Name="_packIcon"
+                    Foreground="{TemplateBinding Foreground}"
+                    Grid.Column="0"
+                    Height="{TemplateBinding IconHeight}"
+                    HorizontalAlignment="Stretch"
+                    Kind="{TemplateBinding IconKind}"
+                    Margin="8,4"
+                    VerticalAlignment="Stretch"
+                    Width="{TemplateBinding IconWidth}"/>
+
+                <StackPanel
+                    Grid.Column="1"
+                    Margin="8,4"
+                    VerticalAlignment="Center">
+
+                    <TextBlock
+                        x:Name="_titleTextBlock"
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        Foreground="{TemplateBinding Foreground}"
+                        Text="{TemplateBinding Title}"/>
+
+                    <TextBlock
+                        x:Name="_descTextBlock"
+                        Foreground="{TemplateBinding Foreground}"
+                        Margin="0,2,0,0"
+                        Text="{TemplateBinding Description}"/>
+
+                </StackPanel>
+
+                <ContentPresenter
+                    x:Name="_contentPresenter"
+                    Focusable="True"
+                    Grid.Column="2"
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    Margin="8,4"
+                    RecognizesAccessKey="True"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                <materialDesign:PackIcon
+                    x:Name="_arrowIcon"
+                    Foreground="{TemplateBinding Foreground}"
+                    Grid.Column="3"
+                    Height="24"
+                    HorizontalAlignment="Stretch"
+                    Kind="ChevronRight"
+                    Margin="8,4"
+                    VerticalAlignment="Stretch"
+                    Width="24"
+                    Visibility="Collapsed"/>
+
+            </Grid>
+
+        </Border>
+
+        <ControlTemplate.Triggers>
+
+            <!-- Is Mouse Over. -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True"/>
+                    <Condition Property="HasContent" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" TargetName="_backgroundBorder" Value="{Binding BackgroundMouseOver, RelativeSource={StaticResource SettingsButton.Source}}"/>
+                <Setter Property="BorderBrush" TargetName="_backgroundBorder" Value="{Binding BorderBrushMouseOver, RelativeSource={StaticResource SettingsButton.Source}}"/>
+                <Setter Property="Foreground" TargetName="_packIcon" Value="{Binding ForegroundMouseOver, RelativeSource={StaticResource SettingsButton.Source}}"/>
+                <Setter Property="TextBlock.Foreground" TargetName="_contentPresenter" Value="{Binding ForegroundMouseOver, RelativeSource={StaticResource SettingsButton.Source}}"/>
+                <Setter Property="Foreground" TargetName="_arrowIcon" Value="{Binding ForegroundMouseOver, RelativeSource={StaticResource SettingsButton.Source}}"/>
+                <Setter Property="Foreground" TargetName="_descTextBlock" Value="{Binding ForegroundMouseOver, RelativeSource={StaticResource SettingsButton.Source}}"/>
+                <Setter Property="Foreground" TargetName="_titleTextBlock" Value="{Binding ForegroundMouseOver, RelativeSource={StaticResource SettingsButton.Source}}"/>
+            </MultiTrigger>
+
+            <!-- Is Pressed. -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsPressed" Value="True"/>
+                    <Condition Property="HasContent" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Background" TargetName="_backgroundBorder" Value="{Binding BackgroundPressed, RelativeSource={StaticResource SettingsButton.Source}}"/>
+                <Setter Property="BorderBrush" TargetName="_backgroundBorder" Value="{Binding BorderBrushPressed, RelativeSource={StaticResource SettingsButton.Source}}"/>
+                <Setter Property="Foreground" TargetName="_packIcon" Value="{Binding ForegroundPressed, RelativeSource={StaticResource SettingsButton.Source}}"/>
+                <Setter Property="TextBlock.Foreground" TargetName="_contentPresenter" Value="{Binding ForegroundPressed, RelativeSource={StaticResource SettingsButton.Source}}"/>
+                <Setter Property="Foreground" TargetName="_arrowIcon" Value="{Binding ForegroundPressed, RelativeSource={StaticResource SettingsButton.Source}}"/>
+                <Setter Property="Foreground" TargetName="_descTextBlock" Value="{Binding ForegroundPressed, RelativeSource={StaticResource SettingsButton.Source}}"/>
+                <Setter Property="Foreground" TargetName="_titleTextBlock" Value="{Binding ForegroundPressed, RelativeSource={StaticResource SettingsButton.Source}}"/>
+            </MultiTrigger>
+
+            <!-- Is Disabled. -->
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" TargetName="_backgroundBorder" Value="0.56"/>
+            </Trigger>
+
+            <!-- Has No Content. -->
+            <Trigger Property="HasContent" Value="False">
+                <Setter TargetName="_contentPresenter" Property="Visibility" Value="Collapsed"/>
+                <Setter TargetName="_arrowIcon" Property="Visibility" Value="Visible"/>
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+
+    <!-- STYLE -->
+
+    <Style x:Key="SettingsButtonStyle" TargetType="{x:Type ctrls:SettingsButton}">
+        <Setter Property="Background" Value="{Binding Appearance.ThemeShadeBackgroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BackgroundMouseOver" Value="{Binding Appearance.AccentMouseOverBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BackgroundPressed" Value="{Binding Appearance.AccentPressedBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{Binding Appearance.ThemeShadeBackgroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BorderBrushMouseOver" Value="{Binding Appearance.AccentColorBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BorderBrushPressed" Value="{Binding Appearance.AccentColorBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Foreground" Value="{Binding Appearance.AccentForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="ForegroundMouseOver" Value="{Binding Appearance.AccentForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="ForegroundPressed" Value="{Binding Appearance.AccentForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource SettingsButton.FocusVisual}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="IconHeight" Value="28"/>
+        <Setter Property="IconKind" Value="None"/>
+        <Setter Property="IconWidth" Value="28"/>
+        <Setter Property="Margin" Value="4,2"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Template" Value="{StaticResource SettingsButton.ControlTemplate}"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+    </Style>
+
+
+</ResourceDictionary>

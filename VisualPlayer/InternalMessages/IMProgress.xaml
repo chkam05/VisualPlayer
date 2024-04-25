@@ -1,0 +1,144 @@
+﻿<imbase:IMBase
+    xmlns:imbase="clr-namespace:VisualPlayer.InternalMessages.Base"
+    x:Class="VisualPlayer.InternalMessages.IMProgress"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cfg="clr-namespace:VisualPlayer.Data.Configuration"
+    xmlns:conv="clr-namespace:VisualPlayer.Converters"
+    xmlns:ctrls="clr-namespace:VisualPlayer.Controls"
+    xmlns:imbaseEnum="clr-namespace:VisualPlayer.InternalMessages.Enums"
+    xmlns:imbaseConv="clr-namespace:VisualPlayer.InternalMessages.Converters"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:VisualPlayer.InternalMessages"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    mc:Ignorable="d"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}">
+
+    <imbase:IMBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Generic.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/InternalMessages/IMBaseCustomButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- STATIC -->
+
+            <x:Static x:Key="ConfigMgr" Member="cfg:ConfigurationManager.Instance"/>
+            <sys:Double x:Key="IMBox.CustomButton.Height">32</sys:Double>
+            <sys:Double x:Key="IMBox.CustomButton.Width">80</sys:Double>
+
+
+            <!-- CONVERTERS -->
+
+            <conv:BoolVisibilityConverter x:Key="BoolVisibilityConverter"/>
+            <imbaseConv:IMButtonVisibilityConverter x:Key="IMButtonVisibilityConverter"/>
+            <imbaseConv:IMProgressWidthConverter x:Key="IMProgressWidthConverter"/>
+
+        </ResourceDictionary>
+    </imbase:IMBase.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border
+            x:Name="_topBorder"
+            BorderBrush="{Binding BorderBrush, Mode=OneWay}"
+            BorderThickness="0,0,0,1"
+            ClipToBounds="True"
+            Grid.Row="0"
+            Padding="8">
+
+            <StackPanel
+                Orientation="Horizontal">
+
+                <materialDesign:PackIcon
+                    Height="32"
+                    Kind="{Binding Icon}"
+                    Width="32"/>
+
+                <TextBlock
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Foreground="{Binding Appearance.ThemeForegroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
+                    Margin="8,0,0,0"
+                    Text="{Binding Title}"/>
+
+            </StackPanel>
+
+        </Border>
+
+        <TextBlock
+            Foreground="{Binding Appearance.ThemeForegroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
+            Grid.Row="1"
+            Margin="16"
+            Text="{Binding Message}"
+            TextWrapping="WrapWithOverflow"/>
+
+        <Border
+            x:Name="_progressOutlineBorder"
+            Background="{Binding Appearance.ThemeForegroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
+            BorderBrush="{x:Null}"
+            BorderThickness="0"
+            CornerRadius="4"
+            Grid.Row="2"
+            Height="18"
+            Margin="16"
+            Padding="1"
+            Width="240">
+
+            <Border
+                Background="{Binding Appearance.AccentColorBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"
+                CornerRadius="3"
+                HorizontalAlignment="Left">
+
+                <Border.Width>
+                    <MultiBinding Converter="{StaticResource IMProgressWidthConverter}" Mode="OneWay">
+                        <Binding ElementName="_progressOutlineBorder"/>
+                        <Binding Path="Progress"/>
+                        <Binding Path="ProgressMax"/>
+                    </MultiBinding>
+                </Border.Width>
+                
+            </Border>
+
+        </Border>
+
+        <Border
+            x:Name="_bottomBorder"
+            BorderBrush="{Binding BorderBrush}"
+            BorderThickness="0,1,0,0"
+            ClipToBounds="True"
+            Grid.Row="3"
+            Padding="8">
+
+            <StackPanel
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+
+                <ctrls:CustomButton
+                    Content="OK"
+                    IsEnabled="{Binding IsFinished}"
+                    Style="{StaticResource IMBase.CustomButtonStyle}"
+                    Click="OkCustomButtonClick"/>
+
+                <ctrls:CustomButton
+                    Content="Cancel"
+                    Style="{StaticResource IMBase.CustomButtonStyle}"
+                    Visibility="{Binding AllowCancel, Mode=OneWay, Converter={StaticResource BoolVisibilityConverter}}"
+                    Click="CancelCustomButtonClick"/>
+
+            </StackPanel>
+
+        </Border>
+
+    </Grid>
+    
+</imbase:IMBase>

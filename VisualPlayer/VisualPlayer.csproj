@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B7D62C5B-56A3-4AAF-99B7-F001C4B60BA5}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>VisualPlayer</RootNamespace>
+    <AssemblyName>VisualPlayer</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CSCore, Version=1.2.1.2, Culture=neutral, PublicKeyToken=5a08f2b6f4415dea, processorArchitecture=MSIL">
+      <HintPath>packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=2.1.4.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>packages\MaterialDesignColors.2.1.4\lib\net462\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=4.9.0.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>packages\MaterialDesignThemes.4.9.0\lib\net462\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="taglib-sharp, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\taglib-sharp-netstandard2.0.2.1.0\lib\netstandard2.0\taglib-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Controls\ColorPicker.cs" />
+    <Compile Include="Controls\ColorSelector.cs" />
+    <Compile Include="Controls\ContentControl.xaml.cs">
+      <DependentUpon>ContentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ContentViewer.xaml.cs">
+      <DependentUpon>ContentViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ControlBar.xaml.cs">
+      <DependentUpon>ControlBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CustomButton.cs" />
+    <Compile Include="Controls\CustomComboBox.cs" />
+    <Compile Include="Controls\CustomComboBoxItem.cs" />
+    <Compile Include="Controls\CustomContextMenu.cs" />
+    <Compile Include="Controls\CustomContextMenuItem.cs" />
+    <Compile Include="Controls\CustomListView.cs" />
+    <Compile Include="Controls\CustomListViewItem.cs" />
+    <Compile Include="Controls\CustomMenu.cs" />
+    <Compile Include="Controls\CustomMenuItem.cs" />
+    <Compile Include="Controls\CustomScrollBar.cs" />
+    <Compile Include="Controls\CustomScrollViewer.cs" />
+    <Compile Include="Controls\CustomSlider.cs" />
+    <Compile Include="Controls\CustomTextBox.cs" />
+    <Compile Include="Controls\CustomTreeView.cs" />
+    <Compile Include="Controls\CustomTreeViewItem.cs" />
+    <Compile Include="Controls\CustomUpDown.cs" />
+    <Compile Include="Controls\Events\ColorSelectionChangedEventArgs.cs" />
+    <Compile Include="Controls\Events\CustomTextChangedEventArgs.cs" />
+    <Compile Include="Controls\Events\CustomUpDownValueChangedEventArgs.cs" />
+    <Compile Include="Controls\Events\FilesTreeViewerItemSelectedEventArgs.cs" />
+    <Compile Include="Controls\Events\FilesViewerItemsSelectedEventArgs.cs" />
+    <Compile Include="Controls\FilesTreeViewer.cs" />
+    <Compile Include="Controls\FilesViewer.cs" />
+    <Compile Include="Controls\IContentViewer.cs" />
+    <Compile Include="Controls\IControlBar.cs" />
+    <Compile Include="Controls\MenuBar.xaml.cs">
+      <DependentUpon>MenuBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NowPlayingControl.xaml.cs">
+      <DependentUpon>NowPlayingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SettingsButton.cs" />
+    <Compile Include="Controls\VolumeControlBar.xaml.cs">
+      <DependentUpon>VolumeControlBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\BoolSelectionModeConverter.cs" />
+    <Compile Include="Converters\BoolVisibilityConverter.cs" />
+    <Compile Include="Converters\BrushOpacityConverter.cs" />
+    <Compile Include="Converters\CornerRadiusModifConverter.cs" />
+    <Compile Include="Converters\IsNotNullConverter.cs" />
+    <Compile Include="Converters\ListViewItemWidthConverter.cs" />
+    <Compile Include="Converters\NumberModifierConverter.cs" />
+    <Compile Include="Converters\SliderTrackBarMarginConverter.cs" />
+    <Compile Include="Converters\StringsCombineConverter.cs" />
+    <Compile Include="Converters\VolumeControlBarMarginConverter.cs" />
+    <Compile Include="Converters\VolumeControlButtonIconKindConverter.cs" />
+    <Compile Include="Data\ColorModels\Events\ThemeColorTransporterEventArgs.cs" />
+    <Compile Include="Data\Configuration\AnimationRequest.cs" />
+    <Compile Include="Data\Configuration\RequestAnimationEventArgs.cs" />
+    <Compile Include="Data\Configuration\UserInterfaceConfig.cs" />
+    <Compile Include="Data\Configuration\UserInterfaceController.cs" />
+    <Compile Include="Data\Configuration\WindowConfig.cs" />
+    <Compile Include="Data\Enums\AnimationTarget.cs" />
+    <Compile Include="Data\Enums\ButtonContentPosition.cs" />
+    <Compile Include="Data\Enums\ContentControlExpandState.cs" />
+    <Compile Include="Data\Enums\ControlCommand.cs" />
+    <Compile Include="Data\Enums\MainMenuPosition.cs" />
+    <Compile Include="Data\Enums\SongSortType.cs" />
+    <Compile Include="Data\MainMenu\MainMenuDataContext.cs" />
+    <Compile Include="Data\MainMenu\MainMenuItem.cs" />
+    <Compile Include="Data\MainMenu\MainMenuItemClickEventArgs.cs" />
+    <Compile Include="Data\MainMenu\MainMenuManager.cs" />
+    <Compile Include="Data\Player\ControlBarDataContext.cs" />
+    <Compile Include="Data\Player\ControlCommandExecutedEventArgs.cs" />
+    <Compile Include="Data\Player\FilesManagerDataContext.cs" />
+    <Compile Include="Data\Player\Player.cs" />
+    <Compile Include="Data\Player\NowPlayingDataContext.cs" />
+    <Compile Include="Data\Player\NowPlayingItem.cs" />
+    <Compile Include="Data\Base\ExceptionThrownEventArgs.cs" />
+    <Compile Include="InternalMessages\Base\IIMCloseEventArgs.cs" />
+    <Compile Include="InternalMessages\Base\IMBase.cs" />
+    <Compile Include="InternalMessages\Base\IMCloseEventArgs.cs" />
+    <Compile Include="InternalMessages\Converters\IMButtonVisibilityConverter.cs" />
+    <Compile Include="InternalMessages\Converters\IMProgressWidthConverter.cs" />
+    <Compile Include="InternalMessages\Enums\IMResult.cs" />
+    <Compile Include="InternalMessages\IIMControl.cs" />
+    <Compile Include="InternalMessages\IMAwait.xaml.cs">
+      <DependentUpon>IMAwait.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InternalMessages\IMBox.xaml.cs">
+      <DependentUpon>IMBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InternalMessages\IMColorPicker.xaml.cs">
+      <DependentUpon>IMColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InternalMessages\IMColorSelector.xaml.cs">
+      <DependentUpon>IMColorSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InternalMessages\IMControl.xaml.cs">
+      <DependentUpon>IMControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InternalMessages\IMProgress.xaml.cs">
+      <DependentUpon>IMProgress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InternalMessages\IMWindow.cs" />
+    <Compile Include="InternalMessages\Models\ArcDataHandler.cs" />
+    <Compile Include="Pages\Base\BasePage.cs" />
+    <Compile Include="Pages\Base\PageLoadedEventArgs.cs" />
+    <Compile Include="Pages\Debug\ColorSelectorsDebugPage.xaml.cs">
+      <DependentUpon>ColorSelectorsDebugPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Debug\InternalMessagesDebugPage.xaml.cs">
+      <DependentUpon>InternalMessagesDebugPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Debug\SettingsDebugPage.xaml.cs">
+      <DependentUpon>SettingsDebugPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\FilesManagerPage.xaml.cs">
+      <DependentUpon>FilesManagerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\SettingsMainPage.xaml.cs">
+      <DependentUpon>SettingsMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\DataContextProxy.cs" />
+    <Compile Include="Utilities\MathHelper.cs" />
+    <Compile Include="Utilities\ResourcesHelper.cs" />
+    <Compile Include="Utilities\SystemHelper.cs" />
+    <Compile Include="Utilities\WindowHelper.cs" />
+    <Compile Include="ViewModels\Files\BaseFilesExtensions.cs" />
+    <Compile Include="ViewModels\Files\FileExtension.cs" />
+    <Compile Include="ViewModels\Files\FileItem.cs" />
+    <Compile Include="ViewModels\Files\TreeViewFileItem.cs" />
+    <Compile Include="ViewModels\Files\TreeViewFileItemExpandEventArgs.cs" />
+    <Compile Include="ViewModels\Player\BasePlayableViewModel.cs" />
+    <Compile Include="ViewModels\Player\SongViewModel.cs" />
+    <Compile Include="Windows\BaseWindow.cs" />
+    <Compile Include="Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="Data\Attributes\NotifyPropertyUpdateAttribute.cs" />
+    <Compile Include="Data\ColorModels\AHSLColor.cs" />
+    <Compile Include="Data\Configuration\Appearance.cs" />
+    <Compile Include="Data\ColorModels\BaseColors.cs" />
+    <Compile Include="Data\Configuration\Config.cs" />
+    <Compile Include="Data\Configuration\SystemThemeChangedEventArgs.cs" />
+    <Compile Include="Data\ColorModels\ThemeColor.cs" />
+    <Compile Include="Data\Enums\PropertyAccessLevel.cs" />
+    <Compile Include="Data\Enums\Theme.cs" />
+    <Compile Include="Utilities\AppHelper.cs" />
+    <Compile Include="Utilities\ColorsHelper.cs" />
+    <Compile Include="Utilities\ObjectHelper.cs" />
+    <Compile Include="Utilities\SingleInstance.cs" />
+    <Compile Include="Utilities\ThemeManager.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\Configuration\ConfigurationManager.cs" />
+    <Page Include="Controls\ContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ContentViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ControlBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MenuBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\NowPlayingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\VolumeControlBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InternalMessages\IMAwait.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InternalMessages\IMBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InternalMessages\IMColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InternalMessages\IMColorSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InternalMessages\IMControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InternalMessages\IMProgress.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Debug\ColorSelectorsDebugPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Debug\InternalMessagesDebugPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Debug\SettingsDebugPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\FilesManagerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\SettingsMainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\ColorPickerStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\ColorSelectorStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\ControlBarCustomButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomComboBoxItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomComboBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomContextMenuItemStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Controls\CustomContextMenuStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Controls\CustomListViewItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomListViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomMenuItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomMenuStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomScrollBarStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomScrollViewerStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomSliderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomTextBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomTreeViewItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomTreeViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\CustomUpDownStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\FilesTreeViewerStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\FilesViewerStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\PlayListHeaderCustomButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Controls\SettingsButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\InternalMessages\IMBaseCustomButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\InternalMessages\IMBaseStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Pages\BasePageStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Pages\HeadersPageStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Windows\BaseWindowStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Language\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ToDo.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ten projekt zawiera odwołania do pakietów NuGet, których nie ma na tym komputerze. Użyj przywracania pakietów NuGet, aby je pobrać. Aby uzyskać więcej informacji, zobacz http://go.microsoft.com/fwlink/?LinkID=322105. Brakujący plik: {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets'))" />
+  </Target>
+</Project>

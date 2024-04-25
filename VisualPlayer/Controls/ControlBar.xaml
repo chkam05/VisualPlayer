@@ -1,0 +1,353 @@
+﻿<UserControl
+    x:Class="VisualPlayer.Controls.ControlBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cfg="clr-namespace:VisualPlayer.Data.Configuration"
+    xmlns:conv="clr-namespace:VisualPlayer.Converters"
+    xmlns:ctrls="clr-namespace:VisualPlayer.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:VisualPlayer.Controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    mc:Ignorable="d"
+    
+    Foreground="{Binding Appearance.ThemeForegroundBrush, Source={x:Static cfg:ConfigurationManager.Instance}, Mode=OneWay}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/ControlBarCustomButtonStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- STATIC -->
+
+            <x:Static x:Key="ConfigMgr" Member="cfg:ConfigurationManager.Instance"/>
+            <RelativeSource x:Key="ControlBar.Source" AncestorType="{x:Type local:ControlBar}"/>
+            <sys:Double x:Key="ControlBar.ButtonsGrid.Height">80</sys:Double>
+            <Thickness x:Key="ControlBar.ControlGrid.Margin">8</Thickness>
+            <sys:Double x:Key="ControlBar.TrackBarGrid.Height">24</sys:Double>
+
+
+            <!-- CONVERTERS -->
+
+            <conv:BrushOpacityConverter x:Key="BrushOpacityConverter"/>
+            <conv:IsNotNullConverter x:Key="IsNotNullConverter"/>
+            <conv:VolumeControlButtonIconKindConverter x:Key="VolumeControlButtonIconKindConverter"/>
+            
+            
+            <!-- STYLES -->
+
+            <Style x:Key="TimeTextBlockStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Margin" Value="16,4"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="TrackBarStyle" BasedOn="{StaticResource CustomScrollBarStyle}" TargetType="{x:Type ctrls:CustomScrollBar}">
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="Margin" Value="0,4"/>
+                <Setter Property="Minimum" Value="0"/>
+                <Setter Property="Orientation" Value="Horizontal"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource BrushOpacityConverter}" Mode="OneWay">
+                            <Binding Path="Appearance.ThemeBackgroundBrush" Source="{StaticResource ConfigMgr}"/>
+                            <Binding Path="Appearance.OpacityUI" Source="{StaticResource ConfigMgr}"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid
+        x:Name="_outerGrid"
+        Background="Transparent"
+        ClipToBounds="True"
+        MouseEnter="OuterGridMouseEnter"
+        MouseLeave="OuterGrid_MouseLeave">
+
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="_outerGridCursorDetectionRow" Height="40"/>
+            <RowDefinition x:Name="_outerGridControlRow" Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid
+            x:Name="_innerGrid"
+            Grid.Row="1">
+
+            <Grid
+                x:Name="_controlGrid"
+                Margin="{StaticResource ControlBar.ControlGrid.Margin}"
+                VerticalAlignment="Bottom">
+
+                <!--Grid.OpacityMask>
+                    <VisualBrush Visual="{Binding ElementName=_backgroundBorder}" />
+                </Grid.OpacityMask-->
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Border
+                    x:Name="_backgroundBorder"
+                    BorderBrush="{Binding Appearance.ThemeShadeBackgroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Grid.RowSpan="2">
+
+                    <Border.Background>
+                        <MultiBinding Mode="OneWay" Converter="{StaticResource BrushOpacityConverter}">
+                            <Binding Path="Appearance.ThemeShadeBackgroundBrush" Source="{StaticResource ConfigMgr}"/>
+                            <Binding Path="Appearance.OpacityUI" Source="{StaticResource ConfigMgr}"/>
+                        </MultiBinding>
+                    </Border.Background>
+
+                </Border>
+
+                <Grid
+                    Grid.Row="0"
+                    Height="{StaticResource ControlBar.TrackBarGrid.Height}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        Style="{StaticResource TimeTextBlockStyle}"
+                        Text="{Binding TrackTimeProgressStr}"/>
+
+                    <ctrls:CustomScrollBar
+                        Grid.Column="1"
+                        Height="16"
+                        Maximum="{Binding TrackLength}"
+                        MinHeight="0"
+                        Style="{StaticResource TrackBarStyle}"
+                        Value="{Binding TrackPosition}"/>
+
+                    <TextBlock
+                        Grid.Column="2"
+                        Style="{StaticResource TimeTextBlockStyle}"
+                        Text="{Binding TrackTimeStr}"/>
+
+                </Grid>
+
+                <Grid
+                    Grid.Row="1"
+                    Height="{StaticResource ControlBar.ButtonsGrid.Height}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition x:Name="_controlGridCoverColumn" Width="Auto"/>
+                        <ColumnDefinition x:Name="_controlGridInfoColumn" Width="Auto"/>
+                        <ColumnDefinition x:Name="_controlGridSpaceColumn" Width="*"/>
+                        <ColumnDefinition x:Name="_controlGridControlsColumn" Width="Auto"/>
+                        <ColumnDefinition x:Name="_controlGridVolumeColumn" Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Cover -->
+
+                    <Border
+                        x:Name="_coverBorder"
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Width="{StaticResource ControlBar.ButtonsGrid.Height}">
+
+                        <Grid>
+
+                            <materialDesign:PackIcon
+                                x:Name="_coverIcon"
+                                Kind="MusicBox">
+
+                                <materialDesign:PackIcon.Style>
+                                    <Style TargetType="materialDesign:PackIcon">
+                                        <Setter Property="Height" Value="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                        <Setter Property="Margin" Value="0"/>
+                                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                        <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+                                        <Setter Property="Visibility" Value="Visible"/>
+
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Cover, Converter={StaticResource IsNotNullConverter}, Mode=OneWay}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </materialDesign:PackIcon.Style>
+
+                            </materialDesign:PackIcon>
+
+                            <Image
+                                x:Name="_coverImage">
+
+                                <Image.Style>
+                                    <Style TargetType="{x:Type Image}">
+                                        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                        <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                        <Setter Property="Width" Value="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Cover, Converter={StaticResource IsNotNullConverter}, Mode=OneWay}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+
+                            </Image>
+
+                        </Grid>
+
+                    </Border>
+
+                    <!-- Informations -->
+
+                    <Border
+                        x:Name="_infoBorder"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+
+                        <StackPanel
+                            Orientation="Vertical"
+                            VerticalAlignment="Center">
+
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                FontSize="16"
+                                Margin="0,2"
+                                Text="{Binding Title}"/>
+
+                            <TextBlock
+                                Margin="0,2"
+                                Text="{Binding Album}"/>
+
+                            <TextBlock
+                                Margin="0,2"
+                                Text="{Binding Artist}"/>
+
+                        </StackPanel>
+
+                    </Border>
+
+                    <!-- Controls -->
+
+                    <Border
+                        x:Name="_controlsBorder"
+                        Grid.Column="3"
+                        HorizontalAlignment="Stretch"
+                        Padding="8"
+                        VerticalAlignment="Stretch">
+
+                        <StackPanel
+                            Orientation="Horizontal">
+
+                            <ctrls:CustomButton
+                                Command="{Binding RepeatCommand}"
+                                Content="Repeat"
+                                IconKind="RepeatOff"
+                                Margin="0,0,4,0"
+                                Style="{StaticResource ControlBar.CustomButtonStyle}"/>
+
+                            <ctrls:CustomButton
+                                Command="{Binding ShuffleCommand}"
+                                Content="Shuffle"
+                                IconKind="Shuffle"
+                                Style="{StaticResource ControlBar.CustomButtonStyle}"/>
+
+                            <ctrls:CustomButton
+                                Command="{Binding PreviousCommand}"
+                                Content="Previous"
+                                IconKind="FastRewind"
+                                Style="{StaticResource ControlBar.CustomButtonStyle}"/>
+
+                            <ctrls:CustomButton
+                                Command="{Binding PlayPauseCommand}">
+
+                                <ctrls:CustomButton.Style>
+                                    <Style BasedOn="{StaticResource ControlBar.CustomButtonStyle}" TargetType="{x:Type ctrls:CustomButton}">
+                                        <Setter Property="Content" Value="Play"/>
+                                        <Setter Property="IconKind" Value="Play"/>
+
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsPlaying}" Value="True">
+                                                <Setter Property="Content" Value="Pause"/>
+                                                <Setter Property="IconKind" Value="Pause"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ctrls:CustomButton.Style>
+                            </ctrls:CustomButton>
+
+                            <ctrls:CustomButton
+                                Command="{Binding NextCommand}"
+                                Content="Next"
+                                IconKind="FastForward"
+                                Style="{StaticResource ControlBar.CustomButtonStyle}"/>
+
+                            <ctrls:CustomButton
+                                Command="{Binding StopCommand}"
+                                Content="Stop"
+                                IconKind="Stop"
+                                Margin="4,0,0,0"
+                                Style="{StaticResource ControlBar.CustomButtonStyle}"/>
+
+                        </StackPanel>
+
+                    </Border>
+
+                    <!-- Volume -->
+
+                    <Border
+                        x:Name="_volumeControlsBorder"
+                        Grid.Column="4"
+                        HorizontalAlignment="Stretch"
+                        Padding="8"
+                        VerticalAlignment="Stretch">
+
+                        <StackPanel
+                            Orientation="Horizontal">
+
+                            <ctrls:CustomButton
+                                x:Name="_volumeControlButton"
+                                Content="Volume"
+                                Command="{Binding VolumeCommand}"
+                                Margin="0"
+                                Style="{StaticResource ControlBar.CustomButtonStyle}">
+
+                                <ctrls:CustomButton.IconKind>
+                                    <MultiBinding
+                                        Converter="{StaticResource VolumeControlButtonIconKindConverter}"
+                                        Mode="OneWay">
+
+                                        <Binding Path="VolumePosition"/>
+                                        <Binding Path="IsMute"/>
+                                    </MultiBinding>
+                                </ctrls:CustomButton.IconKind>
+                            </ctrls:CustomButton>
+
+                        </StackPanel>
+
+                    </Border>
+
+                </Grid>
+
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>

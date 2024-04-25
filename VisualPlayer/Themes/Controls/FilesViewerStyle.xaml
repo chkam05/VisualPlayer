@@ -1,0 +1,328 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:cfg="clr-namespace:VisualPlayer.Data.Configuration"
+    xmlns:conv="clr-namespace:VisualPlayer.Converters"
+    xmlns:ctrls="clr-namespace:VisualPlayer.Controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomListViewItemStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomListViewStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- STATIC -->
+
+    <x:Static x:Key="ConfigMgr" Member="cfg:ConfigurationManager.Instance"/>
+    <RelativeSource x:Key="FilesViewer.Source" AncestorType="{x:Type ctrls:FilesViewer}"/>
+    
+    
+    <!-- CONVERTERS -->
+
+    <conv:BoolSelectionModeConverter x:Key="BoolSelectionModeConverter"/>
+
+
+    <!-- DATA TEMPLATES -->
+
+    <DataTemplate x:Key="FilesViewer.List.DataTemplate">
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <materialDesign:PackIcon
+                Grid.Column="0"
+                Height="Auto"
+                Kind="{Binding Icon}"
+                VerticalAlignment="Center"
+                Width="Auto"/>
+
+            <TextBlock
+                x:Name="_fontName"
+                FontSize="11"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                Margin="4,0,0,0"
+                Text="{Binding FileName}"
+                TextWrapping="NoWrap"
+                VerticalAlignment="Center"/>
+
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="FilesViewer.SmallIcon.DataTemplate">
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <materialDesign:PackIcon
+                Grid.Column="0"
+                Height="Auto"
+                Kind="{Binding Icon}"
+                VerticalAlignment="Center"
+                Width="Auto"/>
+
+            <TextBlock
+                x:Name="_fontName"
+                FontSize="11"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                Margin="4,0,0,0"
+                Text="{Binding FileName}"
+                TextWrapping="NoWrap"
+                VerticalAlignment="Center"/>
+
+        </Grid>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="FilesViewer.Icon.DataTemplate">
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <materialDesign:PackIcon
+                Grid.Row="0"
+                Height="Auto"
+                HorizontalAlignment="Center"
+                Kind="{Binding Icon}"
+                Width="Auto"/>
+
+            <TextBlock
+                x:Name="_fontName"
+                FontSize="11"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                Margin="0,2,0,0"
+                Text="{Binding FileName}"
+                TextAlignment="Center"
+                TextWrapping="NoWrap"/>
+
+        </Grid>
+        <DataTemplate.Triggers>
+
+            <DataTrigger Binding="{Binding ItemsSize, RelativeSource={StaticResource FilesViewer.Source}}" Value="6">
+                <Setter TargetName="_fontName" Property="FontSize" Value="14"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding ItemsSize, RelativeSource={StaticResource FilesViewer.Source}}" Value="5">
+                <Setter TargetName="_fontName" Property="FontSize" Value="12"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding ItemsSize, RelativeSource={StaticResource FilesViewer.Source}}" Value="4">
+                <Setter TargetName="_fontName" Property="FontSize" Value="11"/>
+            </DataTrigger>
+
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <GridView x:Key="FilesViewer.GridView">
+        <GridViewColumn Header="">
+            <GridViewColumn.CellTemplate>
+                <DataTemplate>
+                    <materialDesign:PackIcon
+                        Height="16"
+                        HorizontalAlignment="Left"
+                        Kind="{Binding Icon}"
+                        Width="16"/>
+                </DataTemplate>
+            </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+
+        <GridViewColumn Header="File Name" Width="160" DisplayMemberBinding="{Binding FileName}" />
+    </GridView>
+    
+    
+    <!-- EXTERNAL STYLES LISTVIEW ITEM -->
+
+    <Style x:Key="FilesViewer.Base.CustomListViewItemStyle" TargetType="{x:Type ctrls:CustomListViewItem}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BackgroundMouseOver" Value="{Binding Appearance.AccentMouseOverBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BackgroundSelected" Value="{Binding Appearance.AccentSelectedBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BackgroundSelectedInactive" Value="{Binding Appearance.AccentSelectedBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderBrushMouseOver" Value="{x:Null}"/>
+        <Setter Property="BorderBrushSelected" Value="{x:Null}"/>
+        <Setter Property="BorderBrushSelectedInactive" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ListViewItemEx.FocusVisual}"/>
+        <Setter Property="Foreground" Value="{Binding Appearance.ThemeForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="ForegroundMouseOver" Value="{Binding Appearance.AccentForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="ForegroundSelected" Value="{Binding Appearance.AccentForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="ForegroundSelectedInactive" Value="{Binding Appearance.AccentForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="Height" Value="auto"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="1"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template" Value="{StaticResource CustomGridViewItem.ControlTemplate}"/>
+        <Setter Property="ToolTip" Value="{Binding FileName}"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Width" Value="auto"/>
+
+        <Style.Triggers>
+            <Trigger Property="GridView.ColumnCollection" Value="{x:Null}">
+                <Setter Property="Template" Value="{StaticResource CustomListViewItem.ControlTemplate}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="FilesViewer.Details.CustomListViewItemStyle" BasedOn="{StaticResource FilesViewer.Base.CustomListViewItemStyle}" TargetType="{x:Type ctrls:CustomListViewItem}">
+        
+    </Style>
+
+    <Style x:Key="FilesViewer.List.CustomListViewItemStyle" BasedOn="{StaticResource FilesViewer.Base.CustomListViewItemStyle}" TargetType="{x:Type ctrls:CustomListViewItem}">
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Margin" Value="4"/>
+        <!--Setter Property="MaxWidth" Value="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ctrls:CustomListView}}"/-->
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Width" Value="160"/>
+    </Style>
+
+    <Style x:Key="FilesViewer.Tiles.CustomListViewItemStyle" BasedOn="{StaticResource FilesViewer.Base.CustomListViewItemStyle}" TargetType="{x:Type ctrls:CustomListViewItem}">
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Width" Value="160"/>
+    </Style>
+
+    <Style x:Key="FilesViewer.SmallIcons.CustomListViewItemStyle" BasedOn="{StaticResource FilesViewer.Base.CustomListViewItemStyle}" TargetType="{x:Type ctrls:CustomListViewItem}">
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Width" Value="128"/>
+    </Style>
+
+    <Style x:Key="FilesViewer.Icons.CustomListViewItemStyle" BasedOn="{StaticResource FilesViewer.Base.CustomListViewItemStyle}" TargetType="{x:Type ctrls:CustomListViewItem}">
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="Padding" Value="4"/>
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ItemsSize, RelativeSource={StaticResource FilesViewer.Source}}" Value="6">
+                <Setter Property="Height" Value="128"/>
+                <Setter Property="Width" Value="128"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding ItemsSize, RelativeSource={StaticResource FilesViewer.Source}}" Value="5">
+                <Setter Property="Height" Value="96"/>
+                <Setter Property="Width" Value="96"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding ItemsSize, RelativeSource={StaticResource FilesViewer.Source}}" Value="4">
+                <Setter Property="Height" Value="64"/>
+                <Setter Property="Width" Value="96"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!-- EXTERNAL STYLES LISTVIEW -->
+
+    <ItemsPanelTemplate x:Key="FilesViewer.ListView.List.ItemsPanel">
+        <WrapPanel Orientation="Vertical"/>
+    </ItemsPanelTemplate>
+
+    <ItemsPanelTemplate x:Key="FilesViewer.ListView.Icons.ItemsPanel">
+        <WrapPanel Orientation="Horizontal"/>
+    </ItemsPanelTemplate>
+
+
+    <!-- CONTROL TEMPLATE -->
+
+    <ControlTemplate x:Key="FilesViewer.ControlTemplate" TargetType="{x:Type ctrls:FilesViewer}">
+        <Grid>
+            <ctrls:CustomListView
+                x:Name="_listView"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                Foreground="{TemplateBinding Foreground}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                ItemContainerStyle="{StaticResource FilesViewer.Base.CustomListViewItemStyle}"
+                ItemsSource="{TemplateBinding Items}"
+                SelectionMode="{TemplateBinding MultipleSelection, Converter={StaticResource BoolSelectionModeConverter}}"
+                Padding="4"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                Style="{StaticResource CustomListViewStyle}"
+                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        </Grid>
+        <ControlTemplate.Triggers>
+
+            <!-- 0: Details -->
+            <DataTrigger Binding="{Binding ItemsSize}" Value="0">
+                <Setter TargetName="_listView" Property="GridView.ColumnHeaderContainerStyle" Value="{StaticResource GridViewColumnHeaderStyle}"/>
+                <Setter TargetName="_listView" Property="ItemContainerStyle" Value="{StaticResource FilesViewer.Details.CustomListViewItemStyle}"/>
+                <Setter TargetName="_listView" Property="View" Value="{StaticResource FilesViewer.GridView}"/>
+            </DataTrigger>
+
+            <!-- 1: List -->
+            <DataTrigger Binding="{Binding ItemsSize}" Value="1">
+                <Setter TargetName="_listView" Property="ItemsPanel" Value="{StaticResource FilesViewer.ListView.List.ItemsPanel}"/>
+                <Setter TargetName="_listView" Property="ItemContainerStyle" Value="{StaticResource FilesViewer.List.CustomListViewItemStyle}"/>
+                <Setter TargetName="_listView" Property="ItemTemplate" Value="{StaticResource FilesViewer.List.DataTemplate}"/>
+                <Setter TargetName="_listView" Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+                <Setter TargetName="_listView" Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+            </DataTrigger>
+
+            <!-- 2: Small Icons -->
+            <DataTrigger Binding="{Binding ItemsSize}" Value="2">
+                <Setter TargetName="_listView" Property="ItemContainerStyle" Value="{StaticResource FilesViewer.SmallIcons.CustomListViewItemStyle}"/>
+                <Setter TargetName="_listView" Property="ItemsPanel" Value="{StaticResource FilesViewer.ListView.Icons.ItemsPanel}"/>
+                <Setter TargetName="_listView" Property="ItemTemplate" Value="{StaticResource FilesViewer.SmallIcon.DataTemplate}"/>
+            </DataTrigger>
+
+            <!-- 3: Tiles -->
+            <DataTrigger Binding="{Binding ItemsSize}" Value="3">
+                <Setter TargetName="_listView" Property="ItemContainerStyle" Value="{StaticResource FilesViewer.Tiles.CustomListViewItemStyle}"/>
+                <Setter TargetName="_listView" Property="ItemsPanel" Value="{StaticResource FilesViewer.ListView.Icons.ItemsPanel}"/>
+                <Setter TargetName="_listView" Property="ItemTemplate" Value="{StaticResource FilesViewer.SmallIcon.DataTemplate}"/>
+            </DataTrigger>
+
+            <!-- 4: Icons -->
+            <DataTrigger Binding="{Binding ItemsSize}" Value="4">
+                <Setter TargetName="_listView" Property="ItemContainerStyle" Value="{StaticResource FilesViewer.Icons.CustomListViewItemStyle}"/>
+                <Setter TargetName="_listView" Property="ItemsPanel" Value="{StaticResource FilesViewer.ListView.Icons.ItemsPanel}"/>
+                <Setter TargetName="_listView" Property="ItemTemplate" Value="{StaticResource FilesViewer.Icon.DataTemplate}"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding ItemsSize}" Value="5">
+                <Setter TargetName="_listView" Property="ItemContainerStyle" Value="{StaticResource FilesViewer.Icons.CustomListViewItemStyle}"/>
+                <Setter TargetName="_listView" Property="ItemsPanel" Value="{StaticResource FilesViewer.ListView.Icons.ItemsPanel}"/>
+                <Setter TargetName="_listView" Property="ItemTemplate" Value="{StaticResource FilesViewer.Icon.DataTemplate}"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding ItemsSize}" Value="6">
+                <Setter TargetName="_listView" Property="ItemContainerStyle" Value="{StaticResource FilesViewer.Icons.CustomListViewItemStyle}"/>
+                <Setter TargetName="_listView" Property="ItemsPanel" Value="{StaticResource FilesViewer.ListView.Icons.ItemsPanel}"/>
+                <Setter TargetName="_listView" Property="ItemTemplate" Value="{StaticResource FilesViewer.Icon.DataTemplate}"/>
+            </DataTrigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+
+    <!-- STYLE -->
+
+    <Style x:Key="FilesViewerStyle" TargetType="{x:Type ctrls:FilesViewer}">
+        <Setter Property="Background" Value="{Binding Appearance.ThemeBackgroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Foreground" Value="{Binding Appearance.ThemeForegroundBrush, Mode=OneWay, Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Template" Value="{StaticResource FilesViewer.ControlTemplate}"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+    </Style>
+
+
+</ResourceDictionary>

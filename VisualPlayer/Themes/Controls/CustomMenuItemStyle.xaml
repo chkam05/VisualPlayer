@@ -1,0 +1,688 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:cfg="clr-namespace:VisualPlayer.Data.Configuration"
+    xmlns:conv="clr-namespace:VisualPlayer.Converters"
+    xmlns:ctrls="clr-namespace:VisualPlayer.Controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- STATIC -->
+
+    <x:Static x:Key="ConfigMgr" Member="cfg:ConfigurationManager.Instance"/>
+    <RelativeSource x:Key="CustomMenuItem.Source" AncestorType="{x:Type ctrls:CustomMenuItem}"/>
+    <RelativeSource x:Key="CustomMenu.Source" AncestorType="{x:Type ctrls:CustomMenu}" Mode="FindAncestor"/>
+    <GridLength x:Key="CustomMenuItem.Separator1.ColumnWidth">8</GridLength>
+    <GridLength x:Key="CustomMenuItem.Separator2.ColumnWidth">16</GridLength>
+    <GridLength x:Key="CustomMenuItem.SubMenu.ColumnWidth">32</GridLength>
+    
+    
+    <!-- CONVERTERS -->
+
+    <conv:NumberModifierConverter x:Key="NumberModifierConverter"/>
+    
+
+    <!-- CONTROL TEMPLATES -->
+
+    <ControlTemplate x:Key="CustomMenuItem.DataTemplate" TargetType="{x:Type ctrls:CustomMenuItem}">
+        <Border
+            x:Name="templateRoot"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Padding="{TemplateBinding Padding}"
+            SnapsToDevicePixels="True">
+
+            <Grid Margin="-1">
+
+                <Grid.ColumnDefinitions>
+                    <!-- Icon/CheckBox -->
+                    <ColumnDefinition SharedSizeGroup="MenuItemIconColumnGroup" Width="Auto"/>
+                    <!-- Separator -->
+                    <ColumnDefinition Width="{StaticResource CustomMenuItem.Separator1.ColumnWidth}"/>
+                    <!-- Content -->
+                    <ColumnDefinition Width="*"/>
+                    <!-- Separator -->
+                    <ColumnDefinition Width="{StaticResource CustomMenuItem.Separator2.ColumnWidth}"/>
+                    <!-- Shortcut Text -->
+                    <ColumnDefinition SharedSizeGroup="MenuItemIGTColumnGroup" Width="Auto"/>
+                    <!-- Separator/Next Button -->
+                    <ColumnDefinition Width="{StaticResource CustomMenuItem.SubMenu.ColumnWidth}"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid
+                    Grid.Column="0">
+
+                    <ContentPresenter
+                        x:Name="Icon"
+                        Content="{TemplateBinding Icon}"
+                        ContentSource="Icon"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                        HorizontalAlignment="Stretch"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                        VerticalAlignment="Stretch"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+
+                    <materialDesign:PackIcon
+                        x:Name="packIcon"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                        HorizontalAlignment="Stretch"
+                        Kind="{TemplateBinding IconKind}"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                        VerticalAlignment="Stretch"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+
+                    <materialDesign:PackIcon
+                        x:Name="GlyphPanel"
+                        Foreground="{TemplateBinding Foreground}"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                        HorizontalAlignment="Stretch"
+                        Kind="CheckBoxOutlineBlank"
+                        Visibility="Hidden"
+                        VerticalAlignment="Stretch"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+
+                </Grid>
+
+                <ContentPresenter
+                    x:Name="menuHeaderContainer"
+                    ContentTemplate="{TemplateBinding HeaderTemplate}"
+                    Content="{TemplateBinding Header}"
+                    ContentSource="Header"
+                    ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                    Grid.Column="2"
+                    HorizontalAlignment="Left"
+                    RecognizesAccessKey="True"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                    TextBlock.Foreground="{TemplateBinding Foreground}"
+                    VerticalAlignment="Center"/>
+
+                <TextBlock
+                    x:Name="menuGestureText"
+                    Foreground="{TemplateBinding Foreground}"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    Opacity="0.75"
+                    Text="{TemplateBinding InputGestureText}"
+                    VerticalAlignment="Center"/>
+
+            </Grid>
+        </Border>
+
+        <ControlTemplate.Triggers>
+
+            <!-- No Icon. -->
+            <Trigger Property="Icon" Value="{x:Null}">
+                <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
+            </Trigger>
+
+            <!-- No Pack Icon. -->
+            <Trigger Property="IconKind" Value="{x:Static materialDesign:PackIconKind.None}">
+                <Setter Property="Visibility" TargetName="packIcon" Value="Collapsed"/>
+            </Trigger>
+
+            <!-- Is Checkable. -->
+            <Trigger Property="IsCheckable" Value="True">
+                <Setter Property="Visibility" TargetName="GlyphPanel" Value="Visible"/>
+                <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
+                <Setter Property="Visibility" TargetName="packIcon" Value="Collapsed"/>
+            </Trigger>
+
+            <!-- Is Checked. -->
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Kind" TargetName="GlyphPanel" Value="CheckBoxOutline"/>
+            </Trigger>
+
+            <!-- Is Highlighted. -->
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" TargetName="templateRoot" Value="{Binding BackgroundMouseOver, RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{Binding BorderBrushMouseOver,RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+                <Setter Property="TextBlock.Foreground" TargetName="menuHeaderContainer" Value="{Binding ForegroundMouseOver, RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+                <Setter Property="Foreground" TargetName="menuGestureText" Value="{Binding ForegroundMouseOver, RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+            </Trigger>
+
+            <!-- Is Disabled. -->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" TargetName="templateRoot" Value="0.56"/>
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="CustomMenuItem.Container.DataTemplate" TargetType="{x:Type ctrls:CustomMenuItem}">
+        <Border
+            x:Name="templateRoot"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Padding="{TemplateBinding Padding}"
+            SnapsToDevicePixels="True">
+
+            <Grid Margin="-1">
+
+                <Grid.ColumnDefinitions>
+                    <!-- Icon/CheckBox -->
+                    <ColumnDefinition SharedSizeGroup="MenuItemIconColumnGroup" Width="Auto"/>
+                    <!-- Separator -->
+                    <ColumnDefinition Width="{StaticResource CustomMenuItem.Separator1.ColumnWidth}"/>
+                    <!-- Content -->
+                    <ColumnDefinition Width="*"/>
+                    <!-- Separator -->
+                    <ColumnDefinition Width="{StaticResource CustomMenuItem.Separator2.ColumnWidth}"/>
+                    <!-- Shortcut Text -->
+                    <ColumnDefinition SharedSizeGroup="MenuItemIGTColumnGroup" Width="Auto"/>
+                    <!-- Separator/Next Button -->
+                    <ColumnDefinition Width="{StaticResource CustomMenuItem.SubMenu.ColumnWidth}"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid
+                    Grid.Column="0">
+
+                    <ContentPresenter
+                        x:Name="Icon"
+                        Content="{TemplateBinding Icon}"
+                        ContentSource="Icon"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                        HorizontalAlignment="Stretch"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                        VerticalAlignment="Stretch"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+
+                    <materialDesign:PackIcon
+                        x:Name="packIcon"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                        HorizontalAlignment="Stretch"
+                        Kind="{TemplateBinding IconKind}"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                        VerticalAlignment="Stretch"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+
+                    <materialDesign:PackIcon
+                        x:Name="GlyphPanel"
+                        Foreground="{TemplateBinding Foreground}"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                        HorizontalAlignment="Stretch"
+                        Kind="CheckBoxOutlineBlank"
+                        Visibility="Hidden"
+                        VerticalAlignment="Stretch"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+
+                </Grid>
+
+                <ContentPresenter
+                    x:Name="menuHeaderContainer"
+                    ContentTemplate="{TemplateBinding HeaderTemplate}"
+                    Content="{TemplateBinding Header}"
+                    ContentSource="Header"
+                    ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                    Grid.Column="2"
+                    HorizontalAlignment="Left"
+                    RecognizesAccessKey="True"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                    TextBlock.Foreground="{TemplateBinding Foreground}"
+                    VerticalAlignment="Center"/>
+
+                <TextBlock
+                    x:Name="menuGestureText"
+                    Foreground="{TemplateBinding Foreground}"
+                    Grid.Column="4"
+                    HorizontalAlignment="Left"
+                    Opacity="0.75"
+                    Text="{TemplateBinding InputGestureText}"
+                    VerticalAlignment="Center"/>
+
+                <materialDesign:PackIcon
+                    x:Name="RightArrow"
+                    Foreground="{TemplateBinding Foreground}"
+                    Grid.Column="5"
+                    Kind="ChevronRight"
+                    HorizontalAlignment="Center"
+                    Margin="4,0"
+                    VerticalAlignment="Center"/>
+
+                <Popup
+                    x:Name="PART_Popup"
+                    AllowsTransparency="True"
+                    Focusable="False"
+                    HorizontalOffset="-2"
+                    IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                    PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"
+                    Placement="Right"
+                    VerticalOffset="-3">
+
+                    <Border
+                        x:Name="SubMenuBorder"
+                        Background="{Binding SubMenuBackground, RelativeSource={StaticResource CustomMenu.Source}}"
+                        BorderBrush="{Binding SubMenuBorderBrush, RelativeSource={StaticResource CustomMenu.Source}}"
+                        BorderThickness="{Binding SubMenuBorderThickness, RelativeSource={StaticResource CustomMenu.Source}}"
+                        CornerRadius="{Binding SubMenuCornerRadius, RelativeSource={StaticResource CustomMenu.Source}}"
+                        Padding="{Binding SubMenuPadding, RelativeSource={StaticResource CustomMenu.Source}}">
+
+                        <ScrollViewer
+                            x:Name="SubMenuScrollViewer"
+                            Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+
+                            <Grid
+                                Background="Transparent"
+                                RenderOptions.ClearTypeHint="Enabled">
+
+                                <Canvas
+                                    Height="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Width="0">
+
+                                    <Rectangle
+                                        x:Name="OpaqueRect"
+                                        Fill="Transparent"
+                                        Height="{Binding ActualHeight, ElementName=SubMenuBorder}"
+                                        Width="{Binding ActualWidth, ElementName=SubMenuBorder}"/>
+                                </Canvas>
+
+                                <ItemsPresenter
+                                    x:Name="ItemsPresenter"
+                                    KeyboardNavigation.DirectionalNavigation="Cycle"
+                                    Grid.IsSharedSizeScope="True"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    KeyboardNavigation.TabNavigation="Cycle"/>
+
+                            </Grid>
+                        </ScrollViewer>
+                    </Border>
+                </Popup>
+                
+            </Grid>
+        </Border>
+
+        <ControlTemplate.Triggers>
+
+            <!-- Is Suspending Popup Animation. -->
+            <Trigger Property="IsSuspendingPopupAnimation" Value="True">
+                <Setter Property="PopupAnimation" TargetName="PART_Popup" Value="None"/>
+            </Trigger>
+
+            <!-- No Icon. -->
+            <Trigger Property="Icon" Value="{x:Null}">
+                <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
+            </Trigger>
+
+            <!-- No Pack Icon. -->
+            <Trigger Property="IconKind" Value="{x:Static materialDesign:PackIconKind.None}">
+                <Setter Property="Visibility" TargetName="packIcon" Value="Collapsed"/>
+            </Trigger>
+
+            <!-- Is Checkable. -->
+            <Trigger Property="IsCheckable" Value="True">
+                <Setter Property="Visibility" TargetName="GlyphPanel" Value="Visible"/>
+                <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
+                <Setter Property="Visibility" TargetName="packIcon" Value="Collapsed"/>
+            </Trigger>
+
+            <!-- Is Checked. -->
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Kind" TargetName="GlyphPanel" Value="CheckBoxOutline"/>
+            </Trigger>
+
+            <!-- Is Highlighted. -->
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" TargetName="templateRoot" Value="{Binding BackgroundMouseOver, RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{Binding BorderBrushMouseOver, RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+                <Setter Property="TextBlock.Foreground" TargetName="menuHeaderContainer" Value="{Binding ForegroundMouseOver, RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+                <Setter Property="Foreground" TargetName="menuGestureText" Value="{Binding ForegroundMouseOver, RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+            </Trigger>
+
+            <!-- Is Disabled. -->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" TargetName="templateRoot" Value="0.56"/>
+            </Trigger>
+
+            <!-- Can Content Scroll. -->
+            <Trigger Property="CanContentScroll" SourceName="SubMenuScrollViewer" Value="False">
+                <Setter Property="Canvas.Top" TargetName="OpaqueRect" Value="{Binding VerticalOffset, ElementName=SubMenuScrollViewer}"/>
+                <Setter Property="Canvas.Left" TargetName="OpaqueRect" Value="{Binding HorizontalOffset, ElementName=SubMenuScrollViewer}"/>
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="CustomMenuItem.Header.DataTemplate" TargetType="{x:Type ctrls:CustomMenuItem}">
+        <Border
+            x:Name="templateRoot"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Padding="{TemplateBinding Padding}"
+            SnapsToDevicePixels="True">
+
+            <Grid
+                VerticalAlignment="Center">
+
+                <Grid.ColumnDefinitions>
+                    <!-- Icon/CheckBox -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Content -->
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid
+                    x:Name="iconsGrid"
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    Width="Auto">
+
+                    <!-- Icon -->
+                    <ContentPresenter
+                        x:Name="Icon"
+                        Content="{TemplateBinding Icon}"
+                        ContentSource="Icon"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                        HorizontalAlignment="Stretch"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                        VerticalAlignment="Stretch"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+
+                    <!-- PackIcon -->
+                    <materialDesign:PackIcon
+                        x:Name="packIcon"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                        HorizontalAlignment="Stretch"
+                        Kind="{TemplateBinding IconKind}"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                        VerticalAlignment="Stretch"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+
+                    <!-- CheckBox -->
+                    <materialDesign:PackIcon
+                        x:Name="GlyphPanel"
+                        Foreground="{TemplateBinding Foreground}"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                        HorizontalAlignment="Stretch"
+                        Kind="CheckBoxOutlineBlank"
+                        Visibility="Hidden"
+                        VerticalAlignment="Stretch"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+
+                </Grid>
+
+                <ContentPresenter
+                    x:Name="menuHeaderContainer"
+                    ContentTemplate="{TemplateBinding HeaderTemplate}"
+                    Content="{TemplateBinding Header}"
+                    ContentSource="Header"
+                    ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                    Grid.Column="1"
+                    RecognizesAccessKey="True"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                    TextBlock.Foreground="{TemplateBinding Foreground}"
+                    VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <ControlTemplate.Triggers>
+
+            <!-- No Icon. -->
+            <Trigger Property="Icon" Value="{x:Null}">
+                <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
+            </Trigger>
+
+            <!-- No Pack Icon. -->
+            <Trigger Property="IconKind" Value="{x:Static materialDesign:PackIconKind.None}">
+                <Setter Property="Visibility" TargetName="packIcon" Value="Collapsed"/>
+            </Trigger>
+
+            <!-- Is Checkable. -->
+            <Trigger Property="IsCheckable" Value="True">
+                <Setter Property="Visibility" TargetName="GlyphPanel" Value="Visible"/>
+                <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
+                <Setter Property="Visibility" TargetName="packIcon" Value="Collapsed"/>
+            </Trigger>
+
+            <!-- No Checkable/Icon/Pack Icon. -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="IconKind" Value="{x:Static materialDesign:PackIconKind.None}"/>
+                    <Condition Property="IsCheckable" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Visibility" TargetName="iconsGrid" Value="Collapsed"/>
+            </MultiTrigger>
+
+            <!-- Is Checked. -->
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Kind" TargetName="GlyphPanel" Value="CheckBoxOutline"/>
+            </Trigger>
+
+            <!-- Is Highlighted. -->
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" TargetName="templateRoot" Value="{Binding BackgroundMouseOver, RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{Binding BorderBrushMouseOver, RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+                <Setter Property="TextBlock.Foreground" TargetName="menuHeaderContainer" Value="{Binding ForegroundMouseOver, RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+            </Trigger>
+
+            <!-- Is Disabled. -->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" TargetName="templateRoot" Value="0.56"/>
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="CustomMenuItem.Header.Container.DataTemplate" TargetType="{x:Type ctrls:CustomMenuItem}">
+        <Border
+            x:Name="templateRoot"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Padding="{TemplateBinding Padding}"
+            SnapsToDevicePixels="True">
+
+            <Grid
+                VerticalAlignment="Center">
+
+                <Grid.ColumnDefinitions>
+                    <!-- Icon/CheckBox -->
+                    <ColumnDefinition Width="Auto"/>
+                    <!-- Content -->
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid
+                    x:Name="iconsGrid"
+                    Grid.Column="0"
+                    HorizontalAlignment="Left"
+                    Width="Auto">
+
+                    <!-- Icon -->
+                    <ContentPresenter
+                        x:Name="Icon"
+                        Content="{TemplateBinding Icon}"
+                        ContentSource="Icon"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                        HorizontalAlignment="Stretch"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                        VerticalAlignment="Stretch"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+
+                    <!-- PackIcon -->
+                    <materialDesign:PackIcon
+                        x:Name="packIcon"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                        HorizontalAlignment="Stretch"
+                        Kind="{TemplateBinding IconKind}"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                        VerticalAlignment="Stretch"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+
+                    <!-- CheckBox -->
+                    <materialDesign:PackIcon
+                        x:Name="GlyphPanel"
+                        Foreground="{TemplateBinding Foreground}"
+                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+                        HorizontalAlignment="Stretch"
+                        Kind="CheckBoxOutlineBlank"
+                        Visibility="Hidden"
+                        VerticalAlignment="Stretch"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"/>
+
+                </Grid>
+
+                <ContentPresenter
+                    x:Name="menuHeaderContainer"
+                    ContentTemplate="{TemplateBinding HeaderTemplate}"
+                    Content="{TemplateBinding Header}"
+                    ContentSource="Header"
+                    ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                    Grid.Column="1"
+                    RecognizesAccessKey="True"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                    TextBlock.Foreground="{TemplateBinding Foreground}"
+                    VerticalAlignment="Center"/>
+
+                <Popup
+                    x:Name="PART_Popup"
+                    AllowsTransparency="True"
+                    Focusable="False"
+                    IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                    PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}"
+                    Placement="Bottom">
+
+                    <Border
+                        x:Name="SubMenuBorder"
+                        Background="{Binding SubMenuBackground, RelativeSource={StaticResource CustomMenu.Source}}"
+                        BorderBrush="{Binding SubMenuBorderBrush, RelativeSource={StaticResource CustomMenu.Source}}"
+                        BorderThickness="{Binding SubMenuBorderThickness, RelativeSource={StaticResource CustomMenu.Source}}"
+                        CornerRadius="{Binding SubMenuCornerRadius, RelativeSource={StaticResource CustomMenu.Source}}"
+                        Padding="{Binding SubMenuPadding, RelativeSource={StaticResource CustomMenu.Source}}">
+
+                        <ScrollViewer
+                            x:Name="SubMenuScrollViewer"
+                            Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+
+                            <Grid
+                                Background="Transparent"
+                                RenderOptions.ClearTypeHint="Enabled">
+                                
+                                <Canvas
+                                    Height="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Width="0">
+
+                                    <Rectangle
+                                        x:Name="OpaqueRect"
+                                        Fill="Transparent"
+                                        Height="{Binding ActualHeight, ElementName=SubMenuBorder}"
+                                        Width="{Binding ActualWidth, ElementName=SubMenuBorder}"/>
+                                </Canvas>
+
+                                <ItemsPresenter
+                                    x:Name="ItemsPresenter"
+                                    KeyboardNavigation.DirectionalNavigation="Cycle"
+                                    Grid.IsSharedSizeScope="True"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    KeyboardNavigation.TabNavigation="Cycle"/>
+
+                            </Grid>
+                        </ScrollViewer>
+                    </Border>
+                </Popup>
+
+            </Grid>
+        </Border>
+
+        <ControlTemplate.Triggers>
+
+            <!-- Is Suspending Popup Animation. -->
+            <Trigger Property="IsSuspendingPopupAnimation" Value="True">
+                <Setter Property="PopupAnimation" TargetName="PART_Popup" Value="None"/>
+            </Trigger>
+
+            <!-- No Icon. -->
+            <Trigger Property="Icon" Value="{x:Null}">
+                <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
+            </Trigger>
+
+            <!-- No Pack Icon. -->
+            <Trigger Property="IconKind" Value="{x:Static materialDesign:PackIconKind.None}">
+                <Setter Property="Visibility" TargetName="packIcon" Value="Collapsed"/>
+            </Trigger>
+
+            <!-- Is Checkable. -->
+            <Trigger Property="IsCheckable" Value="True">
+                <Setter Property="Visibility" TargetName="GlyphPanel" Value="Visible"/>
+                <Setter Property="Visibility" TargetName="Icon" Value="Collapsed"/>
+                <Setter Property="Visibility" TargetName="packIcon" Value="Collapsed"/>
+            </Trigger>
+
+            <!-- No Checkable/Icon/Pack Icon. -->
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="Icon" Value="{x:Null}"/>
+                    <Condition Property="IconKind" Value="{x:Static materialDesign:PackIconKind.None}"/>
+                    <Condition Property="IsCheckable" Value="False"/>
+                </MultiTrigger.Conditions>
+                <Setter Property="Visibility" TargetName="iconsGrid" Value="Collapsed"/>
+            </MultiTrigger>
+
+            <!-- Is Checked. -->
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Kind" TargetName="GlyphPanel" Value="CheckBoxOutline"/>
+            </Trigger>
+
+            <!-- Is Highlighted. -->
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" TargetName="templateRoot" Value="{Binding BackgroundMouseOver, RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+                <Setter Property="BorderBrush" TargetName="templateRoot" Value="{Binding BorderBrushMouseOver, RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+                <Setter Property="TextBlock.Foreground" TargetName="menuHeaderContainer" Value="{Binding ForegroundMouseOver, RelativeSource={StaticResource CustomMenuItem.Source}}"/>
+            </Trigger>
+
+            <!-- Is Disabled. -->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" TargetName="templateRoot" Value="0.56"/>
+            </Trigger>
+
+            <!-- Can Content Scroll. -->
+            <Trigger Property="CanContentScroll" SourceName="SubMenuScrollViewer" Value="False">
+                <Setter Property="Canvas.Top" TargetName="OpaqueRect" Value="{Binding VerticalOffset, ElementName=SubMenuScrollViewer}"/>
+                <Setter Property="Canvas.Left" TargetName="OpaqueRect" Value="{Binding HorizontalOffset, ElementName=SubMenuScrollViewer}"/>
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+    
+    <!-- STYLES -->
+
+    <Style x:Key="CustomMenuItemStyle" TargetType="{x:Type ctrls:CustomMenuItem}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BackgroundMouseOver" Value="{Binding Appearance.AccentMouseOverBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderBrushMouseOver" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{Binding Appearance.ThemeForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="ForegroundMouseOver" Value="{Binding Appearance.AccentForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="Margin" Value="0,1"/>
+        <Setter Property="Template" Value="{StaticResource CustomMenuItem.DataTemplate}"/>
+
+        <Style.Triggers>
+
+            <!-- Has Items. -->
+            <Trigger Property="Role" Value="TopLevelHeader">
+                <Setter Property="Padding" Value="4,2"/>
+                <Setter Property="Template" Value="{StaticResource CustomMenuItem.Header.Container.DataTemplate}"/>
+            </Trigger>
+            <Trigger Property="Role" Value="TopLevelItem">
+                <Setter Property="Padding" Value="4,2"/>
+                <Setter Property="Template" Value="{StaticResource CustomMenuItem.Header.DataTemplate}"/>
+            </Trigger>
+            <Trigger Property="Role" Value="SubmenuHeader">
+                <Setter Property="Template" Value="{StaticResource CustomMenuItem.Container.DataTemplate}"/>
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

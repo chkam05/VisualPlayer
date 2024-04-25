@@ -1,0 +1,61 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:bpages="clr-namespace:VisualPlayer.Pages.Base"
+    xmlns:ctrls="clr-namespace:VisualPlayer.Controls"
+    xmlns:imbase="clr-namespace:VisualPlayer.InternalMessages.Base"
+    xmlns:win="clr-namespace:VisualPlayer.Windows">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/ColorSelectorStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/ColorPickerStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomButtonStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomComboBoxItemStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomComboBoxStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomContextMenuItemStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomContextMenuStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomListViewItemStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomListViewStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomMenuItemStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomMenuStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomScrollBarStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomScrollViewerStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomSliderStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomTextBoxStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomTreeViewItemStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomTreeViewStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomUpDownStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/FilesTreeViewerStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/FilesViewerStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/SettingsButtonStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/InternalMessages/IMBaseStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Pages/BasePageStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Windows/BaseWindowStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style BasedOn="{StaticResource ColorSelectorStyle}" TargetType="{x:Type ctrls:ColorSelector}"/>
+    <Style BasedOn="{StaticResource ColorPickerStyle}" TargetType="{x:Type ctrls:ColorPicker}"/>
+    <Style BasedOn="{StaticResource CustomButtonStyle}" TargetType="{x:Type ctrls:CustomButton}"/>
+    <Style BasedOn="{StaticResource CustomComboBoxItemStyle}" TargetType="{x:Type ctrls:CustomComboBoxItem}"/>
+    <Style BasedOn="{StaticResource CustomComboBoxStyle}" TargetType="{x:Type ctrls:CustomComboBox}"/>
+    <Style BasedOn="{StaticResource CustomContextMenuItemStyle}" TargetType="{x:Type ctrls:CustomContextMenuItem}"/>
+    <Style BasedOn="{StaticResource CustomContextMenuStyle}" TargetType="{x:Type ctrls:CustomContextMenu}"/>
+    <Style BasedOn="{StaticResource CustomListViewItemStyle}" TargetType="{x:Type ctrls:CustomListViewItem}"/>
+    <Style BasedOn="{StaticResource CustomListViewStyle}" TargetType="{x:Type ctrls:CustomListView}"/>
+    <Style BasedOn="{StaticResource CustomMenuItemStyle}" TargetType="{x:Type ctrls:CustomMenuItem}"/>
+    <Style BasedOn="{StaticResource CustomMenuStyle}" TargetType="{x:Type ctrls:CustomMenu}"/>
+    <Style BasedOn="{StaticResource CustomScrollBarStyle}" TargetType="{x:Type ctrls:CustomScrollBar}"/>
+    <Style BasedOn="{StaticResource CustomScrollViewerStyle}" TargetType="{x:Type ctrls:CustomScrollViewer}"/>
+    <Style BasedOn="{StaticResource CustomSliderStyle}" TargetType="{x:Type ctrls:CustomSlider}"/>
+    <Style BasedOn="{StaticResource CustomTextBoxStyle}" TargetType="{x:Type ctrls:CustomTextBox}"/>
+    <Style BasedOn="{StaticResource CustomTreeViewItemStyle}" TargetType="{x:Type ctrls:CustomTreeViewItem}"/>
+    <Style BasedOn="{StaticResource CustomTreeViewStyle}" TargetType="{x:Type ctrls:CustomTreeView}"/>
+    <Style BasedOn="{StaticResource CustomUpDownStyle}" TargetType="{x:Type ctrls:CustomUpDown}"/>
+    <Style BasedOn="{StaticResource FilesTreeViewerStyle}" TargetType="{x:Type ctrls:FilesTreeViewer}"/>
+    <Style BasedOn="{StaticResource FilesViewerStyle}" TargetType="{x:Type ctrls:FilesViewer}"/>
+    <Style BasedOn="{StaticResource SettingsButtonStyle}" TargetType="{x:Type ctrls:SettingsButton}"/>
+    <Style BasedOn="{StaticResource IMBaseStyle}" TargetType="{x:Type imbase:IMBase}"/>
+    <Style BasedOn="{StaticResource BasePageStyle}" TargetType="{x:Type bpages:BasePage}"/>
+    <Style BasedOn="{StaticResource BaseWindowStyle}" TargetType="{x:Type win:BaseWindow}"/>
+
+</ResourceDictionary>

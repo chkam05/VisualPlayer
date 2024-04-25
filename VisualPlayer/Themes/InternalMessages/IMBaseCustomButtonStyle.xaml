@@ -1,0 +1,33 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cfg="clr-namespace:VisualPlayer.Data.Configuration"
+    xmlns:ctrls="clr-namespace:VisualPlayer.Controls"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomButtonStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <!-- STATIC -->
+
+    <x:Static x:Key="ConfigMgr" Member="cfg:ConfigurationManager.Instance"/>
+    <sys:Double x:Key="IMBase.CustomButton.Height">32</sys:Double>
+    <sys:Double x:Key="IMBase.CustomButton.Width">80</sys:Double>
+
+
+    <!-- STYLE -->
+
+    <Style x:Key="IMBase.CustomButtonStyle" BasedOn="{StaticResource CustomButtonStyle}" TargetType="{x:Type ctrls:CustomButton}">
+        <Setter Property="Background" Value="{Binding Appearance.AccentColorBrush, Mode=OneWay,Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="BackgroundMouseOver" Value="{Binding Appearance.AccentMouseOverBrush, Mode=OneWay,Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="BackgroundPressed" Value="{Binding Appearance.AccentPressedBrush, Mode=OneWay,Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="BorderBrush" Value="{Binding Appearance.AccentColorBrush, Mode=OneWay,Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="BorderBrushMouseOver" Value="{Binding Appearance.AccentColorBrush, Mode=OneWay,Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="BorderBrushPressed" Value="{Binding Appearance.AccentColorBrush, Mode=OneWay,Source={StaticResource ConfigMgr}}"/>
+        <Setter Property="Height" Value="{StaticResource IMBase.CustomButton.Height}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Width" Value="{StaticResource IMBase.CustomButton.Width}"/>
+    </Style>
+
+</ResourceDictionary>

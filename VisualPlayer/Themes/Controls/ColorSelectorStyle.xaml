@@ -1,0 +1,122 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:cfg="clr-namespace:VisualPlayer.Data.Configuration"
+    xmlns:ctrls="clr-namespace:VisualPlayer.Controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomContextMenuItemStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomContextMenuStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomListViewItemStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomListViewStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <!-- STATIC -->
+
+    <x:Static x:Key="ConfigMgr" Member="cfg:ConfigurationManager.Instance"/>
+
+
+    <!-- DATA TEMPLATE -->
+
+    <DataTemplate x:Key="ColorSelector.DataTemplate">
+        <Border
+            Background="{Binding ColorBrush, Mode=OneWay}"
+            BorderBrush="{x:Null}"
+            BorderThickness="0"
+            CornerRadius="8"
+            Margin="0">
+            
+        </Border>
+    </DataTemplate>
+
+    
+    <!-- EXTERNAL STYLES -->
+
+    <Style x:Key="ColorSelector.CustomListViewItemStyle" BasedOn="{StaticResource CustomListViewItemStyle}" TargetType="{x:Type ctrls:CustomListViewItem}">
+        <Setter Property="ContextMenu" Value="{x:Null}"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="ToolTip" Value="{Binding ColorName}"/>
+        <Setter Property="Width" Value="48"/>
+
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ShowContextMenu, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ctrls:ColorSelector}}}" Value="True">
+                <Setter Property="ContextMenu">
+                    <Setter.Value>
+                        <ctrls:CustomContextMenu>
+
+                            <ctrls:CustomContextMenuItem
+                                Header="Select"
+                                IconKind="Colorize"
+                                Command="{Binding SelectItemCommand}"/>
+
+                            <Separator/>
+
+                            <ctrls:CustomContextMenuItem
+                                IsEnabled="{Binding AllowRemove, Mode=OneWay}"
+                                Header="Remove"
+                                IconKind="TrashCanOutline"
+                                Command="{Binding RemoveItemCommand}"/>
+                            
+                        </ctrls:CustomContextMenu>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
+
+    <!-- CONTROL TEMPLATE -->
+
+    <ControlTemplate x:Key="ColorSelector.ControlTemplate" TargetType="{x:Type ctrls:ColorSelector}">
+        <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Padding="{TemplateBinding Padding}">
+
+            <ctrls:CustomListView
+                x:Name="_listView"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                ItemContainerStyle="{StaticResource ColorSelector.CustomListViewItemStyle}"
+                ItemTemplate="{StaticResource ColorSelector.DataTemplate}"
+                ItemsSource="{TemplateBinding ColorsCollection}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                VerticalAlignment="Stretch"
+                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                
+                <ctrls:CustomListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel
+                            Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ctrls:CustomListView.ItemsPanel>
+                
+            </ctrls:CustomListView>
+
+        </Border>
+    </ControlTemplate>
+    
+    
+    <!-- STYLE -->
+
+    <Style x:Key="ColorSelectorStyle" TargetType="{x:Type ctrls:ColorSelector}">
+        <Setter Property="Background" Value="{Binding Appearance.ThemeBackgroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Foreground" Value="{Binding Appearance.ThemeForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Padding" Value="6"/>
+        <Setter Property="Template" Value="{StaticResource ColorSelector.ControlTemplate}"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+    </Style>
+
+</ResourceDictionary>

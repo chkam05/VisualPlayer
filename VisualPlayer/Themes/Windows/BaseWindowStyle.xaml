@@ -1,0 +1,330 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cfg="clr-namespace:VisualPlayer.Data.Configuration"
+    xmlns:conv="clr-namespace:VisualPlayer.Converters"
+    xmlns:ctrls="clr-namespace:VisualPlayer.Controls"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:win="clr-namespace:VisualPlayer.Windows">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Controls/CustomButtonStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    
+    <!-- STATIC -->
+
+    <x:Static x:Key="ConfigMgr" Member="cfg:ConfigurationManager.Instance"/>
+    
+    
+    <!-- CONVERTERS -->
+
+    <conv:BrushOpacityConverter x:Key="BrushOpacityConverter"/>
+    <conv:CornerRadiusModifConverter x:Key="CornerRadiusModifConverter"/>
+    <conv:IsNotNullConverter x:Key="IsNotNullConverter"/>
+
+
+    <!-- RELATED STYLES -->
+
+    <Style x:Key="BaseWindow.TitleCustomButtonStyle" BasedOn="{StaticResource CustomButtonStyle}" TargetType="{x:Type ctrls:CustomButton}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BackgroundMouseOver" Value="{Binding Appearance.AccentMouseOverBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BackgroundPressed" Value="{Binding Appearance.AccentPressedBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderBrushMouseOver" Value="{Binding Appearance.AccentColorBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BorderBrushPressed" Value="{Binding Appearance.AccentColorBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Content" Value="{x:Null}"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Foreground" Value="{Binding Appearance.AccentForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="ForegroundMouseOver" Value="{Binding Appearance.AccentForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="ForegroundPressed" Value="{Binding Appearance.AccentForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="IconHeight" Value="22"/>
+        <Setter Property="IconWidth" Value="22"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Width" Value="28"/>
+    </Style>
+
+    <Style x:Key="BaseWindow.IconImageStyle" TargetType="{x:Type Image}">
+        <Setter Property="Margin" Value="8,4,0,4"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ImageSource, RelativeSource={RelativeSource AncestorType={x:Type win:BaseWindow}}}" Value="{x:Null}">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="BaseWindow.IconPackIconStyle" TargetType="materialDesign:PackIcon">
+        <Setter Property="Foreground" Value="{Binding Appearance.AccentForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="Margin" Value="8,4,0,4"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ImageSource, RelativeSource={RelativeSource AncestorType={x:Type win:BaseWindow}}, Converter={StaticResource IsNotNullConverter}}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="BaseWindow.ResizeBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <Style x:Key="BaseWindow.TitleTextBlockStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="{Binding Appearance.AccentForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="Margin" Value="8,0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+
+    <!-- CONTROL TEMPLATE -->
+    
+    <ControlTemplate x:Key="BaseWindow.ControlTemplate" TargetType="{x:Type win:BaseWindow}">
+        <Grid
+            x:Name="_outerGrid"
+            Background="Transparent">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Border
+                x:Name="_innerBorder"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Grid.Column="1"
+                Grid.Row="1">
+
+                <Border.BorderBrush>
+                    <MultiBinding Mode="OneWay" Converter="{StaticResource BrushOpacityConverter}">
+                        <Binding Path="BorderBrush" RelativeSource="{RelativeSource AncestorType={x:Type win:BaseWindow}}"/>
+                        <Binding Path="BackgroundOpacity" RelativeSource="{RelativeSource AncestorType={x:Type win:BaseWindow}}"/>
+                    </MultiBinding>
+                </Border.BorderBrush>
+
+                <Grid
+                    x:Name="_innerGrid">
+
+                    <Grid.OpacityMask>
+                        <VisualBrush Visual="{Binding ElementName=_innerBackgroundBorder}" />
+                    </Grid.OpacityMask>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border
+                        x:Name="_innerBackgroundBorder"
+                        BorderBrush="{x:Null}"
+                        BorderThickness="0"
+                        CornerRadius="{TemplateBinding CornerRadius, Converter={StaticResource CornerRadiusModifConverter}, ConverterParameter=L-0.5T-0.5R-0.5B-0.5}"
+                        Grid.RowSpan="2">
+
+                        <Border.Background>
+                            <MultiBinding Mode="OneWay" Converter="{StaticResource BrushOpacityConverter}">
+                                <Binding Path="Background" RelativeSource="{RelativeSource AncestorType={x:Type win:BaseWindow}}"/>
+                                <Binding Path="BackgroundOpacity" RelativeSource="{RelativeSource AncestorType={x:Type win:BaseWindow}}"/>
+                            </MultiBinding>
+                        </Border.Background>
+
+                    </Border>
+
+                    <Grid
+                        x:Name="_titleGrid"
+                        Grid.Row="0"
+                        Height="30">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.OpacityMask>
+                            <VisualBrush Visual="{Binding ElementName=_titleBackgroundBorder}" />
+                        </Grid.OpacityMask>
+
+                        <Border
+                            x:Name="_titleBackgroundBorder"
+                            Background="{TemplateBinding BorderBrush}"
+                            BorderBrush="{x:Null}"
+                            BorderThickness="0"
+                            Grid.ColumnSpan="3"/>
+
+                        <StackPanel
+                            Grid.Column="0"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Stretch">
+
+                            <Image
+                                Source="{TemplateBinding ImageSource}"
+                                Style="{StaticResource BaseWindow.IconImageStyle}"/>
+
+                            <materialDesign:PackIcon
+                                Kind="{TemplateBinding IconKind}"
+                                Style="{StaticResource BaseWindow.IconPackIconStyle}"/>
+
+                        </StackPanel>
+
+                        <TextBlock
+                            Grid.Column="1"
+                            Style="{StaticResource BaseWindow.TitleTextBlockStyle}"
+                            Text="{TemplateBinding Title}"/>
+
+                        <StackPanel
+                            Grid.Column="2"
+                            HorizontalAlignment="Right"
+                            Margin="0,1,1,1"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Stretch">
+
+                            <ctrls:CustomButton
+                                x:Name="_minimizeButton"
+                                IconKind="Minimize"
+                                Style="{StaticResource BaseWindow.TitleCustomButtonStyle}"/>
+
+                            <ctrls:CustomButton
+                                x:Name="_maximizeButton"
+                                IconHeight="20"
+                                IconKind="Maximize"
+                                IconWidth="20"
+                                Margin="2,0,0,0"
+                                Padding="2"
+                                Style="{StaticResource BaseWindow.TitleCustomButtonStyle}"/>
+
+                            <ctrls:CustomButton
+                                x:Name="_closeButton"
+                                IconKind="Close"
+                                Margin="2,0,0,0"
+                                Style="{StaticResource BaseWindow.TitleCustomButtonStyle}"/>
+
+                        </StackPanel>
+
+                    </Grid>
+
+                    <ContentPresenter
+                        Grid.Row="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"/>
+
+                </Grid>
+
+            </Border>
+
+            <!--#region ResizeBorders-->
+
+            <Border
+                x:Name="_resizeBorderLeft"
+                Cursor="SizeWE"
+                Grid.Column="0"
+                Grid.Row="1"
+                Margin="0,0,-2,0"
+                Style="{StaticResource BaseWindow.ResizeBorderStyle}"
+                Width="4"/>
+
+            <Border
+                x:Name="_resizeBorderTopLeft"
+                Cursor="SizeNWSE"
+                Grid.Column="0"
+                Grid.Row="0"
+                Height="8"
+                Margin="0,0,-4,-4"
+                Style="{StaticResource BaseWindow.ResizeBorderStyle}"
+                Width="8"/>
+
+            <Border
+                x:Name="_resizeBorderTop"
+                Cursor="SizeNS"
+                Grid.Column="1"
+                Grid.Row="0"
+                Height="4"
+                Margin="0,0,0,-2"
+                Style="{StaticResource BaseWindow.ResizeBorderStyle}"/>
+
+            <Border
+                x:Name="_resizeBorderTopRight"
+                Cursor="SizeNESW"
+                Grid.Column="2"
+                Grid.Row="0"
+                Height="8"
+                Margin="-4,0,0,-4"
+                Style="{StaticResource BaseWindow.ResizeBorderStyle}"
+                Width="8"/>
+
+            <Border
+                x:Name="_resizeBorderRight"
+                Cursor="SizeWE"
+                Grid.Column="2"
+                Grid.Row="1"
+                Margin="-2,0,0,0"
+                Style="{StaticResource BaseWindow.ResizeBorderStyle}"
+                Width="4"/>
+
+            <Border
+                x:Name="_resizeBorderBottomRight"
+                Cursor="SizeNWSE"
+                Grid.Column="2"
+                Grid.Row="2"
+                Height="8"
+                Margin="-4,-4,0,0"
+                Style="{StaticResource BaseWindow.ResizeBorderStyle}"
+                Width="8"/>
+
+            <Border
+                x:Name="_resizeBorderBottom"
+                Cursor="SizeNS"
+                Grid.Column="1"
+                Grid.Row="2"
+                Height="4"
+                Margin="0,-2,0,0"
+                Style="{StaticResource BaseWindow.ResizeBorderStyle}"/>
+
+            <Border
+                x:Name="_resizeBorderBottomLeft"
+                Cursor="SizeNESW"
+                Grid.Column="0"
+                Grid.Row="2"
+                Height="8"
+                Margin="0,-4,-4,0"
+                Style="{StaticResource BaseWindow.ResizeBorderStyle}"
+                Width="8"/>
+            
+            <!--#endregion ResizeBorders-->
+
+        </Grid>
+    </ControlTemplate>
+    
+    
+    <!-- STYLE -->
+
+    <Style x:Key="BaseWindowStyle" TargetType="{x:Type win:BaseWindow}">
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="Background" Value="{Binding Appearance.ThemeBackgroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BackgroundOpacity" Value="{Binding Appearance.Opacity, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{Binding Appearance.AccentColorBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Foreground" Value="{Binding Appearance.ThemeForegroundBrush, Source={StaticResource ConfigMgr}, Mode=OneWay}"/>
+        <Setter Property="Template" Value="{StaticResource BaseWindow.ControlTemplate}"/>
+        <Setter Property="WindowStyle" Value="None"/>
+    </Style>
+
+</ResourceDictionary>

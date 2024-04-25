@@ -1,0 +1,61 @@
+﻿<UserControl
+    x:Class="VisualPlayer.InternalMessages.IMControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cfg="clr-namespace:VisualPlayer.Data.Configuration"
+    xmlns:conv="clr-namespace:VisualPlayer.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:VisualPlayer.InternalMessages"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    mc:Ignorable="d"
+    
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Visibility="Collapsed">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/VisualPlayer;component/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
+            <!-- STATIC -->
+            
+            <x:Static x:Key="ConfigMgr" Member="cfg:ConfigurationManager.Instance"/>
+            <sys:Double x:Key="IMControl.Background.Opacity">0.875</sys:Double>
+            <Thickness x:Key="IMControl.InnerGrid.Margin">16</Thickness>
+
+            <!-- CONVERTERS -->
+
+            <conv:BrushOpacityConverter x:Key="BrushOpacityConverter"/>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <UserControl.Background>
+        <MultiBinding Mode="OneWay" Converter="{StaticResource BrushOpacityConverter}">
+            <Binding Path="Appearance.ThemeShadeBackgroundBrush" Source="{StaticResource ConfigMgr}"/>
+            <Binding Source="{StaticResource IMControl.Background.Opacity}"/>
+            <Binding Path="Appearance.OpacityUI" Source="{StaticResource ConfigMgr}"/>
+        </MultiBinding>
+    </UserControl.Background>
+
+    <Grid
+        x:Name="_outerGrid">
+
+        <Grid
+            x:Name="_innerGrid"
+            Margin="{StaticResource IMControl.InnerGrid.Margin}">
+        
+            <Frame
+                x:Name="_contentFrame"
+                HorizontalAlignment="Center"
+                NavigationUIVisibility="Hidden"
+                VerticalAlignment="Center"
+                Navigated="FrameNavigated"/>
+
+        </Grid>
+    </Grid>
+    
+</UserControl>
