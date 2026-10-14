@@ -1,0 +1,90 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:VisualPlayer.Views.Visualisations.Common"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:config="using:VisualPlayer.Visualizations.Config"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:profile="using:VisualPlayer.Visualizations.Config.Base"
+    x:Class="VisualPlayer.Views.Visualisations.OscilloscopeFilledConfig"
+    x:DataType="profile:VisualisationProfile"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:BeamEffectToTitleConverter x:Key="BeamEffectToTitleConverter"/>
+        <converters:OpacityToPercentageConverter x:Key="OpacityToPercentageConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel
+        Spacing="8">
+
+        <!-- Color -->
+        <common:VisualisationColorConfig/>
+
+        <!-- Thickness -->
+        <controls:SettingsControl
+            Description="Określa grubość linii podwójnego wypełnionego oscyloskopu."
+            Icon="Minus"
+            Title="Grubość linii">
+
+            <components:NumericUpDown
+                Maximum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MINIMUM}"
+                Suffix=" px"
+                Value="{ReflectionBinding Config.LineThickness, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Transparency -->
+        <controls:SettingsControl
+            Description="Określa przezroczystość wypełnionego obszaru pomiędzy liniami."
+            Icon="Blend"
+            Title="Przezroczystość">
+
+            <Grid ColumnDefinitions="48,180" ColumnSpacing="8">
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{ReflectionBinding Config.Opacity, Converter={StaticResource OpacityToPercentageConverter}, Mode=OneWay}"
+                    VerticalAlignment="Center"/>
+
+                <Slider
+                    Grid.Column="1"
+                    Maximum="{x:Static config:OscilloscopeFilledVisualizationConfig.OPACITY_MAXIMUM}"
+                    Minimum="{x:Static config:OscilloscopeFilledVisualizationConfig.OPACITY_MINIMUM}"
+                    SmallChange="{x:Static config:OscilloscopeFilledVisualizationConfig.OPACITY_SMALL_CHANGE}"
+                    Theme="{StaticResource SliderTheme}"
+                    Value="{ReflectionBinding Config.Opacity, Mode=TwoWay}"/>
+            </Grid>
+        </controls:SettingsControl>
+
+        <!-- Smooth -->
+        <controls:SettingsControl
+            Description="Interpoluje próbki, aby ograniczyć ostre załamania linii."
+            Icon="AudioWaveform"
+            Title="Wygładzanie linii">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.SmoothLine, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Effects -->
+        <controls:SettingsControl
+            Description="Dodaje lekką poświatę wokół linii."
+            Icon="Sparkles"
+            Title="Efekt linii">
+
+            <ComboBox
+                ItemsSource="{Binding BeamEffects, ElementName=Root}"
+                SelectedItem="{ReflectionBinding Config.BeamEffect, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Converter={StaticResource BeamEffectToTitleConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </controls:SettingsControl>
+    </StackPanel>
+</UserControl>

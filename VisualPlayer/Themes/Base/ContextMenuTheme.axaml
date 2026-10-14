@@ -1,0 +1,39 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <ControlTemplate x:Key="ContextMenu.Template" TargetType="ContextMenu">
+        <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Padding="{TemplateBinding Padding}">
+
+            <ScrollViewer Theme="{StaticResource FluentMenuScrollViewer}">
+                <ItemsPresenter
+                    x:Name="PART_ItemsPresenter"
+                    Grid.IsSharedSizeScope="True"
+                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                    KeyboardNavigation.TabNavigation="Continue"/>
+            </ScrollViewer>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="{x:Type ContextMenu}" TargetType="ContextMenu">
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="MaxWidth" Value="420"/>
+        <Setter Property="MinWidth" Value="180"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Template" Value="{StaticResource ContextMenu.Template}"/>
+        <Setter Property="WindowManagerAddShadowHint" Value="False"/>
+    </ControlTheme>
+
+</ResourceDictionary>

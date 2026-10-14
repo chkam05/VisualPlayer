@@ -1,0 +1,85 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!-- BASE -->
+        <ResourceInclude Source="/Themes/Base/ButtonTheme.axaml" />
+        <ResourceInclude Source="/Themes/Base/ContextMenuTheme.axaml" />
+        <ResourceInclude Source="/Themes/Base/ContextMenuItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Base/ComboBoxItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Base/ComboBoxTheme.axaml" />
+        <ResourceInclude Source="/Themes/Base/ListBoxItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Base/ListBoxTheme.axaml" />
+        <ResourceInclude Source="/Themes/Base/SliderTheme.axaml" />
+        <ResourceInclude Source="/Themes/Base/TextBox.axaml" />
+
+        <!-- PLAYER -->
+        <ResourceInclude Source="/Themes/PlayerPositionSliderTheme.axaml" />
+        <ResourceInclude Source="/Themes/PlayerVolumeSliderTheme.axaml" />
+
+        <!-- CUSTOM COMPONENTS -->
+        <ResourceInclude Source="/Themes/Components/ButtonWithIcon.axaml" />
+        <ResourceInclude Source="/Themes/Components/ColorValueSlider.axaml" />
+        <ResourceInclude Source="/Themes/Components/KeyBindControl.axaml" />
+        <ResourceInclude Source="/Themes/Components/NumericUpDown.axaml" />
+        <ResourceInclude Source="/Themes/Components/Switch.axaml" />
+        <ResourceInclude Source="/Themes/Components/ToggleButtonWithIcon.axaml" />
+        <ResourceInclude Source="/Themes/Components/ColorizedButtonThemes.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayListItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/ControlBorderTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlIconButtonTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlToggleIconButtonTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlSeparatorBorder.axaml" />
+
+        <!-- INTERNAL MESSAGES -->
+        <ResourceInclude Source="/Themes/Messages/InternalMessageButtonTheme.axaml" />
+        <ResourceInclude Source="/Themes/Messages/InternalMessageButtonWithIconTheme.axaml" />
+
+        <!-- CONTROLS -->
+        <ResourceInclude Source="/Themes/Controls/ColorPaletteControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/GradientControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/HamburgerMenuItemControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/HamburgerMenuControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/InfoBarControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/ImageSelectorControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/InternalViewController.axaml" />
+        <ResourceInclude Source="/Themes/Controls/InternalMessageController.axaml" />
+        <ResourceInclude Source="/Themes/Controls/LogoControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/LyricsControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayerControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayListItemControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayListControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/SettingsControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/SidePanelControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/SettingsExpandControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/SpeedControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/VolumeControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/VisualizationSurfaceControl.axaml" />
+
+        <!-- VIEWS CONTROLS -->
+        <ResourceInclude Source="/Themes/Views/InternalViewBackButtonWithIconTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/InternalViewCloseButtonWithIconTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/InternalViewResetButtonWithIconTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/InternalViewSaveButtonWithIconTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/SeparatorHorizontalBorderTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/SeparatorVerticalBorderTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/SidePanelActionButtonWithIconTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/SidePanelListViewItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/SidePanelListViewTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/SidePanelContentListViewItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/SidePanelContentListViewTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/SidePanelTextBoxTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/PlayListManager/NowPlayingButtonWithIconTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/PlayListManager/TracksListBoxItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/PlayListManager/TracksListBoxTheme.axaml" />
+
+        <!-- VIEWS -->
+        <ResourceInclude Source="/Themes/Views/InternalViewBase.axaml" />
+        <ResourceInclude Source="/Views/Dialogs/InternalMessageColorPicker.axaml" />
+        <ResourceInclude Source="/Views/Dialogs/InternalMessageDialog.axaml" />
+        <ResourceInclude Source="/Views/Dialogs/InternalMessageInput.axaml" />
+        <ResourceInclude Source="/Views/Dialogs/InternalMessagePlayListPicker.axaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

@@ -1,0 +1,151 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:resources="using:VisualPlayer.Resources">
+
+    <ControlTemplate
+        x:Key="InfoBarControlTemplate"
+        x:DataType="contexts:InfoBarContext"
+        TargetType="controls:InfoBarControl">
+
+        <Grid
+            Background="Transparent"
+            ClipToBounds="False">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="{x:Static resources:Dimensions.AutoHideRevealGridLength}"/>
+            </Grid.RowDefinitions>
+
+            <Border
+                x:Name="PART_ContentHost"
+                Padding="8"
+                Grid.Row="0"
+                Margin="8"
+                MaxHeight="96"
+                Theme="{StaticResource ControlBorderTheme}"
+                VerticalAlignment="Top">
+
+                <Grid
+                    ColumnDefinitions="64,*,Auto"
+                    ColumnSpacing="12">
+                    
+                    <!-- COVER -->
+                    <Border
+                        Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        ClipToBounds="True"
+                        CornerRadius="6"
+                        Grid.Column="0"
+                        Height="64"
+                        Width="64">
+
+                        <Grid>
+
+                            <LucideIcon
+                                HorizontalAlignment="Center"
+                                Kind="Music"
+                                Opacity="0.35"
+                                Size="24"
+                                VerticalAlignment="Center"/>
+
+                            <Image
+                                Source="{Binding Cover}"
+                                Stretch="UniformToFill"/>
+
+                        </Grid>
+                    </Border>
+                    
+                    <!-- TITLE / ALBUM / AUTHOR -->
+                    <StackPanel
+                        Grid.Column="1"
+                        MinWidth="0"
+                        Spacing="2"
+                        VerticalAlignment="Center">
+
+                        <!-- Title -->
+                        <TextBlock
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            MinWidth="0"
+                            Text="{Binding Title}"
+                            TextTrimming="CharacterEllipsis"/>
+
+                        <!-- Album -->
+                        <Grid ColumnDefinitions="Auto,*">
+
+                            <TextBlock
+                                FontSize="13"
+                                Margin="0,0,5,0"
+                                Opacity="0.6"
+                                Text="Album:"/>
+
+                            <TextBlock
+                                FontSize="13"
+                                Grid.Column="1"
+                                MinWidth="0"
+                                Opacity="0.75"
+                                Text="{Binding Album}"
+                                TextTrimming="CharacterEllipsis"/>
+
+                        </Grid>
+
+                        <!-- Author -->
+                        <Grid ColumnDefinitions="Auto,*">
+
+                            <TextBlock
+                                FontSize="13"
+                                Margin="0,0,5,0"
+                                Opacity="0.6"
+                                Text="Artysta:"/>
+
+                            <TextBlock
+                                FontSize="13"
+                                Grid.Column="1"
+                                MinWidth="0"
+                                Opacity="0.75"
+                                Text="{Binding Artist}"
+                                TextTrimming="CharacterEllipsis"/>
+
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- TIME -->
+                    <StackPanel
+                        Grid.Column="2"
+                        Margin="16,0"
+                        Orientation="Horizontal"
+                        Spacing="3"
+                        VerticalAlignment="Center">
+
+                        <TextBlock
+                            MinWidth="48"
+                            Text="{Binding Player.CurrentPositionText}"
+                            TextAlignment="Right"/>
+
+                        <TextBlock Text="/"/>
+
+                        <TextBlock
+                            MinWidth="48"
+                            Text="{Binding Player.TotalDurationText}"
+                            TextAlignment="Left"/>
+
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTheme
+        x:Key="{x:Type controls:InfoBarControl}"
+        TargetType="controls:InfoBarControl">
+
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        <Setter Property="Template" Value="{StaticResource InfoBarControlTemplate}" />
+
+    </ControlTheme>
+
+</ResourceDictionary>

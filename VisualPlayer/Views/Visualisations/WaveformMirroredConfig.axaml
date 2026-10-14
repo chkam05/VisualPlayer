@@ -1,0 +1,196 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:VisualPlayer.Views.Visualisations.Common"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:config="using:VisualPlayer.Visualizations.Config"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:profile="using:VisualPlayer.Visualizations.Config.Base"
+    x:Class="VisualPlayer.Views.Visualisations.WaveformMirroredConfig"
+    x:DataType="profile:VisualisationProfile"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:BeamEffectToTitleConverter x:Key="BeamEffectToTitleConverter"/>
+        <converters:OpacityToPercentageConverter x:Key="OpacityToPercentageConverter"/>
+        <converters:MirroredVisualizationDirectionToTitleConverter x:Key="MirroredVisualizationDirectionToTitleConverter"/>
+        <converters:WaveformTransformationToTitleConverter x:Key="WaveformTransformationToTitleConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel
+        Spacing="8">
+
+        <!-- Color -->
+        <common:VisualisationColorConfig/>
+
+        <!-- Number of peaks -->
+        <controls:SettingsControl
+            Description="Określa liczbę próbek FFT tworzących kształt fali."
+            Icon="ChartNoAxesColumn"
+            Title="Liczba peaków">
+
+            <components:NumericUpDown
+                Maximum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MINIMUM}"
+                Value="{ReflectionBinding Config.PeaksCount, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Direction -->
+        <controls:SettingsControl
+            Description="Określa, czy fala rośnie do środka, czy na zewnątrz."
+            Icon="ArrowUpDown"
+            Title="Kierunek">
+
+            <ComboBox
+                ItemsSource="{Binding Directions, ElementName=Root}"
+                SelectedItem="{ReflectionBinding Config.Direction, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Converter={StaticResource MirroredVisualizationDirectionToTitleConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </controls:SettingsControl>
+
+        <!-- Thickness -->
+        <controls:SettingsControl
+            Description="Określa grubość krawędzi fali."
+            Icon="Minus"
+            Title="Grubość linii">
+
+            <components:NumericUpDown
+                Maximum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MINIMUM}"
+                Suffix=" px"
+                Value="{ReflectionBinding Config.LineThickness, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Falling speed -->
+        <controls:SettingsControl
+            Description="Określa szybkość opadania fali po zmniejszeniu poziomu częstotliwości."
+            Icon="ClockFading"
+            Title="Szybkość opadania">
+
+            <components:NumericUpDown
+                Increment="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_INCREMENT}"
+                Maximum="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_MINIMUM}"
+                Suffix=" px/s"
+                Value="{ReflectionBinding Config.DescentRate, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Effects -->
+        <controls:SettingsControl
+            Description="Dodaje lekką poświatę wokół linii fali."
+            Icon="Sparkles"
+            Title="Efekt linii">
+
+            <ComboBox
+                ItemsSource="{Binding BeamEffects, ElementName=Root}"
+                SelectedItem="{ReflectionBinding Config.BeamEffect, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Converter={StaticResource BeamEffectToTitleConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </controls:SettingsControl>
+
+        <!-- Fill -->
+        <controls:SettingsControl
+            Description="Wypełnia obszar pomiędzy falą a jej środkową osią."
+            Icon="PaintBucket"
+            Title="Wypełnienie">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.FillEnabled, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Transparency -->
+        <controls:SettingsControl
+            Description="Określa przezroczystość wypełnionego obszaru."
+            Icon="Blend"
+            IsVisible="{ReflectionBinding Config.FillEnabled}"
+            Title="Przezroczystość">
+
+            <Grid ColumnDefinitions="48,180" ColumnSpacing="8">
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{ReflectionBinding Config.Opacity, Converter={StaticResource OpacityToPercentageConverter}, Mode=OneWay}"
+                    VerticalAlignment="Center"/>
+
+                <Slider
+                    Grid.Column="1"
+                    Maximum="{x:Static config:WaveformMirroredVisualizationConfig.OPACITY_MAXIMUM}"
+                    Minimum="{x:Static config:WaveformMirroredVisualizationConfig.OPACITY_MINIMUM}"
+                    SmallChange="{x:Static config:WaveformMirroredVisualizationConfig.OPACITY_SMALL_CHANGE}"
+                    Theme="{StaticResource SliderTheme}"
+                    Value="{ReflectionBinding Config.Opacity, Mode=TwoWay}"/>
+            </Grid>
+        </controls:SettingsControl>
+
+        <!-- Transformation -->
+        <controls:SettingsExpandControl
+            Description="Przekształcanie wizualizacji."
+            Icon="Move3d"
+            Title="Przekształcanie">
+
+            <StackPanel
+                Spacing="8">
+
+                <controls:SettingsControl
+                    Description="Moduluje wysokość peaków jednym okresem wybranej funkcji na całej szerokości wizualizacji."
+                    Icon="AudioWaveform"
+                    Title="Rodzaj przekształcenia">
+
+                    <ComboBox
+                        ItemsSource="{Binding Transformations, ElementName=Root}"
+                        SelectedItem="{ReflectionBinding Config.Transformation, Mode=TwoWay}"
+                        Theme="{StaticResource ComboBoxTheme}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding Converter={StaticResource WaveformTransformationToTitleConverter}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </controls:SettingsControl>
+
+                <!-- Transformation shift -->
+                <controls:SettingsControl
+                    Description="Określa minimalną wysokość przebiegu SIN lub COS przed przemnożeniem przez poziom FFT."
+                    Icon="MoveVertical"
+                    IsVisible="{ReflectionBinding Config.IsTransformationEnabled}"
+                    Title="Minimum przekształcenia">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static profile:VisualizationBaseConfig.TRANSFORMATION_MINIMUM_INCREMENT}"
+                        Maximum="{x:Static profile:VisualizationBaseConfig.TRANSFORMATION_MINIMUM_MAXIMUM}"
+                        Minimum="{x:Static profile:VisualizationBaseConfig.TRANSFORMATION_MINIMUM_MINIMUM}"
+                        Suffix="%"
+                        Value="{ReflectionBinding Config.TransformationMinimum, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <!-- Shift -->
+                <controls:SettingsControl
+                    Description="Odwraca kolejność pasm FFT dolnej fali w osi poziomej."
+                    Icon="ArrowLeftRight"
+                    Title="Shift">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.Shift, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+    </StackPanel>
+</UserControl>

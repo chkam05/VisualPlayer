@@ -1,0 +1,58 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:dialogs="using:VisualPlayer.Views.Dialogs">
+
+    <ControlTemplate x:Key="InternalMessagePlayListPickerTemplate" x:DataType="dialogs:InternalMessagePlayListPicker" TargetType="dialogs:InternalMessagePlayListPicker">
+        <Border
+            Background="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            BorderBrush="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            BorderThickness="1"
+            CornerRadius="10"
+            MinWidth="360">
+            <Grid RowDefinitions="Auto,*,Auto">
+                <Border Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" Padding="16,12">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                        <LucideIcon Kind="ListMusic" Size="22"/>
+                        <TextBlock FontSize="20" FontWeight="SemiBold" Grid.Column="1" Text="{TemplateBinding Title}"/>
+                        <components:ButtonWithIcon
+                            x:Name="PART_CloseButton"
+                            Grid.Column="2"
+                            Kind="X"
+                            Theme="{StaticResource InternalMessage.ButtonWithIconTheme}"/>
+                    </Grid>
+                </Border>
+                <ComboBox
+                    Grid.Row="1"
+                    ItemsSource="{Binding PlayLists, RelativeSource={RelativeSource TemplatedParent}}"
+                    Margin="24"
+                    SelectedItem="{Binding SelectedPlayList, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                    Theme="{StaticResource ComboBoxTheme}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate><TextBlock Text="{Binding Name}"/></DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Border Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" Grid.Row="2" Padding="12">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="8">
+                        <Button
+                            x:Name="PART_OkButton"
+                            Content="OK"
+                            Theme="{StaticResource InternalMessage.ButtonTheme}"/>
+
+                        <Button
+                            x:Name="PART_CancelButton"
+                            Content="Anuluj"
+                            Theme="{StaticResource InternalMessage.ButtonTheme}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="{x:Type dialogs:InternalMessagePlayListPicker}" TargetType="dialogs:InternalMessagePlayListPicker">
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="Template" Value="{StaticResource InternalMessagePlayListPickerTemplate}"/>
+    </ControlTheme>
+</ResourceDictionary>

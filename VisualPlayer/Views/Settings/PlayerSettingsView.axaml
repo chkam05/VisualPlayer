@@ -1,0 +1,164 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:viewModels="using:VisualPlayer.ViewModels.Config"
+    x:Class="VisualPlayer.Views.Settings.PlayerSettingsView">
+
+    <StackPanel
+        Spacing="8">
+
+        <Grid
+            ColumnDefinitions="*,Auto">
+
+            <StackPanel
+                Spacing="4">
+
+                <TextBlock
+                    FontSize="22"
+                    FontWeight="SemiBold"
+                    Text="Odtwarzacz"/>
+
+                <TextBlock
+                    Opacity="0.6"
+                    Text="Dostosuj zachowanie odtwarzania i przywracanie playlisty."/>
+            </StackPanel>
+
+            <components:ButtonWithIcon
+                Click="ResetButton_Click"
+                Content="Reset"
+                Grid.Column="1"
+                Kind="RotateCcw"
+                Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
+        </Grid>
+
+        <controls:SettingsControl
+            Description="Pokazuje po prawej stronie panelu odtwarzacza pozostały czas zamiast pełnej długości utworu."
+            Icon="TimerReset"
+            Title="Pokazuj pozostały czas">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.Player.ShowRemainingTime, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsExpandControl
+            Description="Pozwala dostosować cztery wartości dostępne jako szybkie presety w panelu odtwarzacza."
+            Icon="Gauge"
+            Title="Szybkość odtwarzania">
+
+            <StackPanel Spacing="8">
+                <controls:SettingsControl
+                    Description="Określa wartość pierwszego przycisku w panelu szybkości odtwarzania."
+                    Icon="Gauge"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Preset 1">
+
+                    <components:NumericUpDown
+                        Maximum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MAXIMUM}"
+                        Minimum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MINIMUM}"
+                        Suffix="%"
+                        Value="{ReflectionBinding Config.Player.PlaybackSpeedPreset1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Określa wartość drugiego przycisku w panelu szybkości odtwarzania."
+                    Icon="Gauge"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Preset 2">
+
+                    <components:NumericUpDown
+                        Maximum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MAXIMUM}"
+                        Minimum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MINIMUM}"
+                        Suffix="%"
+                        Value="{ReflectionBinding Config.Player.PlaybackSpeedPreset2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Określa wartość trzeciego przycisku w panelu szybkości odtwarzania."
+                    Icon="Gauge"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Preset 3">
+
+                    <components:NumericUpDown
+                        Maximum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MAXIMUM}"
+                        Minimum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MINIMUM}"
+                        Suffix="%"
+                        Value="{ReflectionBinding Config.Player.PlaybackSpeedPreset3, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Określa wartość czwartego przycisku w panelu szybkości odtwarzania."
+                    Icon="Gauge"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Preset 4">
+
+                    <components:NumericUpDown
+                        Maximum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MAXIMUM}"
+                        Minimum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MINIMUM}"
+                        Suffix="%"
+                        Value="{ReflectionBinding Config.Player.PlaybackSpeedPreset4, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+        <controls:SettingsExpandControl
+            Description="Nakłada na siebie końcówkę bieżącego nagrania i początek następnego utworu."
+            Icon="CassetteTape"
+            Title="Płynne przejście">
+
+            <StackPanel Spacing="8">
+                <controls:SettingsControl
+                    Description="Nakłada końcówkę bieżącego nagrania na początek następnego i płynnie zmienia ich głośność."
+                    Icon="ToggleRight"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Włącz płynne przejście">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.Player.CrossfadeEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Określa czas jednoczesnego ściszania bieżącego i zgłaśniania następnego nagrania."
+                    Icon="ClockFading"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Czas przejścia">
+
+                    <components:NumericUpDown
+                        Maximum="{x:Static viewModels:PlayerConfig.CROSSFADE_DURATION_MAXIMUM}"
+                        Minimum="{x:Static viewModels:PlayerConfig.CROSSFADE_DURATION_MINIMUM}"
+                        Suffix=" s"
+                        Value="{ReflectionBinding Config.Player.CrossfadeDuration, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+        <controls:SettingsControl
+            Description="Przy zamykaniu zapisuje bieżącą kolejność i ostatnio odtwarzane nagranie, a następnie przywraca je przy kolejnym uruchomieniu."
+            Icon="ListRestart"
+            Title="Zapamiętaj ostatnią playlistę">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.Player.RememberLastPlayList, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="Po uruchomieniu odtwarza pierwszy przekazany plik albo ostatnie nagranie z przywróconej playlisty."
+            Icon="CirclePlay"
+            Title="Rozpocznij odtwarzanie po uruchomieniu">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.Player.PlayOnStartup, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="Po dodaniu jednego lub wielu plików rozpoczyna odtwarzanie od pierwszego nowo dodanego nagrania."
+            Icon="FilePlus"
+            Title="Rozpocznij odtwarzanie po dodaniu plików">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.Player.PlayAfterAddingFiles, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+    </StackPanel>
+</UserControl>

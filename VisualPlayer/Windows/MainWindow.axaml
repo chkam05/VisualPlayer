@@ -1,0 +1,239 @@
+<Window
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:resources="using:VisualPlayer.Resources"
+    
+    mc:Ignorable="d"
+    d:DesignWidth="800"
+    d:DesignHeight="450"
+    x:Class="VisualPlayer.Windows.MainWindow"
+
+    Background="Transparent"
+    Icon="/Assets/logo.png"
+    MinWidth="720"
+    Title="VisualPlayer"
+    TransparencyBackgroundFallback="{ReflectionBinding Config.Appearance.WindowTransparencyFallbackBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+    <Grid>
+
+        <!-- MAIN APPLICATION LAYER -->
+        <Grid
+            x:Name="ApplicationLayer">
+
+            <Grid.Background>
+                <MultiBinding Converter="{x:Static converters:BrushOpacityConverter.Instance}">
+                    <Binding Path="Config.Appearance.WindowBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.WindowOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Grid.Background>
+            
+            <!-- IMAGE BACKGROUND -->
+            
+            <Border
+                IsVisible="{ReflectionBinding Config.Appearance.IsImageWindowBackground, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                Opacity="{ReflectionBinding Config.Appearance.WindowOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                <Border.Background>
+                    <MultiBinding Converter="{x:Static converters:BackgroundImageBrushConverter.Instance}">
+                        <Binding Path="Config.Appearance.WindowBackgroundImagePath" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                        <Binding Path="Config.Appearance.ImageFillMode" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    </MultiBinding>
+                </Border.Background>
+            </Border>
+
+            <!-- VISUALISATION -->
+            
+            <controls:VisualizationSurfaceControl
+                x:Name="VisualizationSurface"
+                BottomChromeHeight="{Binding Bounds.Height, ElementName=PlayPanel}"
+                Core="{ReflectionBinding VisualizationCore, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                IsHitTestVisible="False"
+                LeftChromeWidth="{Binding VisualizationLeftInset, ElementName=SidePanel}"
+                TopChromeHeight="{Binding Bounds.Height, ElementName=TrackInfoBar}">
+
+                <controls:VisualizationSurfaceControl.Transitions>
+                    <Transitions>
+                        <DoubleTransition
+                            Property="LeftChromeWidth"
+                            Duration="{x:Static resources:Dimensions.SidePanelAnimationDuration}"/>
+                    </Transitions>
+                </controls:VisualizationSurfaceControl.Transitions>
+            </controls:VisualizationSurfaceControl>
+
+            <!-- LOGO -->
+
+            <controls:LogoControl
+                AnimationContraction="{ReflectionBinding Config.Logo.Contraction, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                AnimationMaximumFrequency="{ReflectionBinding Config.Logo.MaximumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                AnimationMinimumFrequency="{ReflectionBinding Config.Logo.MinimumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                AnimationScale="{ReflectionBinding Config.Logo.Scale, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                AnimationSensitivity="{ReflectionBinding Config.Logo.Sensitivity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                EnableAnimation="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                IsVisible="{ReflectionBinding Config.Logo.Enabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                LogoHeight="{x:Static controls:LogoControl.DEFAULT_HEIGHT}"
+                LogoWidth="{x:Static controls:LogoControl.DEFAULT_WIDTH}"
+                Opacity="{ReflectionBinding Config.Logo.Opacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                PlayerBorder="{ReflectionBinding Config.Logo.BorderBrush2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                PlayerFill="{ReflectionBinding Config.Logo.FillBrush2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                ReferenceHeight="{x:Static controls:LogoControl.DEFAULT_REFERENCE_HEIGHT}"
+                ReferenceWidth="{x:Static controls:LogoControl.DEFAULT_REFERENCE_WIDTH}"
+                VisualBorder="{ReflectionBinding Config.Logo.BorderBrush1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                VisualFill="{ReflectionBinding Config.Logo.FillBrush1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                VisualizationCore="{ReflectionBinding VisualizationCore, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+            <!-- LAYOUT -->
+            
+            <Grid
+                RowDefinitions="Auto,*,Auto">
+
+                <!-- InfoBar / OSD (Top) -->
+                <Grid
+                    x:Name="InfoBarHost"
+                    Background="Transparent"
+                    Grid.Row="0"
+                    ClipToBounds="False"
+                    Margin="{Binding InfoBarMargin, ElementName=SidePanel}"
+                    Transitions="{Binding InfoBarTransitions, ElementName=SidePanel}"
+                    ZIndex="1">
+
+                    <controls:InfoBarControl
+                        x:Name="TrackInfoBar"
+                        AutoHide="{ReflectionBinding Config.Appearance.AutoHideInfoBarControl, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        DataContext="{ReflectionBinding InfoBarContext, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        DisplayDuration="{ReflectionBinding Config.Appearance.InfoBarDisplayDuration, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        VerticalAlignment="Top"/>
+
+                </Grid>
+                
+                <!-- Side panel: HAMBURGER MENU CONTROL and PLAYLIST CONTROL -->
+                <controls:SidePanelControl
+                    x:Name="SidePanel"
+                    AddFileRequested="PlayList_AddFileRequested"
+                    AutoHide="{ReflectionBinding Config.Appearance.AutoHideHamburgerMenu, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    ClearPlaylistRequested="PlayList_ClearPlaylistRequested"
+                    ExportPlaylistRequested="PlayList_ExportPlaylistRequested"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    IsPlayListOpen="{ReflectionBinding Config.Window.PlayListOpen, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                    Margin="{Binding IsHidden, ElementName=PlayPanel, Converter={x:Static converters:SidePanelMarginConverter.Instance}}"
+                    MaximumPlayListWidth="768"
+                    MinimumPlayListWidth="420"
+                    OpenPlaylistRequested="PlayList_OpenPlaylistRequested"
+                    PlayListDataContext="{ReflectionBinding PlayListCore.PlayListViewModel, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    PlayListWidth="{ReflectionBinding Config.Window.PlayListWidth, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                    SavePlaylistRequested="PlayList_SavePlaylistRequested"
+                    ZIndex="50">
+
+                    <controls:SidePanelControl.Transitions>
+                        <Transitions>
+                            <ThicknessTransition
+                                Property="Margin"
+                                Duration="{x:Static resources:Dimensions.SidePanelAnimationDuration}"/>
+                        </Transitions>
+                    </controls:SidePanelControl.Transitions>
+                </controls:SidePanelControl>
+
+                <!-- LYRICS -->
+                <controls:LyricsControl
+                    BackgroundOpacity="{ReflectionBinding Config.Lyrics.BackgroundOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    DisplayLyrics="{ReflectionBinding Config.Lyrics.DisplayLyrics, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Grid.Row="1"
+                    Grid.RowSpan="2"
+                    LyricsCore="{ReflectionBinding LyricsCore, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    ZIndex="2">
+
+                    <controls:LyricsControl.Margin>
+                        <MultiBinding Converter="{x:Static converters:LyricsControlMarginConverter.Instance}">
+                            <Binding Path="OccupiedWidth" ElementName="SidePanel"/>
+                            <Binding Path="Bounds.Height" ElementName="PlayPanel"/>
+                            <Binding Path="IsHidden" ElementName="PlayPanel"/>
+                        </MultiBinding>
+                    </controls:LyricsControl.Margin>
+
+                    <controls:LyricsControl.Transitions>
+                        <Transitions>
+                            <ThicknessTransition
+                                Property="Margin"
+                                Duration="{x:Static resources:Dimensions.SidePanelAnimationDuration}"/>
+                        </Transitions>
+                    </controls:LyricsControl.Transitions>
+                </controls:LyricsControl>
+            
+                <!-- PlyerControl (Bottom) -->
+                <Grid
+                    x:Name="PlayerControlHost"
+                    Background="Transparent"
+                    Grid.Row="2"
+                    ZIndex="3">
+
+                    <controls:PlayerControl
+                        x:Name="PlayPanel"
+                        AutoHide="{ReflectionBinding Config.Appearance.AutoHidePlayerControl, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        DataContext="{ReflectionBinding PlayerDataContext, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        HorizontalAlignment="Stretch"
+                        MinWidth="704"
+                        VerticalAlignment="Bottom"
+                        NextRequested="PlayPanel_NextRequested"
+                        PlayPauseRequested="PlayPanel_PlayPauseRequested"
+                        PositionSeekRequested="PlayPanel_PositionSeekRequested"
+                        PreviousRequested="PlayPanel_PreviousRequested"
+                        SpeedRequested="PlayPanel_SpeedRequested"
+                        SpeedPanelWidth="{Binding Bounds.Width, ElementName=SpeedPanel}"
+                        StopRequested="PlayPanel_StopRequested"
+                        VolumeRequested="PlayPanel_VolumeRequested">
+
+                        <controls:PlayerControl.KeepOpen>
+                            <MultiBinding Converter="{x:Static converters:AnyTrueConverter.Instance}">
+                                <Binding Path="IsOpen" ElementName="SpeedPanel"/>
+                                <Binding Path="IsOpen" ElementName="VolumePanel"/>
+                            </MultiBinding>
+                        </controls:PlayerControl.KeepOpen>
+                    </controls:PlayerControl>
+
+                </Grid>
+
+                <Canvas
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Margin="{Binding IsHidden, ElementName=PlayPanel, Converter={x:Static converters:SidePanelMarginConverter.Instance}}"
+                    ZIndex="51">
+
+                    <controls:VolumeControl
+                        x:Name="VolumePanel"
+                        Canvas.Bottom="0"
+                        Canvas.Left="{Binding VolumePanelLeft, ElementName=PlayPanel}"
+                        DataContext="{ReflectionBinding PlayerDataContext, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+                    <controls:SpeedControl
+                        x:Name="SpeedPanel"
+                        Canvas.Bottom="0"
+                        Canvas.Left="{Binding SpeedPanelLeft, ElementName=PlayPanel}"
+                        PlaybackSpeed="{ReflectionBinding PlayerDataContext.PlaybackSpeed, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                        Preset1="{ReflectionBinding Config.Player.PlaybackSpeedPreset1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        Preset2="{ReflectionBinding Config.Player.PlaybackSpeedPreset2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        Preset3="{ReflectionBinding Config.Player.PlaybackSpeedPreset3, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        Preset4="{ReflectionBinding Config.Player.PlaybackSpeedPreset4, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+                </Canvas>
+            </Grid>
+
+        </Grid>
+
+        <controls:InternalViewController
+            x:Name="InternalViews"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ZIndex="100"/>
+
+        <controls:InternalMessageController
+            x:Name="InternalMessages"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ZIndex="200"/>
+
+    </Grid>
+</Window>

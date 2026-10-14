@@ -1,0 +1,242 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:config="using:VisualPlayer.Visualizations.Config.Base"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:local="using:VisualPlayer.Views.Settings"
+    x:Class="VisualPlayer.Views.Settings.VisualizationsSettingsView"
+    x:DataType="local:VisualizationsSettingsView"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:VisualizationGlobalOptionToTitleConverter x:Key="OptionToTitleConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel Spacing="8">
+        <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Spacing="4">
+                <TextBlock
+                    FontSize="22"
+                    FontWeight="SemiBold"
+                    Text="Wizualizacje"/>
+
+                <TextBlock
+                    Opacity="0.6"
+                    Text="Globalne ustawienia analizy dźwięku i renderowania wizualizacji."/>
+            </StackPanel>
+
+            <components:ButtonWithIcon
+                Click="ResetButton_Click"
+                Content="Reset"
+                Grid.Column="1"
+                Kind="RotateCcw"
+                Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
+        </Grid>
+
+        <!-- FREQUENCY RANGE -->
+        <controls:SettingsExpandControl
+            Description="Określa pasmo dźwięku przekazywane do wszystkich wizualizacji."
+            Icon="AudioLines"
+            Title="Zakres częstotliwości">
+
+            <StackPanel Spacing="4">
+                <controls:SettingsControl
+                    Description="Najniższa analizowana częstotliwość."
+                    Icon="ArrowDownToLine"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Dolna granica">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static config:VisualizationGlobalConfig.MINIMUM_FREQUENCY_INCREMENT}"
+                        Maximum="{x:Static config:VisualizationGlobalConfig.MINIMUM_FREQUENCY_MAXIMUM}"
+                        Minimum="{x:Static config:VisualizationGlobalConfig.MINIMUM_FREQUENCY_MINIMUM}"
+                        Suffix=" Hz"
+                        Value="{ReflectionBinding VisualizationConfig.Global.MinimumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Najwyższa analizowana częstotliwość."
+                    Icon="ArrowUpToLine"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Górna granica">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static config:VisualizationGlobalConfig.MAXIMUM_FREQUENCY_INCREMENT}"
+                        Maximum="{x:Static config:VisualizationGlobalConfig.MAXIMUM_FREQUENCY_MAXIMUM}"
+                        Minimum="{x:Static config:VisualizationGlobalConfig.MAXIMUM_FREQUENCY_MINIMUM}"
+                        Suffix=" Hz"
+                        Value="{ReflectionBinding VisualizationConfig.Global.MaximumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Sposób rozmieszczenia pasm częstotliwości na szerokości wizualizacji."
+                    Icon="ChartNoAxesColumnIncreasing"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Skalowanie">
+
+                    <ComboBox
+                        ItemsSource="{Binding ScalingStrategies, ElementName=Root}"
+                        SelectedItem="{ReflectionBinding VisualizationConfig.Global.ScalingStrategy, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                        Theme="{StaticResource ComboBoxTheme}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding Converter={StaticResource OptionToTitleConverter}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </controls:SettingsControl>
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+        <!-- FFT ANALYSIS -->
+        <controls:SettingsExpandControl
+            Description="Steruje dokładnością i funkcją okna transformaty FFT."
+            Icon="AudioWaveform"
+            Title="Analiza FFT">
+
+            <StackPanel Spacing="4">
+                <controls:SettingsControl
+                    Description="Większa wartość daje dokładniejsze pasma kosztem szybkości reakcji."
+                    Icon="Binary"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Rozmiar FFT">
+
+                    <ComboBox
+                        ItemsSource="{Binding FftSizes, ElementName=Root}"
+                        SelectedItem="{ReflectionBinding VisualizationConfig.Global.FftSize, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                        Theme="{StaticResource ComboBoxTheme}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding Converter={StaticResource OptionToTitleConverter}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Funkcja ograniczająca przeciek widma podczas FFT."
+                    Icon="ScanLine"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Funkcja okna">
+
+                    <ComboBox
+                        ItemsSource="{Binding FftWindows, ElementName=Root}"
+                        SelectedItem="{ReflectionBinding VisualizationConfig.Global.FftWindow, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                        Theme="{StaticResource ComboBoxTheme}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding Converter={StaticResource OptionToTitleConverter}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Kanały używane jako źródło analizy."
+                    Icon="AudioWaveform"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Kanał audio">
+
+                    <ComboBox
+                        ItemsSource="{Binding ChannelModes, ElementName=Root}"
+                        SelectedItem="{ReflectionBinding VisualizationConfig.Global.ChannelMode, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                        Theme="{StaticResource ComboBoxTheme}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding Converter={StaticResource OptionToTitleConverter}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </controls:SettingsControl>
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+        <!-- SIGNAL DYNAMICS -->
+        <controls:SettingsExpandControl
+            Description="Określa czułość wizualizacji i szybkość zmian poziomu."
+            Icon="Gauge"
+            Title="Dynamika sygnału">
+
+            <StackPanel Spacing="4">
+                <controls:SettingsControl
+                    Description="Poziom sygnału odpowiadający zerowej wysokości."
+                    Icon="Volume1"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Minimum">
+
+                    <components:NumericUpDown
+                        Maximum="{x:Static config:VisualizationGlobalConfig.MINIMUM_DECIBELS_MAXIMUM}"
+                        Minimum="{x:Static config:VisualizationGlobalConfig.MINIMUM_DECIBELS_MINIMUM}"
+                        Suffix=" dB"
+                        Value="{ReflectionBinding VisualizationConfig.Global.MinimumDecibels, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Poziom sygnału odpowiadający pełnej wysokości."
+                    Icon="Volume2"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Maksimum">
+
+                    <components:NumericUpDown
+                        Maximum="{x:Static config:VisualizationGlobalConfig.MAXIMUM_DECIBELS_MAXIMUM}"
+                        Minimum="{x:Static config:VisualizationGlobalConfig.MAXIMUM_DECIBELS_MINIMUM}"
+                        Suffix=" dB"
+                        Value="{ReflectionBinding VisualizationConfig.Global.MaximumDecibels, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Czas reakcji na wzrost energii sygnału."
+                    Icon="TrendingUp"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Narastanie">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static config:VisualizationGlobalConfig.ATTACK_TIME_INCREMENT}"
+                        Maximum="{x:Static config:VisualizationGlobalConfig.ATTACK_TIME_MAXIMUM}"
+                        Minimum="{x:Static config:VisualizationGlobalConfig.ATTACK_TIME_MINIMUM}"
+                        Suffix=" ms"
+                        Value="{ReflectionBinding VisualizationConfig.Global.AttackTime, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Czas wygaszania po spadku energii sygnału."
+                    Icon="TrendingDown"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Opadanie">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static config:VisualizationGlobalConfig.RELEASE_TIME_INCREMENT}"
+                        Maximum="{x:Static config:VisualizationGlobalConfig.RELEASE_TIME_MAXIMUM}"
+                        Minimum="{x:Static config:VisualizationGlobalConfig.RELEASE_TIME_MINIMUM}"
+                        Suffix=" ms"
+                        Value="{ReflectionBinding VisualizationConfig.Global.ReleaseTime, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+        <!-- RENDERING -->
+        <controls:SettingsControl
+            Description="Maksymalna częstotliwość odświeżania obrazu wizualizacji."
+            Icon="MonitorUp"
+            Title="Limit klatek">
+
+            <components:NumericUpDown
+                Increment="{x:Static config:VisualizationGlobalConfig.FRAME_RATE_INCREMENT}"
+                Maximum="{x:Static config:VisualizationGlobalConfig.FRAME_RATE_MAXIMUM}"
+                Minimum="{x:Static config:VisualizationGlobalConfig.FRAME_RATE_MINIMUM}"
+                Suffix=" FPS"
+                Value="{ReflectionBinding VisualizationConfig.Global.FrameRateLimit, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+    </StackPanel>
+</UserControl>

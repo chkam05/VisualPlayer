@@ -1,0 +1,84 @@
+<views:InternalViewBase
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:lucide="using:Lucide.Avalonia"
+    xmlns:local="using:VisualPlayer.Views"
+    xmlns:viewModels="using:VisualPlayer.ViewModels"
+    xmlns:views="using:VisualPlayer.Views.Base"
+    x:Class="VisualPlayer.Views.InternalViewSettings"
+    x:DataType="local:InternalViewSettings"
+    x:Name="Root">
+
+    <views:InternalViewBase.Resources>
+
+        <!-- DATA TEMPLATE - NavigationItem -->
+        <DataTemplate x:Key="NavigationMenuItemDataTemplate" x:DataType="viewModels:MenuItemViewModel">
+            <Grid>
+                <Border
+                    Background="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Height="1"
+                    IsHitTestVisible="False"
+                    IsVisible="{Binding IsSeparator}"
+                    Margin="4,5"
+                    Opacity="0.25"/>
+
+                <Grid
+                    Classes="NavigationItemLayout"
+                    ColumnDefinitions="Auto,*"
+                    ColumnSpacing="10"
+                    IsVisible="{Binding IsButtonVisible}"
+                    ToolTip.Tip="{Binding Title}">
+
+                    <lucide:LucideIcon
+                        Classes="NavigationIcon"
+                        Kind="{Binding Icon}"
+                        Size="24"
+                        VerticalAlignment="Center"/>
+
+                    <TextBlock
+                        Classes="NavigationTitle"
+                        Grid.Column="1"
+                        IsVisible="{Binding !IsNavigationCompact, ElementName=Root}"
+                        Text="{Binding Title}"
+                        TextTrimming="CharacterEllipsis"
+                        VerticalAlignment="Center"/>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+
+    </views:InternalViewBase.Resources>
+
+    <Grid
+        x:Name="PART_SettingsLayout"
+        ColumnDefinitions="Auto,*"
+        ColumnSpacing="16">
+
+        <!-- NAVIGATION -->
+        <ListBox
+            x:Name="PART_NavigationList"
+            ItemsSource="{Binding NavigationItems, ElementName=Root}"
+            ItemTemplate="{StaticResource NavigationMenuItemDataTemplate}"
+            SelectionChanged="NavigationList_SelectionChanged"
+            Theme="{StaticResource SidePanel.ListBoxTheme}"/>
+
+        <!-- SETTINGS VIEW -->
+        <Border
+            Background="{x:Null}"
+            CornerRadius="8"
+            Grid.Column="1">
+
+            <ScrollViewer
+                HorizontalScrollBarVisibility="Disabled"
+                Margin="0,0,-12,0"
+                Padding="0,0,12,0"
+                VerticalScrollBarVisibility="Auto">
+
+                <ContentControl
+                    x:Name="PART_ContentHost"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Top"/>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</views:InternalViewBase>

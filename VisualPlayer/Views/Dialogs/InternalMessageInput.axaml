@@ -1,0 +1,89 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:dialogs="using:VisualPlayer.Views.Dialogs">
+
+    <ControlTemplate x:Key="InternalMessageInputTemplate" x:DataType="dialogs:InternalMessageInput" TargetType="dialogs:InternalMessageInput">
+        <Border
+            Background="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            BorderBrush="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            BorderThickness="1"
+            ClipToBounds="True"
+            CornerRadius="10"
+            MaxWidth="560"
+            MinWidth="320">
+
+            <Grid
+                RowDefinitions="Auto,*,Auto">
+
+                <!-- HEADER -->
+                <Border
+                    Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Padding="16,12">
+
+                    <Grid
+                        ColumnDefinitions="Auto,*,Auto"
+                        ColumnSpacing="10">
+
+                        <LucideIcon
+                            Kind="{TemplateBinding Icon}"
+                            Size="22"
+                            VerticalAlignment="Center"/>
+
+                        <TextBlock
+                            FontSize="20"
+                            FontWeight="SemiBold"
+                            Grid.Column="1"
+                            Text="{TemplateBinding Title}"
+                            TextTrimming="CharacterEllipsis"
+                            VerticalAlignment="Center"/>
+
+                        <components:ButtonWithIcon
+                            x:Name="PART_CloseButton"
+                            Grid.Column="2"
+                            IsVisible="{TemplateBinding EnableCloseButton}"
+                            Kind="X"
+                            Theme="{StaticResource InternalMessage.ButtonWithIconTheme}"
+                            ToolTip.Tip="Zamknij"/>
+                    </Grid>
+                </Border>
+                
+                <!-- CONTENT -->
+                <TextBox
+                    x:Name="PART_Input"
+                    Grid.Row="1"
+                    Margin="24"
+                    MinWidth="320"
+                    PlaceholderText="Nazwa profilu"
+                    Text="{Binding DefaultValue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                
+                <!-- FOOTER -->
+                <Border
+                    Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Grid.Row="2"
+                    Padding="12">
+
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="8">
+                        <Button
+                            x:Name="PART_OkButton"
+                            Content="OK"
+                            Theme="{StaticResource InternalMessage.ButtonTheme}"/>
+
+                        <Button
+                            x:Name="PART_CancelButton"
+                            Content="Anuluj"
+                            Theme="{StaticResource InternalMessage.ButtonTheme}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="{x:Type dialogs:InternalMessageInput}" TargetType="dialogs:InternalMessageInput">
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template" Value="{StaticResource InternalMessageInputTemplate}"/>
+    </ControlTheme>
+</ResourceDictionary>

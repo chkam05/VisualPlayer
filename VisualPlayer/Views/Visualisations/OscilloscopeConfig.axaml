@@ -1,0 +1,67 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:VisualPlayer.Views.Visualisations.Common"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:config="using:VisualPlayer.Visualizations.Config"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:profile="using:VisualPlayer.Visualizations.Config.Base"
+    x:Class="VisualPlayer.Views.Visualisations.OscilloscopeConfig"
+    x:DataType="profile:VisualisationProfile"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:BeamEffectToTitleConverter x:Key="BeamEffectToTitleConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel
+        Spacing="8">
+
+        <!-- Color -->
+        <common:VisualisationColorConfig/>
+
+        <!-- Thickness -->
+        <controls:SettingsControl
+            Description="Określa grubość linii oscyloskopu."
+            Icon="Minus"
+            Title="Grubość linii">
+
+            <components:NumericUpDown
+                Maximum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MINIMUM}"
+                Suffix=" px"
+                Value="{ReflectionBinding Config.LineThickness, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Smooth -->
+        <controls:SettingsControl
+            Description="Interpoluje próbki, aby ograniczyć ostre załamania linii."
+            Icon="AudioWaveform"
+            Title="Wygładzanie linii">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.SmoothLine, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Effects -->
+        <controls:SettingsControl
+            Description="Dodaje lekką poświatę wokół linii."
+            Icon="Sparkles"
+            Title="Efekt linii">
+
+            <ComboBox
+                ItemsSource="{Binding BeamEffects, ElementName=Root}"
+                SelectedItem="{ReflectionBinding Config.BeamEffect, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Converter={StaticResource BeamEffectToTitleConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </controls:SettingsControl>
+    </StackPanel>
+</UserControl>

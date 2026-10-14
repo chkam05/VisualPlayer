@@ -1,0 +1,292 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:local="using:VisualPlayer.Views.Settings"
+    xmlns:viewModelConfig="using:VisualPlayer.ViewModels.Config"
+    x:Class="VisualPlayer.Views.Settings.AppearanceSettingsView"
+    x:DataType="local:AppearanceSettingsView"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:ApplicationThemeToTitleConverter x:Key="ApplicationThemeToTitleConverter"/>
+        <converters:ColorizationLevelToTitleConverter x:Key="ColorizationLevelToTitleConverter"/>
+        <converters:InfoBarDisplayModeToTitleConverter x:Key="InfoBarDisplayModeToTitleConverter"/>
+        <converters:OpacityToPercentageConverter x:Key="OpacityToPercentageConverter"/>
+        <converters:ImageFillModeToTitleConverter x:Key="ImageFillModeToTitleConverter"/>
+        <converters:WindowBackgroundModeToTitleConverter x:Key="WindowBackgroundModeToTitleConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel Spacing="8">
+        <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Spacing="4">
+                <TextBlock
+                    FontSize="22"
+                    FontWeight="SemiBold"
+                    Text="Wygląd"/>
+
+                <TextBlock
+                    Opacity="0.6"
+                    Text="Tutaj znajdą się ustawienia wyglądu aplikacji."/>
+            </StackPanel>
+
+            <components:ButtonWithIcon
+                Click="ResetButton_Click"
+                Content="Reset"
+                Grid.Column="1"
+                Kind="RotateCcw"
+                Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
+        </Grid>
+        
+        <!-- THEME -->
+        
+        <controls:SettingsControl
+            Icon="Paintbrush"
+            Title="Motyw"
+            Description="Wybierz jasny, ciemny lub zgodny z ustawieniami systemu.">
+
+            <ComboBox
+                ItemsSource="{Binding Themes, ElementName=Root}"
+                SelectedItem="{ReflectionBinding Config.Appearance.Theme, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource ApplicationThemeToTitleConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="Określa, czy kolor akcentu obejmuje menu, przyciski i tła głównych paneli."
+            Icon="PaintBucket"
+            Title="Poziom koloryzacji">
+
+            <ComboBox
+                ItemsSource="{Binding ColorizationLevels, ElementName=Root}"
+                SelectedItem="{ReflectionBinding Config.Appearance.ColorizationLevel, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource ColorizationLevelToTitleConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </controls:SettingsControl>
+
+        <!-- ACCENT COLOR -->
+
+        <controls:SettingsExpandControl
+            Icon="Palette"
+            Title="Kolor akcentu"
+            Description="Wybierz kolor używany do wyróżniania aktywnych elementów interfejsu.">
+
+            <controls:ColorPaletteControl
+                RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                SelectedColor="{ReflectionBinding Config.Appearance.AccentColor, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+
+        </controls:SettingsExpandControl>
+
+        <!-- INTERFACE / PANELS -->
+
+        <controls:SettingsExpandControl
+            Icon="PanelsTopLeft"
+            Title="Interfejs"
+            Description="Dostosuj automatyczne ukrywanie elementów głównego okna.">
+
+            <StackPanel Spacing="4">
+                <controls:SettingsControl
+                    Description="Ukrywa panel sterowania po opuszczeniu jego obszaru kursorem."
+                    Icon="PanelBottom"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Automatycznie ukrywaj odtwarzacz">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.Appearance.AutoHidePlayerControl, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Ukrywa OSD po opuszczeniu jego obszaru kursorem."
+                    Icon="PanelTop"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Automatycznie ukrywaj OSD">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.Appearance.AutoHideInfoBarControl, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Określa, przy jakiej zmianie odtwarzania ukryte OSD pojawi się automatycznie."
+                    Icon="PanelTopOpen"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Pokazywanie OSD">
+
+                    <ComboBox
+                        ItemsSource="{Binding InfoBarDisplayModes, ElementName=Root}"
+                        SelectedItem="{ReflectionBinding Config.Appearance.InfoBarDisplayMode, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                        Theme="{StaticResource ComboBoxTheme}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource InfoBarDisplayModeToTitleConverter}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Określa czas widoczności OSD po automatycznym pokazaniu."
+                    Icon="ClockFading"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Czas wyświetlania OSD">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static viewModelConfig:AppearanceConfig.INFO_BAR_DISPLAY_DURATION_INCREMENT}"
+                        Maximum="{x:Static viewModelConfig:AppearanceConfig.INFO_BAR_DISPLAY_DURATION_MAXIMUM}"
+                        Minimum="{x:Static viewModelConfig:AppearanceConfig.INFO_BAR_DISPLAY_DURATION_MINIMUM}"
+                        Suffix=" s"
+                        Value="{ReflectionBinding Config.Appearance.InfoBarDisplayDuration, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Wygasza ikonę menu głównego, kiedy menu jest zamknięte i kursor znajduje się poza nim."
+                    Icon="Grip"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Automatycznie ukrywaj menu">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.Appearance.AutoHideHamburgerMenu, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+            </StackPanel>
+
+        </controls:SettingsExpandControl>
+
+        <!-- WINDOW -->
+
+        <controls:SettingsExpandControl
+            Description="Wybierz tło głównego okna oraz sposób wyświetlania obrazu."
+            Icon="AppWindow"
+            Title="Okno">
+
+            <StackPanel Spacing="4">
+                <controls:SettingsControl
+                    Description="Określa, czy tłem okna będzie kolor motywu, wybrany kolor albo obraz."
+                    Icon="PanelsTopLeft"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Tło">
+
+                    <ComboBox
+                        ItemsSource="{Binding WindowBackgroundModes, ElementName=Root}"
+                        SelectedItem="{ReflectionBinding Config.Appearance.WindowBackgroundMode, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                        Theme="{StaticResource ComboBoxTheme}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource WindowBackgroundModeToTitleConverter}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </controls:SettingsControl>
+
+                <controls:ColorPaletteControl
+                    IsVisible="{ReflectionBinding Config.Appearance.IsSolidColorWindowBackground, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Margin="0,4"
+                    RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    SelectedColor="{ReflectionBinding Config.Appearance.WindowBackgroundColor, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                    Title="Kolor tła"/>
+
+                <controls:ImageSelectorControl
+                    x:Name="BackgroundImageSelector"
+                    AddImageRequested="BackgroundImageSelector_AddImageRequested"
+                    CustomImages="{ReflectionBinding Config.Appearance.WindowBackgroundImages, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    ImageRemoved="BackgroundImageSelector_ImageRemoved"
+                    IsVisible="{ReflectionBinding Config.Appearance.IsImageWindowBackground, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Margin="0,4"
+                    SelectedImage="{ReflectionBinding Config.Appearance.WindowBackgroundImagePath, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+
+                <controls:SettingsControl
+                    Description="Określa sposób rozmieszczenia wybranego obrazu w oknie."
+                    Icon="Scaling"
+                    IsVisible="{ReflectionBinding Config.Appearance.IsImageWindowBackground, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Wypełnienie obrazu">
+
+                    <ComboBox
+                        ItemsSource="{Binding ImageFillModes, ElementName=Root}"
+                        SelectedItem="{ReflectionBinding Config.Appearance.ImageFillMode, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                        Theme="{StaticResource ComboBoxTheme}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource ImageFillModeToTitleConverter}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </controls:SettingsControl>
+            </StackPanel>
+
+        </controls:SettingsExpandControl>
+
+        <!-- TRANSPARENCY -->
+
+        <controls:SettingsExpandControl
+            Description="Dostosuj przezroczystość głównego okna i paneli interfejsu."
+            Icon="Layers2"
+            Title="Transparency">
+
+            <StackPanel Spacing="4">
+                <controls:SettingsControl
+                    Description="Określa przezroczystość paneli głównego interfejsu odtwarzacza."
+                    Icon="PanelsTopLeft"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Interfejs">
+
+                    <Grid ColumnDefinitions="48,180" ColumnSpacing="8">
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            Text="{ReflectionBinding Config.Appearance.InterfaceOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Converter={StaticResource OpacityToPercentageConverter}, Mode=OneWay}"
+                            VerticalAlignment="Center"/>
+
+                        <Slider
+                            Grid.Column="1"
+                            Maximum="{x:Static viewModelConfig:AppearanceConfig.OPACITY_MAXIMUM}"
+                            Minimum="{x:Static viewModelConfig:AppearanceConfig.OPACITY_MINIMUM}"
+                            SmallChange="{x:Static viewModelConfig:AppearanceConfig.OPACITY_SMALL_CHANGE}"
+                            Theme="{StaticResource SliderTheme}"
+                            Value="{ReflectionBinding Config.Appearance.InterfaceOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                    </Grid>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Określa przezroczystość tła głównego okna aplikacji."
+                    Icon="AppWindow"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Okno">
+
+                    <Grid ColumnDefinitions="48,180" ColumnSpacing="8">
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            Text="{ReflectionBinding Config.Appearance.WindowOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Converter={StaticResource OpacityToPercentageConverter}, Mode=OneWay}"
+                            VerticalAlignment="Center"/>
+
+                        <Slider
+                            Grid.Column="1"
+                            Maximum="{x:Static viewModelConfig:AppearanceConfig.OPACITY_MAXIMUM}"
+                            Minimum="{x:Static viewModelConfig:AppearanceConfig.OPACITY_MINIMUM}"
+                            SmallChange="{x:Static viewModelConfig:AppearanceConfig.OPACITY_SMALL_CHANGE}"
+                            Theme="{StaticResource SliderTheme}"
+                            Value="{ReflectionBinding Config.Appearance.WindowOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                    </Grid>
+                </controls:SettingsControl>
+            </StackPanel>
+
+        </controls:SettingsExpandControl>
+        
+    </StackPanel>
+</UserControl>

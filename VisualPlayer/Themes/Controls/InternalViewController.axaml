@@ -1,0 +1,37 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters">
+
+    <ControlTemplate
+        x:Key="InternalViewControllerTemplate"
+        TargetType="controls:InternalViewController">
+
+        <Border Padding="32">
+
+            <Border.Background>
+                <MultiBinding Converter="{x:Static converters:BrushOpacityConverter.Instance}">
+                    <Binding Path="Config.Appearance.ThemeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.OverlayOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Border.Background>
+
+            <ContentPresenter
+                Content="{TemplateBinding Content}"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Stretch"/>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTheme
+        x:Key="{x:Type controls:InternalViewController}"
+        TargetType="controls:InternalViewController">
+
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template" Value="{StaticResource InternalViewControllerTemplate}"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+    </ControlTheme>
+</ResourceDictionary>

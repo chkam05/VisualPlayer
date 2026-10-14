@@ -1,0 +1,78 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <!-- BASE THEME -->
+    <ControlTheme
+        x:Key="BaseButtonTheme"
+        TargetType="Button"
+        BasedOn="{StaticResource {x:Type Button}}">
+
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="MinHeight" Value="28"/>
+        <Setter Property="MinWidth" Value="28"/>
+        <Setter Property="Padding" Value="12,6"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </ControlTheme>
+
+    <!-- ACCENT THEME -->
+    <ControlTheme
+        x:Key="AccentButtonTheme"
+        TargetType="Button"
+        BasedOn="{StaticResource BaseButtonTheme}">
+
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.AccentForegroundColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentMouseOverColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:focus-visible">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentMouseOverColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentPressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="Opacity" Value="0.6"/>
+        </Style>
+    </ControlTheme>
+
+    <!-- THEME THEME -->
+    <ControlTheme
+        x:Key="ThemeButtonTheme"
+        TargetType="Button"
+        BasedOn="{StaticResource BaseButtonTheme}">
+
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeMouseOverBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:focus-visible">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeMouseOverBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemePressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="Opacity" Value="0.6"/>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

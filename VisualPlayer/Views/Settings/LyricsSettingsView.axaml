@@ -1,0 +1,227 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:local="using:VisualPlayer.Views.Settings"
+    xmlns:config="using:VisualPlayer.ViewModels.Config"
+    x:Class="VisualPlayer.Views.Settings.LyricsSettingsView"
+    x:DataType="local:LyricsSettingsView"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:LyricsTypeToTitleConverter x:Key="LyricsTypeToTitleConverter"/>
+        <converters:OpacityToPercentageConverter x:Key="OpacityToPercentageConverter"/>
+
+        <!-- LYRICS PREFFERED TYPE ITEM -->
+        <DataTemplate x:Key="LyricsTypeDataTemplate">
+            <TextBlock
+                Text="{Binding Converter={StaticResource LyricsTypeToTitleConverter}}"/>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <!-- MAIN VIEW -->
+
+    <StackPanel
+        Spacing="8">
+
+        <!-- HEADER -->
+        <Grid
+            ColumnDefinitions="*,Auto">
+
+            <StackPanel Spacing="4">
+                <TextBlock
+                    FontSize="22"
+                    FontWeight="SemiBold"
+                    Text="Teksty"/>
+
+                <TextBlock
+                    Opacity="0.6"
+                    Text="Dostosuj źródła, pobieranie i wyświetlanie tekstów piosenek."/>
+            </StackPanel>
+
+            <components:ButtonWithIcon
+                Click="ResetButton_Click"
+                Content="Reset"
+                Grid.Column="1"
+                Kind="RotateCcw"
+                Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
+        </Grid>
+
+        <!-- OPTIONS -->
+        
+        <controls:SettingsControl
+            Description="Pokazuje znaleziony tekst podczas odtwarzania nagrania."
+            Icon="Type"
+            Title="Wyświetlaj tekst">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.Lyrics.DisplayLyrics, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsExpandControl
+            Description="Dostosuj niezależnie rozmiar tekstu dla obu sposobów wyświetlania."
+            Icon="TextCursorInput"
+            Title="Rozmiar tekstu">
+
+            <StackPanel Spacing="8">
+                <controls:SettingsControl
+                    Description="Rozmiar aktualnie śpiewanej linii, słowa albo sylaby."
+                    Icon="Type"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Obecnie śpiewany">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static config:LyricsConfig.FONT_SIZE_INCREMENT}"
+                        Maximum="{x:Static config:LyricsConfig.FONT_SIZE_MAXIMUM}"
+                        Minimum="{x:Static config:LyricsConfig.FONT_SIZE_MINIMUM}"
+                        Suffix=" px"
+                        Value="{ReflectionBinding Config.Lyrics.CurrentLineFontSize, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Rozmiar poprzedniej i następnej linii tekstu synchronizowanego."
+                    Icon="BetweenHorizontalStart"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Poprzedni i następny">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static config:LyricsConfig.FONT_SIZE_INCREMENT}"
+                        Maximum="{x:Static config:LyricsConfig.FONT_SIZE_MAXIMUM}"
+                        Minimum="{x:Static config:LyricsConfig.FONT_SIZE_MINIMUM}"
+                        Suffix=" px"
+                        Value="{ReflectionBinding Config.Lyrics.SurroundingLineFontSize, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Rozmiar tekstu bez znaczników czasu w widoku pełnego obszaru."
+                    Icon="ScrollText"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Zwykły tekst">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static config:LyricsConfig.FONT_SIZE_INCREMENT}"
+                        Maximum="{x:Static config:LyricsConfig.FONT_SIZE_MAXIMUM}"
+                        Minimum="{x:Static config:LyricsConfig.FONT_SIZE_MINIMUM}"
+                        Suffix=" px"
+                        Value="{ReflectionBinding Config.Lyrics.PlainTextFontSize, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+        <controls:SettingsControl
+            Description="Określa przeźroczystość zaokrąglonego tła tekstu wyświetlanego nad wizualizacją."
+            Icon="Layers2"
+            Title="Przeźroczystość tła">
+
+            <Grid
+                ColumnDefinitions="48,180"
+                ColumnSpacing="8">
+
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{ReflectionBinding Config.Lyrics.BackgroundOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Converter={StaticResource OpacityToPercentageConverter}, Mode=OneWay}"
+                    VerticalAlignment="Center"/>
+
+                <Slider
+                    Grid.Column="1"
+                    Maximum="{x:Static config:LyricsConfig.BACKGROUND_OPACITY_MAXIMUM}"
+                    Minimum="{x:Static config:LyricsConfig.BACKGROUND_OPACITY_MINIMUM}"
+                    SmallChange="{x:Static config:LyricsConfig.BACKGROUND_OPACITY_INCREMENT}"
+                    Theme="{StaticResource SliderTheme}"
+                    Value="{ReflectionBinding Config.Lyrics.BackgroundOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+            </Grid>
+        </controls:SettingsControl>
+
+        <controls:SettingsExpandControl
+            Description="Ustaw odstępy czasu używane przez przyciski przewijania w edytorze tekstów."
+            Icon="ClockArrowRight"
+            Title="Interwały edytora">
+
+            <StackPanel Spacing="8">
+                <controls:SettingsControl
+                    Description="Najmniejszy skok do precyzyjnego ustawiania czasu."
+                    Icon="StepForward"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Krótki interwał">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static config:LyricsConfig.SEEK_INTERVAL_INCREMENT}"
+                        Maximum="{x:Static config:LyricsConfig.SEEK_INTERVAL_MAXIMUM}"
+                        Minimum="{x:Static config:LyricsConfig.SEEK_INTERVAL_MINIMUM}"
+                        Suffix=" s"
+                        Value="{ReflectionBinding Config.Lyrics.SeekShortInterval, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Średni skok używany podczas pracy nad liniami tekstu."
+                    Icon="FastForward"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Średni interwał">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static config:LyricsConfig.SEEK_INTERVAL_INCREMENT}"
+                        Maximum="{x:Static config:LyricsConfig.SEEK_INTERVAL_MAXIMUM}"
+                        Minimum="{x:Static config:LyricsConfig.SEEK_INTERVAL_MINIMUM}"
+                        Suffix=" s"
+                        Value="{ReflectionBinding Config.Lyrics.SeekMediumInterval, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Największy skok do szybkiego przechodzenia między fragmentami."
+                    Icon="SkipForward"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Długi interwał">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static config:LyricsConfig.SEEK_INTERVAL_INCREMENT}"
+                        Maximum="{x:Static config:LyricsConfig.SEEK_INTERVAL_MAXIMUM}"
+                        Minimum="{x:Static config:LyricsConfig.SEEK_INTERVAL_MINIMUM}"
+                        Suffix=" s"
+                        Value="{ReflectionBinding Config.Lyrics.SeekLongInterval, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+        <controls:SettingsControl
+            Description="Odczytuje tekst zapisany bezpośrednio w metadanych pliku audio."
+            Icon="FileMusic"
+            Title="Teksty z metadanych">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.Lyrics.UseEmbeddedLyrics, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="Kopiuje znaleziony tekst z metadanych do lokalnej biblioteki VisualPlayer."
+            Icon="FileDown"
+            Title="Automatyczny import">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.Lyrics.AutoImportEmbeddedLyrics, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="Wyszukuje tekst online, kiedy nie jest dostępny lokalnie ani w pliku audio."
+            Icon="HardDriveDownload"
+            Title="Automatyczne pobieranie">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.Lyrics.AutoDownloadLyrics, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="Określa preferowany poziom synchronizacji pobieranego tekstu."
+            Icon="ScrollText"
+            Title="Preferowany typ">
+
+            <ComboBox
+                ItemTemplate="{StaticResource LyricsTypeDataTemplate}"
+                ItemsSource="{Binding LyricsTypes, ElementName=Root}"
+                SelectedItem="{ReflectionBinding Config.Lyrics.PreferredType, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}"/>
+        </controls:SettingsControl>
+    </StackPanel>
+</UserControl>

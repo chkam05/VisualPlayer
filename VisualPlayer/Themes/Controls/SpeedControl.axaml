@@ -1,0 +1,84 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:viewModels="using:VisualPlayer.ViewModels.Config">
+
+    <ControlTemplate x:Key="SpeedControlTemplate" TargetType="controls:SpeedControl">
+        <Border
+            x:Name="PART_ContentHost"
+            Padding="8"
+            Theme="{StaticResource ControlBorderTheme}">
+
+            <Grid
+                RowDefinitions="Auto,Auto,Auto"
+                RowSpacing="8">
+
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="8">
+
+                    <Button
+                        x:Name="PART_Preset1Button"
+                        Height="38"
+                        Theme="{StaticResource AccentButtonTheme}">
+
+                        <TextBlock
+                            Text="{ReflectionBinding Preset1, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0}%}"/>
+                    </Button>
+
+                    <Button
+                        x:Name="PART_Preset2Button"
+                        Height="38"
+                        Theme="{StaticResource AccentButtonTheme}">
+
+                        <TextBlock
+                            Text="{ReflectionBinding Preset2, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0}%}"/>
+                    </Button>
+
+                    <Button
+                        x:Name="PART_Preset3Button"
+                        Height="38"
+                        Theme="{StaticResource AccentButtonTheme}">
+
+                        <TextBlock
+                            Text="{ReflectionBinding Preset3, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0}%}"/>
+                    </Button>
+
+                    <Button
+                        x:Name="PART_Preset4Button"
+                        Height="38"
+                        Theme="{StaticResource AccentButtonTheme}">
+
+                        <TextBlock
+                            Text="{ReflectionBinding Preset4, RelativeSource={RelativeSource TemplatedParent}, StringFormat={}{0}%}"/>
+                    </Button>
+                </StackPanel>
+
+                <components:NumericUpDown
+                    Grid.Row="1"
+                    Maximum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MAXIMUM}"
+                    Minimum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MINIMUM}"
+                    Suffix="%"
+                    Value="{TemplateBinding SpeedPercent, Mode=TwoWay}"/>
+
+                <components:ButtonWithIcon
+                    x:Name="PART_ResetButton"
+                    Content="Reset"
+                    Grid.Row="2"
+                    HorizontalAlignment="Stretch"
+                    Kind="RotateCcw"
+                    Theme="{StaticResource AccentButtonWithIconTheme}"/>
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="{x:Type controls:SpeedControl}" TargetType="controls:SpeedControl">
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="Template" Value="{StaticResource SpeedControlTemplate}"/>
+    </ControlTheme>
+</ResourceDictionary>

@@ -1,0 +1,88 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:media="using:Avalonia.Media"
+    xmlns:viewModels="using:VisualPlayer.ViewModels">
+
+    <!-- ITEM BUTTON THEME -->
+    <ControlTheme x:Key="HamburgerMenuItemButtonTheme" TargetType="components:ButtonWithIcon" BasedOn="{StaticResource ThemeButtonWithIconTheme}">
+        <Setter Property="Background" Value="{x:Static media:Brushes.Transparent}"/>
+        <Setter Property="BorderBrush" Value="{x:Static media:Brushes.Transparent}"/>
+
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Gap" Value="6"/>
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="IconPosition" Value="Left"/>
+        <Setter Property="Margin" Value="0,2"/>
+        <Setter Property="Padding" Value="10"/>
+
+        <Style Selector="^:pointerover, ^:focus-visible">
+            <Setter Property="Background">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemeMouseOverBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentMouseOverColorBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:pressed">
+            <Setter Property="Background">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemePressedBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentPressedBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter>
+        </Style>
+    </ControlTheme>
+
+    <!-- ITEM TEMPLATE -->
+    <ControlTemplate x:Key="HamburgerMenuItemControlTemplate" x:DataType="viewModels:HamburgerMenuItemViewModel" TargetType="controls:HamburgerMenuItemControl">
+        <Grid>
+            <!-- REAL ITEM -->
+            <components:ButtonWithIcon
+                x:Name="PART_Button"
+                Command="{Binding Action}"
+                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                IsVisible="{Binding IsButtonVisible}"
+                Kind="{Binding Icon}"
+                Theme="{StaticResource HamburgerMenuItemButtonTheme}" />
+
+            <!-- SEPARATOR -->
+            <Border
+                Background="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                Height="1"
+                IsVisible="{Binding IsSeparator}"
+                Margin="8,4"
+                Opacity="0.3" />
+        </Grid>
+            
+    </ControlTemplate>
+
+    <!-- ITEM CONTROL THEME -->
+    <ControlTheme
+        x:Key="{x:Type controls:HamburgerMenuItemControl}"
+        TargetType="controls:HamburgerMenuItemControl">
+
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Template" Value="{StaticResource HamburgerMenuItemControlTemplate}" />
+
+        <!-- CONTENT -->
+        <Style Selector="^ /template/ components|ButtonWithIcon#PART_Button">
+            <Setter Property="Content" Value="{ReflectionBinding Title}"/>
+        </Style>
+
+        <!-- COLLAPSED -->
+        <Style Selector="^[IsMenuOpen=False] /template/ components|ButtonWithIcon#PART_Button">
+            <Setter Property="Content" Value="{x:Null}"/>
+        </Style>
+    
+    </ControlTheme>
+</ResourceDictionary>

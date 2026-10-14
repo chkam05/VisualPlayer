@@ -1,0 +1,13 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTheme x:Key="SidePanel.ListBoxTheme" BasedOn="{StaticResource ListBoxTheme}" TargetType="ListBox">
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ItemContainerTheme" Value="{StaticResource SidePanel.ListBoxItemTheme}"/>
+        <Setter Property="Padding" Value="4,2"/>
+        <Setter Property="Width" Value="220"/>
+    </ControlTheme>
+
+</ResourceDictionary>

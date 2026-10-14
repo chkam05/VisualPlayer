@@ -1,0 +1,12 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components">
+
+    <ControlTheme x:Key="InternalView.BackButtonWithIconTheme" BasedOn="{StaticResource AccentButtonWithIconTheme}" TargetType="components:ButtonWithIcon">
+        <Setter Property="CornerRadius" Value="16"/>
+        <Setter Property="Height" Value="36"/>
+        <Setter Property="Width" Value="36"/>
+    </ControlTheme>
+
+</ResourceDictionary>

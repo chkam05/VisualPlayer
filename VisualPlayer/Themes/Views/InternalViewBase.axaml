@@ -1,0 +1,74 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:views="using:VisualPlayer.Views.Base">
+
+    <ControlTemplate x:Key="InternalViewBaseTemplate" TargetType="views:InternalViewBase">
+
+        <Border
+            Background="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            BorderBrush="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            BorderThickness="1"
+            CornerRadius="10"
+            Padding="12">
+
+            <Grid
+                RowDefinitions="Auto,*"
+                RowSpacing="12">
+
+                <Grid
+                    ColumnDefinitions="Auto,*,Auto"
+                    ColumnSpacing="8">
+
+                    <components:ButtonWithIcon
+                        x:Name="PART_BackButton"
+                        IsVisible="{TemplateBinding CanGoBack}"
+                        Kind="ArrowLeft"
+                        Theme="{StaticResource InternalView.BackButtonWithIconTheme}"
+                        ToolTip.Tip="Wstecz"/>
+
+                    <TextBlock
+                        FontSize="22"
+                        FontWeight="SemiBold"
+                        Grid.Column="1"
+                        Text="{TemplateBinding Title}"
+                        VerticalAlignment="Center"/>
+
+                    <StackPanel
+                        Grid.Column="2"
+                        Orientation="Horizontal"
+                        Spacing="8">
+
+                        <components:ButtonWithIcon
+                            x:Name="PART_SaveButton"
+                            IsVisible="{TemplateBinding EnableSaveButton}"
+                            Kind="Save"
+                            Theme="{StaticResource InternalView.SaveButtonWithIconTheme}"
+                            ToolTip.Tip="Zapisz"/>
+
+                        <components:ButtonWithIcon
+                            x:Name="PART_CloseButton"
+                            Kind="X"
+                            Theme="{StaticResource InternalView.CloseButtonWithIconTheme}"
+                            ToolTip.Tip="Zamknij"/>
+                    </StackPanel>
+                </Grid>
+
+                <ContentPresenter
+                    Grid.Row="1"
+                    Content="{TemplateBinding Content}"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"/>
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="{x:Type views:InternalViewBase}" TargetType="views:InternalViewBase">
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template" Value="{StaticResource InternalViewBaseTemplate}"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+    </ControlTheme>
+</ResourceDictionary>

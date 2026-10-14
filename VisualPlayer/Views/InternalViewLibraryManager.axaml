@@ -1,0 +1,698 @@
+<views:InternalViewBase
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:local="using:VisualPlayer.Views"
+    xmlns:viewModels="using:VisualPlayer.ViewModels"
+    xmlns:views="using:VisualPlayer.Views.Base"
+    x:Class="VisualPlayer.Views.InternalViewLibraryManager"
+    x:DataType="local:InternalViewLibraryManager"
+    x:Name="Root">
+
+    <views:InternalViewBase.Resources>
+
+        <!-- DATA TEMPLATE - NavigationItem -->
+        <DataTemplate x:Key="LibraryNavigationItemTemplate" x:DataType="viewModels:MenuItemViewModel">
+            <Grid
+                ColumnDefinitions="Auto,*"
+                ColumnSpacing="10"
+                ToolTip.Tip="{Binding Title}">
+
+                <LucideIcon
+                    Kind="{Binding Icon}"
+                    Size="24"
+                    VerticalAlignment="Center"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="{Binding Title}"
+                    TextTrimming="CharacterEllipsis"
+                    VerticalAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+
+        <!-- DATA TEMPLATE - DetailsView -->
+        <DataTemplate x:Key="LibraryDetailsItemTemplate" x:DataType="viewModels:LibraryItemViewModel">
+            <Grid
+                ColumnDefinitions="Auto,48,*,Auto"
+                ColumnSpacing="10"
+                DoubleTapped="LibraryItem_DoubleTapped"
+                PointerPressed="LibraryItem_PointerPressed">
+
+                <CheckBox
+                    IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                    IsVisible="{Binding IsSelectionMode, ElementName=Root}"
+                    VerticalAlignment="Center"/>
+
+                <Border
+                    Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    ClipToBounds="True"
+                    CornerRadius="6"
+                    Grid.Column="1"
+                    Height="48"
+                    Width="48">
+
+                    <Grid>
+                        <LucideIcon
+                            HorizontalAlignment="Center"
+                            Kind="{Binding Icon}"
+                            Opacity="0.7"
+                            Size="24"
+                            VerticalAlignment="Center"/>
+
+                        <Image
+                            Source="{Binding Cover}"
+                            Stretch="UniformToFill"/>
+                    </Grid>
+                </Border>
+
+                <StackPanel
+                    Grid.Column="2"
+                    Spacing="3"
+                    VerticalAlignment="Center">
+
+                    <TextBlock
+                        FontWeight="SemiBold"
+                        Text="{Binding Title}"
+                        TextTrimming="CharacterEllipsis"/>
+
+                    <TextBlock
+                        FontSize="12"
+                        Opacity="0.65"
+                        Text="{Binding Subtitle}"
+                        TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+
+                <components:ButtonWithIcon
+                    Click="ItemMoreButton_Click"
+                    CornerRadius="24"
+                    Grid.Column="3"
+                    Height="36"
+                    Kind="Ellipsis"
+                    Theme="{StaticResource ThemeButtonWithIconTheme}"
+                    Width="36">
+
+                    <components:ButtonWithIcon.ContextMenu>
+                        <ContextMenu
+                            Theme="{StaticResource ContextMenuTheme}">
+                            <MenuItem
+                                Click="PlayItemMenuItem_Click"
+                                Header="Odtwórz">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="Play"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem
+                                Click="AppendItemMenuItem_Click"
+                                Header="Dodaj do kolejki">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="ListPlus"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem
+                                Click="AddItemToPlayListMenuItem_Click"
+                                Header="Dodaj do playlisty">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="ListMusic"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </components:ButtonWithIcon.ContextMenu>
+                </components:ButtonWithIcon>
+            </Grid>
+        </DataTemplate>
+
+        <!-- DATA TEMPLATE - IconView -->
+        <DataTemplate x:Key="LibraryIconItemTemplate" x:DataType="viewModels:LibraryItemViewModel">
+            <Border
+                Background="Transparent"
+                CornerRadius="8"
+                DoubleTapped="LibraryItem_DoubleTapped"
+                PointerPressed="LibraryItem_PointerPressed">
+
+                <Border.ContextMenu>
+                    <ContextMenu
+                        Theme="{StaticResource ContextMenuTheme}">
+
+                        <MenuItem
+                            Click="PlayItemMenuItem_Click"
+                            Header="Odtwórz">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="Play"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem
+                            Click="AppendItemMenuItem_Click"
+                            Header="Dodaj do kolejki">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="ListPlus"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem
+                            Click="AddItemToPlayListMenuItem_Click"
+                            Header="Dodaj do playlisty">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="ListMusic"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </Border.ContextMenu>
+
+                <Grid
+                    RowDefinitions="Auto,*,4,Auto">
+
+                    <CheckBox
+                        HorizontalAlignment="Left"
+                        IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                        IsVisible="{Binding IsSelectionMode, ElementName=Root}"/>
+
+                    <Border
+                        Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        ClipToBounds="True"
+                        CornerRadius="8"
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        Padding="10"
+                        VerticalAlignment="Center">
+
+                        <Grid>
+                            <LucideIcon
+                                HorizontalAlignment="Center"
+                                Kind="{Binding Icon}"
+                                Size="{Binding IconSize, ElementName=Root}"
+                                VerticalAlignment="Center"/>
+
+                            <Image
+                                Height="{Binding IconSize, ElementName=Root}"
+                                Source="{Binding Cover}"
+                                Stretch="UniformToFill"
+                                Width="{Binding IconSize, ElementName=Root}"/>
+                        </Grid>
+                    </Border>
+                    
+                    <StackPanel
+                        Grid.Row="3"
+                        Spacing="2">
+
+                        <TextBlock
+                            FontWeight="SemiBold"
+                            Text="{Binding Title}"
+                            TextAlignment="Center"
+                            TextTrimming="CharacterEllipsis"/>
+
+                        <TextBlock
+                            FontSize="11"
+                            Opacity="0.6"
+                            Text="{Binding Subtitle}"
+                            TextAlignment="Center"
+                            TextTrimming="CharacterEllipsis"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <!-- DATA TEMPLATE - ListView -->
+        <DataTemplate x:Key="LibraryListItemTemplate" x:DataType="viewModels:LibraryItemViewModel">
+
+            <Border
+                Background="Transparent"
+                CornerRadius="8"
+                DoubleTapped="LibraryItem_DoubleTapped"
+                PointerPressed="LibraryItem_PointerPressed">
+
+                <Border.ContextMenu>
+                    <ContextMenu
+                        Theme="{StaticResource ContextMenuTheme}">
+
+                        <MenuItem
+                            Click="PlayItemMenuItem_Click"
+                            Header="Odtwórz">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="Play"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem
+                            Click="AppendItemMenuItem_Click"
+                            Header="Dodaj do kolejki">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="ListPlus"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem
+                            Click="AddItemToPlayListMenuItem_Click"
+                            Header="Dodaj do playlisty">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="ListMusic"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </Border.ContextMenu>
+
+                <Grid
+                    ColumnDefinitions="Auto,Auto,*"
+                    ColumnSpacing="8">
+
+                    <CheckBox
+                        IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                        IsVisible="{Binding IsSelectionMode, ElementName=Root}"/>
+
+                    <Border
+                        Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        ClipToBounds="True"
+                        CornerRadius="8"
+                        Grid.Column="1"
+                        Padding="8">
+
+                        <Grid>
+                            <LucideIcon
+                                HorizontalAlignment="Center"
+                                Kind="{Binding Icon}"
+                                Size="20"
+                                VerticalAlignment="Center"/>
+
+                            <Image
+                                Height="20"
+                                Source="{Binding Cover}"
+                                Stretch="UniformToFill"
+                                Width="20"/>
+                        </Grid>
+                    </Border>
+
+                    <TextBlock
+                        Grid.Column="2"
+                        Text="{Binding Title}"
+                        TextTrimming="CharacterEllipsis"
+                        VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+    </views:InternalViewBase.Resources>
+
+    <Grid
+        ColumnDefinitions="220,*"
+        ColumnSpacing="12">
+
+        <!-- MENU -->
+        <Grid
+            Grid.Column="0"
+            RowDefinitions="*,Auto"
+            RowSpacing="10">
+            
+            <ListBox
+                x:Name="PART_NavigationList"
+                ItemsSource="{Binding NavigationItems, ElementName=Root}"
+                ItemTemplate="{StaticResource LibraryNavigationItemTemplate}"
+                SelectionChanged="NavigationList_SelectionChanged"
+                Theme="{StaticResource SidePanel.ListBoxTheme}"/>
+        </Grid>
+
+        <!-- LIBRARY -->
+        <Grid
+            Grid.Column="1"
+            RowDefinitions="Auto,*,Auto"
+            RowSpacing="8">
+
+            <!-- TOOLBAR -->
+            <ScrollViewer
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Disabled">
+
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="6">
+
+                    <components:ButtonWithIcon
+                        Click="BackButton_Click"
+                        IsEnabled="{Binding CanNavigateBack, ElementName=Root}"
+                        Kind="ChevronLeft"
+                        Theme="{StaticResource ThemeButtonWithIconTheme}"
+                        ToolTip.Tip="Wstecz"/>
+
+                    <Border
+                        Theme="{StaticResource SeparatorVertical.BorderTheme}"/>
+
+                    <TextBox
+                        PlaceholderText="Szukaj w bibliotece"
+                        Text="{Binding SearchPhrase, ElementName=Root, Mode=TwoWay}"
+                        Theme="{StaticResource TextBoxTheme}"
+                        VerticalContentAlignment="Center"
+                        Width="280"/>
+
+                    <components:ButtonWithIcon
+                        Click="SortButton_Click"
+                        Content="Sortuj"
+                        Kind="ArrowUpDown"
+                        Theme="{StaticResource ThemeButtonWithIconTheme}">
+
+                        <components:ButtonWithIcon.ContextMenu>
+                            <ContextMenu
+                                Theme="{StaticResource ContextMenuTheme}">
+
+                                <MenuItem
+                                    Header="Tytuł"
+                                    IsVisible="{Binding IsDetailedSortAvailable, ElementName=Root}">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="Music"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+
+                                    <MenuItem
+                                        Click="SortMenuItem_Click"
+                                        Header="Rosnąco"
+                                        Tag="TitleAscending">
+
+                                        <MenuItem.Icon>
+                                            <LucideIcon
+                                                Kind="ArrowUpAZ"
+                                                Size="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+
+                                    <MenuItem
+                                        Click="SortMenuItem_Click"
+                                        Header="Malejąco"
+                                        Tag="TitleDescending">
+
+                                        <MenuItem.Icon>
+                                            <LucideIcon
+                                                Kind="ArrowDownZA"
+                                                Size="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Header="Album"
+                                    IsVisible="{Binding IsDetailedSortAvailable, ElementName=Root}">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="DiscAlbum"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+
+                                    <MenuItem
+                                        Click="SortMenuItem_Click"
+                                        Header="Rosnąco"
+                                        Tag="AlbumAscending">
+
+                                        <MenuItem.Icon>
+                                            <LucideIcon
+                                                Kind="ArrowUpAZ"
+                                                Size="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+
+                                    <MenuItem
+                                        Click="SortMenuItem_Click"
+                                        Header="Malejąco"
+                                        Tag="AlbumDescending">
+
+                                        <MenuItem.Icon>
+                                            <LucideIcon
+                                                Kind="ArrowDownZA"
+                                                Size="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Header="Artysta"
+                                    IsVisible="{Binding IsDetailedSortAvailable, ElementName=Root}">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="UserRound"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+
+                                    <MenuItem
+                                        Click="SortMenuItem_Click"
+                                        Header="Rosnąco"
+                                        Tag="ArtistAscending">
+
+                                        <MenuItem.Icon>
+                                            <LucideIcon
+                                                Kind="ArrowUpAZ"
+                                                Size="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+
+                                    <MenuItem
+                                        Click="SortMenuItem_Click"
+                                        Header="Malejąco"
+                                        Tag="ArtistDescending">
+
+                                        <MenuItem.Icon>
+                                            <LucideIcon
+                                                Kind="ArrowDownZA"
+                                                Size="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Header="Nazwa"
+                                    IsVisible="{Binding IsSimpleSortAvailable, ElementName=Root}">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="Music"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+
+                                    <MenuItem
+                                        Click="SortMenuItem_Click"
+                                        Header="Rosnąco"
+                                        Tag="TitleAscending">
+
+                                        <MenuItem.Icon>
+                                            <LucideIcon
+                                                Kind="ArrowUpAZ"
+                                                Size="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+
+                                    <MenuItem
+                                        Click="SortMenuItem_Click"
+                                        Header="Malejąco"
+                                        Tag="TitleDescending">
+
+                                        <MenuItem.Icon>
+                                            <LucideIcon
+                                                Kind="ArrowDownZA"
+                                                Size="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Header="Typ"
+                                    IsVisible="{Binding IsDetailedSortAvailable, ElementName=Root}">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ListMusic"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+
+                                    <MenuItem
+                                        Click="SortMenuItem_Click"
+                                        Header="Rosnąco"
+                                        Tag="TypeAscending">
+
+                                        <MenuItem.Icon>
+                                            <LucideIcon
+                                                Kind="ArrowUpAZ"
+                                                Size="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+
+                                    <MenuItem
+                                        Click="SortMenuItem_Click"
+                                        Header="Malejąco"
+                                        Tag="TypeDescending">
+
+                                        <MenuItem.Icon>
+                                            <LucideIcon
+                                                Kind="ArrowDownZA"
+                                                Size="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuItem>
+                            </ContextMenu>
+                        </components:ButtonWithIcon.ContextMenu>
+                    </components:ButtonWithIcon>
+
+                    <Border
+                        Theme="{StaticResource SeparatorVertical.BorderTheme}"/>
+
+                    <components:ButtonWithIcon
+                        Click="ToggleSelectionButton_Click"
+                        Content="{Binding SelectionButtonText, ElementName=Root}"
+                        Kind="ListChecks"
+                        Theme="{StaticResource ThemeButtonWithIconTheme}"/>
+
+                    <components:ButtonWithIcon
+                        Click="SelectedMoreButton_Click"
+                        Kind="Ellipsis"
+                        Theme="{StaticResource ThemeButtonWithIconTheme}">
+
+                        <components:ButtonWithIcon.ContextMenu>
+                            <ContextMenu
+                                Theme="{StaticResource ContextMenuTheme}">
+
+                                <MenuItem
+                                    Click="OpenSelectedMenuItem_Click"
+                                    Header="Otwórz"
+                                    IsEnabled="{Binding HasSelection, ElementName=Root}">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="FolderOpen"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Click="AppendSelectedMenuItem_Click"
+                                    Header="Dodaj do kolejki"
+                                    IsEnabled="{Binding HasSelection, ElementName=Root}">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ListPlus"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <Separator/>
+
+                                <MenuItem
+                                    Click="CreatePlayListMenuItem_Click"
+                                    Header="Utwórz playlistę"
+                                    IsEnabled="{Binding HasSelection, ElementName=Root}">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ListPlus"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Click="AddSelectedToPlayListMenuItem_Click"
+                                    Header="Dodaj do playlisty"
+                                    IsEnabled="{Binding HasSelection, ElementName=Root}">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ListMusic"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </components:ButtonWithIcon.ContextMenu>
+                    </components:ButtonWithIcon>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- LIBRARY CONTENT -->
+            <Grid
+                Grid.Row="1">
+
+                <ListBox
+                    ItemContainerTheme="{StaticResource LibraryItemsListBoxItemTheme}"
+                    ItemTemplate="{StaticResource LibraryDetailsItemTemplate}"
+                    ItemsSource="{Binding VisibleItems, ElementName=Root}"
+                    IsVisible="{Binding IsDetailsLayout, ElementName=Root}"
+                    Theme="{StaticResource LibraryItemsListBoxTheme}"/>
+
+                <ListBox
+                    ItemContainerTheme="{StaticResource LibraryItemsListBoxItemTheme}"
+                    ItemTemplate="{StaticResource LibraryListItemTemplate}"
+                    ItemsSource="{Binding VisibleItems, ElementName=Root}"
+                    IsVisible="{Binding IsListLayout, ElementName=Root}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                    Theme="{StaticResource LibraryItemsListBoxTheme}">
+
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel
+                                Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+
+                <ListBox
+                    ItemContainerTheme="{StaticResource LibraryItemsListBoxItemTheme}"
+                    ItemTemplate="{StaticResource LibraryIconItemTemplate}"
+                    ItemsSource="{Binding VisibleItems, ElementName=Root}"
+                    IsVisible="{Binding IsIconLayout, ElementName=Root}"
+                    Theme="{StaticResource LibraryItemsListBoxTheme}">
+
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel
+                                ItemHeight="{Binding IconItemHeight, ElementName=Root}"
+                                ItemWidth="{Binding IconItemWidth, ElementName=Root}"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </Grid>
+        
+            <!-- VIEW -->
+            <Grid
+                Grid.Row="2">
+            
+                <Slider
+                    HorizontalAlignment="Right"
+                    Maximum="4"
+                    Minimum="0"
+                    MinWidth="128"
+                    SmallChange="1"
+                    Theme="{StaticResource SliderTheme}"
+                    TickFrequency="1"
+                    Value="{Binding LayoutValue, ElementName=Root, Mode=TwoWay}"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</views:InternalViewBase>

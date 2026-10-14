@@ -1,0 +1,185 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:config="using:VisualPlayer.ViewModels.Config"
+    x:Class="VisualPlayer.Views.Settings.LogoSettingsView">
+
+    <UserControl.Resources>
+        <converters:OpacityToPercentageConverter x:Key="OpacityToPercentageConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel Spacing="8">
+        <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Spacing="4">
+                <TextBlock
+                    FontSize="22"
+                    FontWeight="SemiBold"
+                    Text="Logo"/>
+
+                <TextBlock
+                    Opacity="0.6"
+                    Text="Dostosuj wygląd logo oraz jego reakcję na wybrane pasmo dźwięku."/>
+            </StackPanel>
+
+            <components:ButtonWithIcon
+                Click="ResetButton_Click"
+                Content="Reset"
+                Grid.Column="1"
+                Kind="RotateCcw"
+                Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
+        </Grid>
+
+        <controls:SettingsControl
+            Description="Pokazuje logo nad powierzchnią wizualizacji."
+            Icon="Eye"
+            Title="Pokaż logo">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.Logo.Enabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsExpandControl
+            Icon="PenLine"
+            Title="Kolor obramowania 1">
+
+            <controls:ColorPaletteControl
+                RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                SelectedColor="{ReflectionBinding Config.Logo.BorderColor1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                Title="Kolor obramowania 1"/>
+        </controls:SettingsExpandControl>
+
+        <controls:SettingsExpandControl
+            Icon="PenLine"
+            Title="Kolor obramowania 2">
+
+            <controls:ColorPaletteControl
+                RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                SelectedColor="{ReflectionBinding Config.Logo.BorderColor2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                Title="Kolor obramowania 2"/>
+        </controls:SettingsExpandControl>
+
+        <controls:SettingsExpandControl
+            Icon="PaintBucket"
+            Title="Kolor wypełnienia 1">
+
+            <controls:ColorPaletteControl
+                RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                SelectedColor="{ReflectionBinding Config.Logo.FillColor1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                Title="Kolor wypełnienia 1"/>
+        </controls:SettingsExpandControl>
+
+        <controls:SettingsExpandControl
+            Icon="PaintBucket"
+            Title="Kolor wypełnienia 2">
+
+            <controls:ColorPaletteControl
+                RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                SelectedColor="{ReflectionBinding Config.Logo.FillColor2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                Title="Kolor wypełnienia 2"/>
+        </controls:SettingsExpandControl>
+
+        <controls:SettingsControl
+            Description="Określa przezroczystość całego logo."
+            Icon="Layers2"
+            Title="Przezroczystość">
+
+            <Grid ColumnDefinitions="48,180" ColumnSpacing="8">
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{ReflectionBinding Config.Logo.Opacity, Source={x:Static contexts:ApplicationContext.Instance}, Converter={StaticResource OpacityToPercentageConverter}, Mode=OneWay}"
+                    VerticalAlignment="Center"/>
+
+                <Slider
+                    Grid.Column="1"
+                    Maximum="{x:Static config:LogoConfig.OPACITY_MAXIMUM}"
+                    Minimum="{x:Static config:LogoConfig.OPACITY_MINIMUM}"
+                    SmallChange="{x:Static config:LogoConfig.OPACITY_SMALL_CHANGE}"
+                    Theme="{StaticResource SliderTheme}"
+                    Value="{ReflectionBinding Config.Logo.Opacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+            </Grid>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="Skaluje logo zgodnie z poziomem wybranego pasma dźwięku."
+            Icon="ImagePlay"
+            Title="Animacja">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="Określa górny fragment wysokości słupków mapowany na pełny zakres animacji."
+            Icon="Gauge"
+            IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Title="Czułość animacji">
+
+            <components:NumericUpDown
+                Increment="{x:Static config:LogoConfig.ANIMATION_SENSITIVITY_INCREMENT}"
+                Maximum="{x:Static config:LogoConfig.ANIMATION_SENSITIVITY_MAXIMUM}"
+                Minimum="{x:Static config:LogoConfig.ANIMATION_SENSITIVITY_MINIMUM}"
+                Suffix="%"
+                Value="{ReflectionBinding Config.Logo.Sensitivity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="Określa maksymalne powiększenie logo. Wartość 50% oznacza maksymalną skalę 1,5."
+            Icon="Scaling"
+            IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Title="Skala animacji">
+
+            <components:NumericUpDown
+                Increment="{x:Static config:LogoConfig.ANIMATION_SCALE_INCREMENT}"
+                Maximum="{x:Static config:LogoConfig.ANIMATION_SCALE_MAXIMUM}"
+                Minimum="{x:Static config:LogoConfig.ANIMATION_SCALE_MINIMUM}"
+                Suffix="%"
+                Value="{ReflectionBinding Config.Logo.Scale, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="Określa szybkość powrotu poziomu animacji do zera w jednostkach na sekundę."
+            Icon="ClockFading"
+            IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Title="Szybkość kurczenia">
+
+            <components:NumericUpDown
+                Increment="{x:Static config:LogoConfig.ANIMATION_CONTRACTION_INCREMENT}"
+                Maximum="{x:Static config:LogoConfig.ANIMATION_CONTRACTION_MAXIMUM}"
+                Minimum="{x:Static config:LogoConfig.ANIMATION_CONTRACTION_MINIMUM}"
+                Suffix=" /s"
+                Value="{ReflectionBinding Config.Logo.Contraction, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="Dolna częstotliwość pasma używanego do animacji logo."
+            Icon="AudioWaveform"
+            IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Title="Początek pasma">
+
+            <components:NumericUpDown
+                Increment="{x:Static config:LogoConfig.ANIMATION_FREQUENCY_INCREMENT}"
+                Maximum="{x:Static config:LogoConfig.ANIMATION_FREQUENCY_MAXIMUM}"
+                Minimum="{x:Static config:LogoConfig.ANIMATION_FREQUENCY_MINIMUM}"
+                Suffix=" Hz"
+                Value="{ReflectionBinding Config.Logo.MinimumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="Górna częstotliwość pasma używanego do animacji logo."
+            Icon="AudioWaveform"
+            IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Title="Koniec pasma">
+
+            <components:NumericUpDown
+                Increment="{x:Static config:LogoConfig.ANIMATION_FREQUENCY_INCREMENT}"
+                Maximum="{x:Static config:LogoConfig.ANIMATION_FREQUENCY_MAXIMUM}"
+                Minimum="{x:Static config:LogoConfig.ANIMATION_FREQUENCY_MINIMUM}"
+                Suffix=" Hz"
+                Value="{ReflectionBinding Config.Logo.MaximumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+    </StackPanel>
+</UserControl>

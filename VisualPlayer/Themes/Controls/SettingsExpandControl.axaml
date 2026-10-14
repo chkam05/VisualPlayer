@@ -1,0 +1,79 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls">
+
+    <ControlTemplate x:Key="SettingsExpandControlTemplate" TargetType="controls:SettingsExpandControl">
+        <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            ClipToBounds="True"
+            CornerRadius="{TemplateBinding CornerRadius}">
+
+            <Grid RowDefinitions="Auto,Auto">
+                <Grid
+                    ColumnDefinitions="Auto,*,Auto"
+                    ColumnSpacing="14"
+                    Margin="{TemplateBinding Padding}">
+
+                    <LucideIcon
+                        Kind="{TemplateBinding Icon}"
+                        Size="32"
+                        VerticalAlignment="Center"/>
+
+                    <StackPanel
+                        Grid.Column="1"
+                        Spacing="3"
+                        VerticalAlignment="Center">
+
+                        <TextBlock
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            Text="{TemplateBinding Title}"
+                            TextTrimming="CharacterEllipsis"/>
+
+                        <TextBlock
+                            FontSize="13"
+                            Opacity="0.7"
+                            Text="{TemplateBinding Description}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                    <components:ToggleButtonWithIcon
+                        CheckedKind="ChevronUp"
+                        CornerRadius="8"
+                        Grid.Column="2"
+                        Height="36"
+                        IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                        Kind="ChevronDown"
+                        Theme="{StaticResource ThemeToggleButtonWithIconTheme}"
+                        ToolTip.Tip="Rozwiń lub zwiń"
+                        VerticalAlignment="Center"
+                        Width="36"/>
+                </Grid>
+
+                <Border
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="0,1,0,0"
+                    Grid.Row="1"
+                    IsVisible="{TemplateBinding IsExpanded}"
+                    Padding="{TemplateBinding Padding}">
+
+                    <ContentPresenter
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"/>
+                </Border>
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="{x:Type controls:SettingsExpandControl}" BasedOn="{StaticResource {x:Type controls:SettingsControl}}" TargetType="controls:SettingsExpandControl">
+        <Setter Property="Template" Value="{StaticResource SettingsExpandControlTemplate}"/>
+    </ControlTheme>
+</ResourceDictionary>

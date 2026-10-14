@@ -1,40 +1,34 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using System.Windows.Media;
+using Avalonia;
+using Avalonia.Data.Converters;
+using Avalonia.Media;
 
-namespace VisualPlayer.Converters
+namespace VisualPlayer.Converters;
+
+public class BrushOpacityConverter : IMultiValueConverter
 {
-    public class BrushOpacityConverter : IMultiValueConverter
+    public static BrushOpacityConverter Instance { get; } = new();
+
+    public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
-
-        //  METHODS
-
-        //  --------------------------------------------------------------------------------
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        if (values.Count < 2
+            || values[0] is not SolidColorBrush brush
+            || values[1] is not double opacity)
         {
-            Brush brush = ((Brush)values[0]).Clone();
-            double opacity = (double)values[1];
-
-            brush.Opacity = opacity;
-
-            return brush;
+            return AvaloniaProperty.UnsetValue;
         }
 
-        //  --------------------------------------------------------------------------------
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            Brush brush = ((Brush)value).Clone();
-            double opacity = brush.Opacity;
+        double? minimumOpacity = values.Count > 2 && values[2] is double minimum
+            ? Math.Clamp(minimum, 0, 1)
+            : null;
 
-            brush.Opacity = 1f;
+        var effectiveOpacity = Math.Clamp(opacity, 0, 1);
 
-            return new object[] { brush, opacity };
-        }
+        if (minimumOpacity is not null)
+            effectiveOpacity = Math.Max(effectiveOpacity, minimumOpacity.Value);
 
+        return new SolidColorBrush(brush.Color, brush.Opacity * effectiveOpacity);
     }
 }

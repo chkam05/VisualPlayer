@@ -1,0 +1,133 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <!-- PARTS -->
+
+    <ControlTemplate x:Key="VolumeSlider.ButtonTemplate" TargetType="RepeatButton">
+        <Grid Background="Transparent">
+            <Border
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Height="{TemplateBinding Height}"
+                VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="VolumeSlider.ThumbTemplate" TargetType="Thumb">
+        <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}" />
+    </ControlTemplate>
+
+
+    <ControlTheme x:Key="VolumeSlider.DecreaseButtonTheme" TargetType="RepeatButton">
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentPressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"  />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="Template" Value="{StaticResource VolumeSlider.ButtonTemplate}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="VolumeSlider.IncreaseButtonTheme" TargetType="RepeatButton">
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"  />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="Template" Value="{StaticResource VolumeSlider.ButtonTemplate}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="VolumeSlider.ThumbTheme" TargetType="Thumb">
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Template" Value="{StaticResource PositionSlider.ThumbTemplate}" />
+
+        <!-- Mouse over -->
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentMouseOverColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        </Style>
+
+        <!-- Pressed / dragging -->
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentPressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        </Style>
+
+        <!-- Disabled -->
+        <Style Selector="^:disabled">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+    </ControlTheme>
+
+    <!--  -->
+
+    <ControlTemplate x:Key="VolumeSliderTemplate" TargetType="Slider">
+        <Grid
+            Height="16"
+            ClipToBounds="False">
+
+            <Border
+                Background="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                CornerRadius="8"
+                Height="9"
+                VerticalAlignment="Center"/>
+
+            <Track
+                x:Name="PART_Track"
+                Height="16"
+                ClipToBounds="False"
+                Margin="1,0"
+                Minimum="{TemplateBinding Minimum}"
+                Maximum="{TemplateBinding Maximum}"
+                Orientation="Horizontal"
+                Value="{TemplateBinding Value, Mode=TwoWay}">
+
+                <Track.DecreaseButton>
+                    <RepeatButton
+                        x:Name="PART_DecreaseButton"
+                        Focusable="False"
+                        Margin="0,0,-8,0"
+                        Theme="{StaticResource VolumeSlider.DecreaseButtonTheme}"/>
+                </Track.DecreaseButton>
+
+                <Track.Thumb>
+                    <Thumb
+                        Height="16"
+                        Theme="{StaticResource VolumeSlider.ThumbTheme}"
+                        Width="16"
+                        ZIndex="1"/>
+                </Track.Thumb>
+
+                <Track.IncreaseButton>
+                    <RepeatButton
+                        x:Name="PART_IncreaseButton"
+                        Focusable="False"
+                        Margin="-8,0,0,0"
+                        Theme="{StaticResource VolumeSlider.IncreaseButtonTheme}"/>
+                </Track.IncreaseButton>
+
+            </Track>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="PlayerVolumeSliderTheme" TargetType="Slider">
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        <Setter Property="Template" Value="{StaticResource VolumeSliderTemplate}" />
+    </ControlTheme>
+
+</ResourceDictionary>

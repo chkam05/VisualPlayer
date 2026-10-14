@@ -1,0 +1,162 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:common="using:VisualPlayer.Views.Visualisations.Common"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:config="using:VisualPlayer.Visualizations.Config"
+    xmlns:visualizationConfig="using:VisualPlayer.Visualizations.Config.Base"
+    x:Class="VisualPlayer.Views.Visualisations.PeaksConfig"
+    x:DataType="visualizationConfig:VisualisationProfile"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:VisualizationDirectionToTitleConverter x:Key="VisualizationDirectionToTitleConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel
+        Orientation="Vertical"
+        Spacing="8">
+
+        <!-- Color -->
+        <common:VisualisationColorConfig/>
+
+        <!-- Number of peaks -->
+        <controls:SettingsControl
+            Description="Określa liczbę pasm częstotliwości wyświetlanych na ekranie."
+            Icon="ChartNoAxesColumn"
+            Title="Liczba pasków">
+
+            <components:NumericUpDown
+                Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.BARS_COUNT_MAXIMUM}"
+                Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.BARS_COUNT_MINIMUM}"
+                Value="{ReflectionBinding Config.PeaksCount, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Direction -->
+        <controls:SettingsControl
+            Description="Określa krawędź, od której rosną paski wizualizacji."
+            Icon="ArrowUpDown"
+            Title="Kierunek">
+
+            <ComboBox
+                ItemsSource="{Binding Directions, ElementName=Root}"
+                SelectedItem="{ReflectionBinding Config.Direction, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Converter={StaticResource VisualizationDirectionToTitleConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </controls:SettingsControl>
+
+        <!-- Horizontal spacing -->
+        <controls:SettingsControl
+            Description="Określa poziomy odstęp pomiędzy sąsiednimi pasmami."
+            Icon="BetweenVerticalStart"
+            Title="Odstęp bloczków w poziomie">
+
+            <components:NumericUpDown
+                Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.BAR_SPACE_MAXIMUM}"
+                Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.BAR_SPACE_MINIMUM}"
+                Suffix=" px"
+                Value="{ReflectionBinding Config.HorizontalBarSpace, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Vertical spacing -->
+        <controls:SettingsControl
+            Description="Określa pionowy odstęp pomiędzy bloczkami jednego paska."
+            Icon="BetweenHorizontalStart"
+            Title="Odstęp bloczków w pionie">
+
+            <components:NumericUpDown
+                Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.BAR_SPACE_MAXIMUM}"
+                Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.BAR_SPACE_MINIMUM}"
+                Suffix=" px"
+                Value="{ReflectionBinding Config.VerticalBarSpace, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Peak height -->
+        <controls:SettingsControl
+            Description="Określa wysokość pojedynczego bloczka budującego pasek."
+            Icon="MoveVertical"
+            Title="Wysokość bloczka">
+
+            <components:NumericUpDown
+                Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.BAR_HEIGHT_MAXIMUM}"
+                Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.BAR_HEIGHT_MINIMUM}"
+                Suffix=" px"
+                Value="{ReflectionBinding Config.BarHeight, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Falling speed -->
+        <controls:SettingsControl
+            Description="Określa szybkość opadania głównych pasków w pikselach na sekundę."
+            Icon="ClockFading"
+            Title="Szybkość opadania">
+
+            <components:NumericUpDown
+                Increment="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_INCREMENT}"
+                Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_MAXIMUM}"
+                Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_MINIMUM}"
+                Suffix=" px/s"
+                Value="{ReflectionBinding Config.DescentRate, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Floating peak -->
+        <controls:SettingsExpandControl
+            Description="Ustawienia wolniej opadającego bloczka wartości szczytowej."
+            Icon="RectangleHorizontal"
+            Title="Opadający bloczek">
+
+            <StackPanel
+                Orientation="Vertical"
+                Spacing="8">
+
+                <!-- Floating peak on/off switch -->
+                <controls:SettingsControl
+                    Description="Pokazuje nad każdym paskiem wolniej opadający bloczek wartości szczytowej."
+                    Icon="ToggleRight"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Pokazuj opadający bloczek">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.ShowFloatingBar, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <!-- Floating peak gravity -->
+                <controls:SettingsControl
+                    Description="Pozwala znacznikowi przyspieszać w dół, wypaść poza ekran i pojawić się ponownie przy aktualnym poziomie."
+                    Icon="ArrowDownFromLine"
+                    IsVisible="{ReflectionBinding SupportsFloatingBarGravity}"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Grawitacja znacznika">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.UseFloatingBarGravity, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <!-- Floating peak falling speed -->
+                <controls:SettingsControl
+                    Description="Określa szybkość opadania dodatkowego bloczka w pikselach na sekundę."
+                    Icon="ClockFading"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Szybkość dodatkowego bloczka">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_INCREMENT}"
+                        Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_MAXIMUM}"
+                        Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_MINIMUM}"
+                        Suffix=" px/s"
+                        Value="{ReflectionBinding Config.FloatingBarDescentRate, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+    </StackPanel>
+</UserControl>

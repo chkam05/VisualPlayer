@@ -1,0 +1,39 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters">
+
+    <ControlTemplate
+        x:Key="InternalMessageControllerTemplate"
+        TargetType="controls:InternalMessageController">
+
+        <Grid>
+            <Border>
+                <Border.Background>
+                    <MultiBinding Converter="{x:Static converters:BrushOpacityConverter.Instance}">
+                        <Binding Path="Config.Appearance.ThemeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                        <Binding Path="Config.Appearance.OverlayOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    </MultiBinding>
+                </Border.Background>
+            </Border>
+
+            <ContentPresenter
+                Content="{TemplateBinding Content}"
+                HorizontalAlignment="Center"
+                Margin="24"
+                VerticalAlignment="Center"/>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTheme
+        x:Key="{x:Type controls:InternalMessageController}"
+        TargetType="controls:InternalMessageController">
+
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template" Value="{StaticResource InternalMessageControllerTemplate}"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+    </ControlTheme>
+</ResourceDictionary>

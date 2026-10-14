@@ -1,0 +1,102 @@
+<views:InternalViewBase
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:lucide="using:Lucide.Avalonia"
+    xmlns:local="using:VisualPlayer.Views"
+    xmlns:viewModels="using:VisualPlayer.ViewModels"
+    xmlns:views="using:VisualPlayer.Views.Base"
+    x:Class="VisualPlayer.Views.InternalViewLyrics"
+    x:DataType="local:InternalViewLyrics"
+    x:Name="Root">
+
+    <views:InternalViewBase.Resources>
+        <!-- DATA TEMPLATES -->
+        <DataTemplate x:Key="NavigationMenuItemDataTemplate" x:DataType="viewModels:MenuItemViewModel">
+            <Grid
+                ColumnDefinitions="Auto,*"
+                ColumnSpacing="10">
+
+                <lucide:LucideIcon
+                    Kind="{Binding Icon}"
+                    Size="24"
+                    VerticalAlignment="Center"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="{Binding Title}"
+                    TextTrimming="CharacterEllipsis"
+                    VerticalAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+    </views:InternalViewBase.Resources>
+
+    <Grid
+        ColumnDefinitions="Auto,*"
+        ColumnSpacing="16">
+
+        <!-- SIDEBAR -->
+        
+        <Grid
+            RowDefinitions="Auto,*,Auto"
+            RowSpacing="12">
+
+            <!-- Actions -->
+            <StackPanel
+                Grid.Row="0"
+                Spacing="8">
+
+                <components:ButtonWithIcon
+                    Click="OpenEditorButton_Click"
+                    Content="{Binding CreateOrEditButtonTitle, ElementName=Root}"
+                    HorizontalAlignment="Stretch"
+                    IsEnabled="{Binding HasCurrentTrack, ElementName=Root}"
+                    Kind="FilePenLine"
+                    Theme="{StaticResource AccentButtonWithIconTheme}"/>
+
+                <components:ButtonWithIcon
+                    Click="ImportLyricsButton_Click"
+                    Content="Importuj tekst"
+                    HorizontalAlignment="Stretch"
+                    Kind="FileInput"
+                    Theme="{StaticResource ThemeButtonWithIconTheme}"/>
+
+            </StackPanel>
+            
+            <!-- Menu -->
+            <ListBox
+                x:Name="PART_NavigationList"
+                Grid.Row="1"
+                ItemsSource="{Binding NavigationItems, ElementName=Root}"
+                ItemTemplate="{StaticResource NavigationMenuItemDataTemplate}"
+                SelectionChanged="NavigationList_SelectionChanged"
+                Theme="{StaticResource SidePanel.ListBoxTheme}"/>
+
+            <!-- Options -->
+            <StackPanel
+                Grid.Row="2"
+                Spacing="8">
+
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    ColumnSpacing="8">
+
+                    <TextBlock
+                        Text="Wyświetlaj tekst"
+                        VerticalAlignment="Center"/>
+
+                    <components:Switch
+                        Grid.Column="1"
+                        IsChecked="{ReflectionBinding Config.Lyrics.DisplayLyrics, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <ContentControl
+            x:Name="PART_ContentHost"
+            Grid.Column="1"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"/>
+    </Grid>
+</views:InternalViewBase>

@@ -1,0 +1,224 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:dialogs="using:VisualPlayer.Views.Dialogs">
+
+    <ControlTemplate
+        x:Key="InternalMessageColorPickerTemplate"
+        x:DataType="dialogs:InternalMessageColorPicker"
+        TargetType="dialogs:InternalMessageColorPicker">
+
+        <Border
+            Background="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            BorderBrush="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            BorderThickness="1"
+            ClipToBounds="True"
+            CornerRadius="10"
+            MaxWidth="860"
+            MinWidth="680">
+
+            <Grid
+                RowDefinitions="Auto,*,Auto">
+
+                <!-- TITLE BAR -->
+                <Border
+                    Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Padding="16,12">
+
+                    <Grid
+                        ColumnDefinitions="Auto,*,Auto"
+                        ColumnSpacing="10">
+
+                        <LucideIcon
+                            Kind="{TemplateBinding Icon}"
+                            Size="22"
+                            VerticalAlignment="Center"/>
+
+                        <TextBlock
+                            FontSize="20"
+                            FontWeight="SemiBold"
+                            Grid.Column="1"
+                            Text="{TemplateBinding Title}"
+                            TextTrimming="CharacterEllipsis"
+                            VerticalAlignment="Center"/>
+
+                        <components:ButtonWithIcon
+                            x:Name="PART_CloseButton"
+                            Grid.Column="2"
+                            IsVisible="{TemplateBinding EnableCloseButton}"
+                            Kind="X"
+                            Theme="{StaticResource InternalMessage.ButtonWithIconTheme}"
+                            ToolTip.Tip="Zamknij"/>
+                    </Grid>
+                </Border>
+                
+                <!-- CONTENT -->
+                <Grid
+                    ColumnDefinitions="*,Auto,280"
+                    ColumnSpacing="20"
+                    Grid.Row="1"
+                    Margin="24">
+
+                    <!-- PICKER -->
+                    <Grid
+                        Grid.Column="0"
+                        ColumnDefinitions="*,36"
+                        ColumnSpacing="12">
+
+                        <components:ColorPickerAreaControl
+                            Hue="{Binding PickerHue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                            MinHeight="260"
+                            Saturation="{Binding PickerSaturation, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+
+                        <Slider
+                            Grid.Column="1"
+                            Background="{TemplateBinding ValueGradientBrush}"
+                            Maximum="{x:Static dialogs:InternalMessageColorPicker.COLOR_VALUE_MAXIMUM}"
+                            Minimum="{x:Static dialogs:InternalMessageColorPicker.COLOR_VALUE_MINIMUM}"
+                            Orientation="Vertical"
+                            Theme="{StaticResource ColorValueSliderTheme}"
+                            Value="{Binding ColorValue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                    </Grid>
+
+                    <Border
+                        Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        Grid.Column="1"
+                        Margin="4,8"
+                        Width="1"/>
+
+                    <!-- VALUES -->
+                    <Grid
+                        ColumnDefinitions="*,*"
+                        ColumnSpacing="12"
+                        Grid.Column="2">
+
+                        <StackPanel
+                            Grid.Column="0"
+                            Spacing="6">
+
+                            <TextBlock
+                                Text="Alpha"
+                                VerticalAlignment="Center"/>
+                            
+                            <components:NumericUpDown
+                                Maximum="{x:Static dialogs:InternalMessageColorPicker.COLOR_CHANNEL_MAXIMUM}"
+                                Value="{Binding Alpha, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+
+                            <TextBlock
+                                Text="Czerwony"
+                                VerticalAlignment="Center"/>
+                            
+                            <components:NumericUpDown
+                                Maximum="{x:Static dialogs:InternalMessageColorPicker.COLOR_CHANNEL_MAXIMUM}"
+                                Value="{Binding Red, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+
+                            <TextBlock
+                                Text="Zielony"
+                                VerticalAlignment="Center"/>
+                            
+                            <components:NumericUpDown
+                                Maximum="{x:Static dialogs:InternalMessageColorPicker.COLOR_CHANNEL_MAXIMUM}"
+                                Value="{Binding Green, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+
+                            <TextBlock
+                                Text="Niebieski"
+                                VerticalAlignment="Center"/>
+
+                            <components:NumericUpDown
+                                Maximum="{x:Static dialogs:InternalMessageColorPicker.COLOR_CHANNEL_MAXIMUM}"
+                                Value="{Binding Blue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Column="1"
+                            Spacing="6">
+
+                            <TextBlock
+                                Text="Odcień/Barwa"
+                                VerticalAlignment="Center"/>
+                            
+                            <components:NumericUpDown
+                                Maximum="{x:Static dialogs:InternalMessageColorPicker.HUE_MAXIMUM}"
+                                Suffix="°"
+                                Value="{Binding Hue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+
+                            <TextBlock
+                                Text="Nasycenie"
+                                VerticalAlignment="Center"/>
+                            
+                            <components:NumericUpDown
+                                Maximum="{x:Static dialogs:InternalMessageColorPicker.HSL_PERCENTAGE_MAXIMUM}"
+                                Suffix="%"
+                                Value="{Binding Saturation, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+
+                            <TextBlock
+                                Text="Jasność"
+                                VerticalAlignment="Center"/>
+
+                            <components:NumericUpDown
+                                Maximum="{x:Static dialogs:InternalMessageColorPicker.HSL_PERCENTAGE_MAXIMUM}"
+                                Suffix="%"
+                                Value="{Binding Lightness, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+
+                            <TextBlock
+                                Text="Hex"
+                                VerticalAlignment="Center"/>
+                            
+                            <TextBox
+                                MaxLength="9"
+                                MinWidth="100"
+                                Theme="{StaticResource HexTextBoxTheme}"
+                                Text="{Binding HexCode, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <!-- FOOTER -->
+                <Border
+                    Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Grid.Row="2"
+                    Padding="12">
+
+                    <Grid ColumnDefinitions="*,Auto,*">
+                        <Border
+                            Background="{TemplateBinding PreviewBrush}"
+                            BorderBrush="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            Height="40"
+                            HorizontalAlignment="Left"
+                            ToolTip.Tip="{TemplateBinding HexCode}"
+                            Width="72"/>
+
+                        <StackPanel
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="8">
+
+                            <Button
+                                x:Name="PART_OkButton"
+                                Content="OK"
+                                Theme="{StaticResource InternalMessage.ButtonTheme}"/>
+
+                            <Button
+                                x:Name="PART_CancelButton"
+                                Content="Anuluj"
+                                Theme="{StaticResource InternalMessage.ButtonTheme}"/>
+                            
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="{x:Type dialogs:InternalMessageColorPicker}" TargetType="dialogs:InternalMessageColorPicker">
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template" Value="{StaticResource InternalMessageColorPickerTemplate}"/>
+    </ControlTheme>
+</ResourceDictionary>

@@ -1,0 +1,372 @@
+<views:InternalViewBase
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:local="using:VisualPlayer.Views"
+    xmlns:lucide="using:Lucide.Avalonia"
+    xmlns:viewModels="using:VisualPlayer.ViewModels.Lyrics"
+    xmlns:views="using:VisualPlayer.Views.Base"
+    x:Class="VisualPlayer.Views.InternalViewLyricsEditor"
+    x:DataType="local:InternalViewLyricsEditor"
+    x:Name="Root">
+
+    <views:InternalViewBase.Resources>
+        <converters:LyricsTypeToTitleConverter x:Key="LyricsTypeToTitleConverter"/>
+        <converters:PlayingToIconConverter x:Key="PlayingToIconConverter"/>
+
+        <!-- BUTTON THEME -->
+        <ControlTheme
+            x:Key="LyricsPlayerSeekButtonTheme"
+            TargetType="components:ButtonWithIcon"
+            BasedOn="{StaticResource AccentButtonWithIconTheme}">
+
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="MinWidth" Value="58"/>
+        </ControlTheme>
+
+        <!-- LYRICS LIST THEMES -->
+        <ControlTheme x:Key="LyricsListBoxItemTheme" BasedOn="{StaticResource ListBoxItemTheme}" TargetType="ListBoxItem">
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="Padding" Value="4"/>
+        </ControlTheme>
+
+        <ControlTheme x:Key="LyricsListBoxTheme" BasedOn="{StaticResource ListBoxTheme}" TargetType="ListBox">
+            <Setter Property="ItemContainerTheme" Value="{StaticResource LyricsListBoxItemTheme}"/>
+            <Setter Property="Padding" Value="2"/>
+        </ControlTheme>
+
+        <!-- LYRICS TYPE DATA TEMPLATE -->
+        <DataTemplate x:Key="LyricsTypeDataTemplate">
+            <TextBlock
+                Text="{Binding Converter={StaticResource LyricsTypeToTitleConverter}}"/>
+        </DataTemplate>
+
+        <!-- LYRICS LINE DATA TEMPLATE -->
+        <DataTemplate x:Key="LyricsLineDataTemplate" x:DataType="viewModels:LyricsLine">
+            <Grid
+                ColumnDefinitions="110,*,Auto"
+                ColumnSpacing="4"
+                RowDefinitions="Auto,Auto">
+
+                <!-- Time -->
+                <TextBox
+                    Classes.timeError="{Binding HasTimeError}"
+                    PlaceholderText="mm:ss.ff"
+                    Text="{Binding TimeCode, Mode=TwoWay}"
+                    Theme="{StaticResource TextBoxTheme}"
+                    ToolTip.Tip="{Binding TimeError}"
+                    VerticalContentAlignment="Center" />
+
+                <!-- Error? -->
+                <TextBlock
+                    FontSize="11"
+                    Foreground="IndianRed"
+                    Grid.Row="1"
+                    IsVisible="{Binding HasTimeError}"
+                    Text="{Binding TimeError}"
+                    TextWrapping="Wrap"/>
+
+                <!-- Text -->
+                <TextBox
+                    Grid.Column="1"
+                    PlaceholderText="Tekst linii"
+                    Text="{Binding Text, Mode=TwoWay}"
+                    Theme="{StaticResource TextBoxTheme}"
+                    VerticalContentAlignment="Center" />
+
+                <!-- Options Button -->
+                <components:ButtonWithIcon
+                    Click="OptionsButton_Click"
+                    Grid.Column="2"
+                    Height="36"
+                    Kind="Ellipsis"
+                    Theme="{StaticResource ThemeButtonWithIconTheme}"
+                    Width="36">
+
+                    <components:ButtonWithIcon.ContextMenu>
+                        <ContextMenu
+                            Placement="BottomEdgeAlignedRight"
+                            Theme="{StaticResource ContextMenuTheme}">
+
+                            <MenuItem
+                                Click="CopyAtCurrentTimeMenuItem_Click"
+                                Header="Kopiuj do obecnego czasu">
+
+                                <MenuItem.Icon>
+                                    <lucide:LucideIcon
+                                        Kind="Copy"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem
+                                Click="SetCurrentTimeMenuItem_Click"
+                                Header="Ustaw czas pozycji odtwarzania">
+
+                                <MenuItem.Icon>
+                                    <lucide:LucideIcon
+                                        Kind="Clock"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <Separator/>
+
+                            <MenuItem
+                                Click="DeleteLineMenuItem_Click"
+                                Header="Usuń">
+
+                                <MenuItem.Icon>
+                                    <lucide:LucideIcon
+                                        Kind="Trash"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </components:ButtonWithIcon.ContextMenu>
+                </components:ButtonWithIcon>
+            </Grid>
+        </DataTemplate>
+
+    </views:InternalViewBase.Resources>
+
+    <views:InternalViewBase.Styles>
+        <Style Selector="TextBox.timeError">
+            <Setter Property="BorderBrush" Value="IndianRed"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+    </views:InternalViewBase.Styles>
+
+    <!-- MAIN VIEW -->
+
+    <Grid
+        RowDefinitions="Auto,*,Auto,Auto"
+        RowSpacing="10">
+
+        <!-- HEADER -->
+        <Grid
+            ColumnDefinitions="*,220,Auto,Auto,Auto"
+            ColumnSpacing="8">
+
+            <TextBox
+                Height="40"
+                PlaceholderText="Nazwa tekstu"
+                Text="{Binding Document.Name, ElementName=Root, Mode=TwoWay}"
+                Theme="{StaticResource TextBoxTheme}"
+                VerticalContentAlignment="Center"/>
+
+            <ComboBox
+                Grid.Column="1"
+                Height="40"
+                ItemTemplate="{StaticResource LyricsTypeDataTemplate}"
+                ItemsSource="{Binding LyricsTypes, ElementName=Root}"
+                SelectedItem="{Binding Document.Type, ElementName=Root, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}"/>
+
+            <components:ButtonWithIcon
+                Click="UndoButton_Click"
+                Grid.Column="2"
+                IsEnabled="{Binding CanUndo, ElementName=Root}"
+                Kind="Undo2"
+                Theme="{StaticResource ThemeButtonWithIconTheme}"
+                ToolTip.Tip="Cofnij"
+                Width="40"/>
+
+            <components:ButtonWithIcon
+                Click="RedoButton_Click"
+                Grid.Column="3"
+                IsEnabled="{Binding CanRedo, ElementName=Root}"
+                Kind="Redo2"
+                Theme="{StaticResource ThemeButtonWithIconTheme}"
+                ToolTip.Tip="Ponów"
+                Width="40"/>
+
+            <components:ButtonWithIcon
+                Click="SaveButton_Click"
+                Content="Zapisz"
+                Grid.Column="4"
+                Height="40"
+                IsEnabled="{Binding CanSave, ElementName=Root}"
+                Kind="Save"
+                Theme="{StaticResource AccentButtonWithIconTheme}"/>
+        </Grid>
+
+        <!-- LYRICS LIST -->
+        <ListBox
+            Grid.Row="1"
+            ItemTemplate="{StaticResource LyricsLineDataTemplate}"
+            ItemsSource="{Binding Document.Lines, ElementName=Root}"
+            Theme="{StaticResource LyricsListBoxTheme}"/>
+
+        <!-- BOTTOM TOOLBAR -->
+        <Grid
+            Grid.Row="2"
+            ColumnDefinitions="Auto,Auto,*,Auto,Auto"
+            ColumnSpacing="8">
+
+            <TextBlock
+                Grid.Column="0"
+                Text="Tempo"
+                VerticalAlignment="Center"/>
+
+            <ComboBox
+                Grid.Column="1"
+                ItemsSource="{Binding PlaybackSpeeds, ElementName=Root}"
+                SelectedItem="{Binding PlaybackSpeed, ElementName=Root, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}"
+                VerticalAlignment="Stretch"
+                VerticalContentAlignment="Center"
+                Width="100">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding StringFormat={}{0:0.##}×}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBox
+                x:Name="PART_PositionTextBox"
+                Grid.Column="3"
+                GotFocus="PositionTextBox_GotFocus"
+                KeyDown="PositionTextBox_KeyDown"
+                LostFocus="PositionTextBox_LostFocus"
+                Text="{Binding PositionText, ElementName=Root, Mode=TwoWay}"
+                TextAlignment="Center"
+                Theme="{StaticResource TextBoxTheme}"
+                ToolTip.Tip="Wpisz czas w formacie mm:ss.ff"
+                VerticalContentAlignment="Center"
+                Width="110"/>
+
+            <components:ButtonWithIcon
+                Click="AddLineButton_Click"
+                Content="Dodaj tekst"
+                Grid.Column="4"
+                Kind="Plus"
+                Theme="{StaticResource ThemeButtonWithIconTheme}"/>
+        </Grid>
+
+        <!-- CONTROLS -->
+        <Border
+            Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            BorderBrush="{x:Null}"
+            BorderThickness="0"
+            CornerRadius="8"
+            Grid.Row="3"
+            Padding="0,0,8,0">
+
+            <Grid
+                RowDefinitions="Auto,Auto"
+                RowSpacing="8">
+
+                <Slider
+                    x:Name="PART_PositionSlider"
+                    Maximum="{ReflectionBinding PlayerDataContext.PositionMaximum, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Minimum="0"
+                    Theme="{StaticResource PlayerPositionSliderTheme}"
+                    ValueChanged="PositionSlider_ValueChanged"
+                    Value="{ReflectionBinding PlayerDataContext.Position, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+
+                <StackPanel
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    Margin="8,0,8,0"
+                    Orientation="Horizontal"
+                    Spacing="6">
+
+                    <components:ButtonWithIcon
+                        Click="ReturnToPlaybackAnchorButton_Click"
+                        IsEnabled="{Binding IsPlaybackAnchorLocked, ElementName=Root}"
+                        Kind="RotateCcw"
+                        Theme="{StaticResource PlayerControlIconButtonTheme}"
+                        ToolTip.Tip="Wróć do zapamiętanego punktu"/>
+
+                    <components:ButtonWithIcon
+                        Click="SetPlaybackAnchorButton_Click"
+                        Kind="Lock"
+                        Theme="{StaticResource PlayerControlIconButtonTheme}"
+                        ToolTip.Tip="Ustaw punkt wznowienia"/>
+
+                    <components:ButtonWithIcon
+                        Click="RemovePlaybackAnchorButton_Click"
+                        IsEnabled="{Binding IsPlaybackAnchorLocked, ElementName=Root}"
+                        Kind="LockOpen"
+                        Theme="{StaticResource PlayerControlIconButtonTheme}"
+                        ToolTip.Tip="Usuń punkt wznowienia"/>
+
+                    <Border
+                        Background="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        Height="28"
+                        Margin="6,0"
+                        Opacity="0.25"
+                        VerticalAlignment="Center"
+                        Width="1"/>
+
+                    <components:ButtonWithIcon
+                        Click="SeekButton_Click"
+                        Content="{ReflectionBinding Config.Lyrics.SeekLongInterval, Source={x:Static contexts:ApplicationContext.Instance}, StringFormat={}{0:0.#} s}"
+                        Kind="SkipBack"
+                        Tag="-Long"
+                        Theme="{StaticResource LyricsPlayerSeekButtonTheme}"/>
+
+                    <components:ButtonWithIcon
+                        Click="SeekButton_Click"
+                        Content="{ReflectionBinding Config.Lyrics.SeekMediumInterval, Source={x:Static contexts:ApplicationContext.Instance}, StringFormat={}{0:0.#} s}"
+                        Kind="Rewind"
+                        Tag="-Medium"
+                        Theme="{StaticResource LyricsPlayerSeekButtonTheme}"/>
+
+                    <components:ButtonWithIcon
+                        Click="SeekButton_Click"
+                        Content="{ReflectionBinding Config.Lyrics.SeekShortInterval, Source={x:Static contexts:ApplicationContext.Instance}, StringFormat={}{0:0.#} s}"
+                        Kind="StepBack"
+                        Tag="-Short"
+                        Theme="{StaticResource LyricsPlayerSeekButtonTheme}"/>
+
+                    <components:ButtonWithIcon
+                        Click="SeekButton_Click"
+                        Content="{ReflectionBinding Config.Lyrics.SeekShortInterval, Source={x:Static contexts:ApplicationContext.Instance}, StringFormat={}{0:0.#} s}"
+                        Kind="StepForward"
+                        Tag="+Short"
+                        Theme="{StaticResource LyricsPlayerSeekButtonTheme}"/>
+
+                    <components:ButtonWithIcon
+                        Click="SeekButton_Click"
+                        Content="{ReflectionBinding Config.Lyrics.SeekMediumInterval, Source={x:Static contexts:ApplicationContext.Instance}, StringFormat={}{0:0.#} s}"
+                        Kind="FastForward"
+                        Tag="+Medium"
+                        Theme="{StaticResource LyricsPlayerSeekButtonTheme}"/>
+
+                    <components:ButtonWithIcon
+                        Click="SeekButton_Click"
+                        Content="{ReflectionBinding Config.Lyrics.SeekLongInterval, Source={x:Static contexts:ApplicationContext.Instance}, StringFormat={}{0:0.#} s}"
+                        Kind="SkipForward"
+                        Tag="+Long"
+                        Theme="{StaticResource LyricsPlayerSeekButtonTheme}"/>
+
+                    <Border
+                        Background="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        Height="28"
+                        Margin="6,0"
+                        Opacity="0.25"
+                        VerticalAlignment="Center"
+                        Width="1"/>
+
+                    <components:ButtonWithIcon
+                        Click="PlayPauseButton_Click"
+                        Kind="{ReflectionBinding PlayerDataContext.IsPlaying, Source={x:Static contexts:ApplicationContext.Instance}, Converter={StaticResource PlayingToIconConverter}, Mode=OneWay}"
+                        Theme="{StaticResource PlayerControlIconButtonTheme}"
+                        ToolTip.Tip="Odtwórz/Pauza"/>
+
+                    <components:ButtonWithIcon
+                        Click="StopButton_Click"
+                        Kind="Square"
+                        Theme="{StaticResource PlayerControlIconButtonTheme}"
+                        ToolTip.Tip="Stop"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</views:InternalViewBase>

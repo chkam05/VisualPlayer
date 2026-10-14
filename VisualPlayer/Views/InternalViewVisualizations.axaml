@@ -1,0 +1,203 @@
+<views:InternalViewBase
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:local="using:VisualPlayer.Views"
+    xmlns:visualizationConfig="using:VisualPlayer.Visualizations.Config.Base"
+    xmlns:views="using:VisualPlayer.Views.Base"
+    x:Class="VisualPlayer.Views.InternalViewVisualizations"
+    x:DataType="local:InternalViewVisualizations"
+    x:Name="Root">
+
+    <views:InternalViewBase.Resources>
+        <converters:VisualizationTypeToTitleConverter x:Key="VisualizationTypeToTitleConverter"/>
+    </views:InternalViewBase.Resources>
+
+    <Grid
+        ColumnDefinitions="Auto,*"
+        ColumnSpacing="16"
+        MinHeight="0">
+
+        <!-- PROFILES -->
+        <Border
+            Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            CornerRadius="8"
+            Padding="8">
+
+            <Grid
+                RowDefinitions="Auto,Auto,*,Auto,Auto"
+                RowSpacing="4">
+
+                <!-- Search & Sort -->
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    ColumnSpacing="4"
+                    Grid.Row="0">
+
+                    <TextBox
+                        PlaceholderText="Szukaj profilu"
+                        Text="{Binding SearchText, ElementName=Root, Mode=TwoWay}"
+                        Theme="{StaticResource SidePanel.TextBoxTheme}"/>
+
+                    <components:ButtonWithIcon
+                        x:Name="PART_SortButton"
+                        Click="SortButton_Click"
+                        Content="Sortuj"
+                        Grid.Column="1"
+                        Kind="ArrowUpDown"
+                        Theme="{StaticResource SidePanel.ActionButtonWithIconTheme}">
+
+                        <components:ButtonWithIcon.ContextMenu>
+                            <ContextMenu Theme="{StaticResource {x:Type ContextMenu}}">
+                                <MenuItem
+                                    Click="SortAscendingMenuItem_Click"
+                                    Header="Nazwa rosnąco">
+                                
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ArrowDownAZ"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+
+                                </MenuItem>
+
+                                <MenuItem
+                                    Click="SortDescendingMenuItem_Click"
+                                    Header="Nazwa malejąco">
+                                
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ArrowUpAZ"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                
+                                </MenuItem>
+                            </ContextMenu>
+                        </components:ButtonWithIcon.ContextMenu>
+                    </components:ButtonWithIcon>
+                </Grid>
+
+                <Border
+                    Grid.Row="1"
+                    Theme="{StaticResource SeparatorHorizontal.BorderTheme}"/>
+
+                <!-- Profiles list -->
+                <ListBox
+                    x:Name="PART_NavigationList"
+                    Grid.Row="2"
+                    ItemsSource="{Binding VisibleProfiles, ElementName=Root}"
+                    SelectedItem="{Binding SelectedProfile, ElementName=Root, Mode=TwoWay}"
+                    Theme="{StaticResource SidePanelContent.ListBoxTheme}">
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="visualizationConfig:VisualisationProfile">
+                            <Grid
+                                ColumnDefinitions="*,Auto"
+                                ColumnSpacing="8"
+                                Margin="0"
+                                ToolTip.Tip="{Binding Name}">
+
+                                <TextBlock
+                                    Text="{Binding Name}"
+                                    TextTrimming="CharacterEllipsis"
+                                    VerticalAlignment="Center"/>
+
+                                <components:ButtonWithIcon
+                                    Click="DeleteProfileButton_Click"
+                                    Grid.Column="1"
+                                    Height="30"
+                                    IsVisible="{Binding CanDelete}"
+                                    Kind="Trash"
+                                    Theme="{StaticResource ThemeButtonWithIconTheme}"
+                                    ToolTip.Tip="Usuń profil"
+                                    Width="30"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Border
+                    Grid.Row="3"
+                    Theme="{StaticResource SeparatorHorizontal.BorderTheme}"/>
+
+                <!-- Name & Save -->
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    ColumnSpacing="4"
+                    Grid.Row="4">
+
+                    <TextBox
+                        Text="{Binding ProfileName, ElementName=Root, Mode=TwoWay}"
+                        Theme="{StaticResource SidePanel.TextBoxTheme}"
+                        PlaceholderText="Nazwa profilu"/>
+
+                    <components:ButtonWithIcon
+                        Click="SaveProfileButton_Click"
+                        Content="Zapisz"
+                        Grid.Column="1"
+                        IsEnabled="{Binding CanSaveProfile, ElementName=Root}"
+                        Kind="Save"
+                        Theme="{StaticResource SidePanel.ActionButtonWithIconTheme}"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- VISUALIZATION SETTINGS -->
+        <Border
+            Background="{x:Null}"
+            ClipToBounds="True"
+            CornerRadius="8"
+            Grid.Column="1" MinHeight="0">
+
+            <ScrollViewer
+                HorizontalScrollBarVisibility="Disabled"
+                Margin="0,0,-12,0"
+                Padding="0,0,12,0"
+                VerticalScrollBarVisibility="Auto">
+
+                <StackPanel
+                    Spacing="6">
+
+                    <!-- Visualisation type -->
+                    <controls:SettingsControl
+                        Description="Określa rodzaj wizualizacji używany przez wybrany profil."
+                        Icon="AudioLines"
+                        Title="Rodzaj wizualizacji">
+
+                        <ComboBox
+                            IsEnabled="{Binding SelectedProfile.CanChangeVisualizationType, ElementName=Root}"
+                            ItemsSource="{Binding VisualizationTypes, ElementName=Root}"
+                            SelectedItem="{Binding SelectedProfile.VisualizationType, ElementName=Root, Mode=TwoWay}"
+                            Theme="{StaticResource ComboBoxTheme}">
+
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                    Text="{Binding Converter={StaticResource VisualizationTypeToTitleConverter}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </controls:SettingsControl>
+                    
+                    <!-- Dedicated Visualization Settings -->
+                    <ContentControl
+                        x:Name="PART_ConfigHost"
+                        HorizontalContentAlignment="Stretch"/>
+                    
+                    <!-- Fill Screen -->
+                    <controls:SettingsControl
+                        Description="Renderuje wizualizację również pod panelami interfejsu."
+                        Icon="Maximize"
+                        Title="Wypełnij ekran">
+
+                        <components:Switch
+                            IsChecked="{ReflectionBinding VisualizationConfig.Global.FillScreen, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                    </controls:SettingsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</views:InternalViewBase>

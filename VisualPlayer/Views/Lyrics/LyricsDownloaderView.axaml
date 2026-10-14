@@ -1,0 +1,102 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:local="using:VisualPlayer.Views.Lyrics"
+    xmlns:viewModels="using:VisualPlayer.ViewModels.Lyrics"
+    x:Class="VisualPlayer.Views.Lyrics.LyricsDownloaderView"
+    x:DataType="local:LyricsDownloaderView"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:LyricsTypeToTitleConverter x:Key="LyricsTypeToTitleConverter"/>
+
+        <!-- LYRICS LIST THEMES -->
+        <ControlTheme x:Key="LyricsListBoxItemTheme" BasedOn="{StaticResource ListBoxItemTheme}" TargetType="ListBoxItem">
+            <Setter Property="Margin" Value="0,4"/>
+            <Setter Property="Padding" Value="4"/>
+        </ControlTheme>
+
+        <ControlTheme x:Key="LyricsListBoxTheme" BasedOn="{StaticResource ListBoxTheme}" TargetType="ListBox">
+            <Setter Property="ItemContainerTheme" Value="{StaticResource LyricsListBoxItemTheme}"/>
+            <Setter Property="Padding" Value="8,4"/>
+        </ControlTheme>
+
+        <!-- LYRICS ITEM DATA TEMPLATE -->
+        <DataTemplate x:Key="LyricsSearchResultDataTemplate" x:DataType="viewModels:LyricsSearchResultViewModel">
+            <Grid
+                ColumnDefinitions="*,180,90,Auto"
+                ColumnSpacing="8">
+                
+                <TextBlock
+                    Text="{Binding Name}"
+                    TextTrimming="CharacterEllipsis"
+                    VerticalAlignment="Center"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="{Binding Artist}"
+                    TextTrimming="CharacterEllipsis"
+                    VerticalAlignment="Center"/>
+
+                <TextBlock
+                    Grid.Column="2"
+                    Text="{Binding Type, Converter={StaticResource LyricsTypeToTitleConverter}}"
+                    VerticalAlignment="Center"/>
+
+                <components:ButtonWithIcon
+                    Click="DownloadButton_Click"
+                    Content="Pobierz"
+                    Grid.Column="3"
+                    Kind="Download"
+                    Theme="{StaticResource ThemeButtonWithIconTheme}"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid
+        RowDefinitions="Auto,Auto,*"
+        RowSpacing="8">
+
+        <!-- HEADER -->
+        <Grid
+            ColumnDefinitions="*,Auto,Auto"
+            ColumnSpacing="8">
+
+            <TextBox
+                Text="{Binding SearchPhrase, ElementName=Root, Mode=TwoWay}"
+                Theme="{StaticResource TextBoxTheme}"
+                PlaceholderText="Tytuł lub wykonawca"
+                VerticalContentAlignment="Center" />
+
+            <components:ButtonWithIcon
+                Click="SearchButton_Click"
+                Content="Szukaj"
+                Grid.Column="1"
+                Kind="Search"
+                Theme="{StaticResource AccentButtonWithIconTheme}"/>
+
+            <components:ButtonWithIcon
+                Click="SearchCurrentTrackButton_Click"
+                Content="Obecne nagranie"
+                Grid.Column="2"
+                Kind="AudioLines"
+                Theme="{StaticResource ThemeButtonWithIconTheme}"/>
+        </Grid>
+
+        <!-- STATUS -->
+        <TextBlock
+            Grid.Row="1"
+            Opacity="0.65"
+            Text="{Binding Status, ElementName=Root}"
+            TextWrapping="Wrap"/>
+
+        <!-- LYRICS LIST -->
+        <ListBox
+            Grid.Row="2"
+            ItemTemplate="{StaticResource LyricsSearchResultDataTemplate}"
+            ItemsSource="{Binding Results, ElementName=Root}"
+            Theme="{StaticResource LyricsListBoxTheme}"/>
+    </Grid>
+</UserControl>

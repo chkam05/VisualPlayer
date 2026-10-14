@@ -1,0 +1,712 @@
+<views:InternalViewBase
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:local="using:VisualPlayer.Views"
+    xmlns:models="using:VisualPlayer.Models.Player"
+    xmlns:viewModels="using:VisualPlayer.ViewModels"
+    xmlns:views="using:VisualPlayer.Views.Base"
+    x:Class="VisualPlayer.Views.InternalViewPlayListManager"
+    x:DataType="local:InternalViewPlayListManager"
+    x:Name="Root">
+
+    <views:InternalViewBase.Resources>
+
+        <!-- DATA TEMPLATE - PlayListItem -->
+        <DataTemplate x:Key="SavedPlayListDataTemplate" x:DataType="viewModels:SavedPlayListViewModel">
+            <Grid
+                ColumnDefinitions="Auto,*,Auto"
+                ColumnSpacing="8">
+
+                <LucideIcon
+                    Kind="ListMusic"
+                    Size="24"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="{Binding Name}"
+                    TextTrimming="CharacterEllipsis"
+                    VerticalAlignment="Center"/>
+
+                <components:ButtonWithIcon
+                    Click="PlayListMoreButton_Click"
+                    CornerRadius="16"
+                    Grid.Column="2"
+                    Height="30"
+                    Kind="Ellipsis"
+                    Theme="{StaticResource ThemeButtonWithIconTheme}"
+                    Width="30">
+
+                    <components:ButtonWithIcon.ContextMenu>
+                        <ContextMenu
+                            Theme="{StaticResource ContextMenuTheme}">
+
+                            <MenuItem
+                                Click="PlaySavedPlayList_Click"
+                                Header="Odtwórz"
+                                Tag="Play">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="Play"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem
+                                Click="AppendSavedPlayList_Click"
+                                Header="Dodaj do aktualnie odtwarzanej listy"
+                                Tag="Append">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="ListPlus"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <Separator/>
+
+                            <MenuItem
+                                Click="DuplicatePlayList_Click"
+                                Header="Duplikuj"
+                                Tag="Duplicate">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="Copy"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem
+                                Click="ExportSavedPlayList_Click"
+                                Header="Eksportuj do pliku"
+                                Tag="Export">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="FileOutput"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <Separator/>
+
+                            <MenuItem
+                                Click="DeletePlayList_Click"
+                                Header="Usuń"
+                                Tag="Delete">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="Trash"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </components:ButtonWithIcon.ContextMenu>
+                </components:ButtonWithIcon>
+            </Grid>
+        </DataTemplate>
+
+        <!-- DATA TEMPLATE - TrackItem -->
+        <DataTemplate x:Key="TrackDataTemplate" x:DataType="viewModels:TrackViewModel">
+            <Grid
+                ColumnDefinitions="Auto,Auto,48,*,Auto,Auto"
+                ColumnSpacing="10"
+                DoubleTapped="TrackItem_DoubleTapped"
+                PointerPressed="TrackItem_PointerPressed">
+
+                <Border
+                    x:Name="PART_DropBefore"
+                    Background="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Grid.ColumnSpan="6"
+                    Height="2"
+                    IsHitTestVisible="False"
+                    IsVisible="False"
+                    Margin="0,-7,0,0"
+                    VerticalAlignment="Top"/>
+
+                <Border
+                    x:Name="PART_DropAfter"
+                    Background="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Grid.ColumnSpan="6"
+                    Height="2"
+                    IsHitTestVisible="False"
+                    IsVisible="False"
+                    Margin="0,0,0,-7"
+                    VerticalAlignment="Bottom"/>
+
+                <!-- REORDER HANDLER -->
+                <Border
+                    x:Name="PART_ReorderHandle"
+                    Background="Transparent"
+                    Cursor="Hand"
+                    Grid.Column="1"
+                    IsVisible="{Binding !IsSelectionMode, ElementName=Root}"
+                    PointerPressed="ReorderHandle_PointerPressed"
+                    VerticalAlignment="Stretch"
+                    Width="18">
+
+                    <LucideIcon
+                        HorizontalAlignment="Center"
+                        IsHitTestVisible="False"
+                        Kind="GripVertical"
+                        Opacity="0.55"
+                        Size="18"
+                        VerticalAlignment="Center"/>
+                </Border>
+
+                <!-- CHECKBOX -->
+                <CheckBox
+                    Grid.Column="1"
+                    IsChecked="{Binding $parent[ListBoxItem].IsSelected}"
+                    IsVisible="{Binding IsSelectionMode, ElementName=Root}"
+                    VerticalAlignment="Center"/>
+                
+                <!-- COVER -->
+                <Border
+                    Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    ClipToBounds="True"
+                    CornerRadius="5"
+                    Grid.Column="2"
+                    Height="48"
+                    Width="48">
+
+                    <Grid>
+
+                        <!-- Icon fallback -->
+                        <LucideIcon
+                            Foreground="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            HorizontalAlignment="Center"
+                            Kind="Music"
+                            Opacity="0.35"
+                            Size="20"
+                            VerticalAlignment="Center"/>
+
+                        <!-- Cover -->
+                        <Image
+                            Source="{Binding Cover}"
+                            Stretch="UniformToFill"/>
+
+                        <!-- Currently playing overlay -->
+                        <Border
+                            Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            IsVisible="{Binding IsCurrentPlaying}">
+
+                            <LucideIcon
+                                Foreground="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                                HorizontalAlignment="Center"
+                                Kind="Play"
+                                Size="20"
+                                VerticalAlignment="Center"/>
+
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- TITLE / ALBUM / ARTIST -->
+                <StackPanel
+                    Grid.Column="3"
+                    ClipToBounds="True"
+                    Spacing="3"
+                    VerticalAlignment="Center">
+
+                    <!-- Title -->
+                    <TextBlock
+                        FontSize="14"
+                        FontWeight="SemiBold"
+                        Text="{Binding Title}"
+                        TextTrimming="CharacterEllipsis"/>
+
+                    <Grid
+                        ColumnDefinitions="*,Auto,*"
+                        ColumnSpacing="4"
+                        HorizontalAlignment="Left">
+
+                        <!-- Album -->
+                        <TextBlock
+                            FontSize="12"
+                            Opacity="0.65"
+                            Text="{Binding Album}"
+                            TextTrimming="CharacterEllipsis"/>
+
+                        <TextBlock
+                            FontSize="12"
+                            Grid.Column="1"
+                            Opacity="0.4"
+                            Text="/"/>
+
+                        <!-- Artist -->
+                        <TextBlock
+                            FontSize="12"
+                            Grid.Column="2"
+                            Opacity="0.65"
+                            Text="{Binding Artist}"
+                            TextTrimming="CharacterEllipsis"/>
+
+                    </Grid>
+                </StackPanel>
+
+                <!-- DURATION -->
+                <TextBlock
+                    FontSize="12"
+                    Grid.Column="4"
+                    Margin="10,0"
+                    Opacity="0.7"
+                    Text="{Binding DurationText}"
+                    VerticalAlignment="Center"/>
+                
+                <!-- OPTIONS -->
+                <components:ButtonWithIcon
+                    x:Name="PART_OptionsButton"
+                    CornerRadius="16"
+                    Click="TrackMoreButton_Click"
+                    Grid.Column="5"
+                    Height="32"
+                    Kind="Ellipsis"
+                    Theme="{StaticResource ThemeButtonWithIconTheme}"
+                    ToolTip.Tip="Opcje"
+                    VerticalAlignment="Center"
+                    Width="32">
+
+                    <components:ButtonWithIcon.ContextMenu>
+                        <ContextMenu
+                            Theme="{StaticResource ContextMenuTheme}">
+
+                            <MenuItem
+                                Click="AddTrackTo_Click"
+                                Header="Dodaj do…"
+                                Tag="AddTo">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="ListPlus"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <Separator/>
+
+                            <MenuItem
+                                Click="MoveTrack_Click"
+                                Header="Przenieś na górę"
+                                Tag="Top">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="ChevronsUp"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem
+                                Click="MoveTrack_Click"
+                                Header="Przenieś na dół"
+                                Tag="Bottom">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="ChevronsDown"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem
+                                Click="MoveTrack_Click"
+                                Header="Przesuń wyżej"
+                                Tag="Up">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="ArrowUp"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem
+                                Click="MoveTrack_Click"
+                                Header="Przesuń niżej"
+                                Tag="Down">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="ArrowDown"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <Separator/>
+
+                            <MenuItem
+                                Click="RemoveTrack_Click"
+                                Header="Usuń"
+                                Tag="Remove">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="Trash"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </components:ButtonWithIcon.ContextMenu>
+                </components:ButtonWithIcon>
+            </Grid>
+        </DataTemplate>
+
+    </views:InternalViewBase.Resources>
+
+    <Grid
+        ColumnDefinitions="Auto,*"
+        ColumnSpacing="16"
+        MinHeight="0">
+
+        <!-- PLAYLISTS -->
+        <Border
+            Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            CornerRadius="8"
+            Padding="8">
+
+            <Grid
+                RowDefinitions="Auto,Auto,*,Auto,Auto"
+                RowSpacing="4">
+
+                <!-- SEARCH AND SORT -->
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    ColumnSpacing="4">
+
+                    <!-- Search -->
+                    <TextBox
+                        PlaceholderText="Szukaj playlisty"
+                        Text="{Binding PlayListSearch, ElementName=Root, Mode=TwoWay}"
+                        Theme="{StaticResource SidePanel.TextBoxTheme}"/>
+
+                    <!-- Sort -->
+                    <components:ButtonWithIcon
+                        Click="SortPlayListsButton_Click"
+                        Content="Sortuj"
+                        Grid.Column="1"
+                        Kind="ArrowUpDown"
+                        Theme="{StaticResource SidePanel.ActionButtonWithIconTheme}">
+
+                        <components:ButtonWithIcon.ContextMenu>
+                            <ContextMenu
+                                Theme="{StaticResource ContextMenuTheme}">
+
+                                <MenuItem
+                                    Click="SortPlayListsAscending_Click"
+                                    Header="Nazwa rosnąco">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ArrowUp"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Click="SortPlayListsDescending_Click"
+                                    Header="Nazwa malejąco">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ArrowDown"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </components:ButtonWithIcon.ContextMenu>
+                    </components:ButtonWithIcon>
+                </Grid>
+
+                <Border
+                    Grid.Row="1"
+                    Theme="{StaticResource SeparatorHorizontal.BorderTheme}"/>
+
+                <!-- PLAYLISTS LIST -->
+                <Grid
+                    Grid.Row="2"
+                    RowDefinitions="Auto,Auto,*">
+
+                    <components:ButtonWithIcon
+                        Click="NowPlayingButton_Click"
+                        Content="Teraz Odtwarzane"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        Kind="ListVideo"
+                        Theme="{StaticResource NowPlaying.ButtonWithIconTheme}"/>
+
+                    <Border
+                        Grid.Row="1"
+                        Theme="{StaticResource SeparatorHorizontal.BorderTheme}"/>
+
+                    <ListBox
+                        x:Name="PART_PlayLists"
+                        Grid.Row="2"
+                        ItemTemplate="{StaticResource SavedPlayListDataTemplate}"
+                        ItemsSource="{Binding VisiblePlayLists, ElementName=Root}"
+                        SelectionChanged="PlayLists_SelectionChanged"
+                        Theme="{StaticResource SidePanelContent.ListBoxTheme}"/>
+                </Grid>
+
+                <Border
+                    Grid.Row="3"
+                    Theme="{StaticResource SeparatorHorizontal.BorderTheme}"/>
+
+                <!-- CREATE PLAYLIST -->
+                <Grid Grid.Row="4">
+                    <components:ButtonWithIcon
+                        Click="NewPlayListButton_Click"
+                        Content="Nowa playlista"
+                        HorizontalAlignment="Stretch"
+                        Kind="Plus"
+                        Theme="{StaticResource SidePanel.ActionButtonWithIconTheme}"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- TRACKS -->
+        <Grid
+            Grid.Column="1"
+            RowDefinitions="Auto,*"
+            RowSpacing="8">
+
+            <!-- TOOLBAR -->
+            <ScrollViewer
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Disabled">
+
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="6">
+
+                    <components:ButtonWithIcon
+                        Click="SavePlayListButton_Click"
+                        Kind="Save"
+                        Theme="{StaticResource AccentButtonWithIconTheme}"
+                        ToolTip.Tip="Zapisz playlistę"/>
+
+                    <Border Theme="{StaticResource SeparatorVertical.BorderTheme}"/>
+
+                    <components:ButtonWithIcon
+                        Click="PlaySelectedPlayList_Click"
+                        Kind="Play"
+                        Theme="{StaticResource AccentButtonWithIconTheme}"
+                        ToolTip.Tip="Odtwórz playlistę" />
+
+                    <components:ButtonWithIcon
+                        Click="AppendSelectedPlayList_Click"
+                        Kind="ListPlus"
+                        Theme="{StaticResource ThemeButtonWithIconTheme}"
+                        ToolTip.Tip="Dodaj do kolejki"/>
+
+                    <components:ButtonWithIcon
+                        Click="AddFilesButton_Click"
+                        Kind="FolderOpen"
+                        Theme="{StaticResource ThemeButtonWithIconTheme}"
+                        ToolTip.Tip="Dodaj utwory z dysku" />
+
+                    <Border Theme="{StaticResource SeparatorVertical.BorderTheme}"/>
+
+                    <TextBox
+                        Text="{Binding TrackSearch, ElementName=Root, Mode=TwoWay}"
+                        Theme="{StaticResource TextBoxTheme}"
+                        PlaceholderText="Szukaj nagrania"
+                        VerticalContentAlignment="Center"
+                        Width="256"/>
+
+                    <components:ButtonWithIcon
+                        Click="SortTracksButton_Click"
+                        Content="Sortuj"
+                        Kind="ArrowUpDown"
+                        Theme="{StaticResource ThemeButtonWithIconTheme}">
+
+                        <components:ButtonWithIcon.ContextMenu>
+                            <ContextMenu
+                                Theme="{StaticResource ContextMenuTheme}">
+
+                                <MenuItem
+                                    Click="SortTracks_Click"
+                                    Header="Tytuł rosnąco"
+                                    Tag="TitleAscending">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ArrowUp"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Click="SortTracks_Click"
+                                    Header="Tytuł malejąco"
+                                    Tag="TitleDescending">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ArrowDown"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Click="SortTracks_Click"
+                                    Header="Album rosnąco"
+                                    Tag="AlbumAscending">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ArrowUp"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Click="SortTracks_Click"
+                                    Header="Album malejąco"
+                                    Tag="AlbumDescending">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ArrowDown"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Click="SortTracks_Click"
+                                    Header="Artysta rosnąco"
+                                    Tag="ArtistAscending">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ArrowUp"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Click="SortTracks_Click"
+                                    Header="Artysta malejąco"
+                                    Tag="ArtistDescending">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ArrowDown"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </components:ButtonWithIcon.ContextMenu>
+                    </components:ButtonWithIcon>
+
+                    <Border Theme="{StaticResource SeparatorVertical.BorderTheme}"/>
+
+                    <components:ButtonWithIcon
+                        Click="ToggleSelectionButton_Click"
+                        Content="{Binding SelectionButtonText, ElementName=Root}"
+                        Kind="ListChecks"
+                        Theme="{StaticResource ThemeButtonWithIconTheme}"/>
+
+                    <components:ButtonWithIcon
+                        Click="SelectedTracksMoreButton_Click"
+                        Kind="Ellipsis"
+                        Theme="{StaticResource ThemeButtonWithIconTheme}">
+
+                        <components:ButtonWithIcon.ContextMenu>
+                            <ContextMenu
+                                Theme="{StaticResource ContextMenuTheme}">
+
+                                <MenuItem
+                                    Click="AddSelectedTracksTo_Click"
+                                    Header="Dodaj do…"
+                                    IsEnabled="{Binding HasSelectedTracks, ElementName=Root}"
+                                    Tag="AddTo">
+                                    
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ListPlus"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Click="MoveSelectedTracksTop_Click"
+                                    Header="Przenieś na górę"
+                                    IsEnabled="{Binding HasSelectedTracks, ElementName=Root}"
+                                    Tag="Top">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ChevronsUp"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Click="MoveSelectedTracksBottom_Click"
+                                    Header="Przenieś na dół"
+                                    IsEnabled="{Binding HasSelectedTracks, ElementName=Root}"
+                                    Tag="Bottom">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ChevronsDown"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <Separator/>
+
+                                <MenuItem
+                                    Click="RemoveSelectedTracks_Click"
+                                    Header="Usuń"
+                                    IsEnabled="{Binding HasSelectedTracks, ElementName=Root}"
+                                    Tag="Remove">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="Trash"
+                                        Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+
+                                <MenuItem
+                                    Click="ClearPlayList_Click"
+                                    Header="Wyczyść playlistę"
+                                    Tag="Clear">
+
+                                    <MenuItem.Icon>
+                                        <LucideIcon
+                                            Kind="ListX"
+                                            Size="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </components:ButtonWithIcon.ContextMenu>
+                    </components:ButtonWithIcon>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- TRACKS LIST -->
+            <ListBox
+                x:Name="PART_Tracks"
+                Grid.Row="1"
+                ItemTemplate="{StaticResource TrackDataTemplate}"
+                ItemsSource="{Binding VisibleTracks, ElementName=Root}"
+                PointerCaptureLost="Tracks_PointerCaptureLost"
+                PointerMoved="Tracks_PointerMoved"
+                PointerPressed="Tracks_PointerPressed"
+                PointerReleased="Tracks_PointerReleased"
+                SelectionChanged="Tracks_SelectionChanged"
+                SelectionMode="Multiple"
+                Theme="{StaticResource Tracks.ListBoxTheme}">
+
+            </ListBox>
+        </Grid>
+    </Grid>
+</views:InternalViewBase>

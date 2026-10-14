@@ -1,0 +1,204 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters">
+
+    <ControlTemplate x:Key="LyricsControlTemplate" TargetType="controls:LyricsControl">
+        <Grid
+            IsVisible="{TemplateBinding HasLyrics}">
+            
+            <!-- STATIC LYRICS -->
+            
+            <Border
+                BorderBrush="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                BorderThickness="1"
+                CornerRadius="10"
+                IsVisible="{TemplateBinding IsPlainText}"
+                Margin="8,8,8,0"
+                Padding="24">
+
+                <Border.Background>
+                    <MultiBinding Converter="{x:Static converters:BrushOpacityConverter.Instance}">
+                        <Binding Path="Config.Appearance.ThemeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                        <Binding Path="BackgroundOpacity" RelativeSource="{RelativeSource TemplatedParent}"/>
+                    </MultiBinding>
+                </Border.Background>
+
+                <ScrollViewer
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto">
+
+                    <TextBlock
+                        FontSize="{ReflectionBinding Config.Lyrics.PlainTextFontSize, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        Text="{TemplateBinding PlainText}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap"/>
+                </ScrollViewer>
+            </Border>
+
+            <!-- DYNAMIC LYRICS -->
+
+            <Border
+                HorizontalAlignment="Stretch"
+                IsVisible="{TemplateBinding IsTimedText}"
+                Margin="8,8,8,0"
+                MinHeight="112"
+                VerticalAlignment="Bottom">
+
+                <Grid>
+                    <Border IsHitTestVisible="False">
+                        <Border.Background>
+                            <MultiBinding Converter="{x:Static converters:LyricsBackgroundBrushConverter.Instance}">
+                                <Binding Path="Config.Appearance.ThemeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                                <Binding Path="BackgroundOpacity" RelativeSource="{RelativeSource TemplatedParent}"/>
+                            </MultiBinding>
+                        </Border.Background>
+
+                        <Border.OpacityMask>
+                            <LinearGradientBrush
+                                StartPoint="50%,0%"
+                                EndPoint="50%,100%">
+
+                                <GradientStop Color="Transparent" Offset="0"/>
+                                <GradientStop Color="White" Offset="0.25"/>
+                                <GradientStop Color="White" Offset="0.75"/>
+                                <GradientStop Color="Transparent" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.OpacityMask>
+                    </Border>
+
+                <Grid
+                    ColumnDefinitions="*,Auto,*"
+                    Margin="20,10">
+                    <TextBlock
+                        x:Name="PART_PreviousLine"
+                        FontSize="{ReflectionBinding Config.Lyrics.SurroundingLineFontSize, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        HorizontalAlignment="Center"
+                        Opacity="0.5"
+                        Text="{TemplateBinding PreviousText}"
+                        TextAlignment="Center"
+                        VerticalAlignment="Center">
+
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform>
+                                <TranslateTransform.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="X" Duration="0:0:0.24"/>
+                                    </Transitions>
+                                </TranslateTransform.Transitions>
+                            </TranslateTransform>
+                        </TextBlock.RenderTransform>
+
+                        <TextBlock.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="FontSize" Duration="0:0:0.24"/>
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.24"/>
+                            </Transitions>
+                        </TextBlock.Transitions>
+                    </TextBlock>
+
+                    <TextBlock
+                        x:Name="PART_CurrentLine"
+                        Foreground="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        FontSize="{ReflectionBinding Config.Lyrics.CurrentLineFontSize, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        FontWeight="SemiBold"
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        Text="{TemplateBinding CurrentText}"
+                        TextAlignment="Center"
+                        VerticalAlignment="Center">
+
+                        <TextBlock.Effect>
+                            <DropShadowEffect
+                                BlurRadius="3"
+                                Color="Black"
+                                OffsetX="0"
+                                OffsetY="0"
+                                Opacity="1"/>
+                        </TextBlock.Effect>
+
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform>
+                                <TranslateTransform.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="X" Duration="0:0:0.24"/>
+                                    </Transitions>
+                                </TranslateTransform.Transitions>
+                            </TranslateTransform>
+                        </TextBlock.RenderTransform>
+
+                        <TextBlock.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="FontSize" Duration="0:0:0.24"/>
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.24"/>
+                            </Transitions>
+                        </TextBlock.Transitions>
+                    </TextBlock>
+
+                    <TextBlock
+                        x:Name="PART_NextLine"
+                        FontSize="{ReflectionBinding Config.Lyrics.SurroundingLineFontSize, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        Opacity="0.5"
+                        Text="{TemplateBinding NextText}"
+                        TextAlignment="Center"
+                        VerticalAlignment="Center">
+
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform>
+                                <TranslateTransform.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="X" Duration="0:0:0.24"/>
+                                    </Transitions>
+                                </TranslateTransform.Transitions>
+                            </TranslateTransform>
+                        </TextBlock.RenderTransform>
+
+                        <TextBlock.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="FontSize" Duration="0:0:0.24"/>
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.24"/>
+                            </Transitions>
+                        </TextBlock.Transitions>
+                    </TextBlock>
+
+                    <TextBlock
+                        x:Name="PART_IncomingLine"
+                        FontSize="{ReflectionBinding Config.Lyrics.SurroundingLineFontSize, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        Grid.Column="2"
+                        HorizontalAlignment="Center"
+                        Opacity="0"
+                        TextAlignment="Center"
+                        VerticalAlignment="Center">
+
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform>
+                                <TranslateTransform.Transitions>
+                                    <Transitions>
+                                        <DoubleTransition Property="X" Duration="0:0:0.24"/>
+                                    </Transitions>
+                                </TranslateTransform.Transitions>
+                            </TranslateTransform>
+                        </TextBlock.RenderTransform>
+
+                        <TextBlock.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="FontSize" Duration="0:0:0.24"/>
+                                <DoubleTransition Property="Opacity" Duration="0:0:0.24"/>
+                            </Transitions>
+                        </TextBlock.Transitions>
+                    </TextBlock>
+                </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="{x:Type controls:LyricsControl}" TargetType="controls:LyricsControl">
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        <Setter Property="Template" Value="{StaticResource LyricsControlTemplate}" />
+    </ControlTheme>
+</ResourceDictionary>

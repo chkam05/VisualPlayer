@@ -1,0 +1,190 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <ControlTemplate x:Key="Slider.TrackButtonTemplate" TargetType="RepeatButton">
+        <Grid Background="Transparent">
+            <Border
+                Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Height="{TemplateBinding Height}"
+                VerticalAlignment="Center"/>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="VerticalSlider.TrackButtonTemplate" TargetType="RepeatButton">
+        <Grid Background="Transparent">
+            <Border
+                Background="{TemplateBinding Background}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                HorizontalAlignment="Center"
+                Width="{TemplateBinding Width}"/>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="Slider.ThumbTemplate" TargetType="Thumb">
+        <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="10"/>
+    </ControlTemplate>
+
+
+    <ControlTheme x:Key="SliderDecreaseButtonTheme" TargetType="RepeatButton">
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="CornerRadius" Value="2"/>
+        <Setter Property="Height" Value="4"/>
+        <Setter Property="Template" Value="{StaticResource Slider.TrackButtonTemplate}"/>
+    </ControlTheme>
+
+    <ControlTheme x:Key="SliderIncreaseButtonTheme" TargetType="RepeatButton">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="CornerRadius" Value="2"/>
+        <Setter Property="Height" Value="4"/>
+        <Setter Property="Template" Value="{StaticResource Slider.TrackButtonTemplate}"/>
+    </ControlTheme>
+
+    <ControlTheme x:Key="VerticalSliderDecreaseButtonTheme" TargetType="RepeatButton">
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="CornerRadius" Value="0,0,2,2"/>
+        <Setter Property="Template" Value="{StaticResource VerticalSlider.TrackButtonTemplate}"/>
+        <Setter Property="Width" Value="4"/>
+    </ControlTheme>
+
+    <ControlTheme x:Key="VerticalSliderIncreaseButtonTheme" TargetType="RepeatButton">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="CornerRadius" Value="2,2,0,0"/>
+        <Setter Property="Template" Value="{StaticResource VerticalSlider.TrackButtonTemplate}"/>
+        <Setter Property="Width" Value="4"/>
+    </ControlTheme>
+
+    <ControlTheme x:Key="SliderThumbTheme" TargetType="Thumb">
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template" Value="{StaticResource Slider.ThumbTemplate}"/>
+    </ControlTheme>
+
+    
+    <ControlTemplate x:Key="SliderTemplate" TargetType="Slider">
+        <Grid Height="20">
+            <Border
+                Background="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                CornerRadius="2"
+                Height="4"
+                IsHitTestVisible="False"
+                VerticalAlignment="Center"/>
+
+            <Track
+                x:Name="PART_Track"
+                Minimum="{TemplateBinding Minimum}"
+                Maximum="{TemplateBinding Maximum}"
+                Orientation="Horizontal"
+                Value="{TemplateBinding Value, Mode=TwoWay}">
+
+                <Track.DecreaseButton>
+                    <RepeatButton
+                        x:Name="PART_DecreaseButton"
+                        Focusable="False"
+                        Margin="0,0,-10,0"
+                        Theme="{StaticResource SliderDecreaseButtonTheme}"/>
+                </Track.DecreaseButton>
+
+                <Track.Thumb>
+                    <Thumb
+                        x:Name="PART_Thumb"
+                        Height="20"
+                        Theme="{StaticResource SliderThumbTheme}"
+                        Width="20"
+                        ZIndex="1"/>
+                </Track.Thumb>
+
+                <Track.IncreaseButton>
+                    <RepeatButton
+                        x:Name="PART_IncreaseButton"
+                        Focusable="False"
+                        Margin="-10,0,0,0"
+                        Theme="{StaticResource SliderIncreaseButtonTheme}"/>
+                </Track.IncreaseButton>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="VerticalSliderTemplate" TargetType="Slider">
+        <Grid Width="20">
+            <Border
+                Background="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                CornerRadius="2"
+                HorizontalAlignment="Center"
+                IsHitTestVisible="False"
+                Width="4"/>
+
+            <Track
+                x:Name="PART_Track"
+                IsDirectionReversed="False"
+                Minimum="{TemplateBinding Minimum}"
+                Maximum="{TemplateBinding Maximum}"
+                Orientation="Vertical"
+                Value="{TemplateBinding Value, Mode=TwoWay}">
+
+                <Track.DecreaseButton>
+                    <RepeatButton
+                        x:Name="PART_DecreaseButton"
+                        Focusable="False"
+                        Margin="0,-10,0,0"
+                        Theme="{StaticResource VerticalSliderDecreaseButtonTheme}"/>
+                </Track.DecreaseButton>
+
+                <Track.Thumb>
+                    <Thumb
+                        x:Name="PART_Thumb"
+                        Height="20"
+                        Theme="{StaticResource SliderThumbTheme}"
+                        Width="20"
+                        ZIndex="1"/>
+                </Track.Thumb>
+
+                <Track.IncreaseButton>
+                    <RepeatButton
+                        x:Name="PART_IncreaseButton"
+                        Focusable="False"
+                        Margin="0,0,0,-10"
+                        Theme="{StaticResource VerticalSliderIncreaseButtonTheme}"/>
+                </Track.IncreaseButton>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="SliderTheme" TargetType="Slider">
+        <Setter Property="Template" Value="{StaticResource SliderTemplate}"/>
+
+        <Style Selector="^[Orientation=Vertical]">
+            <Setter Property="Template" Value="{StaticResource VerticalSliderTemplate}"/>
+        </Style>
+
+        <Style Selector="^:pointerover /template/ RepeatButton#PART_DecreaseButton">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentMouseOverColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:pointerover /template/ Thumb#PART_Thumb">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentMouseOverColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentMouseOverColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:pressed /template/ RepeatButton#PART_DecreaseButton">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentPressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:pressed /template/ Thumb#PART_Thumb">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentPressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentPressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.6"/>
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

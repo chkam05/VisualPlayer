@@ -1,0 +1,180 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <StreamGeometry x:Key="ContextMenuItem.Chevron">M 1,0 10,10 L 1,20 0,19 8,10 0,1 Z</StreamGeometry>
+
+    <ControlTemplate x:Key="ContextMenuItemTemplate" TargetType="MenuItem">
+        <Panel>
+            <Border
+                x:Name="PART_LayoutRoot"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Padding="{TemplateBinding Padding}">
+
+                <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+                    <Border
+                        x:Name="PART_CheckBoxPresenter"
+                        Background="Transparent"
+                        BorderBrush="{TemplateBinding Foreground}"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Grid.Column="0"
+                        Height="18"
+                        IsVisible="False"
+                        Margin="0,0,10,0"
+                        VerticalAlignment="Center"
+                        Width="18">
+
+                        <LucideIcon
+                            x:Name="PART_CheckIcon"
+                            Foreground="{ReflectionBinding Config.Appearance.AccentForegroundColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            IsVisible="False"
+                            Kind="Check"
+                            Size="14"/>
+                    </Border>
+
+                    <ContentControl
+                        x:Name="PART_IconPresenter"
+                        Content="{TemplateBinding Icon}"
+                        Grid.Column="0"
+                        Height="18"
+                        IsVisible="False"
+                        Margin="0,0,10,0"
+                        VerticalContentAlignment="Center"
+                        Width="18"/>
+
+                    <ContentPresenter
+                        x:Name="PART_HeaderPresenter"
+                        Content="{TemplateBinding Header}"
+                        ContentTemplate="{TemplateBinding HeaderTemplate}"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        RecognizesAccessKey="True"
+                        VerticalAlignment="Center"/>
+
+                    <TextBlock
+                        x:Name="PART_InputGestureText"
+                        Grid.Column="2"
+                        Margin="24,0,0,0"
+                        Opacity="0.65"
+                        Text="{TemplateBinding InputGesture}"
+                        VerticalAlignment="Center"/>
+
+                    <Path
+                        x:Name="PART_ChevronPath"
+                        Data="{StaticResource ContextMenuItem.Chevron}"
+                        Fill="{TemplateBinding Foreground}"
+                        Grid.Column="3"
+                        Height="12"
+                        Margin="14,0,2,0"
+                        Stretch="Uniform"
+                        VerticalAlignment="Center"
+                        Width="6"/>
+                </Grid>
+            </Border>
+
+            <Popup
+                x:Name="PART_Popup"
+                HorizontalOffset="-4"
+                IsLightDismissEnabled="False"
+                IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
+                Placement="RightEdgeAlignedTop"
+                WindowManagerAddShadowHint="False">
+
+                <Border
+                    Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    BorderBrush="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    MinWidth="180"
+                    Padding="4">
+
+                    <ScrollViewer Theme="{StaticResource FluentMenuScrollViewer}">
+                        <ItemsPresenter
+                            x:Name="PART_ItemsPresenter"
+                            Grid.IsSharedSizeScope="True"
+                            ItemsPanel="{TemplateBinding ItemsPanel}"/>
+                    </ScrollViewer>
+                </Border>
+            </Popup>
+        </Panel>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="Margin" Value="0,1"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Template" Value="{StaticResource ContextMenuItemTemplate}"/>
+
+        <Style Selector="^:icon /template/ ContentControl#PART_IconPresenter">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^[ToggleType=CheckBox] /template/ Border#PART_CheckBoxPresenter">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^[ToggleType=CheckBox]:checked /template/ Border#PART_CheckBoxPresenter">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^[ToggleType=CheckBox]:checked /template/ LucideIcon#PART_CheckIcon">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^:selected">
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.AccentForegroundColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+            <Style Selector="^ /template/ Border#PART_LayoutRoot">
+                <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentMouseOverColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            </Style>
+        </Style>
+
+        <Style Selector="^:pressed">
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.AccentForegroundColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+            <Style Selector="^ /template/ Border#PART_LayoutRoot:pointerover">
+                <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentPressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            </Style>
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="Opacity" Value="0.5"/>
+
+            <Style Selector="^ /template/ Border#PART_LayoutRoot">
+                <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            </Style>
+        </Style>
+
+        <Style Selector="^:empty /template/ Path#PART_ChevronPath">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+
+        <Style Selector="^:open">
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.AccentForegroundColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+            <Style Selector="^ /template/ Border#PART_LayoutRoot">
+                <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentSelectedColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            </Style>
+        </Style>
+
+        <Style Selector="^:separator">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Separator Margin="8,4"/>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

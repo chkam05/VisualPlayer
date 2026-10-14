@@ -1,0 +1,64 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <ControlTheme x:Key="ComboBoxTheme" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="ItemContainerTheme" Value="{DynamicResource ComboBoxItemTheme}"/>
+        <Setter Property="MinWidth" Value="160"/>
+        <Setter Property="Padding" Value="12,7"/>
+
+        <Style Selector="^ /template/ ContentControl#ContentPresenter">
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^ /template/ TextBlock#PlaceholderTextBlock">
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^ /template/ PathIcon#DropDownGlyph">
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:dropdownopen /template/ Border#PopupBorder">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="4"/>
+        </Style>
+
+        <Style Selector="^:pointerover /template/ Border#Background">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeMouseOverBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:pressed /template/ Border#Background">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemePressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:focus-visible /template/ Border#HighlightBackground">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeMouseOverBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^:focus /template/ PathIcon#DropDownGlyph">
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:focus-visible /template/ PathIcon#DropDownGlyph">
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5"/>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

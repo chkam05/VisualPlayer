@@ -1,0 +1,274 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    x:Class="VisualPlayer.Views.Settings.KeyboardSettingsView">
+
+    <StackPanel
+        Spacing="8">
+
+        <!-- HEADER -->
+        <Grid
+            ColumnDefinitions="*,Auto">
+
+            <StackPanel
+                Spacing="4">
+
+                <TextBlock
+                    FontSize="22"
+                    FontWeight="SemiBold"
+                    Text="Skróty klawiszowe"/>
+                <TextBlock
+                    Opacity="0.6"
+                    Text="Dostosuj klawisze sterujące interfejsem, odtwarzaniem i wizualizacjami."/>
+            </StackPanel>
+
+            <components:ButtonWithIcon
+                Click="ResetButton_Click"
+                Content="Reset"
+                Grid.Column="1"
+                Kind="RotateCcw"
+                Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
+        </Grid>
+
+        <!-- SETTINGS -->
+
+        <!-- Panels Visibility -->
+        <controls:SettingsExpandControl
+            Description="Skróty do otwierania playlisty i zmiany automatycznego ukrywania paneli."
+            Icon="PanelsTopLeft"
+            Title="Interfejs">
+
+            <StackPanel
+                Spacing="8">
+
+                <controls:SettingsControl
+                    Description="Otwiera albo zamyka listę odtwarzania."
+                    Icon="ListVideo"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Lista odtwarzania">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.TogglePlayList,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Włącza albo wyłącza automatyczne ukrywanie górnego panelu informacji."
+                    Icon="PanelTop"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Automatyczne ukrywanie panelu informacji">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.ToggleInfoBar,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Włącza albo wyłącza automatyczne ukrywanie panelu menu."
+                    Icon="PanelLeft"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Automatyczne ukrywanie panelu menu">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.ToggleMenu,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Włącza albo wyłącza automatyczne ukrywanie dolnego panelu odtwarzacza."
+                    Icon="PanelBottom"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Automatyczne ukrywanie panelu odtwarzacza">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.TogglePlayer,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+        <!-- Player Control -->
+        <controls:SettingsExpandControl
+            Description="Sterowanie odtwarzaniem z klawiatury oraz systemowych przycisków multimedialnych."
+            Icon="Play"
+            Title="Odtwarzanie">
+
+            <StackPanel
+                Spacing="8">
+
+                <controls:SettingsControl
+                    Description="Odbiera polecenia Play/Pause, Następny i Poprzedni z systemu, klawiatury multimedialnej oraz Control Center."
+                    Icon="KeyboardMusic"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Systemowe polecenia multimedialne">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.Keyboard.UseSystemMediaCommands,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Przechodzi do następnego utworu."
+                    Icon="SkipForward"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Następny utwór">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.NextTrack,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Wznawia albo wstrzymuje odtwarzanie."
+                    Icon="Play"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Odtwórz/Pauza">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.PlayPause,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Przechodzi do poprzedniego utworu."
+                    Icon="SkipBack"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Poprzedni utwór">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.PreviousTrack,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+        <!-- Menu -->
+        <controls:SettingsExpandControl
+            Description="Skróty otwierające najczęściej używane widoki aplikacji."
+            Icon="Zap"
+            Title="Szybkie akcje">
+
+            <StackPanel
+                Spacing="8">
+
+                <controls:SettingsControl
+                    Description="Otwiera widok biblioteki."
+                    Icon="Library"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Biblioteka">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.OpenLibrary,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Otwiera widok list odtwarzania."
+                    Icon="ListMusic"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Listy odtwarzania">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.OpenPlaylists,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Otwiera equalizer."
+                    Icon="SlidersVertical"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Equalizer">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.OpenEqualizer,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Otwiera widok tekstów."
+                    Icon="Type"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Teksty">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.OpenLyrics,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Otwiera profile wizualizacji."
+                    Icon="AudioLines"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Wizualizacje">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.OpenVisualizations,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Otwiera ustawienia aplikacji."
+                    Icon="Settings"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Ustawienia">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.OpenSettings,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+        <!-- Visualisations -->
+        <controls:SettingsExpandControl
+            Description="Przełączanie między zapisanymi profilami wizualizacji."
+            Icon="AudioLines"
+            Title="Wizualizacje">
+
+            <StackPanel
+                Spacing="8">
+
+                <controls:SettingsControl
+                    Description="Wybiera następny profil wizualizacji."
+                    Icon="ArrowRight"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Następny profil">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.NextVisualizationProfile,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Wybiera poprzedni profil wizualizacji."
+                    Icon="ArrowLeft"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Poprzedni profil">
+
+                    <components:KeyBindControl
+                        Gesture="{ReflectionBinding Config.Keyboard.PreviousVisualizationProfile,
+                        Source={x:Static contexts:ApplicationContext.Instance},
+                        Mode=TwoWay}"/>
+                </controls:SettingsControl>
+            </StackPanel>
+        </controls:SettingsExpandControl>
+    </StackPanel>
+</UserControl>

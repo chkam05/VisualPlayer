@@ -1,0 +1,10 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTheme x:Key="SidePanel.TextBoxTheme" BasedOn="{StaticResource TextBoxTheme}" TargetType="TextBox">
+        <Setter Property="MinHeight" Value="42"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </ControlTheme>
+
+</ResourceDictionary>

@@ -1,0 +1,182 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:local="using:VisualPlayer.Views.Settings"
+    xmlns:viewModels="using:VisualPlayer.ViewModels.Config"
+    x:Class="VisualPlayer.Views.Settings.GeneralSettingsView"
+    x:DataType="local:GeneralSettingsView"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <ControlTheme x:Key="LibraryFoldersListBoxItemTheme" BasedOn="{StaticResource ListBoxItemTheme}" TargetType="ListBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="Padding" Value="8"/>
+        </ControlTheme>
+
+        <ControlTheme x:Key="LibraryFoldersListBoxTheme" BasedOn="{StaticResource ListBoxTheme}" TargetType="ListBox">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="ItemContainerTheme" Value="{StaticResource LibraryFoldersListBoxItemTheme}"/>
+        </ControlTheme>
+
+        <DataTemplate
+            x:Key="LibraryFolderDataTemplate"
+            x:DataType="viewModels:LibraryFolderConfig">
+
+            <Grid
+                ColumnDefinitions="Auto,*,Auto"
+                ColumnSpacing="10">
+
+                <LucideIcon
+                    Kind="{Binding IncludeSubdirectories, Converter={x:Static local:GeneralSettingsView.FolderIconConverter}}"
+                    Size="22"
+                    VerticalAlignment="Center"/>
+
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center">
+
+                    <TextBlock
+                        FontWeight="SemiBold"
+                        Text="{Binding Name}"
+                        TextTrimming="CharacterEllipsis"/>
+
+                    <TextBlock
+                        FontSize="12"
+                        Opacity="0.6"
+                        Text="{Binding Path}"
+                        TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+
+                <components:ButtonWithIcon
+                    Click="FolderMoreButton_Click"
+                    Grid.Column="2"
+                    Height="36"
+                    Kind="Ellipsis"
+                    Theme="{StaticResource AccentButtonWithIconTheme}"
+                    Width="36">
+
+                    <components:ButtonWithIcon.ContextMenu>
+                        <ContextMenu
+                            Theme="{StaticResource ContextMenuTheme}">
+
+                            <MenuItem
+                                Click="IncludeSubdirectoriesMenuItem_Click"
+                                Header="Uwzględnij podkatalogi"
+                                IsChecked="{Binding IncludeSubdirectories, Mode=OneWay}"
+                                ToggleType="CheckBox"/>
+
+                            <MenuItem
+                                Click="RefreshFolderMenuItem_Click"
+                                Header="Odśwież">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="RefreshCw"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <Separator/>
+
+                            <MenuItem
+                                Click="RemoveFolderMenuItem_Click"
+                                Header="Usuń">
+
+                                <MenuItem.Icon>
+                                    <LucideIcon
+                                        Kind="Trash"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </components:ButtonWithIcon.ContextMenu>
+                </components:ButtonWithIcon>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <!-- VIEW -->
+
+    <StackPanel
+        Spacing="8">
+
+        <!-- HEADER -->
+        <Grid
+            ColumnDefinitions="*,Auto">
+
+            <StackPanel
+                Spacing="4">
+
+                <TextBlock
+                    FontSize="22"
+                    FontWeight="SemiBold"
+                    Text="Ogólne"/>
+
+                <TextBlock
+                    Opacity="0.6"
+                    Text="Dostosuj ogólne zachowanie aplikacji i źródła biblioteki."/>
+            </StackPanel>
+
+            <components:ButtonWithIcon
+                Content="Reset"
+                Grid.Column="1"
+                IsEnabled="False"
+                Kind="RotateCcw"
+                Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
+        </Grid>
+
+        <!-- SETTINGS -->
+
+        <controls:SettingsExpandControl
+            Description="Katalogi skanowane w poszukiwaniu obsługiwanych plików audio."
+            Icon="Library"
+            IsExpanded="False"
+            Title="Biblioteka">
+
+            <StackPanel
+                Spacing="8">
+                
+                <ListBox
+                    ItemTemplate="{StaticResource LibraryFolderDataTemplate}"
+                    ItemsSource="{ReflectionBinding Config.Library.Folders, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Theme="{StaticResource LibraryFoldersListBoxTheme}"/>
+
+                <Grid>
+                    <components:ButtonWithIcon
+                        Click="AddFolderButton_Click"
+                        Content="Dodaj katalog"
+                        HorizontalAlignment="Right"
+                        Kind="FolderPlus"
+                        Theme="{StaticResource AccentButtonWithIconTheme}"/>
+                </Grid>
+
+                <controls:SettingsControl
+                    Description="Ponownie skanuje wszystkie skonfigurowane katalogi."
+                    Icon="RefreshCw"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Odśwież bibliotekę">
+
+                    <components:ButtonWithIcon
+                        Click="RefreshLibraryButton_Click"
+                        Content="Odśwież"
+                        Kind="RefreshCw"
+                        Theme="{StaticResource AccentButtonWithIconTheme}"/>
+                </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="Po otwarciu artysty najpierw pokazuje jego albumy."
+                    Icon="DiscAlbum"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Pokaż albumy artystów">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.Library.ShowArtistAlbums, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+            </StackPanel>
+        </controls:SettingsExpandControl>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,9 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTheme x:Key="Tracks.ListBoxTheme" BasedOn="{StaticResource ListBoxTheme}" TargetType="ListBox">
+        <Setter Property="ItemContainerTheme" Value="{StaticResource Tracks.ListBoxItemTheme}"/>
+    </ControlTheme>
+
+</ResourceDictionary>

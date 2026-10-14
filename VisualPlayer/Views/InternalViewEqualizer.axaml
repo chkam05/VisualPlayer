@@ -1,0 +1,204 @@
+<views:InternalViewBase
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:equalizer="using:VisualPlayer.ViewModels.Equalizer"
+    xmlns:local="using:VisualPlayer.Views"
+    xmlns:views="using:VisualPlayer.Views.Base"
+    x:Class="VisualPlayer.Views.InternalViewEqualizer"
+    x:DataType="local:InternalViewEqualizer"
+    x:Name="Root">
+
+    <views:InternalViewBase.Resources>
+        <!-- DATA TEMPLATES -->
+        <DataTemplate
+            x:Key="EqualizerProfileDataTemplate"
+            x:DataType="equalizer:EqualizerProfile">
+
+            <Grid
+                ColumnDefinitions="*,Auto"
+                ColumnSpacing="8"
+                ToolTip.Tip="{Binding Name}">
+
+                <TextBlock
+                    Text="{Binding Name}"
+                    TextTrimming="CharacterEllipsis"
+                    VerticalAlignment="Center"/>
+
+                <components:ButtonWithIcon
+                    Click="DeleteProfileButton_Click"
+                    Grid.Column="1"
+                    Height="30"
+                    IsVisible="{Binding CanDelete}"
+                    Kind="Trash"
+                    Theme="{StaticResource ThemeButtonWithIconTheme}"
+                    ToolTip.Tip="Usuń preset"
+                    Width="30"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate
+            x:Key="EqualizerBandDataTemplate"
+            x:DataType="equalizer:EqualizerBand">
+
+            <Grid
+                RowDefinitions="Auto,*,Auto"
+                RowSpacing="8">
+
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Text="{Binding Title}"/>
+
+                <Slider
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    Maximum="{x:Static equalizer:EqualizerProfile.GAIN_MAXIMUM}"
+                    Minimum="{x:Static equalizer:EqualizerProfile.GAIN_MINIMUM}"
+                    Orientation="Vertical"
+                    Theme="{StaticResource SliderTheme}"
+                    TickFrequency="0.5"
+                    Value="{Binding Gain, Mode=TwoWay}"/>
+
+                <TextBlock
+                    Grid.Row="2"
+                    HorizontalAlignment="Center"
+                    Text="{Binding Gain, StringFormat={}{0:+0.0;-0.0;0.0} dB}"/>
+            </Grid>
+        </DataTemplate>
+    </views:InternalViewBase.Resources>
+
+    <Grid
+        ColumnDefinitions="Auto,*"
+        ColumnSpacing="16"
+        MinHeight="0">
+
+        <!-- PRESETS -->
+        <Border
+            Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            CornerRadius="8"
+            Padding="8">
+
+            <Grid
+                RowDefinitions="Auto,Auto,*,Auto,Auto"
+                RowSpacing="4">
+
+                <!-- SEARCH -->
+                <Grid>
+                    <TextBox
+                        PlaceholderText="Szukaj presetu"
+                        Text="{Binding SearchText, ElementName=Root, Mode=TwoWay}"
+                        Theme="{StaticResource SidePanel.TextBoxTheme}"/>
+                </Grid>
+                
+                <!-- Separator -->
+                <Border
+                    Grid.Row="1"
+                    Theme="{StaticResource SeparatorHorizontal.BorderTheme}"/>
+
+                <!-- PRESETS LIST -->
+                <ListBox
+                    x:Name="PART_NavigationList"
+                    Grid.Row="2"
+                    ItemTemplate="{StaticResource EqualizerProfileDataTemplate}"
+                    ItemsSource="{Binding VisibleProfiles, ElementName=Root}"
+                    SelectedItem="{Binding SelectedProfile, ElementName=Root, Mode=TwoWay}"
+                    Theme="{StaticResource SidePanelContent.ListBoxTheme}"/>
+
+                <!-- Separator -->
+                <Border
+                    Grid.Row="3"
+                    Theme="{StaticResource SeparatorHorizontal.BorderTheme}"/>
+
+                <!-- CLONE ACTIVE PRESET -->
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    ColumnSpacing="4"
+                    Grid.Row="4">
+
+                    <TextBox
+                        PlaceholderText="Nazwa nowego presetu"
+                        Text="{Binding NewProfileName, ElementName=Root, Mode=TwoWay}"
+                        Theme="{StaticResource SidePanel.TextBoxTheme}"/>
+
+                    <components:ButtonWithIcon
+                        Click="CreateProfileButton_Click"
+                        Content="Stwórz"
+                        Grid.Column="1"
+                        IsEnabled="{Binding CanCreateProfile, ElementName=Root}"
+                        Kind="Plus"
+                        Theme="{StaticResource SidePanel.ActionButtonWithIconTheme}"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- EQUALIZER -->
+        <Border
+            Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            CornerRadius="8"
+            Grid.Column="1"
+            IsEnabled="{Binding SelectedProfile.CanEdit, ElementName=Root}"
+            Padding="20">
+
+            <Grid
+                RowDefinitions="Auto,*"
+                RowSpacing="24">
+
+                <!-- PREAMP -->
+                <Grid
+                    ColumnDefinitions="Auto,*,Auto,Auto"
+                    RowDefinitions="Auto,Auto,Auto"
+                    ColumnSpacing="12"
+                    RowSpacing="6">
+
+                    <TextBlock
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        Grid.ColumnSpan="4"
+                        Text="Preamp"/>
+
+                    <TextBlock
+                        Grid.Row="1"
+                        Text="-10 dB"/>
+
+                    <TextBlock
+                        Grid.Column="2"
+                        Grid.Row="1"
+                        Text="+10 dB"/>
+
+                    <Slider
+                        Grid.ColumnSpan="3"
+                        Grid.Row="2"
+                        Maximum="{x:Static equalizer:EqualizerProfile.GAIN_MAXIMUM}"
+                        Minimum="{x:Static equalizer:EqualizerProfile.GAIN_MINIMUM}"
+                        Theme="{StaticResource SliderTheme}"
+                        TickFrequency="0.5"
+                        Value="{Binding SelectedProfile.Preamp, ElementName=Root, Mode=TwoWay}"/>
+
+                    <TextBlock
+                        Grid.Column="3"
+                        Grid.Row="2"
+                        MinWidth="72"
+                        Text="{Binding SelectedProfile.Preamp, ElementName=Root, StringFormat={}{0:+0.0;-0.0;0.0} dB}"
+                        TextAlignment="Right"
+                        VerticalAlignment="Center"/>
+                </Grid>
+
+                <!-- BANDS -->
+                <ItemsControl
+                    Grid.Row="1"
+                    ItemTemplate="{StaticResource EqualizerBandDataTemplate}"
+                    ItemsSource="{Binding SelectedProfile.Bands, ElementName=Root}">
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid
+                                Columns="10"
+                                Rows="1"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Grid>
+        </Border>
+    </Grid>
+</views:InternalViewBase>

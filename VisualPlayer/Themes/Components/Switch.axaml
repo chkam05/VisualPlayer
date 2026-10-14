@@ -1,0 +1,74 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <ControlTemplate x:Key="SwitchTemplate" TargetType="components:Switch">
+
+        <Border
+            x:Name="PART_Track"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Height="{TemplateBinding Height}"
+            Padding="2"
+            Width="{TemplateBinding Width}">
+
+            <Border
+                x:Name="PART_Thumb"
+                Background="{TemplateBinding Foreground}"
+                CornerRadius="10"
+                Height="20"
+                HorizontalAlignment="Left"
+                Width="20"/>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="{x:Type components:Switch}" BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="components:Switch">
+
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="13"/>
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Template" Value="{StaticResource SwitchTemplate}"/>
+        <Setter Property="Width" Value="46"/>
+
+        <Style Selector="^:pointerover /template/ Border#PART_Track">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeMouseOverBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:pressed /template/ Border#PART_Track">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemePressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:checked /template/ Border#PART_Track">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentSelectedColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:checked:pointerover /template/ Border#PART_Track">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentMouseOverColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:checked:pressed /template/ Border#PART_Track">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentPressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <Style Selector="^:checked /template/ Border#PART_Thumb">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentForegroundColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5"/>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

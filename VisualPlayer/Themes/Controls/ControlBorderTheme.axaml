@@ -1,0 +1,19 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters">
+
+    <ControlTheme x:Key="ControlBorderTheme" TargetType="Border">
+        <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="8"/>
+
+        <Setter Property="Background">
+            <MultiBinding Converter="{x:Static converters:BrushOpacityConverter.Instance}">
+                <Binding Path="Config.Appearance.ControlBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.InterfaceOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+    </ControlTheme>
+</ResourceDictionary>

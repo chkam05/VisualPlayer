@@ -1,0 +1,243 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:local="using:VisualPlayer.Views.Lyrics"
+    xmlns:lucide="using:Lucide.Avalonia"
+    xmlns:utils="using:VisualPlayer.Utils"
+    xmlns:viewModels="using:VisualPlayer.ViewModels.Lyrics"
+    x:Class="VisualPlayer.Views.Lyrics.LyricsListView"
+    x:DataType="local:LyricsListView"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:LyricsTypeToTitleConverter x:Key="LyricsTypeToTitleConverter"/>
+
+        <!-- LYRICS LIST THEMES -->
+        <ControlTheme x:Key="LyricsListBoxItemTheme" BasedOn="{StaticResource ListBoxItemTheme}" TargetType="ListBoxItem">
+            <Setter Property="Margin" Value="0,4"/>
+            <Setter Property="Padding" Value="4"/>
+        </ControlTheme>
+
+        <ControlTheme x:Key="LyricsListBoxTheme" BasedOn="{StaticResource ListBoxTheme}" TargetType="ListBox">
+            <Setter Property="ItemContainerTheme" Value="{StaticResource LyricsListBoxItemTheme}"/>
+            <Setter Property="Padding" Value="8,4"/>
+        </ControlTheme>
+
+        <!-- LYRICS ITEM -->
+        <DataTemplate x:Key="LyricsDocumentDataTemplate" x:DataType="viewModels:LyricsDocument">
+            <Grid
+                ColumnDefinitions="32,*,180,Auto"
+                ColumnSpacing="8">
+
+                <Grid>
+                    <lucide:LucideIcon
+                        HorizontalAlignment="Center"
+                        IsVisible="{Binding !IsCurrentTrack}"
+                        Kind="ScrollText"
+                        Opacity="0.7"
+                        Size="18"
+                        VerticalAlignment="Center"/>
+
+                    <lucide:LucideIcon
+                        Foreground="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        HorizontalAlignment="Center"
+                        IsVisible="{Binding IsCurrentTrack}"
+                        Kind="Play"
+                        Size="18"
+                        VerticalAlignment="Center"/>
+                </Grid>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="{Binding SuggestedName}"
+                    TextTrimming="CharacterEllipsis"
+                    VerticalAlignment="Center"/>
+
+                <TextBlock
+                    Grid.Column="2"
+                    Text="{Binding Type, Converter={StaticResource LyricsTypeToTitleConverter}}"
+                    TextTrimming="CharacterEllipsis"
+                    VerticalAlignment="Center"/>
+
+                <components:ButtonWithIcon
+                    Click="OptionsButton_Click"
+                    Grid.Column="3"
+                    Height="36"
+                    Kind="Ellipsis"
+                    Theme="{StaticResource ThemeButtonWithIconTheme}"
+                    Width="36">
+
+                    <components:ButtonWithIcon.ContextMenu>
+                        <ContextMenu
+                            Placement="BottomEdgeAlignedRight"
+                            Theme="{StaticResource ContextMenuTheme}">
+
+                            <MenuItem
+                                Click="EditMenuItem_Click"
+                                Header="Edytuj">
+
+                                <MenuItem.Icon>
+                                    <lucide:LucideIcon
+                                        Kind="Pencil"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem
+                                Click="AssignMenuItem_Click"
+                                Header="Przypisz do odtwarzanego utworu">
+
+                                <MenuItem.Icon>
+                                    <lucide:LucideIcon
+                                        Kind="Link"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <Separator/>
+
+                            <MenuItem
+                                Click="ExportMenuItem_Click"
+                                Header="Eksportuj do pliku...">
+
+                                <MenuItem.Icon>
+                                    <lucide:LucideIcon
+                                        Kind="Save"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem
+                                Click="RevealMenuItem_Click"
+                                Header="{x:Static utils:SystemUtils.RevealInFileManagerTitle}">
+
+                                <MenuItem.Icon>
+                                    <lucide:LucideIcon
+                                        Kind="FolderOpen"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <Separator/>
+
+                            <MenuItem
+                                Click="DeleteMenuItem_Click"
+                                Header="Usuń">
+
+                                <MenuItem.Icon>
+                                    <lucide:LucideIcon
+                                        Kind="Trash"
+                                        Size="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </components:ButtonWithIcon.ContextMenu>
+                </components:ButtonWithIcon>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <!-- MAIN VIEW -->
+
+    <Grid
+        RowDefinitions="Auto,Auto,*"
+        RowSpacing="8">
+
+        <!-- TOOLBAR -->
+        <Grid
+            ColumnDefinitions="*,Auto"
+            ColumnSpacing="8">
+
+            <TextBox
+                PlaceholderText="Szukaj po nazwie, artyście lub albumie"
+                Text="{Binding SearchPhrase, ElementName=Root, Mode=TwoWay}"
+                Theme="{StaticResource TextBoxTheme}"
+                VerticalContentAlignment="Center" />
+
+            <components:ButtonWithIcon
+                Click="SortButton_Click"
+                Content="Sortuj"
+                Grid.Column="1"
+                Kind="ArrowUpDown"
+                Theme="{StaticResource ThemeButtonWithIconTheme}">
+
+                <components:ButtonWithIcon.ContextMenu>
+                    <ContextMenu
+                        Placement="BottomEdgeAlignedRight"
+                        Theme="{StaticResource ContextMenuTheme}">
+
+                        <MenuItem
+                            Click="SortMenuItem_Click"
+                            Header="Nazwa rosnąco"
+                            Tag="NameAscending">
+
+                            <MenuItem.Icon>
+                                <lucide:LucideIcon Kind="ArrowUpAZ" Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem
+                            Click="SortMenuItem_Click"
+                            Header="Nazwa malejąco"
+                            Tag="NameDescending">
+
+                            <MenuItem.Icon>
+                                <lucide:LucideIcon Kind="ArrowDownZA" Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <Separator/>
+
+                        <MenuItem
+                            Click="SortMenuItem_Click"
+                            Header="Typ rosnąco"
+                            Tag="TypeAscending">
+
+                            <MenuItem.Icon>
+                                <lucide:LucideIcon Kind="ArrowUpNarrowWide" Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem
+                            Click="SortMenuItem_Click"
+                            Header="Typ malejąco"
+                            Tag="TypeDescending">
+
+                            <MenuItem.Icon>
+                                <lucide:LucideIcon Kind="ArrowDownWideNarrow" Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </components:ButtonWithIcon.ContextMenu>
+            </components:ButtonWithIcon>
+        </Grid>
+
+        <!-- HEADER -->
+        <Grid
+            Grid.Row="1"
+            ColumnDefinitions="40,*,180,40"
+            ColumnSpacing="8"
+            Margin="8,0">
+
+            <TextBlock
+                Grid.Column="1"
+                FontWeight="SemiBold"
+                Text="Nazwa"/>
+
+            <TextBlock
+                Grid.Column="2"
+                FontWeight="SemiBold"
+                Text="Typ"/>
+        </Grid>
+
+        <!-- LYRICS LIST -->
+        <ListBox
+            Grid.Row="2"
+            ItemTemplate="{StaticResource LyricsDocumentDataTemplate}"
+            ItemsSource="{Binding VisibleDocuments, ElementName=Root}"
+            Theme="{StaticResource LyricsListBoxTheme}"/>
+    </Grid>
+</UserControl>

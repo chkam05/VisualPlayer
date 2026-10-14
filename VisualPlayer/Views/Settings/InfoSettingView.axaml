@@ -1,0 +1,118 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:local="using:VisualPlayer.Views.Settings"
+    xmlns:models="using:VisualPlayer.Models.App"
+    x:Class="VisualPlayer.Views.Settings.InfoSettingView"
+    x:DataType="local:InfoSettingView">
+
+    <StackPanel
+        Spacing="16">
+
+        <!-- GENERAL INFO -->
+        <StackPanel
+            Spacing="8">
+
+            <controls:LogoControl
+                AnimationContraction="0"
+                EnableAnimation="False"
+                Height="{x:Static controls:LogoControl.INFO_HEIGHT}"
+                HorizontalAlignment="Center"
+                LogoHeight="{x:Static controls:LogoControl.INFO_HEIGHT}"
+                LogoWidth="{x:Static controls:LogoControl.INFO_WIDTH}"
+                Opacity="{ReflectionBinding Config.Logo.Opacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                PlayerBorder="{ReflectionBinding Config.Logo.BorderBrush2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                PlayerFill="{ReflectionBinding Config.Logo.FillBrush2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                ReferenceHeight="{x:Static controls:LogoControl.INFO_HEIGHT}"
+                ReferenceWidth="{x:Static controls:LogoControl.INFO_WIDTH}"
+                VisualBorder="{ReflectionBinding Config.Logo.BorderBrush1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                VisualFill="{ReflectionBinding Config.Logo.FillBrush1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                Width="{x:Static controls:LogoControl.INFO_WIDTH}"/>
+
+            <TextBlock
+                FontSize="22"
+                FontWeight="SemiBold"
+                Text="Informacje podstawowe"/>
+
+            <Grid
+                ColumnDefinitions="Auto,*"
+                ColumnSpacing="8"
+                RowDefinitions="Auto,Auto,Auto"
+                RowSpacing="2">
+
+                <!-- Title -->
+                <TextBlock
+                    FontWeight="SemiBold"
+                    Text="Nazwa:"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Text="{Binding AppName}"/>
+
+                <!-- Version -->
+                <TextBlock
+                    FontWeight="SemiBold"
+                    Grid.Row="1"
+                    Text="Wersja:"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Text="{Binding AppVersion}"/>
+
+                <!-- Author -->
+                <TextBlock
+                    FontWeight="SemiBold"
+                    Grid.Row="2"
+                    Text="Autor:"/>
+
+                <TextBlock
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Text="{Binding Copyright}"/>
+            </Grid>
+        </StackPanel>
+
+        <!-- INCLUDED LIBRARIES -->
+        <StackPanel
+            Spacing="8">
+
+            <TextBlock
+                FontSize="22"
+                FontWeight="SemiBold"
+                Text="Biblioteki"/>
+
+            <ItemsControl
+                Grid.IsSharedSizeScope="True"
+                ItemsSource="{Binding NuGetPackages}">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:NuGetPackageInfo">
+                        <Grid
+                            ColumnSpacing="8"
+                            Margin="0,2">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    SharedSizeGroup="PackageName"
+                                    Width="Auto"/>
+
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="{Binding Name}"/>
+
+                            <TextBlock
+                                Grid.Column="1"
+                                Text="{Binding Version}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

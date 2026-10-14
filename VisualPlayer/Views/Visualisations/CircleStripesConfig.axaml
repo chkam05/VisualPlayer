@@ -1,0 +1,240 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:VisualPlayer.Views.Visualisations.Common"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:profile="using:VisualPlayer.Visualizations.Config.Base"
+    x:Class="VisualPlayer.Views.Visualisations.CircleStripesConfig"
+    x:DataType="profile:VisualisationProfile"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:BeamEffectToTitleConverter x:Key="BeamEffectToTitleConverter"/>
+        <converters:RadialVisualizationDirectionToTitleConverter x:Key="RadialDirectionToTitleConverter"/>
+        <converters:RotationDirectionToTitleConverter x:Key="RotationDirectionToTitleConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel Spacing="8">
+
+        <!-- Color -->
+        <common:VisualisationColorConfig/>
+
+        <!-- Number of peaks -->
+        <controls:SettingsControl
+            Description="Określa liczbę promieniowych pasków rozmieszczonych na okręgu."
+            Icon="ChartNoAxesColumn"
+            Title="Liczba pasków">
+
+            <components:NumericUpDown
+                Maximum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MINIMUM}"
+                Value="{ReflectionBinding Config.StripesCount, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Direction -->
+        <controls:SettingsControl
+            Description="Określa kierunek wzrostu promieniowych pasków."
+            Icon="ArrowUpDown"
+            Title="Kierunek">
+
+            <ComboBox
+                ItemsSource="{Binding Directions, ElementName=Root}"
+                SelectedItem="{ReflectionBinding Config.Direction, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Converter={StaticResource RadialDirectionToTitleConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </controls:SettingsControl>
+
+        <!-- Thickness -->
+        <controls:SettingsControl
+            Description="Określa grubość linii. Wartość jest ograniczana, gdy paski nie mieszczą się na kole wewnętrznym."
+            Icon="Minus"
+            Title="Grubość linii">
+
+            <components:NumericUpDown
+                Maximum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MINIMUM}"
+                Suffix=" px"
+                Value="{ReflectionBinding Config.LineThickness, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Radius -->
+        <controls:SettingsControl
+            Description="Określa promień koła, przy którym zaczynają się lub kończą paski."
+            Icon="Circle"
+            Title="Promień wewnętrzny">
+
+            <components:NumericUpDown
+                Increment="{x:Static profile:VisualizationBaseConfig.INNER_RADIUS_INCREMENT}"
+                Maximum="{x:Static profile:VisualizationBaseConfig.INNER_RADIUS_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.INNER_RADIUS_MINIMUM}"
+                Suffix=" px"
+                Value="{ReflectionBinding Config.InnerRadius, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Falling speed -->
+        <controls:SettingsControl
+            Description="Określa szybkość opadania długości pasków."
+            Icon="ClockFading"
+            Title="Szybkość opadania">
+
+            <components:NumericUpDown
+                Increment="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_INCREMENT}"
+                Maximum="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_MINIMUM}"
+                Suffix=" px/s"
+                Value="{ReflectionBinding Config.DescentRate, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Effects -->
+        <controls:SettingsControl
+            Description="Dodaje lekką poświatę wokół promieniowych pasków."
+            Icon="Sparkles"
+            Title="Efekt linii">
+
+            <ComboBox
+                ItemsSource="{Binding BeamEffects, ElementName=Root}"
+                SelectedItem="{ReflectionBinding Config.BeamEffect, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Converter={StaticResource BeamEffectToTitleConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </controls:SettingsControl>
+
+        <!-- Transformation -->
+        <controls:SettingsExpandControl
+            Description="Przekształcanie wizualizacji."
+            Icon="Move3d"
+            Title="Przekształcanie">
+
+            <StackPanel
+                Spacing="8">
+
+                <!-- Mirror -->
+                <controls:SettingsControl
+                    Description="Odbija kolejność pasm FFT na drugiej połowie okręgu."
+                    Icon="ArrowLeftRight"
+                    Title="Mirror">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.Mirror, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+                
+                <!-- Move X -->
+                <controls:SettingsControl
+                    Description="Przesuwa środek okręgu w poziomie względem środka obszaru wizualizacji."
+                    Icon="MoveHorizontal"
+                    Title="Przesunięcie X">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static profile:VisualizationBaseConfig.CENTER_OFFSET_INCREMENT}"
+                        Maximum="{x:Static profile:VisualizationBaseConfig.CENTER_OFFSET_MAXIMUM}"
+                        Minimum="{x:Static profile:VisualizationBaseConfig.CENTER_OFFSET_MINIMUM}"
+                        Suffix=" px"
+                        Value="{ReflectionBinding Config.CenterOffsetX, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <!-- Move Y -->
+                <controls:SettingsControl
+                    Description="Przesuwa środek okręgu w pionie względem środka obszaru wizualizacji."
+                    Icon="MoveVertical"
+                    Title="Przesunięcie Y">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static profile:VisualizationBaseConfig.CENTER_OFFSET_INCREMENT}"
+                        Maximum="{x:Static profile:VisualizationBaseConfig.CENTER_OFFSET_MAXIMUM}"
+                        Minimum="{x:Static profile:VisualizationBaseConfig.CENTER_OFFSET_MINIMUM}"
+                        Suffix=" px"
+                        Value="{ReflectionBinding Config.CenterOffsetY, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+        <!-- Angle -->
+        <controls:SettingsControl
+            Description="Określa początkowy kąt wizualizacji. Ustawienie jest blokowane podczas animacji obrotu."
+            Icon="RotateCw"
+            Title="Kąt obrotu">
+
+            <components:NumericUpDown
+                Increment="{x:Static profile:VisualizationBaseConfig.ROTATION_INCREMENT}"
+                IsEnabled="{ReflectionBinding Config.CanSetRotation}"
+                Maximum="{x:Static profile:VisualizationBaseConfig.ROTATION_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.ROTATION_MINIMUM}"
+                Suffix="°"
+                Value="{ReflectionBinding Config.Rotation, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Animation -->
+        <controls:SettingsExpandControl
+            Description="Steruje ciągłym obracaniem wizualizacji."
+            Icon="ImagePlay"
+            Title="Animacja obrotu">
+
+            <StackPanel
+                Spacing="8">
+
+                <!-- Animation toggle -->
+                <controls:SettingsControl
+                    Description="Włącza ciągły obrót wizualizacji."
+                    Icon="ToggleRight"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Włącz animację">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.RotationAnimationEnabled, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+                
+                <!-- Animation directions -->
+                <controls:SettingsControl
+                    Description="Określa kierunek animowanego obrotu."
+                    Icon="RotateCw"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Kierunek obrotu">
+
+                    <ComboBox
+                        ItemsSource="{Binding RotationDirections, ElementName=Root}"
+                        SelectedItem="{ReflectionBinding Config.RotationDirection, Mode=TwoWay}"
+                        Theme="{StaticResource ComboBoxTheme}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding Converter={StaticResource RotationDirectionToTitleConverter}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </controls:SettingsControl>
+
+                <!-- Animation speed -->
+                <controls:SettingsControl
+                    Description="Określa liczbę stopni obrotu na sekundę."
+                    Icon="Gauge"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="Szybkość obrotu">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static profile:VisualizationBaseConfig.ROTATION_SPEED_INCREMENT}"
+                        Maximum="{x:Static profile:VisualizationBaseConfig.ROTATION_SPEED_MAXIMUM}"
+                        Minimum="{x:Static profile:VisualizationBaseConfig.ROTATION_SPEED_MINIMUM}"
+                        Suffix=" °/s"
+                        Value="{ReflectionBinding Config.RotationSpeed, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+            </StackPanel>
+        </controls:SettingsExpandControl>
+    </StackPanel>
+</UserControl>

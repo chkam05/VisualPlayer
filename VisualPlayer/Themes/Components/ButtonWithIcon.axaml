@@ -1,0 +1,277 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <!-- CONTROL TEMPLATE -->
+    <ControlTemplate
+        x:Key="ButtonWithIconTemplate"
+        TargetType="components:ButtonWithIcon">
+
+        <Border
+            x:Name="PART_Background"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Padding="{TemplateBinding Padding}">
+
+            <Grid>
+                <LucideIcon
+                    x:Name="PART_IconOnly"
+                    Foreground="{TemplateBinding Foreground}"
+                    HorizontalAlignment="Center"
+                    IsVisible="False"
+                    Kind="{TemplateBinding Kind}"
+                    Size="{TemplateBinding CalculatedIconSize}"
+                    VerticalAlignment="Center"/>
+
+                <DockPanel
+                    x:Name="PART_Layout"
+                    LastChildFill="True">
+
+                    <LucideIcon
+                        x:Name="PART_Icon"
+                        Foreground="{TemplateBinding Foreground}"
+                        HorizontalAlignment="Center"
+                        Kind="{TemplateBinding Kind}"
+                        Size="{TemplateBinding CalculatedIconSize}"
+                        VerticalAlignment="Center"/>
+
+                    <Border
+                        x:Name="PART_HorizontalGap"
+                        Height="0"
+                        IsVisible="False"
+                        Width="{TemplateBinding Gap}"/>
+
+                    <Border
+                        x:Name="PART_VerticalGap"
+                        Height="{TemplateBinding Gap}"
+                        IsVisible="False"
+                        Width="0"/>
+
+                    <ContentPresenter
+                        x:Name="PART_ButtonContent"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        TextElement.Foreground="{TemplateBinding Foreground}"/>
+
+                </DockPanel>
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
+    <!-- BASE THEME -->
+    <ControlTheme
+        x:Key="{x:Type components:ButtonWithIcon}"
+        TargetType="components:ButtonWithIcon"
+        BasedOn="{StaticResource {x:Type Button}}">
+        
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="MinHeight" Value="28" />
+        <Setter Property="MinWidth" Value="28" />
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Template" Value="{StaticResource ButtonWithIconTemplate}" />
+
+        <Style Selector="^:has-content /template/ DockPanel#PART_Layout">
+            <Setter Property="IsVisible" Value="True"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+        </Style>
+
+        <Style Selector="^:not(:has-content) /template/ DockPanel#PART_Layout">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+
+        <Style Selector="^:not(:has-content)">
+            <Setter Property="Padding" Value="8"/>
+        </Style>
+
+        <Style Selector="^:not(:has-content) /template/ LucideIcon#PART_IconOnly">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <!-- ICON LEFT -->
+
+        <Style Selector="^[IconPosition=Left] /template/ LucideIcon#PART_Icon">
+            <Setter Property="DockPanel.Dock" Value="Left"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Left] /template/ Border#PART_HorizontalGap">
+            <Setter Property="DockPanel.Dock" Value="Left"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Left]:has-content /template/ Border#PART_HorizontalGap">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Auto][IconPosition=Left] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- ICON TOP -->
+        
+        <Style Selector="^[IconPosition=Top] /template/ LucideIcon#PART_Icon">
+            <Setter Property="DockPanel.Dock" Value="Top"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Top] /template/ Border#PART_VerticalGap">
+            <Setter Property="DockPanel.Dock" Value="Top"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Top]:has-content /template/ Border#PART_VerticalGap">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Auto][IconPosition=Top] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <!-- ICON RIGHT -->
+        
+        <Style Selector="^[IconPosition=Right] /template/ LucideIcon#PART_Icon">
+            <Setter Property="DockPanel.Dock" Value="Right"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Right] /template/ Border#PART_HorizontalGap">
+            <Setter Property="DockPanel.Dock" Value="Right"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Right]:has-content /template/ Border#PART_HorizontalGap">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Auto][IconPosition=Right] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- ICON BOTTOM -->
+        
+        <Style Selector="^[IconPosition=Bottom] /template/ LucideIcon#PART_Icon">
+            <Setter Property="DockPanel.Dock" Value="Bottom"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Bottom] /template/ Border#PART_VerticalGap">
+            <Setter Property="DockPanel.Dock" Value="Bottom"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Bottom]:has-content /template/ Border#PART_VerticalGap">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Auto][IconPosition=Bottom] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+
+        <!-- MANUAL CONTENT ALIGNMENT -->
+
+        <Style Selector="^[ContentAlignmentMode=Manual][HorizontalContentAlignment=Left] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][HorizontalContentAlignment=Center] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][HorizontalContentAlignment=Right] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][HorizontalContentAlignment=Stretch] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][VerticalContentAlignment=Top] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][VerticalContentAlignment=Center] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][VerticalContentAlignment=Bottom] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][VerticalContentAlignment=Stretch] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+        </Style>
+
+    </ControlTheme>
+
+    <!-- ACCENT THEME -->
+    <ControlTheme
+        x:Key="AccentButtonWithIconTheme"
+        TargetType="components:ButtonWithIcon"
+        BasedOn="{StaticResource {x:Type components:ButtonWithIcon}}">
+
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.AccentForegroundColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+        <!-- Mouse over -->
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentMouseOverColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <!-- Keyboard focus -->
+        <Style Selector="^:focus-visible">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentMouseOverColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <!-- Pressed -->
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentPressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <!-- Disabled -->
+        <Style Selector="^:disabled">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+
+    </ControlTheme>
+
+    <!-- THEME THEME -->
+    <ControlTheme
+        x:Key="ThemeButtonWithIconTheme"
+        TargetType="components:ButtonWithIcon"
+        BasedOn="{StaticResource {x:Type components:ButtonWithIcon}}">
+
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+        <!-- Mouse over -->
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeMouseOverBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <!-- Keyboard focus -->
+        <Style Selector="^:focus-visible">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeMouseOverBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <!-- Pressed -->
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemePressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        </Style>
+
+        <!-- Disabled -->
+        <Style Selector="^:disabled">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+
+    </ControlTheme>
+
+</ResourceDictionary>
