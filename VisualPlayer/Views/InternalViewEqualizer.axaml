@@ -19,10 +19,10 @@
             <Grid
                 ColumnDefinitions="*,Auto"
                 ColumnSpacing="8"
-                ToolTip.Tip="{Binding Name}">
+                ToolTip.Tip="{Binding DisplayName}">
 
                 <TextBlock
-                    Text="{Binding Name}"
+                    Text="{Binding DisplayName}"
                     TextTrimming="CharacterEllipsis"
                     VerticalAlignment="Center"/>
 
@@ -33,7 +33,7 @@
                     IsVisible="{Binding CanDelete}"
                     Kind="Trash"
                     Theme="{StaticResource ThemeButtonWithIconTheme}"
-                    ToolTip.Tip="Usuń preset"
+                    ToolTip.Tip="{ReflectionBinding Translations[VIEW_EQUALIZER_TOOLTIP_REMOVE_PRESET], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Width="30"/>
             </Grid>
         </DataTemplate>
@@ -86,7 +86,7 @@
                 <!-- SEARCH -->
                 <Grid>
                     <TextBox
-                        PlaceholderText="Szukaj presetu"
+                        PlaceholderText="{ReflectionBinding Translations[VIEW_EQUALIZER_PLACEHOLDER_SEARCH_FOR_A_PRESET], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Text="{Binding SearchText, ElementName=Root, Mode=TwoWay}"
                         Theme="{StaticResource SidePanel.TextBoxTheme}"/>
                 </Grid>
@@ -117,13 +117,13 @@
                     Grid.Row="4">
 
                     <TextBox
-                        PlaceholderText="Nazwa nowego presetu"
+                        PlaceholderText="{ReflectionBinding Translations[VIEW_EQUALIZER_NEW_PRESET_PLACEHOLDER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Text="{Binding NewProfileName, ElementName=Root, Mode=TwoWay}"
                         Theme="{StaticResource SidePanel.TextBoxTheme}"/>
 
                     <components:ButtonWithIcon
                         Click="CreateProfileButton_Click"
-                        Content="Stwórz"
+                        Content="{ReflectionBinding Translations[VIEW_EQUALIZER_BUTTON_CREATE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Grid.Column="1"
                         IsEnabled="{Binding CanCreateProfile, ElementName=Root}"
                         Kind="Plus"
@@ -155,16 +155,16 @@
                         FontSize="18"
                         FontWeight="SemiBold"
                         Grid.ColumnSpan="4"
-                        Text="Preamp"/>
+                        Text="{ReflectionBinding Translations[VIEW_EQUALIZER_TEXT_PREAMP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                     <TextBlock
                         Grid.Row="1"
-                        Text="-10 dB"/>
+                        Text="{ReflectionBinding Translations[VIEW_EQUALIZER_TEXT_10_DB], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                     <TextBlock
                         Grid.Column="2"
                         Grid.Row="1"
-                        Text="+10 dB"/>
+                        Text="{ReflectionBinding Translations[VIEW_EQUALIZER_TEXT_10_DB_2], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                     <Slider
                         Grid.ColumnSpan="3"

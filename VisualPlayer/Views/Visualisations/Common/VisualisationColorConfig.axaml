@@ -1,6 +1,7 @@
 <UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts"
     xmlns:components="using:VisualPlayer.Components"
     xmlns:controls="using:VisualPlayer.Controls"
     xmlns:converters="using:VisualPlayer.Converters"
@@ -15,19 +16,19 @@
     </UserControl.Resources>
 
     <controls:SettingsExpandControl
-        Description="Wybierz jednolity kolor, własny gradient albo animowaną tęczę wizualizacji."
+        Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
         Icon="Palette"
-        Title="Kolor">
+        Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_COLOR], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
         <StackPanel
             Spacing="8">
 
             <!-- Color type -->
             <controls:SettingsControl
-                Description="Określa sposób kolorowania elementów wizualizacji."
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_MODE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Icon="Paintbrush"
                 Theme="{StaticResource SettingsControlDarkerControl}"
-                Title="Rodzaj koloru">
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_COLOR_TYPE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                 <ComboBox
                     ItemsSource="{Binding ColorModes, ElementName=Root}"
@@ -50,11 +51,11 @@
 
             <!-- Rainbow type -->
             <controls:SettingsControl
-                Description="Określa układ kolorów tęczy."
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_GRADIENT_TYPE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Icon="Blend"
                 IsVisible="{ReflectionBinding Color.IsRainbow}"
                 Theme="{StaticResource SettingsControlDarkerControl}"
-                Title="Rodzaj tęczy">
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_TYPE_OF_RAINBOW], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                 <ComboBox
                     ItemsSource="{Binding GradientTypes, ElementName=Root}"
@@ -71,11 +72,11 @@
 
             <!-- Rainbow angle -->
             <controls:SettingsControl
-                Description="Określa kąt ułożenia tęczy liniowej lub stożkowej."
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_ANGLE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Icon="RotateCw"
                 IsVisible="{ReflectionBinding Color.IsRainbow}"
                 Theme="{StaticResource SettingsControlDarkerControl}"
-                Title="Kąt tęczy">
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_RAINBOW_ANGLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                 <components:NumericUpDown
                     Maximum="{x:Static visualizationConfig:GradientDefinition.ANGLE_MAXIMUM}"
@@ -89,32 +90,32 @@
                 IsVisible="{ReflectionBinding Color.IsSolid}"
                 RecentAccentColors="{ReflectionBinding Color.RecentColors}"
                 SelectedColor="{ReflectionBinding Color.SolidColor, Mode=TwoWay}"
-                Title="Kolor wizualizacji"/>
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_VISUALIZATION_COLOR], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
             <!-- Gradient color palette -->
             <controls:ColorPaletteControl
                 IsVisible="{ReflectionBinding Color.IsGradient}"
                 RecentAccentColors="{ReflectionBinding Color.RecentColors}"
                 SelectedColor="{Binding SelectedPoint.Color, ElementName=GradientEditor, Mode=TwoWay}"
-                Title="Kolor wybranego punktu"/>
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_COLOR_OF_THE_SELECTED_POINT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
             <!-- Animation enable -->
             <controls:SettingsControl
-                Description="Przesuwa gradient podczas działania wizualizacji."
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_ANIMATION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Icon="AudioWaveform"
                 IsVisible="{ReflectionBinding Color.IsAnimationAvailable}"
                 Theme="{StaticResource SettingsControlDarkerControl}"
-                Title="Animacja gradientu">
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_GRADIENT_ANIMATION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                 <components:Switch IsChecked="{ReflectionBinding Color.AnimateGradient, Mode=TwoWay}"/>
             </controls:SettingsControl>
 
             <controls:SettingsControl
-                Description="Ujemna wartość odwraca kierunek ruchu pionowego."
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_ANIMATION_SPEED_MINIMUM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Icon="ClockArrowUp"
                 IsVisible="{ReflectionBinding Color.IsAnimationEnabled}"
                 Theme="{StaticResource SettingsControlDarkerControl}"
-                Title="Szybkość pionowa">
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_ANIMATION_SPEED_MINIMUM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                 <components:NumericUpDown
                     Increment="{x:Static visualizationConfig:VisualizationColorConfig.ANIMATION_SPEED_INCREMENT}"
@@ -125,11 +126,11 @@
             </controls:SettingsControl>
 
             <controls:SettingsControl
-                Description="Ujemna wartość odwraca kierunek ruchu poziomego."
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_HORIZONTAL_SPEED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Icon="ClockArrowRight"
                 IsVisible="{ReflectionBinding Color.IsAnimationEnabled}"
                 Theme="{StaticResource SettingsControlDarkerControl}"
-                Title="Szybkość pozioma">
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_HORIZONTAL_SPEED], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                 <components:NumericUpDown
                     Increment="{x:Static visualizationConfig:VisualizationColorConfig.ANIMATION_SPEED_INCREMENT}"
@@ -140,11 +141,11 @@
             </controls:SettingsControl>
 
             <controls:SettingsControl
-                Description="Określa, jak duży fragment gradientu mieści się jednocześnie w obszarze wizualizacji."
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_STRETCH_MINIMUM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Icon="Expand"
                 IsVisible="{ReflectionBinding Color.IsAnimationAvailable}"
                 Theme="{StaticResource SettingsControlDarkerControl}"
-                Title="Rozciągnięcie gradientu">
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_STRETCH_MINIMUM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                 <components:NumericUpDown
                     Increment="{x:Static visualizationConfig:VisualizationColorConfig.STRETCH_INCREMENT}"

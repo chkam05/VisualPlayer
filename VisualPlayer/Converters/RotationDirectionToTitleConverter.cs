@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using VisualPlayer.Enums;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Converters;
 
@@ -11,8 +12,8 @@ public class RotationDirectionToTitleConverter : IValueConverter
     {
         return value switch
         {
-            RotationDirection.Clockwise => "Zgodnie z ruchem wskazówek zegara",
-            RotationDirection.CounterClockwise => "Przeciwnie do ruchu wskazówek zegara",
+            RotationDirection.Clockwise => ApplicationContext.Instance.Translations["ENUM_ROTATIONDIRECTION_CLOCKWISE"],
+            RotationDirection.CounterClockwise => ApplicationContext.Instance.Translations["ENUM_ROTATIONDIRECTION_COUNTERCLOCKWISE"],
             _ => value?.ToString() ?? string.Empty
         };
     }

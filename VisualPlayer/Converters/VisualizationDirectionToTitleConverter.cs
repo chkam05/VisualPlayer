@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using VisualPlayer.Enums;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Converters;
 
@@ -11,8 +12,8 @@ public class VisualizationDirectionToTitleConverter : IValueConverter
     {
         return value switch
         {
-            VisualizationDirection.BottomUp => "Od dołu do góry",
-            VisualizationDirection.TopDown => "Od góry do dołu",
+            VisualizationDirection.BottomUp => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONDIRECTION_BOTTOMUP"],
+            VisualizationDirection.TopDown => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONDIRECTION_TOPDOWN"],
             _ => value?.ToString() ?? string.Empty
         };
     }

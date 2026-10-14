@@ -18,10 +18,12 @@ namespace VisualPlayer.Views;
 
 public partial class InternalViewLyrics : InternalViewBase
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     private readonly LyricsDownloaderView _downloaderView = new();
     private readonly LyricsListView _listView = new();
 
-    private string _createOrEditButtonTitle = "Utwórz tekst";
+    private string _createOrEditButtonTitle = T["VIEW_LYRICS_BUTTON_CREATE"];
     private bool _hasCurrentTrack;
 
     #region AVALONIA PROPERTIES
@@ -62,11 +64,11 @@ public partial class InternalViewLyrics : InternalViewBase
 
     public InternalViewLyrics()
     {
-        Title = "Teksty";
+        Title = T["MENU_LYRICS"];
         NavigationItems =
         [
-            new MenuItemViewModel(LucideIconKind.ListMusic, "Lista", ShowList),
-            new MenuItemViewModel(LucideIconKind.CloudDownload, "Online", ShowDownloader)
+            new MenuItemViewModel(LucideIconKind.ListMusic, T["VIEW_LYRICS_NAV_LIST"], ShowList),
+            new MenuItemViewModel(LucideIconKind.CloudDownload, T["VIEW_LYRICS_NAV_ONLINE"], ShowDownloader)
         ];
 
         InitializeComponent();
@@ -74,6 +76,7 @@ public partial class InternalViewLyrics : InternalViewBase
         _listView.EditRequested += OpenEditor;
         ApplicationContext.Instance.LyricsCore.PropertyChanged += LyricsCore_PropertyChanged;
         ApplicationContext.Instance.PlayerCore.CurrentTrackChanged += PlayerCore_CurrentTrackChanged;
+        T.LanguageChanged += Translations_LanguageChanged;
 
         UpdateCurrentTrackState();
         PART_NavigationList.SelectedIndex = 0;
@@ -108,12 +111,12 @@ public partial class InternalViewLyrics : InternalViewBase
                 AllowMultiple = false,
                 FileTypeFilter =
                 [
-                    new FilePickerFileType("Pliki tekstów piosenek")
+                    new FilePickerFileType(T["FILETYPE_LYRICS_FILES"])
                     {
                         Patterns = ["*.lrc", "*.txt"]
                     }
                 ],
-                Title = "Importuj tekst piosenki"
+                Title = T["VIEW_LYRICS_IMPORT_TITLE"]
             });
 
         var file = files.FirstOrDefault();
@@ -160,8 +163,8 @@ public partial class InternalViewLyrics : InternalViewBase
         var context = ApplicationContext.Instance;
         HasCurrentTrack = context.PlayerCore.CurrentTrack is not null;
         CreateOrEditButtonTitle = context.LyricsCore.HasCurrentTrackLyrics
-            ? "Edytuj tekst"
-            : "Utwórz tekst";
+            ? T["VIEW_LYRICS_BUTTON_EDIT"]
+            : T["VIEW_LYRICS_BUTTON_CREATE"];
     }
 
     #endregion ACTIONS
@@ -191,7 +194,16 @@ public partial class InternalViewLyrics : InternalViewBase
         _listView.EditRequested -= OpenEditor;
         ApplicationContext.Instance.LyricsCore.PropertyChanged -= LyricsCore_PropertyChanged;
         ApplicationContext.Instance.PlayerCore.CurrentTrackChanged -= PlayerCore_CurrentTrackChanged;
+        T.LanguageChanged -= Translations_LanguageChanged;
         base.OnClosed();
+    }
+
+    private void Translations_LanguageChanged(object? sender, EventArgs e)
+    {
+        Title = T["MENU_LYRICS"];
+        NavigationItems[0].Title = T["VIEW_LYRICS_NAV_LIST"];
+        NavigationItems[1].Title = T["VIEW_LYRICS_NAV_ONLINE"];
+        UpdateCurrentTrackState();
     }
 
     #endregion VIEW ACTIONS

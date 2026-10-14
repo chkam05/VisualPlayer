@@ -5,6 +5,7 @@
     xmlns:contexts="using:VisualPlayer.Contexts"
     xmlns:controls="using:VisualPlayer.Controls"
     xmlns:local="using:VisualPlayer.Views.Settings"
+    xmlns:localization="using:VisualPlayer.Models.Localization"
     xmlns:viewModels="using:VisualPlayer.ViewModels.Config"
     x:Class="VisualPlayer.Views.Settings.GeneralSettingsView"
     x:DataType="local:GeneralSettingsView"
@@ -65,13 +66,13 @@
 
                             <MenuItem
                                 Click="IncludeSubdirectoriesMenuItem_Click"
-                                Header="Uwzględnij podkatalogi"
+                                Header="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_ITEM_INCLUDE_SUBDIRECTORIES], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 IsChecked="{Binding IncludeSubdirectories, Mode=OneWay}"
                                 ToggleType="CheckBox"/>
 
                             <MenuItem
                                 Click="RefreshFolderMenuItem_Click"
-                                Header="Odśwież">
+                                Header="{ReflectionBinding Translations[COMMON_BUTTON_REFRESH], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                 <MenuItem.Icon>
                                     <LucideIcon
@@ -84,7 +85,7 @@
 
                             <MenuItem
                                 Click="RemoveFolderMenuItem_Click"
-                                Header="Usuń">
+                                Header="{ReflectionBinding Translations[COMMON_BUTTON_DELETE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                 <MenuItem.Icon>
                                     <LucideIcon
@@ -114,15 +115,15 @@
                 <TextBlock
                     FontSize="22"
                     FontWeight="SemiBold"
-                    Text="Ogólne"/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_NAV_GENERAL], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                 <TextBlock
                     Opacity="0.6"
-                    Text="Dostosuj ogólne zachowanie aplikacji i źródła biblioteki."/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_SUBTITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
             </StackPanel>
 
             <components:ButtonWithIcon
-                Content="Reset"
+                Content="{ReflectionBinding Translations[COMMON_BUTTON_RESET], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Grid.Column="1"
                 IsEnabled="False"
                 Kind="RotateCcw"
@@ -131,11 +132,30 @@
 
         <!-- SETTINGS -->
 
+        <controls:SettingsControl
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_LANGUAGE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="Languages"
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_TITLE_LANGUAGE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+            <ComboBox
+                ItemsSource="{ReflectionBinding Translations.AvailableLanguages, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                MinWidth="180"
+                SelectedItem="{ReflectionBinding Translations.SelectedLanguage, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="localization:LanguageDefinition">
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </controls:SettingsControl>
+
         <controls:SettingsExpandControl
-            Description="Katalogi skanowane w poszukiwaniu obsługiwanych plików audio."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_LIBRARY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Library"
             IsExpanded="False"
-            Title="Biblioteka">
+            Title="{ReflectionBinding Translations[MENU_LIBRARY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel
                 Spacing="8">
@@ -148,30 +168,30 @@
                 <Grid>
                     <components:ButtonWithIcon
                         Click="AddFolderButton_Click"
-                        Content="Dodaj katalog"
+                        Content="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_BUTTON_ADD_CATALOG], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         HorizontalAlignment="Right"
                         Kind="FolderPlus"
                         Theme="{StaticResource AccentButtonWithIconTheme}"/>
                 </Grid>
 
                 <controls:SettingsControl
-                    Description="Ponownie skanuje wszystkie skonfigurowane katalogi."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_LIBRARY_REFRESH_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="RefreshCw"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Odśwież bibliotekę">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_TITLE_REFRESH_LIBRARY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:ButtonWithIcon
                         Click="RefreshLibraryButton_Click"
-                        Content="Odśwież"
+                        Content="{ReflectionBinding Translations[COMMON_BUTTON_REFRESH], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Kind="RefreshCw"
                         Theme="{StaticResource AccentButtonWithIconTheme}"/>
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Po otwarciu artysty najpierw pokazuje jego albumy."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_SHOW_ARTIST_ALBUMS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="DiscAlbum"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Pokaż albumy artystów">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_SHOW_ARTIST_ALBUMS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.Library.ShowArtistAlbums, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>

@@ -21,16 +21,16 @@
                 <TextBlock
                     FontSize="22"
                     FontWeight="SemiBold"
-                    Text="Wizualizacje"/>
+                    Text="{ReflectionBinding Translations[MENU_VISUALIZATIONS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                 <TextBlock
                     Opacity="0.6"
-                    Text="Globalne ustawienia analizy dźwięku i renderowania wizualizacji."/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_SUBTITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
             </StackPanel>
 
             <components:ButtonWithIcon
                 Click="ResetButton_Click"
-                Content="Reset"
+                Content="{ReflectionBinding Translations[COMMON_BUTTON_RESET], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Grid.Column="1"
                 Kind="RotateCcw"
                 Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
@@ -38,16 +38,16 @@
 
         <!-- FREQUENCY RANGE -->
         <controls:SettingsExpandControl
-            Description="Określa pasmo dźwięku przekazywane do wszystkich wizualizacji."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FREQUENCY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AudioLines"
-            Title="Zakres częstotliwości">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_TITLE_FREQUENCY_RANGE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel Spacing="4">
                 <controls:SettingsControl
-                    Description="Najniższa analizowana częstotliwość."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINIMUM_FREQUENCY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ArrowDownToLine"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Dolna granica">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINIMUM_FREQUENCY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static config:VisualizationGlobalConfig.MINIMUM_FREQUENCY_INCREMENT}"
@@ -58,10 +58,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Najwyższa analizowana częstotliwość."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MAXIMUM_FREQUENCY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ArrowUpToLine"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Górna granica">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MAXIMUM_FREQUENCY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static config:VisualizationGlobalConfig.MAXIMUM_FREQUENCY_INCREMENT}"
@@ -72,10 +72,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Sposób rozmieszczenia pasm częstotliwości na szerokości wizualizacji."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_SCALING_STRATEGY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ChartNoAxesColumnIncreasing"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Skalowanie">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_SCALING_STRATEGY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
                         ItemsSource="{Binding ScalingStrategies, ElementName=Root}"
@@ -95,16 +95,16 @@
 
         <!-- FFT ANALYSIS -->
         <controls:SettingsExpandControl
-            Description="Steruje dokładnością i funkcją okna transformaty FFT."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FFT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AudioWaveform"
-            Title="Analiza FFT">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_TITLE_FFT_ANALYSIS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel Spacing="4">
                 <controls:SettingsControl
-                    Description="Większa wartość daje dokładniejsze pasma kosztem szybkości reakcji."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FFT_SIZE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Binary"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Rozmiar FFT">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FFT_SIZE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
                         ItemsSource="{Binding FftSizes, ElementName=Root}"
@@ -121,10 +121,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Funkcja ograniczająca przeciek widma podczas FFT."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FFT_WINDOW_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ScanLine"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Funkcja okna">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FFT_WINDOW_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
                         ItemsSource="{Binding FftWindows, ElementName=Root}"
@@ -141,10 +141,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Kanały używane jako źródło analizy."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_CHANNEL_MODE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="AudioWaveform"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Kanał audio">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_CHANNEL_MODE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
                         ItemsSource="{Binding ChannelModes, ElementName=Root}"
@@ -164,16 +164,16 @@
 
         <!-- SIGNAL DYNAMICS -->
         <controls:SettingsExpandControl
-            Description="Określa czułość wizualizacji i szybkość zmian poziomu."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_DYNAMICS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Gauge"
-            Title="Dynamika sygnału">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_TITLE_SIGNAL_DYNAMICS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel Spacing="4">
                 <controls:SettingsControl
-                    Description="Poziom sygnału odpowiadający zerowej wysokości."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINIMUM_DECIBELS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Volume1"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Minimum">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINIMUM_DECIBELS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Maximum="{x:Static config:VisualizationGlobalConfig.MINIMUM_DECIBELS_MAXIMUM}"
@@ -183,10 +183,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Poziom sygnału odpowiadający pełnej wysokości."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MAXIMUM_DECIBELS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Volume2"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Maksimum">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MAXIMUM_DECIBELS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Maximum="{x:Static config:VisualizationGlobalConfig.MAXIMUM_DECIBELS_MAXIMUM}"
@@ -196,10 +196,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Czas reakcji na wzrost energii sygnału."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_ATTACK_TIME_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="TrendingUp"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Narastanie">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_ATTACK_TIME_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static config:VisualizationGlobalConfig.ATTACK_TIME_INCREMENT}"
@@ -210,10 +210,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Czas wygaszania po spadku energii sygnału."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_RELEASE_TIME_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="TrendingDown"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Opadanie">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_RELEASE_TIME_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static config:VisualizationGlobalConfig.RELEASE_TIME_INCREMENT}"
@@ -227,9 +227,9 @@
 
         <!-- RENDERING -->
         <controls:SettingsControl
-            Description="Maksymalna częstotliwość odświeżania obrazu wizualizacji."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FRAME_RATE_LIMIT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="MonitorUp"
-            Title="Limit klatek">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FRAME_RATE_LIMIT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Increment="{x:Static config:VisualizationGlobalConfig.FRAME_RATE_INCREMENT}"

@@ -53,7 +53,7 @@
                 <!-- Time -->
                 <TextBox
                     Classes.timeError="{Binding HasTimeError}"
-                    PlaceholderText="mm:ss.ff"
+                    PlaceholderText="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_PLACEHOLDER_MM_SS_FF], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Text="{Binding TimeCode, Mode=TwoWay}"
                     Theme="{StaticResource TextBoxTheme}"
                     ToolTip.Tip="{Binding TimeError}"
@@ -71,7 +71,7 @@
                 <!-- Text -->
                 <TextBox
                     Grid.Column="1"
-                    PlaceholderText="Tekst linii"
+                    PlaceholderText="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_PLACEHOLDER_LINE_TEXT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Text="{Binding Text, Mode=TwoWay}"
                     Theme="{StaticResource TextBoxTheme}"
                     VerticalContentAlignment="Center" />
@@ -92,7 +92,7 @@
 
                             <MenuItem
                                 Click="CopyAtCurrentTimeMenuItem_Click"
-                                Header="Kopiuj do obecnego czasu">
+                                Header="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_COPY_CURRENT_TIME], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                 <MenuItem.Icon>
                                     <lucide:LucideIcon
@@ -103,7 +103,7 @@
 
                             <MenuItem
                                 Click="SetCurrentTimeMenuItem_Click"
-                                Header="Ustaw czas pozycji odtwarzania">
+                                Header="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_SET_PLAYBACK_TIME], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                 <MenuItem.Icon>
                                     <lucide:LucideIcon
@@ -116,7 +116,7 @@
 
                             <MenuItem
                                 Click="DeleteLineMenuItem_Click"
-                                Header="Usuń">
+                                Header="{ReflectionBinding Translations[COMMON_BUTTON_DELETE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                 <MenuItem.Icon>
                                     <lucide:LucideIcon
@@ -152,7 +152,7 @@
 
             <TextBox
                 Height="40"
-                PlaceholderText="Nazwa tekstu"
+                PlaceholderText="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_PLACEHOLDER_TITLE_OF_THE_LYRICS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Text="{Binding Document.Name, ElementName=Root, Mode=TwoWay}"
                 Theme="{StaticResource TextBoxTheme}"
                 VerticalContentAlignment="Center"/>
@@ -171,7 +171,7 @@
                 IsEnabled="{Binding CanUndo, ElementName=Root}"
                 Kind="Undo2"
                 Theme="{StaticResource ThemeButtonWithIconTheme}"
-                ToolTip.Tip="Cofnij"
+                ToolTip.Tip="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_TOOLTIP_UNDO], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Width="40"/>
 
             <components:ButtonWithIcon
@@ -180,12 +180,12 @@
                 IsEnabled="{Binding CanRedo, ElementName=Root}"
                 Kind="Redo2"
                 Theme="{StaticResource ThemeButtonWithIconTheme}"
-                ToolTip.Tip="Ponów"
+                ToolTip.Tip="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_TOOLTIP_RETRY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Width="40"/>
 
             <components:ButtonWithIcon
                 Click="SaveButton_Click"
-                Content="Zapisz"
+                Content="{ReflectionBinding Translations[COMMON_BUTTON_SAVE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Grid.Column="4"
                 Height="40"
                 IsEnabled="{Binding CanSave, ElementName=Root}"
@@ -208,7 +208,7 @@
 
             <TextBlock
                 Grid.Column="0"
-                Text="Tempo"
+                Text="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_TEXT_SPEED], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 VerticalAlignment="Center"/>
 
             <ComboBox
@@ -236,13 +236,13 @@
                 Text="{Binding PositionText, ElementName=Root, Mode=TwoWay}"
                 TextAlignment="Center"
                 Theme="{StaticResource TextBoxTheme}"
-                ToolTip.Tip="Wpisz czas w formacie mm:ss.ff"
+                ToolTip.Tip="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_TIME_TOOLTIP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 VerticalContentAlignment="Center"
                 Width="110"/>
 
             <components:ButtonWithIcon
                 Click="AddLineButton_Click"
-                Content="Dodaj tekst"
+                Content="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_BUTTON_ADD_TEXT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Grid.Column="4"
                 Kind="Plus"
                 Theme="{StaticResource ThemeButtonWithIconTheme}"/>
@@ -281,20 +281,20 @@
                         IsEnabled="{Binding IsPlaybackAnchorLocked, ElementName=Root}"
                         Kind="RotateCcw"
                         Theme="{StaticResource PlayerControlIconButtonTheme}"
-                        ToolTip.Tip="Wróć do zapamiętanego punktu"/>
+                        ToolTip.Tip="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_GO_TO_RESUME_POINT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                     <components:ButtonWithIcon
                         Click="SetPlaybackAnchorButton_Click"
                         Kind="Lock"
                         Theme="{StaticResource PlayerControlIconButtonTheme}"
-                        ToolTip.Tip="Ustaw punkt wznowienia"/>
+                        ToolTip.Tip="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_SET_RESUME_POINT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                     <components:ButtonWithIcon
                         Click="RemovePlaybackAnchorButton_Click"
                         IsEnabled="{Binding IsPlaybackAnchorLocked, ElementName=Root}"
                         Kind="LockOpen"
                         Theme="{StaticResource PlayerControlIconButtonTheme}"
-                        ToolTip.Tip="Usuń punkt wznowienia"/>
+                        ToolTip.Tip="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_DELETE_RESUME_POINT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                     <Border
                         Background="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
@@ -358,13 +358,13 @@
                         Click="PlayPauseButton_Click"
                         Kind="{ReflectionBinding PlayerDataContext.IsPlaying, Source={x:Static contexts:ApplicationContext.Instance}, Converter={StaticResource PlayingToIconConverter}, Mode=OneWay}"
                         Theme="{StaticResource PlayerControlIconButtonTheme}"
-                        ToolTip.Tip="Odtwórz/Pauza"/>
+                        ToolTip.Tip="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_TOOLTIP_PLAY_PAUSE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                     <components:ButtonWithIcon
                         Click="StopButton_Click"
                         Kind="Square"
                         Theme="{StaticResource PlayerControlIconButtonTheme}"
-                        ToolTip.Tip="Stop"/>
+                        ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_STOP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
                 </StackPanel>
             </Grid>
         </Border>

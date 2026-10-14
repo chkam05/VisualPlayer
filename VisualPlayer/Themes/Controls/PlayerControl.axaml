@@ -86,13 +86,13 @@
                                     IsChecked="{Binding IsShuffleEnabled, Mode=TwoWay}"
                                     Kind="Shuffle"
                                     Theme="{StaticResource PlayerControl.ToggleIconButtonTheme}"
-                                    ToolTip.Tip="Shuffle"/>
+                                    ToolTip.Tip="{ReflectionBinding Translations[PLAYERCONTROL_BUTTON_SHUFFLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                                 <components:ButtonWithIcon
                                     x:Name="PART_RepeatButton"
                                     Kind="{Binding RepeatMode, Converter={StaticResource RepeatModeToIconConverter}}"
                                     Theme="{StaticResource PlayerControl.IconButtonTheme}"
-                                    ToolTip.Tip="Repeat"/>
+                                    ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_REPEAT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
                                 
                                 <!-- SEPARATOR -->
                                 <Border Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
@@ -101,25 +101,25 @@
                                     x:Name="PART_PreviousButton"
                                     Kind="SkipBack"
                                     Theme="{StaticResource PlayerControl.IconButtonTheme}"
-                                    ToolTip.Tip="Poprzednie nagranie"/>
+                                    ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_PREVIOUS_TRACK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                                 <components:ButtonWithIcon
                                     x:Name="PART_PlayPauseButton"
                                     Kind="{Binding IsPlaying, Converter={StaticResource PlayingToIconConverter}}"
                                     Theme="{StaticResource PlayerControl.IconButtonTheme}"
-                                    ToolTip.Tip="Play / Pause"/>
+                                    ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_PLAY_PAUSE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                                 <components:ButtonWithIcon
                                     x:Name="PART_NextButton"
                                     Kind="SkipForward"
                                     Theme="{StaticResource PlayerControl.IconButtonTheme}"
-                                    ToolTip.Tip="Następne nagranie"/>
+                                    ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_NEXT_TRACK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                                 <components:ButtonWithIcon
                                     x:Name="PART_StopButton"
                                     Kind="Square"
                                     Theme="{StaticResource PlayerControl.IconButtonTheme}"
-                                    ToolTip.Tip="Stop"/>
+                                    ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_STOP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
                                 
                                 <!-- SEPARATOR -->
                                 <Border Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
@@ -128,13 +128,13 @@
                                     x:Name="PART_SpeedButton"
                                     Kind="Gauge"
                                     Theme="{StaticResource PlayerControl.IconButtonTheme}"
-                                    ToolTip.Tip="Szybkość odtwarzania"/>
+                                    ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_PLAYBACK_SPEED], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                                 <components:ButtonWithIcon
                                     x:Name="PART_VolumeButton"
                                     Kind="Volume2"
                                     Theme="{StaticResource PlayerControl.IconButtonTheme}"
-                                    ToolTip.Tip="Głośność"/>
+                                    ToolTip.Tip="{ReflectionBinding Translations[PLAYERCONTROL_BUTTON_VOLUME], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                             </StackPanel>
                         

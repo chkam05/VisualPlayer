@@ -32,7 +32,7 @@
                     IsChecked="{Binding IsMuted, Mode=TwoWay}"
                     Kind="Volume2"
                     Theme="{StaticResource AccentToggleButtonWithIconTheme}"
-                    ToolTip.Tip="Wycisz" />
+                    ToolTip.Tip="{ReflectionBinding Translations[VOLUME_TOOLTIP_MUTE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
             </Grid>
         </Border>
     </ControlTemplate>

@@ -1,6 +1,7 @@
 <UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts"
     xmlns:common="using:VisualPlayer.Views.Visualisations.Common"
     xmlns:components="using:VisualPlayer.Components"
     xmlns:config="using:VisualPlayer.Visualizations.Config"
@@ -26,9 +27,9 @@
 
         <!-- Number of peaks -->
         <controls:SettingsControl
-            Description="Określa liczbę próbek FFT tworzących kształt fali."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_NUM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ChartNoAxesColumn"
-            Title="Liczba peaków">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_NUM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Maximum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MAXIMUM}"
@@ -38,9 +39,9 @@
 
         <!-- Direction -->
         <controls:SettingsControl
-            Description="Określa, czy fala rośnie do środka, czy na zewnątrz."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_DIRECTION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ArrowUpDown"
-            Title="Kierunek">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_DIRECTION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <ComboBox
                 ItemsSource="{Binding Directions, ElementName=Root}"
@@ -58,9 +59,9 @@
 
         <!-- Thickness -->
         <controls:SettingsControl
-            Description="Określa grubość krawędzi fali."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_LINE_THICKNESS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Minus"
-            Title="Grubość linii">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_THICKNESS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Maximum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MAXIMUM}"
@@ -71,9 +72,9 @@
 
         <!-- Falling speed -->
         <controls:SettingsControl
-            Description="Określa szybkość opadania fali po zmniejszeniu poziomu częstotliwości."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_DESCENT_RATE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ClockFading"
-            Title="Szybkość opadania">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Increment="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_INCREMENT}"
@@ -85,9 +86,9 @@
 
         <!-- Effects -->
         <controls:SettingsControl
-            Description="Dodaje lekką poświatę wokół linii fali."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_BEAM_EFFECT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Sparkles"
-            Title="Efekt linii">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_EFFECT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <ComboBox
                 ItemsSource="{Binding BeamEffects, ElementName=Root}"
@@ -105,9 +106,9 @@
 
         <!-- Fill -->
         <controls:SettingsControl
-            Description="Wypełnia obszar pomiędzy falą a jej środkową osią."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_FILL_ENABLED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="PaintBucket"
-            Title="Wypełnienie">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_FILL_ENABLED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.FillEnabled, Mode=TwoWay}"/>
@@ -115,10 +116,10 @@
 
         <!-- Transparency -->
         <controls:SettingsControl
-            Description="Określa przezroczystość wypełnionego obszaru."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Blend"
             IsVisible="{ReflectionBinding Config.FillEnabled}"
-            Title="Przezroczystość">
+            Title="{ReflectionBinding Translations[COMMON_OPACITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <Grid ColumnDefinitions="48,180" ColumnSpacing="8">
                 <TextBlock
@@ -138,17 +139,17 @@
 
         <!-- Transformation -->
         <controls:SettingsExpandControl
-            Description="Przekształcanie wizualizacji."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Move3d"
-            Title="Przekształcanie">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_TRANSFORM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel
                 Spacing="8">
 
                 <controls:SettingsControl
-                    Description="Moduluje wysokość peaków jednym okresem wybranej funkcji na całej szerokości wizualizacji."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="AudioWaveform"
-                    Title="Rodzaj przekształcenia">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
                         ItemsSource="{Binding Transformations, ElementName=Root}"
@@ -166,10 +167,10 @@
 
                 <!-- Transformation shift -->
                 <controls:SettingsControl
-                    Description="Określa minimalną wysokość przebiegu SIN lub COS przed przemnożeniem przez poziom FFT."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_MINIMUM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="MoveVertical"
                     IsVisible="{ReflectionBinding Config.IsTransformationEnabled}"
-                    Title="Minimum przekształcenia">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_MINIMUM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static profile:VisualizationBaseConfig.TRANSFORMATION_MINIMUM_INCREMENT}"
@@ -181,9 +182,9 @@
 
                 <!-- Shift -->
                 <controls:SettingsControl
-                    Description="Odwraca kolejność pasm FFT dolnej fali w osi poziomej."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_SHIFT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ArrowLeftRight"
-                    Title="Shift">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_SHIFT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.Shift, Mode=TwoWay}"/>

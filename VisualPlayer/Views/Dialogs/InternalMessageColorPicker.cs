@@ -10,6 +10,7 @@ using Lucide.Avalonia;
 using VisualPlayer.Models.Config;
 using VisualPlayer.Utils;
 using VisualPlayer.Views.Base;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Views.Dialogs;
 
@@ -17,6 +18,8 @@ namespace VisualPlayer.Views.Dialogs;
 [TemplatePart("PART_OkButton", typeof(Button), IsRequired = true)]
 public class InternalMessageColorPicker : InternalMessageBase
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     #region CONST
 
     public const int COLOR_CHANNEL_MAXIMUM = byte.MaxValue;
@@ -200,14 +203,14 @@ public class InternalMessageColorPicker : InternalMessageBase
     #region CONSTRUCTORS
 
     public InternalMessageColorPicker()
-        : this(new AccentColor("#0078D7", "Własny kolor"))
+        : this(new AccentColor("#0078D7", T["DIALOG_COLOR_PICKER_CUSTOM_COLOR"]))
     {
         //
     }
 
     public InternalMessageColorPicker(AccentColor initialColor)
     {
-        Title = "Wybierz kolor";
+        Title = T["DIALOG_COLOR_PICKER_TITLE"];
         SetFromColor(initialColor.ToColor());
     }
 

@@ -108,14 +108,14 @@
 
                 <components:ButtonWithIcon
                     x:Name="PART_AddPointButton"
-                    Content="Dodaj punkt"
+                    Content="{ReflectionBinding Translations[GRADIENT_BUTTON_ADD_A_POINT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Height="40"
                     Kind="Plus"
                     Theme="{StaticResource AccentButtonWithIconTheme}"/>
 
                 <components:ButtonWithIcon
                     x:Name="PART_RemovePointButton"
-                    Content="Usuń punkt"
+                    Content="{ReflectionBinding Translations[GRADIENT_BUTTON_REMOVE_POINT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Height="40"
                     Kind="Trash"
                     Theme="{StaticResource AccentButtonWithIconTheme}"/>

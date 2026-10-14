@@ -15,7 +15,7 @@
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Center"
                 Theme="{StaticResource AccentButtonTheme}"
-                ToolTip.Tip="Kliknij, a następnie naciśnij kombinację klawiszy"
+                ToolTip.Tip="{ReflectionBinding Translations[KEYBIND_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 VerticalAlignment="Stretch"
                 VerticalContentAlignment="Center" />
 
@@ -25,7 +25,7 @@
                 Height="40"
                 Kind="X"
                 Theme="{StaticResource AccentButtonWithIconTheme}"
-                ToolTip.Tip="Wyczyść skrót"
+                ToolTip.Tip="{ReflectionBinding Translations[KEYBIND_BUTTON_CLEAN], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Width="40"/>
         </Grid>
     </ControlTemplate>

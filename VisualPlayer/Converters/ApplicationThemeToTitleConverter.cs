@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using VisualPlayer.Enums.Config;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Converters;
 
@@ -11,9 +12,9 @@ public class ApplicationThemeToTitleConverter : IValueConverter
     {
         return value switch
         {
-            ApplicationTheme.System => "Systemowy",
-            ApplicationTheme.Light => "Jasny",
-            ApplicationTheme.Dark => "Ciemny",
+            ApplicationTheme.System => ApplicationContext.Instance.Translations["ENUM_APPLICATIONTHEME_SYSTEM"],
+            ApplicationTheme.Light => ApplicationContext.Instance.Translations["ENUM_APPLICATIONTHEME_LIGHT"],
+            ApplicationTheme.Dark => ApplicationContext.Instance.Translations["ENUM_APPLICATIONTHEME_DARK"],
             _ => string.Empty
         };
     }

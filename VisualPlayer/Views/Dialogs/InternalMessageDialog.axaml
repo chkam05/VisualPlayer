@@ -45,7 +45,7 @@
                             IsVisible="{TemplateBinding EnableCloseButton}"
                             Kind="X"
                             Theme="{StaticResource InternalMessage.ButtonWithIconTheme}"
-                            ToolTip.Tip="Zamknij"/>
+                            ToolTip.Tip="{ReflectionBinding Translations[DIALOG_BUTTON_CLOSE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
                     </Grid>
                 </Border>
 
@@ -69,25 +69,25 @@
 
                         <Button
                             x:Name="PART_OkButton"
-                            Content="OK"
+                            Content="{ReflectionBinding Translations[DIALOG_BUTTON_OK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                             IsVisible="False"
                             Theme="{StaticResource InternalMessage.ButtonTheme}"/>
 
                         <Button
                             x:Name="PART_CancelButton"
-                            Content="Anuluj"
+                            Content="{ReflectionBinding Translations[DIALOG_INTERNAL_MESSAGE_BUTTON_CANCEL], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                             IsVisible="False"
                             Theme="{StaticResource InternalMessage.ButtonTheme}"/>
 
                         <Button
                             x:Name="PART_YesButton"
-                            Content="Tak"
+                            Content="{ReflectionBinding Translations[DIALOG_INTERNAL_MESSAGE_DIALOG_BUTTON_YES], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                             IsVisible="False"
                             Theme="{StaticResource InternalMessage.ButtonTheme}"/>
 
                         <Button
                             x:Name="PART_NoButton"
-                            Content="Nie"
+                            Content="{ReflectionBinding Translations[DIALOG_INTERNAL_MESSAGE_DIALOG_BUTTON_NO], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                             IsVisible="False"
                             Theme="{StaticResource InternalMessage.ButtonTheme}"/>
 

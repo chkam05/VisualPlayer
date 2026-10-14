@@ -35,16 +35,16 @@ public static class DefaultEqualizerProfiles
 
     #region CREATE
 
-    public static IReadOnlyList<EqualizerProfile> Create()
+    public static IReadOnlyList<EqualizerProfile> Create(Func<string, string>? translate = null)
     {
         return
         [
-            CreateProfile(FLAT_NAME, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-            CreateProfile(CLASSICAL_NAME, -1, 4, 3, 2, 0, -1, -1, 0, 2, 3, 4),
-            CreateProfile(POP_NAME, -1, -1, 1, 3, 4, 2, 0, -1, -1, 1, 2),
-            CreateProfile(ROCK_NAME, -2, 5, 4, 2, -1, -2, 0, 2, 4, 5, 5),
-            CreateProfile(BASS_NAME, -1, 6, 5, 3, 1, 0, 0, 0, 0, 0, 0),
-            CreateProfile(TREBLE_NAME, -1, 0, 0, 0, 0, 0, 1, 3, 5, 6, 6),
+            CreateProfile(FLAT_NAME, "EQUALIZER_PRESET_FLAT", translate, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+            CreateProfile(CLASSICAL_NAME, "EQUALIZER_PRESET_CLASSICAL", translate, -1, 4, 3, 2, 0, -1, -1, 0, 2, 3, 4),
+            CreateProfile(POP_NAME, "EQUALIZER_PRESET_POP", translate, -1, -1, 1, 3, 4, 2, 0, -1, -1, 1, 2),
+            CreateProfile(ROCK_NAME, "EQUALIZER_PRESET_ROCK", translate, -2, 5, 4, 2, -1, -2, 0, 2, 4, 5, 5),
+            CreateProfile(BASS_NAME, "EQUALIZER_PRESET_BASS", translate, -1, 6, 5, 3, 1, 0, 0, 0, 0, 0, 0),
+            CreateProfile(TREBLE_NAME, "EQUALIZER_PRESET_TREBLE", translate, -1, 0, 0, 0, 0, 0, 1, 3, 5, 6, 6),
         ];
     }
 
@@ -55,7 +55,12 @@ public static class DefaultEqualizerProfiles
             ?? Create().First();
     }
 
-    private static EqualizerProfile CreateProfile(string name, double preamp, params double[] gains)
+    private static EqualizerProfile CreateProfile(
+        string name,
+        string translationKey,
+        Func<string, string>? translate,
+        double preamp,
+        params double[] gains)
     {
         var profile = new EqualizerProfile
         {
@@ -64,6 +69,7 @@ public static class DefaultEqualizerProfiles
             Preamp = preamp,
             Bands = new ObservableCollection<EqualizerBand>()
         };
+        profile.ConfigureTranslation(translationKey, translate);
 
         for (var index = 0; index < Bands.Length; index++)
         {
@@ -82,10 +88,11 @@ public static class DefaultEqualizerProfiles
 
     #region VALIDATION
 
-    public static bool IsDefaultName(string name)
+    public static bool IsDefaultName(string name, Func<string, string>? translate = null)
     {
-        return Create().Any(profile =>
-            string.Equals(profile.Name, name, StringComparison.OrdinalIgnoreCase));
+        return Create(translate).Any(profile =>
+            string.Equals(profile.Name, name, StringComparison.OrdinalIgnoreCase)
+            || string.Equals(profile.DisplayName, name, StringComparison.CurrentCultureIgnoreCase));
     }
 
     public static bool IsCompatible(EqualizerProfile profile)

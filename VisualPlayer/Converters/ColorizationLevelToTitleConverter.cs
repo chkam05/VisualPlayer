@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using VisualPlayer.Enums.Config;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Converters;
 
@@ -14,9 +15,9 @@ public class ColorizationLevelToTitleConverter : IValueConverter
 
         return level switch
         {
-            ColorizationLevel.Poorly => "Oszczędna",
-            ColorizationLevel.Buttons => "Przyciski",
-            ColorizationLevel.Whole => "Całość",
+            ColorizationLevel.Poorly => ApplicationContext.Instance.Translations["ENUM_COLORIZATIONLEVEL_POORLY"],
+            ColorizationLevel.Buttons => ApplicationContext.Instance.Translations["ENUM_COLORIZATIONLEVEL_BUTTONS"],
+            ColorizationLevel.Whole => ApplicationContext.Instance.Translations["ENUM_COLORIZATIONLEVEL_WHOLE"],
             _ => level.ToString()
         };
     }

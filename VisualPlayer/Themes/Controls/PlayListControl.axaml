@@ -58,7 +58,7 @@
                         <TextBlock
                             FontSize="12"
                             Opacity="0.5"
-                            Text="Playlista"/>
+                            Text="{ReflectionBinding Translations[PLAYLISTCONTROL_HEADER_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                         <TextBlock
                             FontSize="20"
@@ -75,7 +75,7 @@
                         Height="32"
                         Kind="Ellipsis"
                         Theme="{StaticResource PlayList.IconButtonTheme}"
-                        ToolTip.Tip="Opcje playlisty"
+                        ToolTip.Tip="{ReflectionBinding Translations[PLAYLIST_TOOLTIP_PLAYLIST_OPTIONS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         VerticalAlignment="Top"
                         Width="32">
 
@@ -84,7 +84,7 @@
                                 Placement="BottomEdgeAlignedRight">
 
                                 <MenuItem
-                                    Header="Otwórz playlistę"
+                                    Header="{ReflectionBinding Translations[WINDOW_MAIN_OPEN_PLAYLIST_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     Tag="OpenPlaylist">
                                     
                                     <MenuItem.Icon>
@@ -95,7 +95,7 @@
                                 </MenuItem>
 
                                 <MenuItem
-                                    Header="Zapisz playlistę"
+                                    Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_SAVE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     Tag="SavePlaylist">
 
                                     <MenuItem.Icon>
@@ -106,7 +106,7 @@
                                 </MenuItem>
 
                                 <MenuItem
-                                    Header="Eksportuj playlistę"
+                                    Header="{ReflectionBinding Translations[PLAYLIST_ITEM_EXPORT_PLAYLIST], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     Tag="ExportPlaylist">
 
                                     <MenuItem.Icon>
@@ -119,7 +119,7 @@
                                 <Separator/>
 
                                 <MenuItem
-                                    Header="Wyczyść playlistę"
+                                    Header="{ReflectionBinding Translations[PLAYLIST_ITEM_CLEAR_PLAYLIST], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     Tag="ClearPlaylist">
 
                                     <MenuItem.Icon>
@@ -144,7 +144,7 @@
 
                                 <MenuItem
                                     Command="{Binding DeleteCommand}"
-                                    Header="Usuń">
+                                    Header="{ReflectionBinding Translations[COMMON_BUTTON_DELETE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                     <MenuItem.Icon>
                                         <LucideIcon
@@ -163,7 +163,7 @@
                         Height="32"
                         Kind="X"
                         Theme="{StaticResource PlayList.IconButtonTheme}"
-                        ToolTip.Tip="Zamknij"
+                        ToolTip.Tip="{ReflectionBinding Translations[DIALOG_BUTTON_CLOSE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         VerticalAlignment="Top"
                         Width="32"/>
 
@@ -192,7 +192,7 @@
                             <TextBox
                                 Text="{Binding SearchPhrase, Mode=TwoWay}"
                                 Theme="{StaticResource TextBoxTheme}"
-                                PlaceholderText="Szukaj po tytule..."
+                                PlaceholderText="{ReflectionBinding Translations[PLAYLISTCONTROL_ACTION_SEARCH_PLACEHOLDER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 VerticalAlignment="Center" />
                             
                             <!-- SORT -->
@@ -211,7 +211,7 @@
                                     Spacing="2">
 
                                     <TextBlock
-                                        Text="Sortuj"
+                                        Text="{ReflectionBinding Translations[COMMON_BUTTON_SORT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                         VerticalAlignment="Center" />
 
                                     <LucideIcon
@@ -227,7 +227,7 @@
                                         Placement="BottomEdgeAlignedLeft">
 
                                         <!-- TITLE -->
-                                        <MenuItem Header="Tytuł">
+                                        <MenuItem Header="{ReflectionBinding Translations[VIEW_LIBRARY_MANAGER_ITEM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                              <MenuItem.Icon>
                                                 <LucideIcon
@@ -237,7 +237,7 @@
 
                                             <MenuItem
                                                 Command="{Binding SortTitleAscendingCommand}"
-                                                Header="Rosnąco">
+                                                Header="{ReflectionBinding Translations[COMMON_SORT_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                                 <MenuItem.Icon>
                                                     <LucideIcon
@@ -249,7 +249,7 @@
 
                                             <MenuItem
                                                 Command="{Binding SortTitleDescendingCommand}"
-                                                Header="Malejąco">
+                                                Header="{ReflectionBinding Translations[COMMON_SORT_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                                 <MenuItem.Icon>
                                                     <LucideIcon
@@ -262,7 +262,7 @@
                                         </MenuItem>
 
                                         <!-- ALBUM -->
-                                        <MenuItem Header="Album">
+                                        <MenuItem Header="{ReflectionBinding Translations[PLAYLIST_ITEM_ALBUM], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                             <MenuItem.Icon>
                                                 <LucideIcon
@@ -272,7 +272,7 @@
 
                                             <MenuItem
                                                 Command="{Binding SortAlbumAscendingCommand}"
-                                                Header="Rosnąco">
+                                                Header="{ReflectionBinding Translations[COMMON_SORT_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                                 <MenuItem.Icon>
                                                     <LucideIcon
@@ -284,7 +284,7 @@
 
                                             <MenuItem
                                                 Command="{Binding SortAlbumDescendingCommand}"
-                                                Header="Malejąco">
+                                                Header="{ReflectionBinding Translations[COMMON_SORT_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                                 <MenuItem.Icon>
                                                     <LucideIcon
@@ -297,7 +297,7 @@
                                         </MenuItem>
 
                                         <!-- ARTIST -->
-                                        <MenuItem Header="Artysta">
+                                        <MenuItem Header="{ReflectionBinding Translations[PLAYLIST_ITEM_ARTIST], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
                                             
                                             <MenuItem.Icon>
                                                 <LucideIcon
@@ -307,7 +307,7 @@
 
                                             <MenuItem
                                                 Command="{Binding SortArtistAscendingCommand}"
-                                                Header="Rosnąco">
+                                                Header="{ReflectionBinding Translations[COMMON_SORT_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                                 <MenuItem.Icon>
                                                     <LucideIcon
@@ -319,7 +319,7 @@
 
                                             <MenuItem
                                                 Command="{Binding SortArtistDescendingCommand}"
-                                                Header="Malejąco">
+                                                Header="{ReflectionBinding Translations[COMMON_SORT_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                                 <MenuItem.Icon>
                                                     <LucideIcon

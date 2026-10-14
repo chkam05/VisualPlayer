@@ -20,6 +20,8 @@ namespace VisualPlayer.Views;
 
 public partial class InternalViewVisualizations : InternalViewBase
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     private readonly VisualizationConfigurationContext _config;
 
     private readonly PeaksFloatingConfig _peaksFloatingConfig = new();
@@ -123,12 +125,13 @@ public partial class InternalViewVisualizations : InternalViewBase
 
     public InternalViewVisualizations()
     {
-        Title = "Wizualizacje";
+        Title = T["MENU_VISUALIZATIONS"];
         EnableSaveButton = true;
         SaveRequested += InternalViewVisualizations_SaveRequested;
         _config = ApplicationContext.Instance.VisualizationConfig;
         _config.EnsureProfiles();
         _config.Profiles.CollectionChanged += Profiles_CollectionChanged;
+        T.LanguageChanged += Translations_LanguageChanged;
 
         InitializeComponent();
         RefreshVisibleProfiles();
@@ -143,10 +146,18 @@ public partial class InternalViewVisualizations : InternalViewBase
     {
         SaveRequested -= InternalViewVisualizations_SaveRequested;
         _config.Profiles.CollectionChanged -= Profiles_CollectionChanged;
+        T.LanguageChanged -= Translations_LanguageChanged;
         if (_selectedProfile is not null)
             _selectedProfile.PropertyChanged -= SelectedProfile_PropertyChanged;
 
         base.OnClosed();
+    }
+
+    private void Translations_LanguageChanged(object? sender, EventArgs e)
+    {
+        Title = T["MENU_VISUALIZATIONS"];
+        RefreshVisibleProfiles();
+        UpdateConfigView();
     }
 
     private void InternalViewVisualizations_SaveRequested(object? sender, EventArgs e)
@@ -312,7 +323,7 @@ public partial class InternalViewVisualizations : InternalViewBase
                 {
                     Margin = new Thickness(8),
                     Opacity = 0.6,
-                    Text = "Wizualizacja jest wyłączona."
+                    Text = T["VIEW_VISUALIZATIONS_DISABLED"]
                 };
                 break;
         }

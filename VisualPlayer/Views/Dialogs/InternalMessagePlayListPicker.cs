@@ -7,6 +7,7 @@ using Avalonia.Interactivity;
 using VisualPlayer.Enums.UI;
 using VisualPlayer.ViewModels;
 using VisualPlayer.Views.Base;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Views.Dialogs;
 
@@ -14,6 +15,8 @@ namespace VisualPlayer.Views.Dialogs;
 [TemplatePart("PART_OkButton", typeof(Button), IsRequired = true)]
 public class InternalMessagePlayListPicker : InternalMessageBase
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     private readonly TaskCompletionSource<InternalDialogResult> _resultSource
         = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -33,7 +36,7 @@ public class InternalMessagePlayListPicker : InternalMessageBase
 
     public InternalMessagePlayListPicker(IReadOnlyList<SavedPlayListViewModel> playLists)
     {
-        Title = "Wybierz playlistę";
+        Title = T["DIALOG_PLAYLIST_PICKER_TITLE"];
         PlayLists = playLists;
         SelectedPlayList = playLists.Count > 0 ? playLists[0] : null;
     }

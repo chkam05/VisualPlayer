@@ -24,6 +24,8 @@ namespace VisualPlayer.Views.Lyrics;
 
 public partial class LyricsListView : UserControl
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     private string _searchPhrase = string.Empty;
     private LyricsDocumentSortMode _sortMode = LyricsDocumentSortMode.NameAscending;
     private bool _isLibrarySubscribed;
@@ -82,8 +84,8 @@ public partial class LyricsListView : UserControl
         }
 
         var dialog = new InternalMessageDialog(
-            "Usuń tekst",
-            $"Czy na pewno chcesz usunąć tekst „{document.SuggestedName}”? Tej operacji nie można cofnąć.",
+            T["VIEW_LYRICS_LIST_DELETE_TITLE"],
+            T.Format("VIEW_LYRICS_LIST_DELETE_MESSAGE", document.SuggestedName),
             InternalDialogButtons.YesNo,
             LucideIconKind.Trash);
 
@@ -113,14 +115,14 @@ public partial class LyricsListView : UserControl
                 DefaultExtension = extension,
                 FileTypeChoices =
                 [
-                    new FilePickerFileType(isPlainText ? "Zwykły tekst" : "Tekst synchronizowany LRC")
+                    new FilePickerFileType(isPlainText ? T["ENUM_LYRICSTYPE_PLAIN"] : T["FILETYPE_SYNCED_LYRICS"])
                     {
                         Patterns = [$"*.{extension}"]
                     }
                 ],
                 ShowOverwritePrompt = true,
                 SuggestedFileName = $"{document.SuggestedName}.{extension}",
-                Title = "Eksportuj tekst piosenki"
+                Title = T["VIEW_LYRICS_LIST_EXPORT_TITLE"]
             });
 
         if (file is null)

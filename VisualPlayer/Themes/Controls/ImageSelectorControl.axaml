@@ -41,7 +41,7 @@
                 Padding="4"
                 Tag="{Binding}"
                 Theme="{StaticResource AccentButtonWithIconTheme}"
-                ToolTip.Tip="Usuń obraz"
+                ToolTip.Tip="{ReflectionBinding Translations[IMAGESELECTOR_TOOLTIP_REMOVE_IMAGE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 VerticalAlignment="Top"
                 Width="24"/>
 
@@ -136,7 +136,7 @@
 
             <components:ButtonWithIcon
                 x:Name="PART_AddImageButton"
-                Content="Dodaj obraz"
+                Content="{ReflectionBinding Translations[COMMON_BUTTON_ADD_IMAGE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 HorizontalContentAlignment="Center"
                 IconPosition="Top"
                 Height="88"
@@ -144,7 +144,7 @@
                 Margin="8,4,8,4"
                 Padding="12,8"
                 Theme="{StaticResource AccentButtonWithIconTheme}"
-                ToolTip.Tip="Dodaj obraz"
+                ToolTip.Tip="{ReflectionBinding Translations[COMMON_BUTTON_ADD_IMAGE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Width="136"/>
         </StackPanel>
     </ControlTemplate>

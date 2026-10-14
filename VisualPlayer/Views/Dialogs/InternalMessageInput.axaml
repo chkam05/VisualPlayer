@@ -46,7 +46,7 @@
                             IsVisible="{TemplateBinding EnableCloseButton}"
                             Kind="X"
                             Theme="{StaticResource InternalMessage.ButtonWithIconTheme}"
-                            ToolTip.Tip="Zamknij"/>
+                            ToolTip.Tip="{ReflectionBinding Translations[DIALOG_BUTTON_CLOSE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
                     </Grid>
                 </Border>
                 
@@ -56,7 +56,7 @@
                     Grid.Row="1"
                     Margin="24"
                     MinWidth="320"
-                    PlaceholderText="Nazwa profilu"
+                    PlaceholderText="{ReflectionBinding Translations[DIALOG_INPUT_PLACEHOLDER_PROFILE_NAME], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Text="{Binding DefaultValue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
                 
                 <!-- FOOTER -->
@@ -68,12 +68,12 @@
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Spacing="8">
                         <Button
                             x:Name="PART_OkButton"
-                            Content="OK"
+                            Content="{ReflectionBinding Translations[DIALOG_BUTTON_OK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                             Theme="{StaticResource InternalMessage.ButtonTheme}"/>
 
                         <Button
                             x:Name="PART_CancelButton"
-                            Content="Anuluj"
+                            Content="{ReflectionBinding Translations[DIALOG_INTERNAL_MESSAGE_BUTTON_CANCEL], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                             Theme="{StaticResource InternalMessage.ButtonTheme}"/>
                     </StackPanel>
                 </Border>

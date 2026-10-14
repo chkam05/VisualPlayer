@@ -24,6 +24,7 @@ public class ConfigurationContext : ConfigurationContextBase
     private static object _instanceLock = new object();
 
     private AppearanceConfig _appearance = new();
+    private GeneralConfig _general = new();
     private KeyboardConfig _keyboard = new();
     private LibraryConfig _library = new();
     private LogoConfig _logo = new();
@@ -40,6 +41,13 @@ public class ConfigurationContext : ConfigurationContextBase
     {
         get => _appearance;
         set => UpdateProperty(ref _appearance, value);
+    }
+
+    [NotifyPropertyUpdate]
+    public GeneralConfig General
+    {
+        get => _general;
+        set => UpdateProperty(ref _general, value ?? new GeneralConfig());
     }
 
     [NotifyPropertyUpdate]

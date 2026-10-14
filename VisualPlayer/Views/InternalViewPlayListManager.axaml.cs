@@ -26,12 +26,14 @@ namespace VisualPlayer.Views;
 
 public partial class InternalViewPlayListManager : InternalViewBase, IInternalCloseGuard
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     private Track? _draggedTrack;
     private bool _hasSelectedTracks;
     private TrackViewModel? _lastSelectedTrack;
     private bool _isSelectionMode;
     private string _playListSearch = string.Empty;
-    private string _selectionButtonText = "Zaznacz";
+    private string _selectionButtonText = T["COMMON_BUTTON_SELECT"];
     private SavedPlayListViewModel? _selectedPlayList;
     private readonly ObservableCollection<Track> _workingTracks = [];
     private bool _suppressPlayListSelection;
@@ -69,7 +71,7 @@ public partial class InternalViewPlayListManager : InternalViewBase, IInternalCl
         private set
         {
             SetAndRaise(IsSelectionModeProperty, ref _isSelectionMode, value);
-            SelectionButtonText = value ? "Anuluj" : "Zaznacz";
+            SelectionButtonText = value ? T["DIALOG_INTERNAL_MESSAGE_BUTTON_CANCEL"] : T["COMMON_BUTTON_SELECT"];
 
             foreach (var track in VisibleTracks)
             {
@@ -138,8 +140,9 @@ public partial class InternalViewPlayListManager : InternalViewBase, IInternalCl
 
     public InternalViewPlayListManager()
     {
-        Title = "Listy Odtwarzania";
+        Title = T["MENU_PLAYLISTS"];
         InitializeComponent();
+        T.LanguageChanged += Translations_LanguageChanged;
         RefreshPlayLists();
         LoadPlayList(null);
     }
@@ -147,6 +150,20 @@ public partial class InternalViewPlayListManager : InternalViewBase, IInternalCl
     #endregion CONSTRUCTORS
 
     #region ACTIONS
+
+    protected override void OnClosed()
+    {
+        T.LanguageChanged -= Translations_LanguageChanged;
+        base.OnClosed();
+    }
+
+    private void Translations_LanguageChanged(object? sender, EventArgs e)
+    {
+        Title = T["MENU_PLAYLISTS"];
+        SelectionButtonText = IsSelectionMode
+            ? T["DIALOG_INTERNAL_MESSAGE_BUTTON_CANCEL"]
+            : T["COMMON_BUTTON_SELECT"];
+    }
 
     private static void AppendTracks(IEnumerable<Track> tracks)
     {
@@ -291,8 +308,8 @@ public partial class InternalViewPlayListManager : InternalViewBase, IInternalCl
             return false;
 
         var dialog = new InternalMessageDialog(
-            "Niezapisane zmiany",
-            $"Playlista „{SelectedPlayList!.Name}” zawiera niezapisane zmiany. Czy chcesz je zapisać?",
+            T["DIALOG_UNSAVED_CHANGES_TITLE"],
+            T.Format("VIEW_PLAYLIST_MANAGER_UNSAVED_MESSAGE", SelectedPlayList!.Name),
             InternalDialogButtons.YesNoCancel,
             LucideIconKind.TriangleAlert,
             false);
@@ -368,10 +385,10 @@ public partial class InternalViewPlayListManager : InternalViewBase, IInternalCl
 
         var files = await topLevel.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
         {
-            Title = "Dodaj nagrania",
+            Title = T["VIEW_PLAYLIST_MANAGER_ADD_TRACKS_TITLE"],
             AllowMultiple = true,
             FileTypeFilter = [
-                new FilePickerFileType("Pliki audio")
+                new FilePickerFileType(T["FILETYPE_AUDIO_FILES"])
                 {
                     Patterns = AudioFileUtils.FilePickerAudioTypes
                 }
@@ -416,7 +433,7 @@ public partial class InternalViewPlayListManager : InternalViewBase, IInternalCl
         if (sender is not MenuItem { DataContext: SavedPlayListViewModel item })
             return;
 
-        var name = await RequestNameAsync("Duplikuj playlistę", $"{item.Name} — kopia");
+        var name = await RequestNameAsync(T["VIEW_PLAYLIST_MANAGER_DUPLICATE_TITLE"], T.Format("VIEW_PLAYLIST_MANAGER_COPY_NAME", item.Name));
 
         if (name is null)
             return;
@@ -432,11 +449,11 @@ public partial class InternalViewPlayListManager : InternalViewBase, IInternalCl
 
         var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
         {
-            Title = "Eksportuj playlistę",
+            Title = T["PLAYLIST_ITEM_EXPORT_PLAYLIST"],
             SuggestedFileName = $"{item.Name}.vpl",
             DefaultExtension = "vpl",
             FileTypeChoices = [
-                new FilePickerFileType("Playlista VisualPlayer")
+                new FilePickerFileType(T["FILETYPE_VISUALPLAYER_PLAYLIST"])
                 {
                     Patterns = ["*.vpl"]
                 }
@@ -464,7 +481,7 @@ public partial class InternalViewPlayListManager : InternalViewBase, IInternalCl
 
     private async void NewPlayListButton_Click(object? sender, RoutedEventArgs e)
     {
-        var name = await RequestNameAsync("Nowa playlista", "Nowa playlista");
+        var name = await RequestNameAsync(T["COMMON_NEW_PLAYLIST"], T["COMMON_NEW_PLAYLIST"]);
 
         if (name is null)
             return;

@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using VisualPlayer.Enums;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Converters;
 
@@ -11,8 +12,8 @@ public class MirroredVisualizationDirectionToTitleConverter : IValueConverter
     {
         return value switch
         {
-            MirroredVisualizationDirection.Inside => "Do środka",
-            MirroredVisualizationDirection.Outside => "Na zewnątrz",
+            MirroredVisualizationDirection.Inside => ApplicationContext.Instance.Translations["ENUM_MIRROREDVISUALIZATIONDIRECTION_INSIDE"],
+            MirroredVisualizationDirection.Outside => ApplicationContext.Instance.Translations["ENUM_MIRROREDVISUALIZATIONDIRECTION_OUTSIDE"],
             _ => value?.ToString() ?? string.Empty
         };
     }

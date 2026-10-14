@@ -11,6 +11,8 @@ namespace VisualPlayer.Views.Settings;
 
 public partial class GeneralSettingsView : UserControl
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     #region CONVERTERS
 
     public static IValueConverter FolderIconConverter { get; }
@@ -38,7 +40,7 @@ public partial class GeneralSettingsView : UserControl
 
         var folders = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
         {
-            Title = "Dodaj katalog biblioteki",
+            Title = T["VIEW_SETTINGS_GENERAL_ADD_LIBRARY_FOLDER_TITLE"],
             AllowMultiple = false
         });
 

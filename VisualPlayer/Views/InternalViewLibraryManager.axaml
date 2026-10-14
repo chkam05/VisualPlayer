@@ -98,7 +98,7 @@
                             Theme="{StaticResource ContextMenuTheme}">
                             <MenuItem
                                 Click="PlayItemMenuItem_Click"
-                                Header="Odtwórz">
+                                Header="{ReflectionBinding Translations[COMMON_BUTTON_PLAY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                 <MenuItem.Icon>
                                     <LucideIcon
@@ -109,7 +109,7 @@
 
                             <MenuItem
                                 Click="AppendItemMenuItem_Click"
-                                Header="Dodaj do kolejki">
+                                Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ADD_TO_QUEUE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                 <MenuItem.Icon>
                                     <LucideIcon
@@ -120,7 +120,7 @@
 
                             <MenuItem
                                 Click="AddItemToPlayListMenuItem_Click"
-                                Header="Dodaj do playlisty">
+                                Header="{ReflectionBinding Translations[VIEW_LIBRARY_MANAGER_ITEM_ADD_TO_PLAYLIST], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                 <MenuItem.Icon>
                                     <LucideIcon
@@ -148,7 +148,7 @@
 
                         <MenuItem
                             Click="PlayItemMenuItem_Click"
-                            Header="Odtwórz">
+                            Header="{ReflectionBinding Translations[COMMON_BUTTON_PLAY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                             <MenuItem.Icon>
                                 <LucideIcon
@@ -159,7 +159,7 @@
 
                         <MenuItem
                             Click="AppendItemMenuItem_Click"
-                            Header="Dodaj do kolejki">
+                            Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ADD_TO_QUEUE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                             <MenuItem.Icon>
                                 <LucideIcon
@@ -170,7 +170,7 @@
 
                         <MenuItem
                             Click="AddItemToPlayListMenuItem_Click"
-                            Header="Dodaj do playlisty">
+                            Header="{ReflectionBinding Translations[VIEW_LIBRARY_MANAGER_ITEM_ADD_TO_PLAYLIST], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                             <MenuItem.Icon>
                                 <LucideIcon
@@ -249,7 +249,7 @@
 
                         <MenuItem
                             Click="PlayItemMenuItem_Click"
-                            Header="Odtwórz">
+                            Header="{ReflectionBinding Translations[COMMON_BUTTON_PLAY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                             <MenuItem.Icon>
                                 <LucideIcon
@@ -260,7 +260,7 @@
 
                         <MenuItem
                             Click="AppendItemMenuItem_Click"
-                            Header="Dodaj do kolejki">
+                            Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ADD_TO_QUEUE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                             <MenuItem.Icon>
                                 <LucideIcon
@@ -271,7 +271,7 @@
 
                         <MenuItem
                             Click="AddItemToPlayListMenuItem_Click"
-                            Header="Dodaj do playlisty">
+                            Header="{ReflectionBinding Translations[VIEW_LIBRARY_MANAGER_ITEM_ADD_TO_PLAYLIST], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                             <MenuItem.Icon>
                                 <LucideIcon
@@ -361,13 +361,13 @@
                         IsEnabled="{Binding CanNavigateBack, ElementName=Root}"
                         Kind="ChevronLeft"
                         Theme="{StaticResource ThemeButtonWithIconTheme}"
-                        ToolTip.Tip="Wstecz"/>
+                        ToolTip.Tip="{ReflectionBinding Translations[COMMON_BUTTON_BACK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                     <Border
                         Theme="{StaticResource SeparatorVertical.BorderTheme}"/>
 
                     <TextBox
-                        PlaceholderText="Szukaj w bibliotece"
+                        PlaceholderText="{ReflectionBinding Translations[VIEW_LIBRARY_SEARCH_PLACEHOLDER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Text="{Binding SearchPhrase, ElementName=Root, Mode=TwoWay}"
                         Theme="{StaticResource TextBoxTheme}"
                         VerticalContentAlignment="Center"
@@ -375,7 +375,7 @@
 
                     <components:ButtonWithIcon
                         Click="SortButton_Click"
-                        Content="Sortuj"
+                        Content="{ReflectionBinding Translations[COMMON_BUTTON_SORT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Kind="ArrowUpDown"
                         Theme="{StaticResource ThemeButtonWithIconTheme}">
 
@@ -384,7 +384,7 @@
                                 Theme="{StaticResource ContextMenuTheme}">
 
                                 <MenuItem
-                                    Header="Tytuł"
+                                    Header="{ReflectionBinding Translations[VIEW_LIBRARY_MANAGER_ITEM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     IsVisible="{Binding IsDetailedSortAvailable, ElementName=Root}">
 
                                     <MenuItem.Icon>
@@ -395,7 +395,7 @@
 
                                     <MenuItem
                                         Click="SortMenuItem_Click"
-                                        Header="Rosnąco"
+                                        Header="{ReflectionBinding Translations[COMMON_SORT_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                         Tag="TitleAscending">
 
                                         <MenuItem.Icon>
@@ -407,7 +407,7 @@
 
                                     <MenuItem
                                         Click="SortMenuItem_Click"
-                                        Header="Malejąco"
+                                        Header="{ReflectionBinding Translations[COMMON_SORT_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                         Tag="TitleDescending">
 
                                         <MenuItem.Icon>
@@ -419,7 +419,7 @@
                                 </MenuItem>
 
                                 <MenuItem
-                                    Header="Album"
+                                    Header="{ReflectionBinding Translations[PLAYLIST_ITEM_ALBUM], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     IsVisible="{Binding IsDetailedSortAvailable, ElementName=Root}">
 
                                     <MenuItem.Icon>
@@ -430,7 +430,7 @@
 
                                     <MenuItem
                                         Click="SortMenuItem_Click"
-                                        Header="Rosnąco"
+                                        Header="{ReflectionBinding Translations[COMMON_SORT_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                         Tag="AlbumAscending">
 
                                         <MenuItem.Icon>
@@ -442,7 +442,7 @@
 
                                     <MenuItem
                                         Click="SortMenuItem_Click"
-                                        Header="Malejąco"
+                                        Header="{ReflectionBinding Translations[COMMON_SORT_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                         Tag="AlbumDescending">
 
                                         <MenuItem.Icon>
@@ -454,7 +454,7 @@
                                 </MenuItem>
 
                                 <MenuItem
-                                    Header="Artysta"
+                                    Header="{ReflectionBinding Translations[PLAYLIST_ITEM_ARTIST], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     IsVisible="{Binding IsDetailedSortAvailable, ElementName=Root}">
 
                                     <MenuItem.Icon>
@@ -465,7 +465,7 @@
 
                                     <MenuItem
                                         Click="SortMenuItem_Click"
-                                        Header="Rosnąco"
+                                        Header="{ReflectionBinding Translations[COMMON_SORT_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                         Tag="ArtistAscending">
 
                                         <MenuItem.Icon>
@@ -477,7 +477,7 @@
 
                                     <MenuItem
                                         Click="SortMenuItem_Click"
-                                        Header="Malejąco"
+                                        Header="{ReflectionBinding Translations[COMMON_SORT_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                         Tag="ArtistDescending">
 
                                         <MenuItem.Icon>
@@ -489,7 +489,7 @@
                                 </MenuItem>
 
                                 <MenuItem
-                                    Header="Nazwa"
+                                    Header="{ReflectionBinding Translations[VIEW_LYRICS_LIST_TEXT_NAME], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     IsVisible="{Binding IsSimpleSortAvailable, ElementName=Root}">
 
                                     <MenuItem.Icon>
@@ -500,7 +500,7 @@
 
                                     <MenuItem
                                         Click="SortMenuItem_Click"
-                                        Header="Rosnąco"
+                                        Header="{ReflectionBinding Translations[COMMON_SORT_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                         Tag="TitleAscending">
 
                                         <MenuItem.Icon>
@@ -512,7 +512,7 @@
 
                                     <MenuItem
                                         Click="SortMenuItem_Click"
-                                        Header="Malejąco"
+                                        Header="{ReflectionBinding Translations[COMMON_SORT_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                         Tag="TitleDescending">
 
                                         <MenuItem.Icon>
@@ -524,7 +524,7 @@
                                 </MenuItem>
 
                                 <MenuItem
-                                    Header="Typ"
+                                    Header="{ReflectionBinding Translations[COMMON_LABEL_TYPE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     IsVisible="{Binding IsDetailedSortAvailable, ElementName=Root}">
 
                                     <MenuItem.Icon>
@@ -535,7 +535,7 @@
 
                                     <MenuItem
                                         Click="SortMenuItem_Click"
-                                        Header="Rosnąco"
+                                        Header="{ReflectionBinding Translations[COMMON_SORT_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                         Tag="TypeAscending">
 
                                         <MenuItem.Icon>
@@ -547,7 +547,7 @@
 
                                     <MenuItem
                                         Click="SortMenuItem_Click"
-                                        Header="Malejąco"
+                                        Header="{ReflectionBinding Translations[COMMON_SORT_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                         Tag="TypeDescending">
 
                                         <MenuItem.Icon>
@@ -581,7 +581,7 @@
 
                                 <MenuItem
                                     Click="OpenSelectedMenuItem_Click"
-                                    Header="Otwórz"
+                                    Header="{ReflectionBinding Translations[COMMON_BUTTON_OPEN], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     IsEnabled="{Binding HasSelection, ElementName=Root}">
 
                                     <MenuItem.Icon>
@@ -593,7 +593,7 @@
 
                                 <MenuItem
                                     Click="AppendSelectedMenuItem_Click"
-                                    Header="Dodaj do kolejki"
+                                    Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ADD_TO_QUEUE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     IsEnabled="{Binding HasSelection, ElementName=Root}">
 
                                     <MenuItem.Icon>
@@ -607,7 +607,7 @@
 
                                 <MenuItem
                                     Click="CreatePlayListMenuItem_Click"
-                                    Header="Utwórz playlistę"
+                                    Header="{ReflectionBinding Translations[VIEW_LIBRARY_CREATE_PLAYLIST_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     IsEnabled="{Binding HasSelection, ElementName=Root}">
 
                                     <MenuItem.Icon>
@@ -619,7 +619,7 @@
 
                                 <MenuItem
                                     Click="AddSelectedToPlayListMenuItem_Click"
-                                    Header="Dodaj do playlisty"
+                                    Header="{ReflectionBinding Translations[VIEW_LIBRARY_MANAGER_ITEM_ADD_TO_PLAYLIST], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     IsEnabled="{Binding HasSelection, ElementName=Root}">
 
                                     <MenuItem.Icon>

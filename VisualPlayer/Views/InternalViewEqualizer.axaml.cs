@@ -15,6 +15,8 @@ namespace VisualPlayer.Views;
 
 public partial class InternalViewEqualizer : InternalViewBase
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     private readonly EqualizerConfigurationContext _config;
     private bool _canCreateProfile;
     private string _newProfileName = string.Empty;
@@ -87,11 +89,12 @@ public partial class InternalViewEqualizer : InternalViewBase
 
     public InternalViewEqualizer()
     {
-        Title = "Equalizer";
+        Title = T["MENU_EQUALIZER"];
         EnableSaveButton = true;
         _config = ApplicationContext.Instance.EqualizerConfig;
         _config.EnsureProfiles();
         _config.Profiles.CollectionChanged += Profiles_CollectionChanged;
+        T.LanguageChanged += Translations_LanguageChanged;
         SaveRequested += InternalViewEqualizer_SaveRequested;
 
         InitializeComponent();
@@ -137,6 +140,7 @@ public partial class InternalViewEqualizer : InternalViewBase
     protected override void OnClosed()
     {
         _config.Profiles.CollectionChanged -= Profiles_CollectionChanged;
+        T.LanguageChanged -= Translations_LanguageChanged;
         SaveRequested -= InternalViewEqualizer_SaveRequested;
         base.OnClosed();
     }
@@ -147,9 +151,9 @@ public partial class InternalViewEqualizer : InternalViewBase
         var profiles = _config.Profiles
             .Where(profile =>
                 searchText.Length == 0
-                || profile.Name.Contains(searchText, StringComparison.CurrentCultureIgnoreCase))
+                || profile.DisplayName.Contains(searchText, StringComparison.CurrentCultureIgnoreCase))
             .OrderBy(profile => profile.IsDefault ? 0 : 1)
-            .ThenBy(profile => profile.Name, StringComparer.CurrentCultureIgnoreCase);
+            .ThenBy(profile => profile.DisplayName, StringComparer.CurrentCultureIgnoreCase);
 
         VisibleProfiles.Clear();
         foreach (var profile in profiles)
@@ -164,7 +168,7 @@ public partial class InternalViewEqualizer : InternalViewBase
         var name = NewProfileName.Trim();
         CanCreateProfile = SelectedProfile is not null
             && name.Length > 0
-            && !DefaultEqualizerProfiles.IsDefaultName(name)
+            && !DefaultEqualizerProfiles.IsDefaultName(name, T.Translate)
             && !_config.Profiles.Any(profile =>
                 string.Equals(profile.Name, name, StringComparison.CurrentCultureIgnoreCase));
     }
@@ -192,6 +196,13 @@ public partial class InternalViewEqualizer : InternalViewBase
 
     private void Profiles_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
+        UpdateCanCreateProfile();
+    }
+
+    private void Translations_LanguageChanged(object? sender, EventArgs e)
+    {
+        Title = T["MENU_EQUALIZER"];
+        RefreshVisibleProfiles();
         UpdateCanCreateProfile();
     }
 

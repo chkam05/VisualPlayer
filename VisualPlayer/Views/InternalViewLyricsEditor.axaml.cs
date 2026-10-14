@@ -26,6 +26,8 @@ namespace VisualPlayer.Views;
 
 public partial class InternalViewLyricsEditor : InternalViewBase, IInternalCloseGuard
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     private static readonly JsonSerializerOptions SnapshotJsonOptions = new()
     {
         PropertyNameCaseInsensitive = true,
@@ -158,7 +160,7 @@ public partial class InternalViewLyricsEditor : InternalViewBase, IInternalClose
     public InternalViewLyricsEditor(LyricsDocument document)
     {
         Document = document;
-        Title = "Edytor tekstu";
+        Title = T["VIEW_LYRICS_EDITOR_TITLE"];
         InitializeComponent();
 
         PART_PositionSlider.AddHandler(
@@ -427,7 +429,7 @@ public partial class InternalViewLyricsEditor : InternalViewBase, IInternalClose
         CanUndo = _undoHistory.Count > 0;
         IsDirty = _currentSnapshot != _savedSnapshot;
         CanSave = IsDirty && Document.Lines.All(line => !line.HasTimeError);
-        Title = IsDirty ? "Edytor tekstu *" : "Edytor tekstu";
+        Title = IsDirty ? T["VIEW_LYRICS_EDITOR_TITLE_DIRTY"] : T["VIEW_LYRICS_EDITOR_TITLE"];
     }
 
     #endregion HISTORY
@@ -491,8 +493,8 @@ public partial class InternalViewLyricsEditor : InternalViewBase, IInternalClose
             return false;
 
         var dialog = new InternalMessageDialog(
-            "Niezapisane zmiany",
-            "Tekst zawiera niezapisane zmiany. Czy chcesz zamknąć edytor bez zapisywania?",
+            T["DIALOG_UNSAVED_CHANGES_TITLE"],
+            T["VIEW_LYRICS_EDITOR_UNSAVED_MESSAGE"],
             InternalDialogButtons.YesNo,
             LucideIconKind.TriangleAlert);
         return await window.ShowDialogAsync(dialog) == InternalDialogResult.Yes;

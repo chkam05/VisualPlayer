@@ -35,16 +35,16 @@
                 <TextBlock
                     FontSize="22"
                     FontWeight="SemiBold"
-                    Text="Teksty"/>
+                    Text="{ReflectionBinding Translations[MENU_LYRICS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                 <TextBlock
                     Opacity="0.6"
-                    Text="Dostosuj źródła, pobieranie i wyświetlanie tekstów piosenek."/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_SUBTITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
             </StackPanel>
 
             <components:ButtonWithIcon
                 Click="ResetButton_Click"
-                Content="Reset"
+                Content="{ReflectionBinding Translations[COMMON_BUTTON_RESET], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Grid.Column="1"
                 Kind="RotateCcw"
                 Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
@@ -53,25 +53,25 @@
         <!-- OPTIONS -->
         
         <controls:SettingsControl
-            Description="Pokazuje znaleziony tekst podczas odtwarzania nagrania."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_DISPLAY_LYRICS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Type"
-            Title="Wyświetlaj tekst">
+            Title="{ReflectionBinding Translations[VIEW_LYRICS_TEXT_DISPLAY_LYRICS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Lyrics.DisplayLyrics, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
         </controls:SettingsControl>
 
         <controls:SettingsExpandControl
-            Description="Dostosuj niezależnie rozmiar tekstu dla obu sposobów wyświetlania."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_FONT_SIZE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="TextCursorInput"
-            Title="Rozmiar tekstu">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_TITLE_LYRICS_SIZE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel Spacing="8">
                 <controls:SettingsControl
-                    Description="Rozmiar aktualnie śpiewanej linii, słowa albo sylaby."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_CURRENT_LINE_FONT_SIZE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Type"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Obecnie śpiewany">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_CURRENT_LINE_FONT_SIZE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static config:LyricsConfig.FONT_SIZE_INCREMENT}"
@@ -82,10 +82,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Rozmiar poprzedniej i następnej linii tekstu synchronizowanego."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_SURROUNDING_LINE_FONT_SIZE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="BetweenHorizontalStart"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Poprzedni i następny">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_SURROUNDING_LINE_FONT_SIZE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static config:LyricsConfig.FONT_SIZE_INCREMENT}"
@@ -96,10 +96,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Rozmiar tekstu bez znaczników czasu w widoku pełnego obszaru."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_PLAIN_TEXT_FONT_SIZE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ScrollText"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Zwykły tekst">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_PLAIN_TEXT_FONT_SIZE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static config:LyricsConfig.FONT_SIZE_INCREMENT}"
@@ -112,9 +112,9 @@
         </controls:SettingsExpandControl>
 
         <controls:SettingsControl
-            Description="Określa przeźroczystość zaokrąglonego tła tekstu wyświetlanego nad wizualizacją."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_BACKGROUND_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Layers2"
-            Title="Przeźroczystość tła">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_BACKGROUND_OPACITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <Grid
                 ColumnDefinitions="48,180"
@@ -136,16 +136,16 @@
         </controls:SettingsControl>
 
         <controls:SettingsExpandControl
-            Description="Ustaw odstępy czasu używane przez przyciski przewijania w edytorze tekstów."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_EDITOR_INTERVAL_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ClockArrowRight"
-            Title="Interwały edytora">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_TITLE_EDITOR_INTERVALS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel Spacing="8">
                 <controls:SettingsControl
-                    Description="Najmniejszy skok do precyzyjnego ustawiania czasu."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_SEEK_SHORT_INTERVAL_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="StepForward"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Krótki interwał">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_SEEK_SHORT_INTERVAL_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static config:LyricsConfig.SEEK_INTERVAL_INCREMENT}"
@@ -156,10 +156,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Średni skok używany podczas pracy nad liniami tekstu."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_SEEK_MEDIUM_INTERVAL_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="FastForward"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Średni interwał">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_SEEK_MEDIUM_INTERVAL_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static config:LyricsConfig.SEEK_INTERVAL_INCREMENT}"
@@ -170,10 +170,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Największy skok do szybkiego przechodzenia między fragmentami."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_SEEK_LONG_INTERVAL_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="SkipForward"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Długi interwał">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_SEEK_LONG_INTERVAL_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static config:LyricsConfig.SEEK_INTERVAL_INCREMENT}"
@@ -186,36 +186,36 @@
         </controls:SettingsExpandControl>
 
         <controls:SettingsControl
-            Description="Odczytuje tekst zapisany bezpośrednio w metadanych pliku audio."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_USE_EMBEDDED_LYRICS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="FileMusic"
-            Title="Teksty z metadanych">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_USE_EMBEDDED_LYRICS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Lyrics.UseEmbeddedLyrics, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
         </controls:SettingsControl>
 
         <controls:SettingsControl
-            Description="Kopiuje znaleziony tekst z metadanych do lokalnej biblioteki VisualPlayer."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_AUTO_IMPORT_EMBEDDED_LYRICS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="FileDown"
-            Title="Automatyczny import">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_AUTO_IMPORT_EMBEDDED_LYRICS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Lyrics.AutoImportEmbeddedLyrics, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
         </controls:SettingsControl>
 
         <controls:SettingsControl
-            Description="Wyszukuje tekst online, kiedy nie jest dostępny lokalnie ani w pliku audio."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_AUTO_DOWNLOAD_LYRICS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="HardDriveDownload"
-            Title="Automatyczne pobieranie">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_AUTO_DOWNLOAD_LYRICS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Lyrics.AutoDownloadLyrics, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
         </controls:SettingsControl>
 
         <controls:SettingsControl
-            Description="Określa preferowany poziom synchronizacji pobieranego tekstu."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_PREFERRED_TYPE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ScrollText"
-            Title="Preferowany typ">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LYRICS_PREFERRED_TYPE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <ComboBox
                 ItemTemplate="{StaticResource LyricsTypeDataTemplate}"

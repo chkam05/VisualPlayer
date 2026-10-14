@@ -18,25 +18,25 @@
                 <TextBlock
                     FontSize="22"
                     FontWeight="SemiBold"
-                    Text="Logo"/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_NAV_LOGO], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                 <TextBlock
                     Opacity="0.6"
-                    Text="Dostosuj wygląd logo oraz jego reakcję na wybrane pasmo dźwięku."/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_SUBTITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
             </StackPanel>
 
             <components:ButtonWithIcon
                 Click="ResetButton_Click"
-                Content="Reset"
+                Content="{ReflectionBinding Translations[COMMON_BUTTON_RESET], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Grid.Column="1"
                 Kind="RotateCcw"
                 Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
         </Grid>
 
         <controls:SettingsControl
-            Description="Pokazuje logo nad powierzchnią wizualizacji."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_ENABLED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Eye"
-            Title="Pokaż logo">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_ENABLED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Logo.Enabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
@@ -44,48 +44,48 @@
 
         <controls:SettingsExpandControl
             Icon="PenLine"
-            Title="Kolor obramowania 1">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_BORDER_COLOR_1], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <controls:ColorPaletteControl
                 RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 SelectedColor="{ReflectionBinding Config.Logo.BorderColor1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
-                Title="Kolor obramowania 1"/>
+                Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_BORDER_COLOR_1], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
         </controls:SettingsExpandControl>
 
         <controls:SettingsExpandControl
             Icon="PenLine"
-            Title="Kolor obramowania 2">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_BORDER_COLOR_2], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <controls:ColorPaletteControl
                 RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 SelectedColor="{ReflectionBinding Config.Logo.BorderColor2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
-                Title="Kolor obramowania 2"/>
+                Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_BORDER_COLOR_2], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
         </controls:SettingsExpandControl>
 
         <controls:SettingsExpandControl
             Icon="PaintBucket"
-            Title="Kolor wypełnienia 1">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_FILL_COLOR_1], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <controls:ColorPaletteControl
                 RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 SelectedColor="{ReflectionBinding Config.Logo.FillColor1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
-                Title="Kolor wypełnienia 1"/>
+                Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_FILL_COLOR_1], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
         </controls:SettingsExpandControl>
 
         <controls:SettingsExpandControl
             Icon="PaintBucket"
-            Title="Kolor wypełnienia 2">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_FILL_COLOR_2], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <controls:ColorPaletteControl
                 RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 SelectedColor="{ReflectionBinding Config.Logo.FillColor2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
-                Title="Kolor wypełnienia 2"/>
+                Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_FILL_COLOR_2], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
         </controls:SettingsExpandControl>
 
         <controls:SettingsControl
-            Description="Określa przezroczystość całego logo."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Layers2"
-            Title="Przezroczystość">
+            Title="{ReflectionBinding Translations[COMMON_OPACITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <Grid ColumnDefinitions="48,180" ColumnSpacing="8">
                 <TextBlock
@@ -104,19 +104,19 @@
         </controls:SettingsControl>
 
         <controls:SettingsControl
-            Description="Skaluje logo zgodnie z poziomem wybranego pasma dźwięku."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_ANIMATION_ENABLED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ImagePlay"
-            Title="Animacja">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_ANIMATION_ENABLED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
         </controls:SettingsControl>
 
         <controls:SettingsControl
-            Description="Określa górny fragment wysokości słupków mapowany na pełny zakres animacji."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_SENSITIVITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Gauge"
             IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-            Title="Czułość animacji">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_SENSITIVITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Increment="{x:Static config:LogoConfig.ANIMATION_SENSITIVITY_INCREMENT}"
@@ -127,10 +127,10 @@
         </controls:SettingsControl>
 
         <controls:SettingsControl
-            Description="Określa maksymalne powiększenie logo. Wartość 50% oznacza maksymalną skalę 1,5."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_SCALE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Scaling"
             IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-            Title="Skala animacji">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_SCALE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Increment="{x:Static config:LogoConfig.ANIMATION_SCALE_INCREMENT}"
@@ -141,10 +141,10 @@
         </controls:SettingsControl>
 
         <controls:SettingsControl
-            Description="Określa szybkość powrotu poziomu animacji do zera w jednostkach na sekundę."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_CONTRACTION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ClockFading"
             IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-            Title="Szybkość kurczenia">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_CONTRACTION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Increment="{x:Static config:LogoConfig.ANIMATION_CONTRACTION_INCREMENT}"
@@ -155,10 +155,10 @@
         </controls:SettingsControl>
 
         <controls:SettingsControl
-            Description="Dolna częstotliwość pasma używanego do animacji logo."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_MINIMUM_FREQUENCY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AudioWaveform"
             IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-            Title="Początek pasma">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_MINIMUM_FREQUENCY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Increment="{x:Static config:LogoConfig.ANIMATION_FREQUENCY_INCREMENT}"
@@ -169,10 +169,10 @@
         </controls:SettingsControl>
 
         <controls:SettingsControl
-            Description="Górna częstotliwość pasma używanego do animacji logo."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_MAXIMUM_FREQUENCY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AudioWaveform"
             IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-            Title="Koniec pasma">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_MAXIMUM_FREQUENCY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Increment="{x:Static config:LogoConfig.ANIMATION_FREQUENCY_INCREMENT}"

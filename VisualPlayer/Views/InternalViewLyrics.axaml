@@ -57,7 +57,7 @@
 
                 <components:ButtonWithIcon
                     Click="ImportLyricsButton_Click"
-                    Content="Importuj tekst"
+                    Content="{ReflectionBinding Translations[VIEW_LYRICS_BUTTON_IMPORT_LYRICS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     HorizontalAlignment="Stretch"
                     Kind="FileInput"
                     Theme="{StaticResource ThemeButtonWithIconTheme}"/>
@@ -83,7 +83,7 @@
                     ColumnSpacing="8">
 
                     <TextBlock
-                        Text="Wyświetlaj tekst"
+                        Text="{ReflectionBinding Translations[VIEW_LYRICS_TEXT_DISPLAY_LYRICS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         VerticalAlignment="Center"/>
 
                     <components:Switch

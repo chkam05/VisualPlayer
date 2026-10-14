@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using VisualPlayer.Enums;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Converters;
 
@@ -11,8 +12,8 @@ public class RadialVisualizationDirectionToTitleConverter : IValueConverter
     {
         return value switch
         {
-            RadialVisualizationDirection.InsideOut => "Od środka na zewnątrz",
-            RadialVisualizationDirection.OutsideIn => "Od zewnątrz do środka",
+            RadialVisualizationDirection.InsideOut => ApplicationContext.Instance.Translations["ENUM_RADIALVISUALIZATIONDIRECTION_INSIDEOUT"],
+            RadialVisualizationDirection.OutsideIn => ApplicationContext.Instance.Translations["ENUM_RADIALVISUALIZATIONDIRECTION_OUTSIDEIN"],
             _ => value?.ToString() ?? string.Empty
         };
     }

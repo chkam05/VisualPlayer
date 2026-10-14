@@ -294,8 +294,10 @@ public partial class MainWindow : Window
             return;
 
         var dialog = new InternalMessageDialog(
-            "Nadpisz profil wizualizacji",
-            $"Profil „{e.Profile.Name}” już istnieje. Czy chcesz nadpisać go aktualnymi ustawieniami?",
+            _applicationContext.Translations["WINDOW_MAIN_OVERWRITE_VISUALIZATION_TITLE"],
+            _applicationContext.Translations.Format(
+                "WINDOW_MAIN_OVERWRITE_VISUALIZATION_MESSAGE",
+                e.Profile.Name),
             InternalDialogButtons.OkCancel,
             LucideIconKind.TriangleAlert);
 
@@ -388,11 +390,11 @@ public partial class MainWindow : Window
         var files = await StorageProvider.OpenFilePickerAsync(
             new FilePickerOpenOptions
             {
-                Title = "Dodaj pliki audio",
+                Title = _applicationContext.Translations["WINDOW_MAIN_ADD_AUDIO_FILES_TITLE"],
                 AllowMultiple = true,
                 FileTypeFilter =
                 [
-                    new FilePickerFileType("Pliki audio")
+                    new FilePickerFileType(_applicationContext.Translations["FILETYPE_AUDIO_FILES"])
                     {
                         Patterns = AudioFileUtils.FilePickerAudioTypes
                     }
@@ -416,11 +418,11 @@ public partial class MainWindow : Window
         var files = await StorageProvider.OpenFilePickerAsync(
             new FilePickerOpenOptions
             {
-                Title = "Otwórz playlistę",
+                Title = _applicationContext.Translations["WINDOW_MAIN_OPEN_PLAYLIST_TITLE"],
                 AllowMultiple = false,
                 FileTypeFilter =
                 [
-                    new FilePickerFileType("Playlista VisualPlayer")
+                    new FilePickerFileType(_applicationContext.Translations["FILETYPE_VISUALPLAYER_PLAYLIST"])
                     {
                         Patterns = ["*.vpl"]
                     }
@@ -440,8 +442,8 @@ public partial class MainWindow : Window
             return;
 
         var dialog = new InternalMessageDialog(
-            "Wyczyść playlistę",
-            "Czy chcesz wyczyścić listę odtwarzania?",
+            _applicationContext.Translations["PLAYLIST_ITEM_CLEAR_PLAYLIST"],
+            _applicationContext.Translations["WINDOW_MAIN_CLEAR_PLAYLIST_MESSAGE"],
             InternalDialogButtons.YesNo,
             LucideIconKind.TriangleAlert);
 
@@ -454,7 +456,7 @@ public partial class MainWindow : Window
     private async void PlayList_SavePlaylistRequested(object? sender, RoutedEventArgs e)
     {
         var input = new InternalMessageInput(
-            "Zapisz playlistę",
+            _applicationContext.Translations["VIEW_PLAYLISTS_SAVE"],
             _applicationContext.PlayListCore.PlayList.Name,
             LucideIconKind.ListMusic);
         var result = await InternalMessages.ShowDialogAsync(input);
@@ -472,12 +474,12 @@ public partial class MainWindow : Window
         var file = await StorageProvider.SaveFilePickerAsync(
             new FilePickerSaveOptions
             {
-                Title = "Eksportuj playlistę",
+                Title = _applicationContext.Translations["PLAYLIST_ITEM_EXPORT_PLAYLIST"],
                 SuggestedFileName = $"{_applicationContext.PlayListCore.PlayList.Name}.vpl",
                 DefaultExtension = "vpl",
                 FileTypeChoices =
                 [
-                    new FilePickerFileType("Playlista VisualPlayer")
+                    new FilePickerFileType(_applicationContext.Translations["FILETYPE_VISUALPLAYER_PLAYLIST"])
                     {
                         Patterns = ["*.vpl"]
                     }
@@ -532,6 +534,7 @@ public partial class MainWindow : Window
 
     private void MainWindow_Closed(object? sender, EventArgs e)
     {
+        _hamburgerMenuContext.Dispose();
         _applicationContext.PlayerDataContext.PropertyChanged -= PlayerDataContext_PropertyChanged;
         _applicationContext.PlayerCore.CurrentTrackChanged -= PlayerCore_CurrentTrackChanged;
     }

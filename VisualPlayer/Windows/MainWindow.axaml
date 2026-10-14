@@ -16,7 +16,7 @@
     Background="Transparent"
     Icon="/Assets/logo.png"
     MinWidth="720"
-    Title="VisualPlayer"
+    Title="{ReflectionBinding Translations[WINDOW_MAIN_WINDOW_TITLE_VISUALPLAYER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
     TransparencyBackgroundFallback="{ReflectionBinding Config.Appearance.WindowTransparencyFallbackBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
     <Grid>

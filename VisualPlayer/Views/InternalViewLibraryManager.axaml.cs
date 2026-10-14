@@ -24,6 +24,8 @@ namespace VisualPlayer.Views;
 
 public partial class InternalViewLibraryManager : InternalViewBase
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     private readonly Stack<LibraryLocation> _history = [];
     private LibraryItemViewModel? _lastSelectedItem;
     private string? _openedAlbum;
@@ -38,7 +40,7 @@ public partial class InternalViewLibraryManager : InternalViewBase
     private bool _isLoadingLayout;
     private double _layoutValue;
     private string _searchPhrase = string.Empty;
-    private string _selectionButtonText = "Zaznacz";
+    private string _selectionButtonText = T["COMMON_BUTTON_SELECT"];
     private LibrarySection _section = LibrarySection.Tracks;
 
     #region AVALONIA PROPERTIES
@@ -174,7 +176,7 @@ public partial class InternalViewLibraryManager : InternalViewBase
         private set
         {
             SetAndRaise(IsSelectionModeProperty, ref _isSelectionMode, value);
-            SelectionButtonText = value ? "Anuluj" : "Zaznacz";
+            SelectionButtonText = value ? T["DIALOG_INTERNAL_MESSAGE_BUTTON_CANCEL"] : T["COMMON_BUTTON_SELECT"];
 
             if (!value)
             {
@@ -198,19 +200,19 @@ public partial class InternalViewLibraryManager : InternalViewBase
             switch (LayoutValue)
             {
                 case < 0.5:
-                    return "Szczegóły";
+                    return T["VIEW_LIBRARY_LAYOUT_DETAILS"];
 
                 case < 1.5:
-                    return "Lista";
+                    return T["VIEW_LYRICS_NAV_LIST"];
 
                 case < 2.5:
-                    return "Małe ikony";
+                    return T["VIEW_LIBRARY_LAYOUT_SMALL_ICONS"];
 
                 case < 3.5:
-                    return "Średnie ikony";
+                    return T["VIEW_LIBRARY_LAYOUT_MEDIUM_ICONS"];
 
                 default:
-                    return "Duże ikony";
+                    return T["VIEW_LIBRARY_LAYOUT_LARGE_ICONS"];
             }
         }
     }
@@ -271,17 +273,18 @@ public partial class InternalViewLibraryManager : InternalViewBase
 
     public InternalViewLibraryManager()
     {
-        Title = "Biblioteka";
+        Title = T["MENU_LIBRARY"];
         NavigationItems =
         [
-            new MenuItemViewModel(LucideIconKind.Music, "Utwory", () => SetSection(LibrarySection.Tracks)),
-            new MenuItemViewModel(LucideIconKind.DiscAlbum, "Albumy", () => SetSection(LibrarySection.Albums)),
-            new MenuItemViewModel(LucideIconKind.UsersRound, "Artyści", () => SetSection(LibrarySection.Artists)),
-            new MenuItemViewModel(LucideIconKind.Folders, "Katalogi", () => SetSection(LibrarySection.Directories))
+            new MenuItemViewModel(LucideIconKind.Music, T["VIEW_LIBRARY_SECTION_TRACKS"], () => SetSection(LibrarySection.Tracks)),
+            new MenuItemViewModel(LucideIconKind.DiscAlbum, T["VIEW_LIBRARY_SECTION_ALBUMS"], () => SetSection(LibrarySection.Albums)),
+            new MenuItemViewModel(LucideIconKind.UsersRound, T["VIEW_LIBRARY_SECTION_ARTISTS"], () => SetSection(LibrarySection.Artists)),
+            new MenuItemViewModel(LucideIconKind.Folders, T["VIEW_LIBRARY_SECTION_DIRECTORIES"], () => SetSection(LibrarySection.Directories))
         ];
 
         InitializeComponent();
         ApplicationContext.Instance.LibraryCore.Refreshed += LibraryCore_Refreshed;
+        T.LanguageChanged += Translations_LanguageChanged;
         PART_NavigationList.SelectedIndex = 0;
         LoadLayoutForCurrentContent();
         RefreshVisibleItems();
@@ -294,7 +297,22 @@ public partial class InternalViewLibraryManager : InternalViewBase
     protected override void OnClosed()
     {
         ApplicationContext.Instance.LibraryCore.Refreshed -= LibraryCore_Refreshed;
+        T.LanguageChanged -= Translations_LanguageChanged;
         base.OnClosed();
+    }
+
+    private void Translations_LanguageChanged(object? sender, EventArgs e)
+    {
+        Title = T["MENU_LIBRARY"];
+        NavigationItems[0].Title = T["VIEW_LIBRARY_SECTION_TRACKS"];
+        NavigationItems[1].Title = T["VIEW_LIBRARY_SECTION_ALBUMS"];
+        NavigationItems[2].Title = T["VIEW_LIBRARY_SECTION_ARTISTS"];
+        NavigationItems[3].Title = T["VIEW_LIBRARY_SECTION_DIRECTORIES"];
+        SelectionButtonText = IsSelectionMode
+            ? T["DIALOG_INTERNAL_MESSAGE_BUTTON_CANCEL"]
+            : T["COMMON_BUTTON_SELECT"];
+        LoadLayoutForCurrentContent();
+        RefreshVisibleItems();
     }
 
     private void LibraryCore_Refreshed(object? sender, EventArgs e)
@@ -354,7 +372,7 @@ public partial class InternalViewLibraryManager : InternalViewBase
         if (TopLevel.GetTopLevel(this) is not MainWindow window)
             return;
 
-        var input = new InternalMessageInput("Utwórz playlistę", "Nowa playlista", LucideIconKind.ListMusic);
+        var input = new InternalMessageInput(T["VIEW_LIBRARY_CREATE_PLAYLIST_TITLE"], T["COMMON_NEW_PLAYLIST"], LucideIconKind.ListMusic);
 
         if (await window.ShowDialogAsync(input) == InternalDialogResult.Ok && !string.IsNullOrWhiteSpace(input.Value))
         {
@@ -456,13 +474,13 @@ public partial class InternalViewLibraryManager : InternalViewBase
     private static IEnumerable<LibraryItemViewModel> CreateAlbumItems(IEnumerable<Track> tracks)
     {
         return tracks
-            .GroupBy(track => track.DisplayAlbum ?? "Nieznany album", StringComparer.CurrentCultureIgnoreCase)
+            .GroupBy(track => track.DisplayAlbum ?? T["COMMON_UNKNOWN_ALBUM"], StringComparer.CurrentCultureIgnoreCase)
             .Select(group => new LibraryItemViewModel
             {
                 Cover = GetCover(group.FirstOrDefault()),
                 Kind = LibraryItemKind.Album,
                 Title = group.Key,
-                Subtitle = group.Select(track => track.Artist).FirstOrDefault(artist => !string.IsNullOrWhiteSpace(artist)) ?? "Nieznany artysta",
+                Subtitle = group.Select(track => track.Artist).FirstOrDefault(artist => !string.IsNullOrWhiteSpace(artist)) ?? T["COMMON_UNKNOWN_ARTIST"],
                 Tracks = group.ToList()
             });
     }
@@ -508,14 +526,14 @@ public partial class InternalViewLibraryManager : InternalViewBase
         if (_openedArtist is not null)
         {
             tracks = tracks.Where(track => string.Equals(
-                track.Artist ?? "Nieznany artysta",
+                track.Artist ?? T["COMMON_UNKNOWN_ARTIST"],
                 _openedArtist,
                 StringComparison.CurrentCultureIgnoreCase));
 
             if (_openedAlbum is not null)
             {
                 tracks = tracks.Where(track => string.Equals(
-                    track.DisplayAlbum ?? "Nieznany album",
+                    track.DisplayAlbum ?? T["COMMON_UNKNOWN_ALBUM"],
                     _openedAlbum,
                     StringComparison.CurrentCultureIgnoreCase));
             }
@@ -531,7 +549,7 @@ public partial class InternalViewLibraryManager : InternalViewBase
         {
             return tracks
                 .Where(track => string.Equals(
-                    track.DisplayAlbum ?? "Nieznany album",
+                    track.DisplayAlbum ?? T["COMMON_UNKNOWN_ALBUM"],
                     _openedAlbum,
                     StringComparison.CurrentCultureIgnoreCase))
                 .Select(CreateTrackItem);
@@ -544,13 +562,13 @@ public partial class InternalViewLibraryManager : InternalViewBase
 
             case LibrarySection.Artists:
                 return tracks
-                    .GroupBy(track => track.Artist ?? "Nieznany artysta", StringComparer.CurrentCultureIgnoreCase)
+                    .GroupBy(track => track.Artist ?? T["COMMON_UNKNOWN_ARTIST"], StringComparer.CurrentCultureIgnoreCase)
                     .Select(group => new LibraryItemViewModel
                     {
                         Cover = GetCover(group.FirstOrDefault()),
                         Kind = LibraryItemKind.Artist,
                         Title = group.Key,
-                        Subtitle = $"Utwory: {group.Count()}",
+                        Subtitle = T.Format("VIEW_LIBRARY_TRACK_COUNT", group.Count()),
                         Tracks = group.ToList()
                     });
 

@@ -1,6 +1,7 @@
 <UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts"
     xmlns:common="using:VisualPlayer.Views.Visualisations.Common"
     xmlns:components="using:VisualPlayer.Components"
     xmlns:config="using:VisualPlayer.Visualizations.Config"
@@ -24,9 +25,9 @@
 
         <!-- Thickness -->
         <controls:SettingsControl
-            Description="Określa grubość linii oscyloskopu zderzeniowego."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_CENTER_LINE_THICKNESS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Minus"
-            Title="Grubość linii">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_THICKNESS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Maximum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MAXIMUM}"
@@ -37,9 +38,9 @@
 
         <!-- Smooth -->
         <controls:SettingsControl
-            Description="Interpoluje próbki, aby ograniczyć ostre załamania linii."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_SMOOTH_LINE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AudioWaveform"
-            Title="Wygładzanie linii">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_SMOOTH_LINE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.SmoothLine, Mode=TwoWay}"/>
@@ -47,9 +48,9 @@
 
         <!-- Effects -->
         <controls:SettingsControl
-            Description="Dodaje lekką poświatę wokół linii."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_BEAM_EFFECT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Sparkles"
-            Title="Efekt linii">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_EFFECT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <ComboBox
                 ItemsSource="{Binding BeamEffects, ElementName=Root}"

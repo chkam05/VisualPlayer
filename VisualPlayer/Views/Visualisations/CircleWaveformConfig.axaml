@@ -1,6 +1,7 @@
 <UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts"
     xmlns:common="using:VisualPlayer.Views.Visualisations.Common"
     xmlns:components="using:VisualPlayer.Components"
     xmlns:config="using:VisualPlayer.Visualizations.Config"
@@ -24,9 +25,9 @@
 
         <!-- Number of peaks -->
         <controls:SettingsControl
-            Description="Określa liczbę punktów FFT tworzących zamkniętą falę rozmieszczonych na okręgu."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_NUM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ChartNoAxesColumn"
-            Title="Liczba peaków">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_NUM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Maximum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MAXIMUM}"
@@ -36,9 +37,9 @@
 
         <!-- Thickness -->
         <controls:SettingsControl
-            Description="Określa grubość obrysu zamkniętej fali."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_LINE_THICKNESS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Minus"
-            Title="Grubość linii">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_THICKNESS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Maximum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MAXIMUM}"
@@ -49,9 +50,9 @@
 
         <!-- Radius -->
         <controls:SettingsControl
-            Description="Określa promień koła, przy którym zaczyna się lub kończy fala."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_INNER_RADIUS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Circle"
-            Title="Promień wewnętrzny">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_INNER_RADIUS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Increment="{x:Static profile:VisualizationBaseConfig.INNER_RADIUS_INCREMENT}"
@@ -63,9 +64,9 @@
 
         <!-- Falling speed -->
         <controls:SettingsControl
-            Description="Określa szybkość opadania wysokości fali."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_DESCENT_RATE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ClockFading"
-            Title="Szybkość opadania">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Increment="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_INCREMENT}"
@@ -77,9 +78,9 @@
         
         <!-- Effects -->
         <controls:SettingsControl
-            Description="Dodaje lekką poświatę wokół obrysu fali."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_BEAM_EFFECT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Sparkles"
-            Title="Efekt linii">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_EFFECT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <ComboBox
                 ItemsSource="{Binding BeamEffects, ElementName=Root}"
@@ -97,9 +98,9 @@
 
         <!-- Fill -->
         <controls:SettingsControl
-            Description="Wypełnia cały obszar wewnątrz zamkniętej fali."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_FILL_ENABLED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="PaintBucket"
-            Title="Wypełnienie">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_FILL_ENABLED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.FillEnabled, Mode=TwoWay}"/>
@@ -107,10 +108,10 @@
 
         <!-- Transparency -->
         <controls:SettingsControl
-            Description="Określa przezroczystość wypełnionego obszaru."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Blend"
             IsVisible="{ReflectionBinding Config.FillEnabled}"
-            Title="Przezroczystość">
+            Title="{ReflectionBinding Translations[COMMON_OPACITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <Grid ColumnDefinitions="48,180" ColumnSpacing="8">
                 <TextBlock
@@ -129,18 +130,18 @@
         </controls:SettingsControl>
         <!-- Transformation -->
         <controls:SettingsExpandControl
-            Description="Przekształcanie wizualizacji."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Move3d"
-            Title="Przekształcanie">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_TRANSFORM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel
                 Spacing="8">
 
                 <!-- Mirror -->
                 <controls:SettingsControl
-                    Description="Odbija kolejność pasm FFT na drugiej połowie okręgu."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_MIRROR_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ArrowLeftRight"
-                    Title="Mirror">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_MIRROR_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.Mirror, Mode=TwoWay}"/>
@@ -148,9 +149,9 @@
                 
                 <!-- Move X -->
                 <controls:SettingsControl
-                    Description="Przesuwa środek okręgu w poziomie względem środka obszaru wizualizacji."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_CENTER_OFFSET_X_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="MoveHorizontal"
-                    Title="Przesunięcie X">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_CENTER_OFFSET_X_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static profile:VisualizationBaseConfig.CENTER_OFFSET_INCREMENT}"
@@ -162,9 +163,9 @@
                 
                 <!-- Move Y -->
                 <controls:SettingsControl
-                    Description="Przesuwa środek okręgu w pionie względem środka obszaru wizualizacji."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_CENTER_OFFSET_Y_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="MoveVertical"
-                    Title="Przesunięcie Y">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_CENTER_OFFSET_Y_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static profile:VisualizationBaseConfig.CENTER_OFFSET_INCREMENT}"
@@ -178,9 +179,9 @@
 
         <!-- Angle -->
         <controls:SettingsControl
-            Description="Określa początkowy kąt wizualizacji. Ustawienie jest blokowane podczas animacji obrotu."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="RotateCw"
-            Title="Kąt obrotu">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Increment="{x:Static profile:VisualizationBaseConfig.ROTATION_INCREMENT}"
@@ -193,28 +194,28 @@
         
         <!-- Animation -->
         <controls:SettingsExpandControl
-            Description="Steruje ciągłym obracaniem wizualizacji."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_ANIMATION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ImagePlay"
-            Title="Animacja obrotu">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_ANIMATION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel
                 Spacing="8">
 
                 <controls:SettingsControl
-                    Description="Włącza ciągły obrót wizualizacji."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_ENABLED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ToggleRight"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Włącz animację">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_ROTATION_ENABLED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.RotationAnimationEnabled, Mode=TwoWay}"/>
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Określa kierunek animowanego obrotu."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_DIRECTION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="RotateCw"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Kierunek obrotu">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_DIRECTION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
                         ItemsSource="{Binding RotationDirections, ElementName=Root}"
@@ -231,10 +232,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Określa liczbę stopni obrotu na sekundę."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_SPEED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Gauge"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Szybkość obrotu">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_SPEED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static profile:VisualizationBaseConfig.ROTATION_SPEED_INCREMENT}"

@@ -2,11 +2,14 @@ using System;
 using Avalonia;
 using Avalonia.Platform;
 using VisualPlayer.Enums.Config;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Utils;
 
 public static class SystemUtils
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     #region PROPERTIES
 
     public static bool IsWindows
@@ -29,15 +32,15 @@ public static class SystemUtils
         get
         {
             if (IsMacOS)
-                return "Pokaż w Finderze";
+                return T["SYSTEM_SHOW_IN_FINDER"];
 
             if (IsWindows)
-                return "Pokaż w Eksploratorze plików";
+                return T["SYSTEM_SHOW_IN_EXPLORER"];
 
             if (IsLinux)
-                return "Pokaż w menedżerze plików";
+                return T["SYSTEM_SHOW_IN_FILE_MANAGER"];
 
-            return "Pokaż położenie pliku";
+            return T["SYSTEM_SHOW_FILE_LOCATION"];
         }
     }
 

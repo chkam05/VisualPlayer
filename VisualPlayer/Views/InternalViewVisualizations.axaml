@@ -38,14 +38,14 @@
                     Grid.Row="0">
 
                     <TextBox
-                        PlaceholderText="Szukaj profilu"
+                        PlaceholderText="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PLACEHOLDER_SEARCH_FOR_A_PROFILE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Text="{Binding SearchText, ElementName=Root, Mode=TwoWay}"
                         Theme="{StaticResource SidePanel.TextBoxTheme}"/>
 
                     <components:ButtonWithIcon
                         x:Name="PART_SortButton"
                         Click="SortButton_Click"
-                        Content="Sortuj"
+                        Content="{ReflectionBinding Translations[COMMON_BUTTON_SORT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Grid.Column="1"
                         Kind="ArrowUpDown"
                         Theme="{StaticResource SidePanel.ActionButtonWithIconTheme}">
@@ -54,7 +54,7 @@
                             <ContextMenu Theme="{StaticResource {x:Type ContextMenu}}">
                                 <MenuItem
                                     Click="SortAscendingMenuItem_Click"
-                                    Header="Nazwa rosnąco">
+                                    Header="{ReflectionBinding Translations[COMMON_NAME_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
                                 
                                     <MenuItem.Icon>
                                         <LucideIcon
@@ -66,7 +66,7 @@
 
                                 <MenuItem
                                     Click="SortDescendingMenuItem_Click"
-                                    Header="Nazwa malejąco">
+                                    Header="{ReflectionBinding Translations[COMMON_NAME_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
                                 
                                     <MenuItem.Icon>
                                         <LucideIcon
@@ -112,7 +112,7 @@
                                     IsVisible="{Binding CanDelete}"
                                     Kind="Trash"
                                     Theme="{StaticResource ThemeButtonWithIconTheme}"
-                                    ToolTip.Tip="Usuń profil"
+                                    ToolTip.Tip="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_TOOLTIP_REMOVE_PROFILE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     Width="30"/>
                             </Grid>
                         </DataTemplate>
@@ -132,11 +132,11 @@
                     <TextBox
                         Text="{Binding ProfileName, ElementName=Root, Mode=TwoWay}"
                         Theme="{StaticResource SidePanel.TextBoxTheme}"
-                        PlaceholderText="Nazwa profilu"/>
+                        PlaceholderText="{ReflectionBinding Translations[DIALOG_INPUT_PLACEHOLDER_PROFILE_NAME], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                     <components:ButtonWithIcon
                         Click="SaveProfileButton_Click"
-                        Content="Zapisz"
+                        Content="{ReflectionBinding Translations[COMMON_BUTTON_SAVE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Grid.Column="1"
                         IsEnabled="{Binding CanSaveProfile, ElementName=Root}"
                         Kind="Save"
@@ -163,9 +163,9 @@
 
                     <!-- Visualisation type -->
                     <controls:SettingsControl
-                        Description="Określa rodzaj wizualizacji używany przez wybrany profil."
+                        Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_TYPE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Icon="AudioLines"
-                        Title="Rodzaj wizualizacji">
+                        Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_TYPE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                         <ComboBox
                             IsEnabled="{Binding SelectedProfile.CanChangeVisualizationType, ElementName=Root}"
@@ -189,9 +189,9 @@
                     
                     <!-- Fill Screen -->
                     <controls:SettingsControl
-                        Description="Renderuje wizualizację również pod panelami interfejsu."
+                        Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_FULLSCREEN_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Icon="Maximize"
-                        Title="Wypełnij ekran">
+                        Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_FULLSCREEN_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                         <components:Switch
                             IsChecked="{ReflectionBinding VisualizationConfig.Global.FillScreen, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>

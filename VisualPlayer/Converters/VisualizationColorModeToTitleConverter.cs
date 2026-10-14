@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using VisualPlayer.Enums;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Converters;
 
@@ -11,9 +12,9 @@ public class VisualizationColorModeToTitleConverter : IValueConverter
     {
         return value switch
         {
-            VisualizationColorMode.Solid => "Jednolity",
-            VisualizationColorMode.Gradient => "Gradient",
-            VisualizationColorMode.Rainbow => "Tęcza",
+            VisualizationColorMode.Solid => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONCOLORMODE_SOLID"],
+            VisualizationColorMode.Gradient => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONCOLORMODE_GRADIENT"],
+            VisualizationColorMode.Rainbow => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONCOLORMODE_RAINBOW"],
             _ => value?.ToString() ?? string.Empty
         };
     }

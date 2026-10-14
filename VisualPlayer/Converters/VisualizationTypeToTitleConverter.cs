@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using VisualPlayer.Enums;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Converters;
 
@@ -11,21 +12,21 @@ public class VisualizationTypeToTitleConverter : IValueConverter
     {
         return value switch
         {
-            VisualizationType.None => "Wyłączona",
-            VisualizationType.CircleStripes => "Circle - Stripes",
-            VisualizationType.CircleWaveform => "Circle - Waveform",
-            VisualizationType.Oscilloscope => "Oscilloscope",
-            VisualizationType.OscilloscopeCenter => "Oscilloscope - Center",
-            VisualizationType.OscilloscopeDouble => "Oscilloscope - Double",
-            VisualizationType.OscilloscopeFilled => "Oscilloscope - Filled",
-            VisualizationType.Peaks => "Peaks",
-            VisualizationType.PeaksFloating => "Peaks - Floating",
-            VisualizationType.PeaksFloatingMirrored => "Peaks - Floating Mirrored",
-            VisualizationType.PeaksMirrored => "Peaks - Mirrored",
-            VisualizationType.Stripes => "Stripes",
-            VisualizationType.StripesMirrored => "Stripes - Mirrored",
-            VisualizationType.Waveform => "Waveform",
-            VisualizationType.WaveformMirrored => "Waveform - Mirrored",
+            VisualizationType.None => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_NONE"],
+            VisualizationType.CircleStripes => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_CIRCLESTRIPES"],
+            VisualizationType.CircleWaveform => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_CIRCLEWAVEFORM"],
+            VisualizationType.Oscilloscope => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_OSCILLOSCOPE"],
+            VisualizationType.OscilloscopeCenter => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_OSCILLOSCOPECENTER"],
+            VisualizationType.OscilloscopeDouble => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_OSCILLOSCOPEDOUBLE"],
+            VisualizationType.OscilloscopeFilled => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_OSCILLOSCOPEFILLED"],
+            VisualizationType.Peaks => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_PEAKS"],
+            VisualizationType.PeaksFloating => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_PEAKSFLOATING"],
+            VisualizationType.PeaksFloatingMirrored => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_PEAKSFLOATINGMIRRORED"],
+            VisualizationType.PeaksMirrored => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_PEAKSMIRRORED"],
+            VisualizationType.Stripes => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_STRIPES"],
+            VisualizationType.StripesMirrored => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_STRIPESMIRRORED"],
+            VisualizationType.Waveform => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_WAVEFORM"],
+            VisualizationType.WaveformMirrored => ApplicationContext.Instance.Translations["ENUM_VISUALIZATIONTYPE_WAVEFORMMIRRORED"],
             _ => value?.ToString() ?? string.Empty
         };
     }

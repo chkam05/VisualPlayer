@@ -34,7 +34,7 @@
             <TextBlock
                 FontSize="22"
                 FontWeight="SemiBold"
-                Text="Informacje podstawowe"/>
+                Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_BASIC_INFORMATION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
             <Grid
                 ColumnDefinitions="Auto,*"
@@ -45,7 +45,7 @@
                 <!-- Title -->
                 <TextBlock
                     FontWeight="SemiBold"
-                    Text="Nazwa:"/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_NAME], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                 <TextBlock
                     Grid.Column="1"
@@ -55,7 +55,7 @@
                 <TextBlock
                     FontWeight="SemiBold"
                     Grid.Row="1"
-                    Text="Wersja:"/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_VERSION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                 <TextBlock
                     Grid.Column="1"
@@ -66,7 +66,7 @@
                 <TextBlock
                     FontWeight="SemiBold"
                     Grid.Row="2"
-                    Text="Autor:"/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_AUTHOR], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                 <TextBlock
                     Grid.Column="1"
@@ -82,7 +82,7 @@
             <TextBlock
                 FontSize="22"
                 FontWeight="SemiBold"
-                Text="Biblioteki"/>
+                Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_LIBRARIES], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
             <ItemsControl
                 Grid.IsSharedSizeScope="True"

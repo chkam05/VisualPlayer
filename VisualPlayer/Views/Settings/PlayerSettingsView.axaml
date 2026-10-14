@@ -19,41 +19,41 @@
                 <TextBlock
                     FontSize="22"
                     FontWeight="SemiBold"
-                    Text="Odtwarzacz"/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_NAV_PLAYER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                 <TextBlock
                     Opacity="0.6"
-                    Text="Dostosuj zachowanie odtwarzania i przywracanie playlisty."/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_SUBTITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
             </StackPanel>
 
             <components:ButtonWithIcon
                 Click="ResetButton_Click"
-                Content="Reset"
+                Content="{ReflectionBinding Translations[COMMON_BUTTON_RESET], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Grid.Column="1"
                 Kind="RotateCcw"
                 Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
         </Grid>
 
         <controls:SettingsControl
-            Description="Pokazuje po prawej stronie panelu odtwarzacza pozostały czas zamiast pełnej długości utworu."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_SHOW_REMAINING_TIME_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="TimerReset"
-            Title="Pokazuj pozostały czas">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_SHOW_REMAINING_TIME_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Player.ShowRemainingTime, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
         </controls:SettingsControl>
 
         <controls:SettingsExpandControl
-            Description="Pozwala dostosować cztery wartości dostępne jako szybkie presety w panelu odtwarzacza."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_SPEED_PRESETS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Gauge"
-            Title="Szybkość odtwarzania">
+            Title="{ReflectionBinding Translations[PLAYER_TOOLTIP_PLAYBACK_SPEED], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel Spacing="8">
                 <controls:SettingsControl
-                    Description="Określa wartość pierwszego przycisku w panelu szybkości odtwarzania."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET1_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Gauge"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Preset 1">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET1_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Maximum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MAXIMUM}"
@@ -63,10 +63,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Określa wartość drugiego przycisku w panelu szybkości odtwarzania."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET2_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Gauge"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Preset 2">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET2_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Maximum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MAXIMUM}"
@@ -76,10 +76,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Określa wartość trzeciego przycisku w panelu szybkości odtwarzania."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET3_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Gauge"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Preset 3">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET3_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Maximum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MAXIMUM}"
@@ -89,10 +89,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Określa wartość czwartego przycisku w panelu szybkości odtwarzania."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET4_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Gauge"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Preset 4">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET4_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Maximum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MAXIMUM}"
@@ -104,26 +104,26 @@
         </controls:SettingsExpandControl>
 
         <controls:SettingsExpandControl
-            Description="Nakłada na siebie końcówkę bieżącego nagrania i początek następnego utworu."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_CROSSFADE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="CassetteTape"
-            Title="Płynne przejście">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_TITLE_SMOOTH_TRANSITION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel Spacing="8">
                 <controls:SettingsControl
-                    Description="Nakłada końcówkę bieżącego nagrania na początek następnego i płynnie zmienia ich głośność."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_CROSSFADE_ENABLED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ToggleRight"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Włącz płynne przejście">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_CROSSFADE_ENABLED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.Player.CrossfadeEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Określa czas jednoczesnego ściszania bieżącego i zgłaśniania następnego nagrania."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_CROSSFADE_DURATION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ClockFading"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Czas przejścia">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_CROSSFADE_DURATION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Maximum="{x:Static viewModels:PlayerConfig.CROSSFADE_DURATION_MAXIMUM}"
@@ -135,27 +135,27 @@
         </controls:SettingsExpandControl>
 
         <controls:SettingsControl
-            Description="Przy zamykaniu zapisuje bieżącą kolejność i ostatnio odtwarzane nagranie, a następnie przywraca je przy kolejnym uruchomieniu."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_REMEMBER_LAST_PLAY_LIST_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ListRestart"
-            Title="Zapamiętaj ostatnią playlistę">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_REMEMBER_LAST_PLAY_LIST_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Player.RememberLastPlayList, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
         </controls:SettingsControl>
 
         <controls:SettingsControl
-            Description="Po uruchomieniu odtwarza pierwszy przekazany plik albo ostatnie nagranie z przywróconej playlisty."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAY_ON_STARTUP_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="CirclePlay"
-            Title="Rozpocznij odtwarzanie po uruchomieniu">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAY_ON_STARTUP_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Player.PlayOnStartup, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
         </controls:SettingsControl>
 
         <controls:SettingsControl
-            Description="Po dodaniu jednego lub wielu plików rozpoczyna odtwarzanie od pierwszego nowo dodanego nagrania."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAY_AFTER_ADDING_FILES_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="FilePlus"
-            Title="Rozpocznij odtwarzanie po dodaniu plików">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAY_AFTER_ADDING_FILES_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Player.PlayAfterAddingFiles, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>

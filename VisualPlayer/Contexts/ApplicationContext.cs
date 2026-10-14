@@ -33,6 +33,7 @@ public class ApplicationContext : ViewModelBase
     public PlayListLibraryCore PlayListLibraryCore { get; private set; }
     public PlayerCore PlayerCore { get; private set; }
     public PlayerDataContext PlayerDataContext => PlayerCore.DataContext;
+    public TranslationContext Translations { get; private set; }
     public VisualizationCore VisualizationCore { get; private set; }
     public VisualizationConfigurationContext VisualizationConfig { get; private set; }
     
@@ -53,7 +54,8 @@ public class ApplicationContext : ViewModelBase
     private ApplicationContext()
     {
         Config = ConfigurationContext.Load();
-        EqualizerConfig = EqualizerConfigurationContext.Load();
+        Translations = new TranslationContext(Config.General);
+        EqualizerConfig = EqualizerConfigurationContext.Load(Translations);
         VisualizationConfig = VisualizationConfigurationContext.Load();
         _platformSettings = GetPlatformSettings(_config);
         
@@ -68,7 +70,10 @@ public class ApplicationContext : ViewModelBase
         PlayerCore = new PlayerCore(Config.Player, PlayListCore, EqualizerConfig);
         PlayerCore.CurrentTrackChanged += PlayerCore_CurrentTrackChanged;
         SetupSystemMediaCommands();
-        InfoBarContext = new InfoBarContext(PlayerDataContext, PlayListCore.PlayListViewModel.CurrentTrack);
+        InfoBarContext = new InfoBarContext(
+            PlayerDataContext,
+            PlayListCore.PlayListViewModel.CurrentTrack,
+            Translations);
         LyricsCore = new LyricsCore(Config.Lyrics);
         LyricsCore.SetCurrentTrack(PlayerCore.CurrentTrack);
         VisualizationCore = new VisualizationCore(
@@ -122,6 +127,8 @@ public class ApplicationContext : ViewModelBase
         _keyboardConfig.PropertyChanged -= KeyboardConfig_PropertyChanged;
         PlayerDataContext.PropertyChanged -= SystemMediaPlayerDataContext_PropertyChanged;
         _macOSMediaCommandService?.Dispose();
+        InfoBarContext.Dispose();
+        EqualizerConfig.Dispose();
         LyricsCore.Dispose();
         VisualizationCore.Dispose();
         PlayerCore.Dispose();

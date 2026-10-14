@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using VisualPlayer.Enums.Config;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Converters;
 
@@ -11,9 +12,9 @@ public class WindowBackgroundModeToTitleConverter : IValueConverter
     {
         return value switch
         {
-            WindowBackgroundMode.Transparent => "Przezroczyste",
-            WindowBackgroundMode.SolidColor => "Jednolity kolor",
-            WindowBackgroundMode.Image => "Obraz",
+            WindowBackgroundMode.Transparent => ApplicationContext.Instance.Translations["ENUM_WINDOWBACKGROUNDMODE_TRANSPARENT"],
+            WindowBackgroundMode.SolidColor => ApplicationContext.Instance.Translations["ENUM_WINDOWBACKGROUNDMODE_SOLIDCOLOR"],
+            WindowBackgroundMode.Image => ApplicationContext.Instance.Translations["ENUM_WINDOWBACKGROUNDMODE_IMAGE"],
             _ => string.Empty
         };
     }

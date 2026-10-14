@@ -1,6 +1,7 @@
 <UserControl
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts"
     xmlns:components="using:VisualPlayer.Components"
     xmlns:common="using:VisualPlayer.Views.Visualisations.Common"
     xmlns:controls="using:VisualPlayer.Controls"
@@ -24,9 +25,9 @@
 
         <!-- Number of peaks -->
         <controls:SettingsControl
-            Description="Określa liczbę pasm częstotliwości wyświetlanych na ekranie."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PEAKS_NUM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ChartNoAxesColumn"
-            Title="Liczba pasków">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_NUM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.BARS_COUNT_MAXIMUM}"
@@ -36,9 +37,9 @@
 
         <!-- Direction -->
         <controls:SettingsControl
-            Description="Określa, czy wizualizacja rośnie do środka, czy na zewnątrz."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PEAKS_DIRECTION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ArrowUpDown"
-            Title="Kierunek">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_DIRECTION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <ComboBox
                 ItemsSource="{Binding Directions, ElementName=Root}"
@@ -56,9 +57,9 @@
 
         <!-- Horizontal spacing -->
         <controls:SettingsControl
-            Description="Określa poziomy odstęp pomiędzy sąsiednimi paskami."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_STRIPES_HORIZONTAL_BAR_SPACE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="BetweenVerticalStart"
-            Title="Odstęp pasków w poziomie">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_STRIPES_HORIZONTAL_BAR_SPACE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.BAR_SPACE_MAXIMUM}"
@@ -69,9 +70,9 @@
 
         <!-- Falling speed -->
         <controls:SettingsControl
-            Description="Określa szybkość opadania głównych pasków w pikselach na sekundę."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PEAKS_DESCENT_RATE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ClockFading"
-            Title="Szybkość opadania">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:NumericUpDown
                 Increment="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_INCREMENT}"
@@ -83,9 +84,9 @@
 
         <!-- Floating peak -->
         <controls:SettingsExpandControl
-            Description="Ustawienia wolniej opadającego bloczka wartości szczytowej."
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PEAKS_FLOATING_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="RectangleHorizontal"
-            Title="Opadający bloczek">
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PEAKS_TITLE_FALLING_BLOCK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel
                 Orientation="Vertical"
@@ -93,10 +94,10 @@
 
                 <!-- Floating peak on/off switch -->
                 <controls:SettingsControl
-                    Description="Pokazuje nad każdym paskiem wolniej opadający bloczek wartości szczytowej."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PEAKS_SHOW_FLOATING_BAR_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ToggleRight"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Pokazuj opadający bloczek">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PEAKS_SHOW_FLOATING_BAR_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.ShowFloatingBar, Mode=TwoWay}"/>
@@ -104,10 +105,10 @@
                 
                 <!-- Vertical spacing -->
                 <controls:SettingsControl
-                    Description="Określa przerwę środkową oraz odstęp między głównym paskiem i znacznikiem."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_STRIPES_CENTER_SPACE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="BetweenHorizontalStart"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Odstęp bloczków w pionie">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PEAKS_VERTICAL_BAR_SPACE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.BAR_SPACE_MAXIMUM}"
@@ -118,10 +119,10 @@
                 
                 <!-- Peak height -->
                 <controls:SettingsControl
-                    Description="Określa wysokość dodatkowego znacznika wartości szczytowej."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_STRIPES_FLOATING_BAR_HEIGHT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="MoveVertical"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Wysokość dodatkowego bloczka">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_STRIPES_FLOATING_BAR_HEIGHT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.BAR_HEIGHT_MAXIMUM}"
@@ -132,11 +133,11 @@
 
                 <!-- Floating peak gravity -->
                 <controls:SettingsControl
-                    Description="Pozwala znacznikowi przyspieszać w dół, wypaść poza ekran i pojawić się ponownie przy aktualnym poziomie."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PEAKS_USE_FLOATING_BAR_GRAVITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ArrowDownFromLine"
                     IsVisible="{ReflectionBinding SupportsFloatingBarGravity}"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Grawitacja znacznika">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PEAKS_USE_FLOATING_BAR_GRAVITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.UseFloatingBarGravity, Mode=TwoWay}"/>
@@ -144,10 +145,10 @@
 
                 <!-- Floating peak falling speed -->
                 <controls:SettingsControl
-                    Description="Określa szybkość opadania dodatkowego bloczka w pikselach na sekundę."
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PEAKS_FLOATING_BAR_DESCENT_RATE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ClockFading"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Szybkość dodatkowego bloczka">
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PEAKS_FLOATING_BAR_DESCENT_RATE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_INCREMENT}"

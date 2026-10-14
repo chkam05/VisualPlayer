@@ -19,15 +19,15 @@
                 <TextBlock
                     FontSize="22"
                     FontWeight="SemiBold"
-                    Text="Skróty klawiszowe"/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_NAV_KEYBOARD], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
                 <TextBlock
                     Opacity="0.6"
-                    Text="Dostosuj klawisze sterujące interfejsem, odtwarzaniem i wizualizacjami."/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_SUBTITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
             </StackPanel>
 
             <components:ButtonWithIcon
                 Click="ResetButton_Click"
-                Content="Reset"
+                Content="{ReflectionBinding Translations[COMMON_BUTTON_RESET], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Grid.Column="1"
                 Kind="RotateCcw"
                 Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
@@ -37,18 +37,18 @@
 
         <!-- Panels Visibility -->
         <controls:SettingsExpandControl
-            Description="Skróty do otwierania playlisty i zmiany automatycznego ukrywania paneli."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PANELS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="PanelsTopLeft"
-            Title="Interfejs">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TITLE_INTERFACE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel
                 Spacing="8">
 
                 <controls:SettingsControl
-                    Description="Otwiera albo zamyka listę odtwarzania."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_PLAY_LIST_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ListVideo"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Lista odtwarzania">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_PLAY_LIST_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.TogglePlayList,
@@ -57,10 +57,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Włącza albo wyłącza automatyczne ukrywanie górnego panelu informacji."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_INFO_BAR_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="PanelTop"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Automatyczne ukrywanie panelu informacji">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_INFO_BAR_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.ToggleInfoBar,
@@ -69,10 +69,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Włącza albo wyłącza automatyczne ukrywanie panelu menu."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_MENU_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="PanelLeft"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Automatyczne ukrywanie panelu menu">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_MENU_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.ToggleMenu,
@@ -81,10 +81,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Włącza albo wyłącza automatyczne ukrywanie dolnego panelu odtwarzacza."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_PLAYER_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="PanelBottom"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Automatyczne ukrywanie panelu odtwarzacza">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_PLAYER_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.TogglePlayer,
@@ -96,18 +96,18 @@
 
         <!-- Player Control -->
         <controls:SettingsExpandControl
-            Description="Sterowanie odtwarzaniem z klawiatury oraz systemowych przycisków multimedialnych."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PLAYBACK_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Play"
-            Title="Odtwarzanie">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TITLE_PLAYBACK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel
                 Spacing="8">
 
                 <controls:SettingsControl
-                    Description="Odbiera polecenia Play/Pause, Następny i Poprzedni z systemu, klawiatury multimedialnej oraz Control Center."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_USE_SYSTEM_MEDIA_COMMANDS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="KeyboardMusic"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Systemowe polecenia multimedialne">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_USE_SYSTEM_MEDIA_COMMANDS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.Keyboard.UseSystemMediaCommands,
@@ -116,10 +116,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Przechodzi do następnego utworu."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_NEXT_TRACK_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="SkipForward"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Następny utwór">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_NEXT_TRACK_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.NextTrack,
@@ -128,10 +128,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Wznawia albo wstrzymuje odtwarzanie."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PLAY_PAUSE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Play"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Odtwórz/Pauza">
+                    Title="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_TOOLTIP_PLAY_PAUSE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.PlayPause,
@@ -140,10 +140,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Przechodzi do poprzedniego utworu."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PREVIOUS_TRACK_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="SkipBack"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Poprzedni utwór">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PREVIOUS_TRACK_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.PreviousTrack,
@@ -155,18 +155,18 @@
 
         <!-- Menu -->
         <controls:SettingsExpandControl
-            Description="Skróty otwierające najczęściej używane widoki aplikacji."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_VIEWS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Zap"
-            Title="Szybkie akcje">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TITLE_QUICK_ACTIONS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel
                 Spacing="8">
 
                 <controls:SettingsControl
-                    Description="Otwiera widok biblioteki."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_LIBRARY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Library"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Biblioteka">
+                    Title="{ReflectionBinding Translations[MENU_LIBRARY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.OpenLibrary,
@@ -175,10 +175,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Otwiera widok list odtwarzania."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_PLAYLISTS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ListMusic"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Listy odtwarzania">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_PLAYLISTS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.OpenPlaylists,
@@ -187,10 +187,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Otwiera equalizer."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_EQUALIZER_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="SlidersVertical"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Equalizer">
+                    Title="{ReflectionBinding Translations[MENU_EQUALIZER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.OpenEqualizer,
@@ -199,10 +199,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Otwiera widok tekstów."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_LYRICS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Type"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Teksty">
+                    Title="{ReflectionBinding Translations[MENU_LYRICS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.OpenLyrics,
@@ -211,10 +211,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Otwiera profile wizualizacji."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_VISUALIZATIONS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="AudioLines"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Wizualizacje">
+                    Title="{ReflectionBinding Translations[MENU_VISUALIZATIONS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.OpenVisualizations,
@@ -223,10 +223,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Otwiera ustawienia aplikacji."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_SETTINGS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Settings"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Ustawienia">
+                    Title="{ReflectionBinding Translations[MENU_SETTINGS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.OpenSettings,
@@ -238,18 +238,18 @@
 
         <!-- Visualisations -->
         <controls:SettingsExpandControl
-            Description="Przełączanie między zapisanymi profilami wizualizacji."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PROFILES_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AudioLines"
-            Title="Wizualizacje">
+            Title="{ReflectionBinding Translations[MENU_VISUALIZATIONS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel
                 Spacing="8">
 
                 <controls:SettingsControl
-                    Description="Wybiera następny profil wizualizacji."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_NEXT_VISUALIZATION_PROFILE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ArrowRight"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Następny profil">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_NEXT_VISUALIZATION_PROFILE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.NextVisualizationProfile,
@@ -258,10 +258,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Wybiera poprzedni profil wizualizacji."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PREVIOUS_VISUALIZATION_PROFILE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ArrowLeft"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Poprzedni profil">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PREVIOUS_VISUALIZATION_PROFILE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.PreviousVisualizationProfile,

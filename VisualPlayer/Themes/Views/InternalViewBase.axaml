@@ -27,7 +27,7 @@
                         IsVisible="{TemplateBinding CanGoBack}"
                         Kind="ArrowLeft"
                         Theme="{StaticResource InternalView.BackButtonWithIconTheme}"
-                        ToolTip.Tip="Wstecz"/>
+                        ToolTip.Tip="{ReflectionBinding Translations[COMMON_BUTTON_BACK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                     <TextBlock
                         FontSize="22"
@@ -46,13 +46,13 @@
                             IsVisible="{TemplateBinding EnableSaveButton}"
                             Kind="Save"
                             Theme="{StaticResource InternalView.SaveButtonWithIconTheme}"
-                            ToolTip.Tip="Zapisz"/>
+                            ToolTip.Tip="{ReflectionBinding Translations[COMMON_BUTTON_SAVE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                         <components:ButtonWithIcon
                             x:Name="PART_CloseButton"
                             Kind="X"
                             Theme="{StaticResource InternalView.CloseButtonWithIconTheme}"
-                            ToolTip.Tip="Zamknij"/>
+                            ToolTip.Tip="{ReflectionBinding Translations[DIALOG_BUTTON_CLOSE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
                     </StackPanel>
                 </Grid>
 

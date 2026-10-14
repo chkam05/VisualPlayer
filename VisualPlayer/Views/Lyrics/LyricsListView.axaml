@@ -77,7 +77,7 @@
 
                             <MenuItem
                                 Click="EditMenuItem_Click"
-                                Header="Edytuj">
+                                Header="{ReflectionBinding Translations[VIEW_LYRICS_LIST_ITEM_EDIT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                 <MenuItem.Icon>
                                     <lucide:LucideIcon
@@ -88,7 +88,7 @@
 
                             <MenuItem
                                 Click="AssignMenuItem_Click"
-                                Header="Przypisz do odtwarzanego utworu">
+                                Header="{ReflectionBinding Translations[VIEW_LYRICS_LIST_ITEM_ASSIGN_TO_THE_TRACK_CURRENTLY_PLAYING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                 <MenuItem.Icon>
                                     <lucide:LucideIcon
@@ -101,7 +101,7 @@
 
                             <MenuItem
                                 Click="ExportMenuItem_Click"
-                                Header="Eksportuj do pliku...">
+                                Header="{ReflectionBinding Translations[VIEW_LYRICS_LIST_ITEM_EXPORT_TO_FILE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                 <MenuItem.Icon>
                                     <lucide:LucideIcon
@@ -125,7 +125,7 @@
 
                             <MenuItem
                                 Click="DeleteMenuItem_Click"
-                                Header="Usuń">
+                                Header="{ReflectionBinding Translations[COMMON_BUTTON_DELETE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                 <MenuItem.Icon>
                                     <lucide:LucideIcon
@@ -152,14 +152,14 @@
             ColumnSpacing="8">
 
             <TextBox
-                PlaceholderText="Szukaj po nazwie, artyście lub albumie"
+                PlaceholderText="{ReflectionBinding Translations[VIEW_LYRICS_SEARCH_PLACEHOLDER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Text="{Binding SearchPhrase, ElementName=Root, Mode=TwoWay}"
                 Theme="{StaticResource TextBoxTheme}"
                 VerticalContentAlignment="Center" />
 
             <components:ButtonWithIcon
                 Click="SortButton_Click"
-                Content="Sortuj"
+                Content="{ReflectionBinding Translations[COMMON_BUTTON_SORT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Grid.Column="1"
                 Kind="ArrowUpDown"
                 Theme="{StaticResource ThemeButtonWithIconTheme}">
@@ -171,7 +171,7 @@
 
                         <MenuItem
                             Click="SortMenuItem_Click"
-                            Header="Nazwa rosnąco"
+                            Header="{ReflectionBinding Translations[COMMON_NAME_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                             Tag="NameAscending">
 
                             <MenuItem.Icon>
@@ -181,7 +181,7 @@
 
                         <MenuItem
                             Click="SortMenuItem_Click"
-                            Header="Nazwa malejąco"
+                            Header="{ReflectionBinding Translations[COMMON_NAME_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                             Tag="NameDescending">
 
                             <MenuItem.Icon>
@@ -193,7 +193,7 @@
 
                         <MenuItem
                             Click="SortMenuItem_Click"
-                            Header="Typ rosnąco"
+                            Header="{ReflectionBinding Translations[VIEW_LYRICS_LIST_ITEM_TYPE_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                             Tag="TypeAscending">
 
                             <MenuItem.Icon>
@@ -203,7 +203,7 @@
 
                         <MenuItem
                             Click="SortMenuItem_Click"
-                            Header="Typ malejąco"
+                            Header="{ReflectionBinding Translations[VIEW_LYRICS_LIST_ITEM_TYPE_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                             Tag="TypeDescending">
 
                             <MenuItem.Icon>
@@ -225,12 +225,12 @@
             <TextBlock
                 Grid.Column="1"
                 FontWeight="SemiBold"
-                Text="Nazwa"/>
+                Text="{ReflectionBinding Translations[VIEW_LYRICS_LIST_TEXT_NAME], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
             <TextBlock
                 Grid.Column="2"
                 FontWeight="SemiBold"
-                Text="Typ"/>
+                Text="{ReflectionBinding Translations[COMMON_LABEL_TYPE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
         </Grid>
 
         <!-- LYRICS LIST -->

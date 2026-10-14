@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using VisualPlayer.Enums;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Converters;
 
@@ -11,9 +12,9 @@ public class WaveformTransformationToTitleConverter : IValueConverter
     {
         return value switch
         {
-            WaveformTransformation.None => "Brak",
-            WaveformTransformation.Sin => "SIN",
-            WaveformTransformation.Cos => "COS",
+            WaveformTransformation.None => ApplicationContext.Instance.Translations["ENUM_BEAMEFFECT_NONE"],
+            WaveformTransformation.Sin => ApplicationContext.Instance.Translations["ENUM_WAVEFORMTRANSFORMATION_SIN"],
+            WaveformTransformation.Cos => ApplicationContext.Instance.Translations["ENUM_WAVEFORMTRANSFORMATION_COS"],
             _ => value?.ToString() ?? string.Empty
         };
     }

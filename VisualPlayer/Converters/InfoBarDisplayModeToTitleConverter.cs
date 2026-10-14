@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
 using VisualPlayer.Enums.Config;
+using VisualPlayer.Contexts;
 
 namespace VisualPlayer.Converters;
 
@@ -11,9 +12,9 @@ public class InfoBarDisplayModeToTitleConverter : IValueConverter
     {
         return value switch
         {
-            InfoBarDisplayMode.Manual => "Ręczne",
-            InfoBarDisplayMode.PlaybackStarted => "Rozpoczynanie odtwarzania",
-            InfoBarDisplayMode.PlaybackResumed => "Wznawianie odtwarzania",
+            InfoBarDisplayMode.Manual => ApplicationContext.Instance.Translations["ENUM_INFOBARDISPLAYMODE_MANUAL"],
+            InfoBarDisplayMode.PlaybackStarted => ApplicationContext.Instance.Translations["ENUM_INFOBARDISPLAYMODE_PLAYBACKSTARTED"],
+            InfoBarDisplayMode.PlaybackResumed => ApplicationContext.Instance.Translations["ENUM_INFOBARDISPLAYMODE_PLAYBACKRESUMED"],
             _ => value?.ToString() ?? string.Empty
         };
     }

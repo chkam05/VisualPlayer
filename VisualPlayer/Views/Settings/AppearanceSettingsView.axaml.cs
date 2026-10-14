@@ -16,6 +16,8 @@ namespace VisualPlayer.Views.Settings;
 
 public partial class AppearanceSettingsView : UserControl
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     public IReadOnlyList<ColorizationLevel> ColorizationLevels { get; } = Enum.GetValues<ColorizationLevel>();
     public IReadOnlyList<InfoBarDisplayMode> InfoBarDisplayModes { get; } = Enum.GetValues<InfoBarDisplayMode>();
     public IReadOnlyList<ApplicationTheme> Themes { get; } = Enum.GetValues<ApplicationTheme>();
@@ -46,12 +48,12 @@ public partial class AppearanceSettingsView : UserControl
                 AllowMultiple = false,
                 FileTypeFilter =
                 [
-                    new FilePickerFileType("Pliki obrazów")
+                    new FilePickerFileType(T["FILETYPE_IMAGE_FILES"])
                     {
                         Patterns = ["*.png", "*.jpg", "*.jpeg", "*.bmp", "*.webp"]
                     }
                 ],
-                Title = "Wybierz obraz tła"
+                Title = T["VIEW_SETTINGS_APPEARANCE_PICK_BACKGROUND_TITLE"]
             });
 
         var imagePath = files

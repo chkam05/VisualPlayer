@@ -13,6 +13,8 @@ namespace VisualPlayer.Views;
 
 public partial class InternalViewSettings : InternalViewBase
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     private const double COMPACT_NAVIGATION_THRESHOLD = 720;
     private const double COMPACT_NAVIGATION_WIDTH = 64;
     private const double NAVIGATION_WIDTH = 220;
@@ -47,26 +49,48 @@ public partial class InternalViewSettings : InternalViewBase
 
     public InternalViewSettings()
     {
-        Title = "Ustawienia";
+        Title = T["MENU_SETTINGS"];
         EnableSaveButton = true;
         SaveRequested += InternalViewSettings_SaveRequested;
         NavigationItems =
         [
-            new MenuItemViewModel(LucideIconKind.Settings, "Ogólne", ShowGeneralSettings),
-            new MenuItemViewModel(LucideIconKind.CirclePlay, "Odtwarzacz", ShowPlayerSettings),
-            new MenuItemViewModel(LucideIconKind.Box, "Logo", ShowLogoSettings),
-            new MenuItemViewModel(LucideIconKind.Keyboard, "Skróty klawiszowe", ShowKeyboardSettings),
-            new MenuItemViewModel(LucideIconKind.Type, "Teksty", ShowLyricsSettings),
-            new MenuItemViewModel(LucideIconKind.AudioLines, "Wizualizacje", ShowVisualizationsSettings),
-            new MenuItemViewModel(LucideIconKind.Palette, "Wygląd", ShowAppearanceSettings),
+            new MenuItemViewModel(LucideIconKind.Settings, T["VIEW_SETTINGS_NAV_GENERAL"], ShowGeneralSettings),
+            new MenuItemViewModel(LucideIconKind.CirclePlay, T["VIEW_SETTINGS_NAV_PLAYER"], ShowPlayerSettings),
+            new MenuItemViewModel(LucideIconKind.Box, T["VIEW_SETTINGS_NAV_LOGO"], ShowLogoSettings),
+            new MenuItemViewModel(LucideIconKind.Keyboard, T["VIEW_SETTINGS_NAV_KEYBOARD"], ShowKeyboardSettings),
+            new MenuItemViewModel(LucideIconKind.Type, T["VIEW_SETTINGS_NAV_LYRICS"], ShowLyricsSettings),
+            new MenuItemViewModel(LucideIconKind.AudioLines, T["MENU_VISUALIZATIONS"], ShowVisualizationsSettings),
+            new MenuItemViewModel(LucideIconKind.Palette, T["VIEW_SETTINGS_NAV_APPEARANCE"], ShowAppearanceSettings),
             MenuItemViewModel.CreateSeparator(),
-            new MenuItemViewModel(LucideIconKind.Info, "Informacje", ShowInfoSettings)
+            new MenuItemViewModel(LucideIconKind.Info, T["VIEW_SETTINGS_NAV_INFO"], ShowInfoSettings)
         ];
 
         InitializeComponent();
 
         PART_NavigationList.SelectedIndex = 0;
         SizeChanged += InternalViewSettings_SizeChanged;
+        T.LanguageChanged += Translations_LanguageChanged;
+    }
+
+    protected override void OnClosed()
+    {
+        T.LanguageChanged -= Translations_LanguageChanged;
+        SaveRequested -= InternalViewSettings_SaveRequested;
+        SizeChanged -= InternalViewSettings_SizeChanged;
+        base.OnClosed();
+    }
+
+    private void Translations_LanguageChanged(object? sender, EventArgs e)
+    {
+        Title = T["MENU_SETTINGS"];
+        NavigationItems[0].Title = T["VIEW_SETTINGS_NAV_GENERAL"];
+        NavigationItems[1].Title = T["VIEW_SETTINGS_NAV_PLAYER"];
+        NavigationItems[2].Title = T["VIEW_SETTINGS_NAV_LOGO"];
+        NavigationItems[3].Title = T["VIEW_SETTINGS_NAV_KEYBOARD"];
+        NavigationItems[4].Title = T["VIEW_SETTINGS_NAV_LYRICS"];
+        NavigationItems[5].Title = T["MENU_VISUALIZATIONS"];
+        NavigationItems[6].Title = T["VIEW_SETTINGS_NAV_APPEARANCE"];
+        NavigationItems[8].Title = T["VIEW_SETTINGS_NAV_INFO"];
     }
 
     private void InternalViewSettings_SaveRequested(object? sender, EventArgs e)

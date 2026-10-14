@@ -68,7 +68,7 @@
 
                 <components:ButtonWithIcon
                     x:Name="PART_ResetButton"
-                    Content="Reset"
+                    Content="{ReflectionBinding Translations[COMMON_BUTTON_RESET], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Grid.Row="2"
                     HorizontalAlignment="Stretch"
                     Kind="RotateCcw"

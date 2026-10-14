@@ -44,7 +44,7 @@
 
                             <MenuItem
                                 Click="PlaySavedPlayList_Click"
-                                Header="Odtwórz"
+                                Header="{ReflectionBinding Translations[COMMON_BUTTON_PLAY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Tag="Play">
 
                                 <MenuItem.Icon>
@@ -56,7 +56,7 @@
 
                             <MenuItem
                                 Click="AppendSavedPlayList_Click"
-                                Header="Dodaj do aktualnie odtwarzanej listy"
+                                Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ADD_TO_CURRENT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Tag="Append">
 
                                 <MenuItem.Icon>
@@ -70,7 +70,7 @@
 
                             <MenuItem
                                 Click="DuplicatePlayList_Click"
-                                Header="Duplikuj"
+                                Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_DUPLICATE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Tag="Duplicate">
 
                                 <MenuItem.Icon>
@@ -82,7 +82,7 @@
 
                             <MenuItem
                                 Click="ExportSavedPlayList_Click"
-                                Header="Eksportuj do pliku"
+                                Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_EXPORT_TO_FILE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Tag="Export">
 
                                 <MenuItem.Icon>
@@ -96,7 +96,7 @@
 
                             <MenuItem
                                 Click="DeletePlayList_Click"
-                                Header="Usuń"
+                                Header="{ReflectionBinding Translations[COMMON_BUTTON_DELETE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Tag="Delete">
 
                                 <MenuItem.Icon>
@@ -268,7 +268,7 @@
                     Height="32"
                     Kind="Ellipsis"
                     Theme="{StaticResource ThemeButtonWithIconTheme}"
-                    ToolTip.Tip="Opcje"
+                    ToolTip.Tip="{ReflectionBinding Translations[COMMON_BUTTON_OPTIONS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     VerticalAlignment="Center"
                     Width="32">
 
@@ -278,7 +278,7 @@
 
                             <MenuItem
                                 Click="AddTrackTo_Click"
-                                Header="Dodaj do…"
+                                Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_ADD_TO], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Tag="AddTo">
 
                                 <MenuItem.Icon>
@@ -292,7 +292,7 @@
 
                             <MenuItem
                                 Click="MoveTrack_Click"
-                                Header="Przenieś na górę"
+                                Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_MOVE_TO_THE_VERY_TOP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Tag="Top">
 
                                 <MenuItem.Icon>
@@ -304,7 +304,7 @@
 
                             <MenuItem
                                 Click="MoveTrack_Click"
-                                Header="Przenieś na dół"
+                                Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_MOVE_TO_THE_VERY_BOTTOM], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Tag="Bottom">
 
                                 <MenuItem.Icon>
@@ -316,7 +316,7 @@
 
                             <MenuItem
                                 Click="MoveTrack_Click"
-                                Header="Przesuń wyżej"
+                                Header="{ReflectionBinding Translations[COMMON_MOVE_UP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Tag="Up">
 
                                 <MenuItem.Icon>
@@ -328,7 +328,7 @@
 
                             <MenuItem
                                 Click="MoveTrack_Click"
-                                Header="Przesuń niżej"
+                                Header="{ReflectionBinding Translations[COMMON_MOVE_DOWN], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Tag="Down">
 
                                 <MenuItem.Icon>
@@ -342,7 +342,7 @@
 
                             <MenuItem
                                 Click="RemoveTrack_Click"
-                                Header="Usuń"
+                                Header="{ReflectionBinding Translations[COMMON_BUTTON_DELETE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Tag="Remove">
 
                                 <MenuItem.Icon>
@@ -381,14 +381,14 @@
 
                     <!-- Search -->
                     <TextBox
-                        PlaceholderText="Szukaj playlisty"
+                        PlaceholderText="{ReflectionBinding Translations[VIEW_PLAYLISTS_SEARCH_PLACEHOLDER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Text="{Binding PlayListSearch, ElementName=Root, Mode=TwoWay}"
                         Theme="{StaticResource SidePanel.TextBoxTheme}"/>
 
                     <!-- Sort -->
                     <components:ButtonWithIcon
                         Click="SortPlayListsButton_Click"
-                        Content="Sortuj"
+                        Content="{ReflectionBinding Translations[COMMON_BUTTON_SORT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Grid.Column="1"
                         Kind="ArrowUpDown"
                         Theme="{StaticResource SidePanel.ActionButtonWithIconTheme}">
@@ -399,7 +399,7 @@
 
                                 <MenuItem
                                     Click="SortPlayListsAscending_Click"
-                                    Header="Nazwa rosnąco">
+                                    Header="{ReflectionBinding Translations[COMMON_NAME_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                     <MenuItem.Icon>
                                         <LucideIcon
@@ -410,7 +410,7 @@
 
                                 <MenuItem
                                     Click="SortPlayListsDescending_Click"
-                                    Header="Nazwa malejąco">
+                                    Header="{ReflectionBinding Translations[COMMON_NAME_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                                     <MenuItem.Icon>
                                         <LucideIcon
@@ -434,7 +434,7 @@
 
                     <components:ButtonWithIcon
                         Click="NowPlayingButton_Click"
-                        Content="Teraz Odtwarzane"
+                        Content="{ReflectionBinding Translations[MENU_NOW_PLAYING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         Kind="ListVideo"
@@ -461,7 +461,7 @@
                 <Grid Grid.Row="4">
                     <components:ButtonWithIcon
                         Click="NewPlayListButton_Click"
-                        Content="Nowa playlista"
+                        Content="{ReflectionBinding Translations[COMMON_NEW_PLAYLIST], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         HorizontalAlignment="Stretch"
                         Kind="Plus"
                         Theme="{StaticResource SidePanel.ActionButtonWithIconTheme}"/>
@@ -488,7 +488,7 @@
                         Click="SavePlayListButton_Click"
                         Kind="Save"
                         Theme="{StaticResource AccentButtonWithIconTheme}"
-                        ToolTip.Tip="Zapisz playlistę"/>
+                        ToolTip.Tip="{ReflectionBinding Translations[VIEW_PLAYLISTS_SAVE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                     <Border Theme="{StaticResource SeparatorVertical.BorderTheme}"/>
 
@@ -496,32 +496,32 @@
                         Click="PlaySelectedPlayList_Click"
                         Kind="Play"
                         Theme="{StaticResource AccentButtonWithIconTheme}"
-                        ToolTip.Tip="Odtwórz playlistę" />
+                        ToolTip.Tip="{ReflectionBinding Translations[VIEW_PLAYLISTS_PLAY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
 
                     <components:ButtonWithIcon
                         Click="AppendSelectedPlayList_Click"
                         Kind="ListPlus"
                         Theme="{StaticResource ThemeButtonWithIconTheme}"
-                        ToolTip.Tip="Dodaj do kolejki"/>
+                        ToolTip.Tip="{ReflectionBinding Translations[VIEW_PLAYLISTS_ADD_TO_QUEUE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                     <components:ButtonWithIcon
                         Click="AddFilesButton_Click"
                         Kind="FolderOpen"
                         Theme="{StaticResource ThemeButtonWithIconTheme}"
-                        ToolTip.Tip="Dodaj utwory z dysku" />
+                        ToolTip.Tip="{ReflectionBinding Translations[VIEW_PLAYLISTS_ADD_TRACKS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
 
                     <Border Theme="{StaticResource SeparatorVertical.BorderTheme}"/>
 
                     <TextBox
                         Text="{Binding TrackSearch, ElementName=Root, Mode=TwoWay}"
                         Theme="{StaticResource TextBoxTheme}"
-                        PlaceholderText="Szukaj nagrania"
+                        PlaceholderText="{ReflectionBinding Translations[VIEW_PLAYLISTS_TRACK_SEARCH_PLACEHOLDER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         VerticalContentAlignment="Center"
                         Width="256"/>
 
                     <components:ButtonWithIcon
                         Click="SortTracksButton_Click"
-                        Content="Sortuj"
+                        Content="{ReflectionBinding Translations[COMMON_BUTTON_SORT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Kind="ArrowUpDown"
                         Theme="{StaticResource ThemeButtonWithIconTheme}">
 
@@ -531,7 +531,7 @@
 
                                 <MenuItem
                                     Click="SortTracks_Click"
-                                    Header="Tytuł rosnąco"
+                                    Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_TITLE_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     Tag="TitleAscending">
 
                                     <MenuItem.Icon>
@@ -543,7 +543,7 @@
 
                                 <MenuItem
                                     Click="SortTracks_Click"
-                                    Header="Tytuł malejąco"
+                                    Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_TITLE_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     Tag="TitleDescending">
 
                                     <MenuItem.Icon>
@@ -555,7 +555,7 @@
 
                                 <MenuItem
                                     Click="SortTracks_Click"
-                                    Header="Album rosnąco"
+                                    Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_ALBUM_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     Tag="AlbumAscending">
 
                                     <MenuItem.Icon>
@@ -567,7 +567,7 @@
 
                                 <MenuItem
                                     Click="SortTracks_Click"
-                                    Header="Album malejąco"
+                                    Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_ALBUM_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     Tag="AlbumDescending">
 
                                     <MenuItem.Icon>
@@ -579,7 +579,7 @@
 
                                 <MenuItem
                                     Click="SortTracks_Click"
-                                    Header="Artysta rosnąco"
+                                    Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_ARTIST_ASCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     Tag="ArtistAscending">
 
                                     <MenuItem.Icon>
@@ -591,7 +591,7 @@
 
                                 <MenuItem
                                     Click="SortTracks_Click"
-                                    Header="Artysta malejąco"
+                                    Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_ARTIST_DESCENDING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     Tag="ArtistDescending">
 
                                     <MenuItem.Icon>
@@ -623,7 +623,7 @@
 
                                 <MenuItem
                                     Click="AddSelectedTracksTo_Click"
-                                    Header="Dodaj do…"
+                                    Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_ADD_TO], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     IsEnabled="{Binding HasSelectedTracks, ElementName=Root}"
                                     Tag="AddTo">
                                     
@@ -636,7 +636,7 @@
 
                                 <MenuItem
                                     Click="MoveSelectedTracksTop_Click"
-                                    Header="Przenieś na górę"
+                                    Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_MOVE_TO_THE_VERY_TOP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     IsEnabled="{Binding HasSelectedTracks, ElementName=Root}"
                                     Tag="Top">
 
@@ -649,7 +649,7 @@
 
                                 <MenuItem
                                     Click="MoveSelectedTracksBottom_Click"
-                                    Header="Przenieś na dół"
+                                    Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ITEM_MOVE_TO_THE_VERY_BOTTOM], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     IsEnabled="{Binding HasSelectedTracks, ElementName=Root}"
                                     Tag="Bottom">
 
@@ -664,7 +664,7 @@
 
                                 <MenuItem
                                     Click="RemoveSelectedTracks_Click"
-                                    Header="Usuń"
+                                    Header="{ReflectionBinding Translations[COMMON_BUTTON_DELETE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     IsEnabled="{Binding HasSelectedTracks, ElementName=Root}"
                                     Tag="Remove">
 
@@ -677,7 +677,7 @@
 
                                 <MenuItem
                                     Click="ClearPlayList_Click"
-                                    Header="Wyczyść playlistę"
+                                    Header="{ReflectionBinding Translations[PLAYLIST_ITEM_CLEAR_PLAYLIST], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                     Tag="Clear">
 
                                     <MenuItem.Icon>

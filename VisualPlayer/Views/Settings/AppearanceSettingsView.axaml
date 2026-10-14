@@ -26,16 +26,16 @@
                 <TextBlock
                     FontSize="22"
                     FontWeight="SemiBold"
-                    Text="Wygląd"/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_NAV_APPEARANCE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                 <TextBlock
                     Opacity="0.6"
-                    Text="Tutaj znajdą się ustawienia wyglądu aplikacji."/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_SUBTITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
             </StackPanel>
 
             <components:ButtonWithIcon
                 Click="ResetButton_Click"
-                Content="Reset"
+                Content="{ReflectionBinding Translations[COMMON_BUTTON_RESET], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Grid.Column="1"
                 Kind="RotateCcw"
                 Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
@@ -45,8 +45,8 @@
         
         <controls:SettingsControl
             Icon="Paintbrush"
-            Title="Motyw"
-            Description="Wybierz jasny, ciemny lub zgodny z ustawieniami systemu.">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_THEME_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_THEME_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <ComboBox
                 ItemsSource="{Binding Themes, ElementName=Root}"
@@ -63,9 +63,9 @@
         </controls:SettingsControl>
 
         <controls:SettingsControl
-            Description="Określa, czy kolor akcentu obejmuje menu, przyciski i tła głównych paneli."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_COLORIZATION_LEVEL_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="PaintBucket"
-            Title="Poziom koloryzacji">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_COLORIZATION_LEVEL_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <ComboBox
                 ItemsSource="{Binding ColorizationLevels, ElementName=Root}"
@@ -84,8 +84,8 @@
 
         <controls:SettingsExpandControl
             Icon="Palette"
-            Title="Kolor akcentu"
-            Description="Wybierz kolor używany do wyróżniania aktywnych elementów interfejsu.">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_TITLE_ACCENT_COLOR], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_ACCENT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <controls:ColorPaletteControl
                 RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
@@ -97,35 +97,35 @@
 
         <controls:SettingsExpandControl
             Icon="PanelsTopLeft"
-            Title="Interfejs"
-            Description="Dostosuj automatyczne ukrywanie elementów głównego okna.">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TITLE_INTERFACE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_AUTOHIDE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel Spacing="4">
                 <controls:SettingsControl
-                    Description="Ukrywa panel sterowania po opuszczeniu jego obszaru kursorem."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_PLAYERCONTROL_AUTOHIDE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="PanelBottom"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Automatycznie ukrywaj odtwarzacz">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_PLAYERCONTROL_AUTOHIDE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.Appearance.AutoHidePlayerControl, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Ukrywa OSD po opuszczeniu jego obszaru kursorem."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_INFOBAR_AUTOHIDE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="PanelTop"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Automatycznie ukrywaj OSD">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_INFOBAR_AUTOHIDE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.Appearance.AutoHideInfoBarControl, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Określa, przy jakiej zmianie odtwarzania ukryte OSD pojawi się automatycznie."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_INFO_BAR_DISPLAY_MODE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="PanelTopOpen"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Pokazywanie OSD">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_INFO_BAR_DISPLAY_MODE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
                         ItemsSource="{Binding InfoBarDisplayModes, ElementName=Root}"
@@ -141,10 +141,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Określa czas widoczności OSD po automatycznym pokazaniu."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_INFO_BAR_DISPLAY_DURATION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ClockFading"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Czas wyświetlania OSD">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_INFO_BAR_DISPLAY_DURATION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
                         Increment="{x:Static viewModelConfig:AppearanceConfig.INFO_BAR_DISPLAY_DURATION_INCREMENT}"
@@ -155,10 +155,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Wygasza ikonę menu głównego, kiedy menu jest zamknięte i kursor znajduje się poza nim."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_MENU_AUTOHIDE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Grip"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Automatycznie ukrywaj menu">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_MENU_AUTOHIDE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.Appearance.AutoHideHamburgerMenu, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
@@ -170,16 +170,16 @@
         <!-- WINDOW -->
 
         <controls:SettingsExpandControl
-            Description="Wybierz tło głównego okna oraz sposób wyświetlania obrazu."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_WINDOW_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AppWindow"
-            Title="Okno">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_WINDOW_OPACITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel Spacing="4">
                 <controls:SettingsControl
-                    Description="Określa, czy tłem okna będzie kolor motywu, wybrany kolor albo obraz."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_WINDOW_BACKGROUND_MODE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="PanelsTopLeft"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Tło">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_WINDOW_BACKGROUND_MODE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
                         ItemsSource="{Binding WindowBackgroundModes, ElementName=Root}"
@@ -199,7 +199,7 @@
                     Margin="0,4"
                     RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     SelectedColor="{ReflectionBinding Config.Appearance.WindowBackgroundColor, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
-                    Title="Kolor tła"/>
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_TITLE_BACKGROUND_COLOR], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                 <controls:ImageSelectorControl
                     x:Name="BackgroundImageSelector"
@@ -211,11 +211,11 @@
                     SelectedImage="{ReflectionBinding Config.Appearance.WindowBackgroundImagePath, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
 
                 <controls:SettingsControl
-                    Description="Określa sposób rozmieszczenia wybranego obrazu w oknie."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_IMAGE_FILL_MODE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Scaling"
                     IsVisible="{ReflectionBinding Config.Appearance.IsImageWindowBackground, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Wypełnienie obrazu">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_IMAGE_FILL_MODE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
                         ItemsSource="{Binding ImageFillModes, ElementName=Root}"
@@ -236,16 +236,16 @@
         <!-- TRANSPARENCY -->
 
         <controls:SettingsExpandControl
-            Description="Dostosuj przezroczystość głównego okna i paneli interfejsu."
+            Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Layers2"
-            Title="Transparency">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_TITLE_TRANSPARENCY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel Spacing="4">
                 <controls:SettingsControl
-                    Description="Określa przezroczystość paneli głównego interfejsu odtwarzacza."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_INTERFACE_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="PanelsTopLeft"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Interfejs">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TITLE_INTERFACE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <Grid ColumnDefinitions="48,180" ColumnSpacing="8">
                         <TextBlock
@@ -264,10 +264,10 @@
                 </controls:SettingsControl>
 
                 <controls:SettingsControl
-                    Description="Określa przezroczystość tła głównego okna aplikacji."
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_WINDOW_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="AppWindow"
                     Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="Okno">
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_WINDOW_OPACITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <Grid ColumnDefinitions="48,180" ColumnSpacing="8">
                         <TextBlock

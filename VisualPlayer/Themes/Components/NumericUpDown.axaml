@@ -47,7 +47,7 @@
                     x:Name="PART_DecreaseButton"
                     Kind="Minus"
                     Theme="{StaticResource NumericUpDownButtonTheme}"
-                    ToolTip.Tip="Zmniejsz"/>
+                    ToolTip.Tip="{ReflectionBinding Translations[COMPONENT_NUMERIC_UP_DOWN_BUTTON_DECREASE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                 <TextBox
                     x:Name="PART_Input"
@@ -64,7 +64,7 @@
                     Grid.Column="2"
                     Kind="Plus"
                     Theme="{StaticResource NumericUpDownButtonTheme}"
-                    ToolTip.Tip="Zwiększ"/>
+                    ToolTip.Tip="{ReflectionBinding Translations[COMPONENT_NUMERIC_UP_DOWN_BUTTON_INCREASE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
             </Grid>
         </Border>
     </ControlTemplate>

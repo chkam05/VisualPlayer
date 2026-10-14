@@ -15,8 +15,10 @@ namespace VisualPlayer.Views.Lyrics;
 
 public partial class LyricsDownloaderView : UserControl
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     private string _searchPhrase = string.Empty;
-    private string _status = "Wyszukaj tekst w LRCLIB.";
+    private string _status = T["VIEW_LYRICS_DOWNLOADER_STATUS_INITIAL"];
     private CancellationTokenSource? _searchCancellation;
 
     #region AVALONIA PROPERTIES
@@ -71,7 +73,7 @@ public partial class LyricsDownloaderView : UserControl
 
         if (track is null)
         {
-            Status = "Brak aktualnie odtwarzanego nagrania.";
+            Status = T["VIEW_LYRICS_DOWNLOADER_STATUS_NO_TRACK"];
             return;
         }
 
@@ -88,7 +90,7 @@ public partial class LyricsDownloaderView : UserControl
             return;
 
         var document = ApplicationContext.Instance.LyricsCore.DownloadOnlineResult(result.Result);
-        Status = $"Pobrano „{document.SuggestedName}” do lokalnej biblioteki.";
+        Status = T.Format("VIEW_LYRICS_DOWNLOADER_STATUS_DOWNLOADED", document.SuggestedName);
     }
 
     private async Task SearchAsync(
@@ -98,7 +100,7 @@ public partial class LyricsDownloaderView : UserControl
         _searchCancellation?.Dispose();
         _searchCancellation = new CancellationTokenSource();
         Results.Clear();
-        Status = "Wyszukiwanie w LRCLIB…";
+        Status = T["VIEW_LYRICS_DOWNLOADER_STATUS_SEARCHING"];
 
         try
         {
@@ -112,8 +114,8 @@ public partial class LyricsDownloaderView : UserControl
             }
 
             Status = Results.Count == 0
-                ? "Nie znaleziono kompatybilnego tekstu."
-                : $"Znaleziono wyników: {Results.Count}.";
+                ? T["VIEW_LYRICS_DOWNLOADER_STATUS_NOT_FOUND"]
+                : T.Format("VIEW_LYRICS_DOWNLOADER_STATUS_RESULTS", Results.Count);
         }
         catch (OperationCanceledException)
         {
@@ -121,7 +123,7 @@ public partial class LyricsDownloaderView : UserControl
         }
         catch (HttpRequestException exception)
         {
-            Status = $"Nie udało się pobrać wyników: {exception.Message}";
+            Status = T.Format("VIEW_LYRICS_DOWNLOADER_STATUS_ERROR", exception.Message);
         }
 
     }

@@ -10,7 +10,7 @@ using VisualPlayer.ViewModels.Equalizer;
 
 namespace VisualPlayer.Contexts;
 
-public class EqualizerConfigurationContext : ConfigurationContextBase
+public class EqualizerConfigurationContext : ConfigurationContextBase, IDisposable
 {
     #region CONST
 
@@ -20,6 +20,7 @@ public class EqualizerConfigurationContext : ConfigurationContextBase
 
     private ObservableCollection<EqualizerProfile> _profiles;
     private string _selectedProfileName;
+    private TranslationContext? _translations;
 
     #region PROPERTIES
 
@@ -74,7 +75,10 @@ public class EqualizerConfigurationContext : ConfigurationContextBase
     {
         RemoveDuplicateNames();
 
-        var defaultProfiles = DefaultEqualizerProfiles.Create();
+        Func<string, string>? translate = _translations is null
+            ? null
+            : _translations.Translate;
+        var defaultProfiles = DefaultEqualizerProfiles.Create(translate);
 
         for (var index = 0; index < defaultProfiles.Count; index++)
         {
@@ -102,11 +106,19 @@ public class EqualizerConfigurationContext : ConfigurationContextBase
             SelectedProfileName = DefaultEqualizerProfiles.FLAT_NAME;
     }
 
-    public static EqualizerConfigurationContext Load()
+    public static EqualizerConfigurationContext Load(TranslationContext translations)
     {
         var context = LoadFromFile(FilePath, () => new EqualizerConfigurationContext());
+        context._translations = translations ?? throw new ArgumentNullException(nameof(translations));
         context.EnsureProfiles();
+        context._translations.LanguageChanged += context.Translations_LanguageChanged;
         return context;
+    }
+
+    public void Dispose()
+    {
+        if (_translations is not null)
+            _translations.LanguageChanged -= Translations_LanguageChanged;
     }
 
     public void Save()
@@ -138,6 +150,14 @@ public class EqualizerConfigurationContext : ConfigurationContextBase
                 Profiles.RemoveAt(index);
             }
         }
+    }
+
+    private void Translations_LanguageChanged(object? sender, EventArgs e)
+    {
+        foreach (var profile in Profiles)
+            profile.RefreshTranslation();
+
+        NotifyPropertyChanged(nameof(SelectedProfile));
     }
 
     #endregion LOAD / SAVE

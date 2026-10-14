@@ -167,7 +167,7 @@
                     Height="32"
                     Kind="Ellipsis"
                     Theme="{StaticResource ColorizedButtonWithIconTheme}"
-                    ToolTip.Tip="Opcje"
+                    ToolTip.Tip="{ReflectionBinding Translations[COMMON_BUTTON_OPTIONS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     VerticalAlignment="Center"
                     Width="32">
 
@@ -175,7 +175,7 @@
                         <ContextMenu>
 
                             <MenuItem
-                                Header="Otwórz"
+                                Header="{ReflectionBinding Translations[COMMON_BUTTON_OPEN], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Tag="Play">
 
                                 <MenuItem.Icon>
@@ -187,26 +187,26 @@
 
                             <Separator/>
 
-                            <MenuItem Header="Przesuń wyżej" Tag="MoveUp">
+                            <MenuItem Header="{ReflectionBinding Translations[COMMON_MOVE_UP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" Tag="MoveUp">
                                 <MenuItem.Icon><LucideIcon Kind="ArrowUp" Size="16"/></MenuItem.Icon>
                             </MenuItem>
 
-                            <MenuItem Header="Przesuń niżej" Tag="MoveDown">
+                            <MenuItem Header="{ReflectionBinding Translations[COMMON_MOVE_DOWN], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" Tag="MoveDown">
                                 <MenuItem.Icon><LucideIcon Kind="ArrowDown" Size="16"/></MenuItem.Icon>
                             </MenuItem>
 
-                            <MenuItem Header="Przesuń na górę" Tag="MoveTop">
+                            <MenuItem Header="{ReflectionBinding Translations[PLAYLIST_ITEM_ITEM_MOVE_TO_THE_VERY_TOP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" Tag="MoveTop">
                                 <MenuItem.Icon><LucideIcon Kind="ChevronsUp" Size="16"/></MenuItem.Icon>
                             </MenuItem>
 
-                            <MenuItem Header="Przesuń na dół" Tag="MoveBottom">
+                            <MenuItem Header="{ReflectionBinding Translations[PLAYLIST_ITEM_ITEM_MOVE_TO_THE_VERY_BOTTOM], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" Tag="MoveBottom">
                                 <MenuItem.Icon><LucideIcon Kind="ChevronsDown" Size="16"/></MenuItem.Icon>
                             </MenuItem>
 
                             <Separator/>
 
                             <MenuItem
-                                Header="Usuń"
+                                Header="{ReflectionBinding Translations[COMMON_BUTTON_DELETE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Tag="Remove">
 
                                 <MenuItem.Icon>

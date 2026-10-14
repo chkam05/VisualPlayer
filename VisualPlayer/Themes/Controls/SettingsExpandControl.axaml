@@ -51,7 +51,7 @@
                         IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
                         Kind="ChevronDown"
                         Theme="{StaticResource ThemeToggleButtonWithIconTheme}"
-                        ToolTip.Tip="Rozwiń lub zwiń"
+                        ToolTip.Tip="{ReflectionBinding Translations[SETTINGSEXPAND_TOOLTIP_EXPAND_COLLAPSE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         VerticalAlignment="Center"
                         Width="36"/>
                 </Grid>

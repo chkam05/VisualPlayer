@@ -50,7 +50,7 @@
                             IsVisible="{TemplateBinding EnableCloseButton}"
                             Kind="X"
                             Theme="{StaticResource InternalMessage.ButtonWithIconTheme}"
-                            ToolTip.Tip="Zamknij"/>
+                            ToolTip.Tip="{ReflectionBinding Translations[DIALOG_BUTTON_CLOSE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
                     </Grid>
                 </Border>
                 
@@ -99,7 +99,7 @@
                             Spacing="6">
 
                             <TextBlock
-                                Text="Alpha"
+                                Text="{ReflectionBinding Translations[DIALOG_COLOR_PICKER_TEXT_ALPHA], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 VerticalAlignment="Center"/>
                             
                             <components:NumericUpDown
@@ -107,7 +107,7 @@
                                 Value="{Binding Alpha, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
 
                             <TextBlock
-                                Text="Czerwony"
+                                Text="{ReflectionBinding Translations[DIALOG_COLOR_PICKER_TEXT_RED], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 VerticalAlignment="Center"/>
                             
                             <components:NumericUpDown
@@ -115,7 +115,7 @@
                                 Value="{Binding Red, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
 
                             <TextBlock
-                                Text="Zielony"
+                                Text="{ReflectionBinding Translations[DIALOG_COLOR_PICKER_TEXT_GREEN], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 VerticalAlignment="Center"/>
                             
                             <components:NumericUpDown
@@ -123,7 +123,7 @@
                                 Value="{Binding Green, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
 
                             <TextBlock
-                                Text="Niebieski"
+                                Text="{ReflectionBinding Translations[DIALOG_COLOR_PICKER_TEXT_BLUE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 VerticalAlignment="Center"/>
 
                             <components:NumericUpDown
@@ -137,7 +137,7 @@
                             Spacing="6">
 
                             <TextBlock
-                                Text="Odcień/Barwa"
+                                Text="{ReflectionBinding Translations[DIALOG_COLOR_PICKER_TEXT_HUE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 VerticalAlignment="Center"/>
                             
                             <components:NumericUpDown
@@ -146,7 +146,7 @@
                                 Value="{Binding Hue, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
 
                             <TextBlock
-                                Text="Nasycenie"
+                                Text="{ReflectionBinding Translations[DIALOG_COLOR_PICKER_TEXT_SATURATION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 VerticalAlignment="Center"/>
                             
                             <components:NumericUpDown
@@ -155,7 +155,7 @@
                                 Value="{Binding Saturation, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
 
                             <TextBlock
-                                Text="Jasność"
+                                Text="{ReflectionBinding Translations[DIALOG_COLOR_PICKER_TEXT_BRIGHTNESS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 VerticalAlignment="Center"/>
 
                             <components:NumericUpDown
@@ -164,7 +164,7 @@
                                 Value="{Binding Lightness, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
 
                             <TextBlock
-                                Text="Hex"
+                                Text="{ReflectionBinding Translations[DIALOG_COLOR_PICKER_TEXT_HEX], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 VerticalAlignment="Center"/>
                             
                             <TextBox
@@ -201,12 +201,12 @@
 
                             <Button
                                 x:Name="PART_OkButton"
-                                Content="OK"
+                                Content="{ReflectionBinding Translations[DIALOG_BUTTON_OK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Theme="{StaticResource InternalMessage.ButtonTheme}"/>
 
                             <Button
                                 x:Name="PART_CancelButton"
-                                Content="Anuluj"
+                                Content="{ReflectionBinding Translations[DIALOG_INTERNAL_MESSAGE_BUTTON_CANCEL], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                                 Theme="{StaticResource InternalMessage.ButtonTheme}"/>
                             
                         </StackPanel>

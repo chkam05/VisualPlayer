@@ -109,7 +109,7 @@
                 FontSize="16"
                 FontWeight="SemiBold"
                 Margin="0,8,0,0"
-                Text="Niedawno używane kolory"/>
+                Text="{ReflectionBinding Translations[COLORPALETTE_LABEL_LAST_USED], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
             <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
                 <ListBox
@@ -132,7 +132,7 @@
                     Kind="Plus"
                     Margin="4"
                     Theme="{StaticResource AccentButtonWithIconTheme}"
-                    ToolTip.Tip="Dodaj własny kolor"
+                    ToolTip.Tip="{ReflectionBinding Translations[COLORPALETTE_BUTTON_ADD_COLOR], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Width="40"/>
             </Grid>
         </StackPanel>

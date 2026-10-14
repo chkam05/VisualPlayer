@@ -5,8 +5,10 @@ using VisualPlayer.ViewModels;
 
 namespace VisualPlayer.Contexts;
 
-public class HamburgerMenuContext
+public class HamburgerMenuContext : IDisposable
 {
+    private static TranslationContext T => ApplicationContext.Instance.Translations;
+
     #region EVENTS
 
     public event EventHandler? NowPlayingRequested;
@@ -24,34 +26,66 @@ public class HamburgerMenuContext
     public ObservableCollection<HamburgerMenuItemViewModel> TopItems { get; }
     public ObservableCollection<HamburgerMenuItemViewModel> BottomItems { get; }
 
+    private readonly HamburgerMenuItemViewModel _libraryItem;
+    private readonly HamburgerMenuItemViewModel _playlistsItem;
+    private readonly HamburgerMenuItemViewModel _equalizerItem;
+    private readonly HamburgerMenuItemViewModel _lyricsItem;
+    private readonly HamburgerMenuItemViewModel _visualizationsItem;
+    private readonly HamburgerMenuItemViewModel _settingsItem;
+
     #region CONSTRUCTORS
 
     public HamburgerMenuContext()
     {
-        MainMenuItem = CreateMenuItem(LucideIconKind.Grip, "Menu Główne", null);
-        NowPlayingItem = CreateMenuItem(LucideIconKind.ListVideo, "Teraz Odtwarzane", RequestNowPlaying);
+        MainMenuItem = CreateMenuItem(LucideIconKind.Grip, T["MENU_MAIN"], null);
+        NowPlayingItem = CreateMenuItem(LucideIconKind.ListVideo, T["MENU_NOW_PLAYING"], RequestNowPlaying);
+        _libraryItem = CreateMenuItem(LucideIconKind.Library, T["MENU_LIBRARY"], RequestLibrary);
+        _playlistsItem = CreateMenuItem(LucideIconKind.ListMusic, T["MENU_PLAYLISTS"], RequestPlaylists);
+        _equalizerItem = CreateMenuItem(LucideIconKind.SlidersVertical, T["MENU_EQUALIZER"], RequestEqualizer);
+        _lyricsItem = CreateMenuItem(LucideIconKind.Type, T["MENU_LYRICS"], RequestLyrics);
+        _visualizationsItem = CreateMenuItem(LucideIconKind.AudioLines, T["MENU_VISUALIZATIONS"], RequestVisualizations);
+        _settingsItem = CreateMenuItem(LucideIconKind.Settings, T["MENU_SETTINGS"], RequestSettings);
 
         TopItems = new ObservableCollection<HamburgerMenuItemViewModel>
         {
             MainMenuItem,
-            CreateMenuItem(LucideIconKind.Library, "Biblioteka", RequestLibrary),
-            CreateMenuItem(LucideIconKind.ListMusic, "Listy Odtwarzania", RequestPlaylists),
+            _libraryItem,
+            _playlistsItem,
             HamburgerMenuItemViewModel.CreateSeparator(),
-            CreateMenuItem(LucideIconKind.SlidersVertical, "Equalizer", RequestEqualizer),
-            CreateMenuItem(LucideIconKind.Type, "Teksty", RequestLyrics),
-            CreateMenuItem(LucideIconKind.AudioLines, "Wizualizacje", RequestVisualizations),
-            CreateMenuItem(LucideIconKind.Settings, "Ustawienia", RequestSettings)
+            _equalizerItem,
+            _lyricsItem,
+            _visualizationsItem,
+            _settingsItem
         };
 
         BottomItems = new ObservableCollection<HamburgerMenuItemViewModel>
         {
             NowPlayingItem
         };
+
+        T.LanguageChanged += Translations_LanguageChanged;
     }
 
     #endregion CONSTRUCTORS
 
+    public void Dispose()
+    {
+        T.LanguageChanged -= Translations_LanguageChanged;
+    }
+
     #region ACTIONS
+
+    private void Translations_LanguageChanged(object? sender, EventArgs e)
+    {
+        MainMenuItem.Title = T["MENU_MAIN"];
+        NowPlayingItem.Title = T["MENU_NOW_PLAYING"];
+        _libraryItem.Title = T["MENU_LIBRARY"];
+        _playlistsItem.Title = T["MENU_PLAYLISTS"];
+        _equalizerItem.Title = T["MENU_EQUALIZER"];
+        _lyricsItem.Title = T["MENU_LYRICS"];
+        _visualizationsItem.Title = T["MENU_VISUALIZATIONS"];
+        _settingsItem.Title = T["MENU_SETTINGS"];
+    }
 
     private void RequestNowPlaying()
     {

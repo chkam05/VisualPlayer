@@ -19,6 +19,8 @@ public class EqualizerProfile : ViewModelBase
     private bool _isDefault;
     private string _name = "Equalizer";
     private double _preamp;
+    private Func<string, string>? _translate;
+    private string? _translationKey;
 
     #region PROPERTIES
 
@@ -47,6 +49,11 @@ public class EqualizerProfile : ViewModelBase
         get => _name;
         set => UpdateProperty(ref _name, string.IsNullOrWhiteSpace(value) ? "Equalizer" : value.Trim());
     }
+
+    [JsonIgnore]
+    public string DisplayName => _translationKey is null || _translate is null
+        ? Name
+        : _translate(_translationKey);
 
     [NotifyPropertyUpdate]
     public double Preamp
@@ -85,6 +92,18 @@ public class EqualizerProfile : ViewModelBase
             copy.Bands.Add(band.Copy());
 
         return copy;
+    }
+
+    internal void ConfigureTranslation(string? translationKey, Func<string, string>? translate)
+    {
+        _translationKey = translationKey;
+        _translate = translate;
+        NotifyPropertyChanged(nameof(DisplayName));
+    }
+
+    internal void RefreshTranslation()
+    {
+        NotifyPropertyChanged(nameof(DisplayName));
     }
 
     public static double NormalizeGain(double value)
