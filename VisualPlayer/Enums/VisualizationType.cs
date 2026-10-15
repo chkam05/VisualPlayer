@@ -2,6 +2,7 @@ namespace VisualPlayer.Enums;
 
 public enum VisualizationType
 {
+    // Keep existing numeric IDs stable when inserting new visualization types.
     None,
     CircleStripes,
     CircleWaveform,
@@ -10,11 +11,13 @@ public enum VisualizationType
     OscilloscopeDouble,
     OscilloscopeFilled,
     Peaks,
-    PeaksFloating,
+    PeaksBouncing = 15,
+    PeaksFloating = 8,
     PeaksFloatingMirrored,
     PeaksMirrored,
     Stripes,
-    StripesMirrored,
+    StripesBouncing = 16,
+    StripesMirrored = 12,
     Waveform,
     WaveformMirrored,
 }

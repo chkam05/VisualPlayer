@@ -45,7 +45,7 @@ public static class VisualizationColorSampler
             _ => GetLinearPosition(x, y, offsetX, offsetY, definition.Angle, stretch)
         };
 
-        var sampledPosition = definition.Type == GradientType.Radial
+        var sampledPosition = definition.Type == GradientType.Radial && offsetX == 0 && offsetY == 0
             ? Math.Clamp(position, 0, 1)
             : Wrap(position);
 
@@ -107,9 +107,10 @@ public static class VisualizationColorSampler
         double offsetY,
         double stretch)
     {
-        var relativeX = x - 0.5 - offsetX;
-        var relativeY = y - 0.5 - offsetY;
-        return Math.Sqrt(relativeX * relativeX + relativeY * relativeY) * 2 / stretch;
+        var relativeX = x - 0.5;
+        var relativeY = y - 0.5;
+        return Math.Sqrt(relativeX * relativeX + relativeY * relativeY) * 2 / stretch
+            - GradientAnimationUtils.GetPhase(offsetX, offsetY, stretch);
     }
 
     private static double GetConicPosition(
@@ -120,10 +121,11 @@ public static class VisualizationColorSampler
         double angle,
         double stretch)
     {
-        var relativeX = x - 0.5 - offsetX;
-        var relativeY = y - 0.5 - offsetY;
+        var relativeX = x - 0.5;
+        var relativeY = y - 0.5;
         var turn = Math.Atan2(relativeY, relativeX) / (2 * Math.PI);
-        return (turn - angle / 360d) / stretch;
+        return (turn - angle / 360d) / stretch
+            - GradientAnimationUtils.GetPhase(offsetX, offsetY, stretch);
     }
 
     private static Color Interpolate(GradientDefinition definition, double position)

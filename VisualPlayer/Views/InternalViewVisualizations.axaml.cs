@@ -30,6 +30,8 @@ public partial class InternalViewVisualizations : InternalViewBase
     private readonly OscilloscopeDoubleConfig _oscilloscopeDoubleConfig = new();
     private readonly PeaksFloatingMirroredConfig _peaksFloatingMirroredConfig = new();
     private readonly PeaksMirroredConfig _peaksMirroredConfig = new();
+    private readonly PeaksBouncingConfig _peaksBouncingConfig = new();
+    private readonly StripesBouncingConfig _stripesBouncingConfig = new();
     private readonly StripesMirroredConfig _stripesMirroredConfig = new();
     private readonly OscilloscopeConfig _oscilloscopeConfig = new();
     private readonly PeaksConfig _peaksConfig = new();
@@ -117,7 +119,9 @@ public partial class InternalViewVisualizations : InternalViewBase
     public ObservableCollection<VisualisationProfile> VisibleProfiles { get; } = [];
 
     public IReadOnlyList<VisualizationType> VisualizationTypes { get; }
-        = Enum.GetValues<VisualizationType>();
+        = Enum.GetValues<VisualizationType>()
+            .OrderBy(type => type.ToString(), StringComparer.Ordinal)
+            .ToArray();
 
     #endregion PROPERTIES
 
@@ -248,6 +252,16 @@ public partial class InternalViewVisualizations : InternalViewBase
 
         switch (SelectedProfile.VisualizationType)
         {
+            case VisualizationType.PeaksBouncing:
+                SelectedProfile.GetConfig<PeaksBouncingVisualizationConfig>();
+                _peaksBouncingConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _peaksBouncingConfig;
+                break;
+            case VisualizationType.StripesBouncing:
+                SelectedProfile.GetConfig<StripesBouncingVisualizationConfig>();
+                _stripesBouncingConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _stripesBouncingConfig;
+                break;
             case VisualizationType.Peaks:
                 SelectedProfile.GetConfig<PeaksVisualizationConfig>();
                 _peaksConfig.DataContext = SelectedProfile;

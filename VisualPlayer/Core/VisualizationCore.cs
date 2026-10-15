@@ -201,6 +201,10 @@ public class VisualizationCore : IDisposable
                 => new PeaksVisualization(_activeProfile.GetConfig<PeaksVisualizationConfig>(), _activeProfile.GetColorConfig()),
             VisualizationType.Stripes when _activeProfile is not null
                 => new StripesVisualization(_activeProfile.GetConfig<StripesVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.PeaksBouncing when _activeProfile is not null
+                => new PeaksBouncingVisualization(_activeProfile.GetConfig<PeaksBouncingVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.StripesBouncing when _activeProfile is not null
+                => new StripesBouncingVisualization(_activeProfile.GetConfig<StripesBouncingVisualizationConfig>(), _activeProfile.GetColorConfig()),
             VisualizationType.PeaksMirrored when _activeProfile is not null
                 => new PeaksMirroredVisualization(_activeProfile.GetConfig<PeaksMirroredVisualizationConfig>(), _activeProfile.GetColorConfig()),
             VisualizationType.StripesMirrored when _activeProfile is not null

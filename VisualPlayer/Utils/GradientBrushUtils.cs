@@ -102,21 +102,20 @@ public static class GradientBrushUtils
     {
         stretch = Math.Clamp(stretch, 0.1, 4);
 
-        var animatedCenter = new RelativePoint(
-            center.X + offsetX * drawingArea.Width,
-            center.Y + offsetY * drawingArea.Height,
-            RelativeUnit.Absolute);
+        var fixedCenter = new RelativePoint(center, RelativeUnit.Absolute);
         var absoluteRadius = Math.Max(1, radius * stretch);
         var brush = new RadialGradientBrush
         {
-            Center = animatedCenter,
-            GradientOrigin = animatedCenter,
+            Center = fixedCenter,
+            GradientOrigin = fixedCenter,
             RadiusX = new RelativeScalar(absoluteRadius, RelativeUnit.Absolute),
             RadiusY = new RelativeScalar(absoluteRadius, RelativeUnit.Absolute),
-            SpreadMethod = GradientSpreadMethod.Pad
+            SpreadMethod = offsetX != 0 || offsetY != 0
+                ? GradientSpreadMethod.Repeat : GradientSpreadMethod.Pad
         };
 
-        foreach (var stop in stops)
+        foreach (var stop in GradientAnimationUtils.ShiftStops(stops,
+            GradientAnimationUtils.GetPhase(offsetX, offsetY, stretch)))
             brush.GradientStops.Add(stop);
 
         return brush;
@@ -131,7 +130,7 @@ public static class GradientBrushUtils
         double stretch)
     {
         stretch = Math.Clamp(stretch, 0.1, 4);
-        var center = new RelativePoint(0.5 + offsetX, 0.5 + offsetY, RelativeUnit.Relative);
+        var center = new RelativePoint(0.5, 0.5, RelativeUnit.Relative);
         GradientBrush brush;
 
         switch (type)
@@ -165,9 +164,12 @@ public static class GradientBrushUtils
                 break;
         }
 
-        brush.SpreadMethod = type == GradientType.Radial
+        brush.SpreadMethod = type == GradientType.Radial && offsetX == 0 && offsetY == 0
             ? GradientSpreadMethod.Pad
             : GradientSpreadMethod.Repeat;
+
+        if (type is GradientType.Radial or GradientType.Conic)
+            stops = GradientAnimationUtils.ShiftStops(stops, GradientAnimationUtils.GetPhase(offsetX, offsetY, stretch));
 
         foreach (var stop in stops)
             brush.GradientStops.Add(stop);

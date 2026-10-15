@@ -21,8 +21,10 @@ public static class DefaultVisualizationProfiles
     public const string PEAKS_FLOATING_NAME = "Peaks - Floating";
     public const string PEAKS_MIRRORED_NAME = "Peaks - Mirrored";
     public const string PEAKS_NAME = "Peaks";
+    public const string PEAKS_BOUNCING_NAME = "Peaks - Bouncing";
     public const string STRIPES_MIRRORED_NAME = "Stripes - Mirrored";
     public const string STRIPES_NAME = "Stripes";
+    public const string STRIPES_BOUNCING_NAME = "Stripes - Bouncing";
     public const string WAVEFORM_NAME = "Waveform";
     public const string WAVEFORM_MIRRORED_NAME = "Waveform - Mirrored";
 
@@ -42,10 +44,12 @@ public static class DefaultVisualizationProfiles
             CreateOscilloscopeDouble(),
             CreateOscilloscopeFilled(),
             CreatePeaks(),
+            CreatePeaksBouncing(),
             CreatePeaksFloating(),
             CreatePeaksFloatingMirrored(),
             CreatePeaksMirrored(),
             CreateStripes(),
+            CreateStripesBouncing(),
             CreateStripesMirrored(),
             CreateWaveform(),
             CreateWaveformMirrored()
@@ -60,6 +64,8 @@ public static class DefaultVisualizationProfiles
             "CIRCLE - STRIPES" => CreateCircleStripes(),
             "CIRCLE - WAVEFORM" => CreateCircleWaveform(),
             "PEAKS" => CreatePeaks(),
+            "PEAKS - BOUNCING" => CreatePeaksBouncing(),
+            "STRIPES - BOUNCING" => CreateStripesBouncing(),
             "STRIPES" => CreateStripes(),
             "PEAKS - MIRRORED" => CreatePeaksMirrored(),
             "STRIPES - MIRRORED" => CreateStripesMirrored(),
@@ -83,6 +89,8 @@ public static class DefaultVisualizationProfiles
             VisualizationType.CircleStripes => profile.Config is CircleStripesVisualizationConfig,
             VisualizationType.CircleWaveform => profile.Config is CircleWaveformVisualizationConfig,
             VisualizationType.Peaks => profile.Config is PeaksVisualizationConfig,
+            VisualizationType.PeaksBouncing => profile.Config is PeaksBouncingVisualizationConfig,
+            VisualizationType.StripesBouncing => profile.Config is StripesBouncingVisualizationConfig,
             VisualizationType.Stripes => profile.Config is StripesVisualizationConfig,
             VisualizationType.PeaksMirrored => profile.Config is PeaksMirroredVisualizationConfig,
             VisualizationType.StripesMirrored => profile.Config is StripesMirroredVisualizationConfig,
@@ -408,6 +416,24 @@ public static class DefaultVisualizationProfiles
             Name = PEAKS_MIRRORED_NAME,
             VisualizationType = VisualizationType.PeaksMirrored,
         };
+    }
+
+    private static VisualisationProfile CreatePeaksBouncing()
+    {
+        var profile = CreatePeaksMirrored();
+        profile.Name = PEAKS_BOUNCING_NAME;
+        profile.VisualizationType = VisualizationType.PeaksBouncing;
+        profile.Config = new PeaksBouncingVisualizationConfig();
+        return profile;
+    }
+
+    private static VisualisationProfile CreateStripesBouncing()
+    {
+        var profile = CreateStripesMirrored();
+        profile.Name = STRIPES_BOUNCING_NAME;
+        profile.VisualizationType = VisualizationType.StripesBouncing;
+        profile.Config = new StripesBouncingVisualizationConfig();
+        return profile;
     }
 
     private static VisualisationProfile CreateStripes()

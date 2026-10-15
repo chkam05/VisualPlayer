@@ -103,6 +103,8 @@ public class VisualisationProfileJsonConverter : JsonConverter<VisualisationProf
             return visualizationType switch
             {
                 VisualizationType.Peaks => configElement.Deserialize<PeaksVisualizationConfig>(options),
+                VisualizationType.PeaksBouncing => configElement.Deserialize<PeaksBouncingVisualizationConfig>(options),
+                VisualizationType.StripesBouncing => configElement.Deserialize<StripesBouncingVisualizationConfig>(options),
                 VisualizationType.Stripes => configElement.Deserialize<StripesVisualizationConfig>(options),
                 VisualizationType.PeaksMirrored => configElement.Deserialize<PeaksMirroredVisualizationConfig>(options),
                 VisualizationType.StripesMirrored => configElement.Deserialize<StripesMirroredVisualizationConfig>(options),
@@ -145,6 +147,8 @@ public class VisualisationProfileJsonConverter : JsonConverter<VisualisationProf
         return profile.VisualizationType switch
         {
             VisualizationType.Peaks => profile.GetConfig<PeaksVisualizationConfig>(),
+            VisualizationType.PeaksBouncing => profile.GetConfig<PeaksBouncingVisualizationConfig>(),
+            VisualizationType.StripesBouncing => profile.GetConfig<StripesBouncingVisualizationConfig>(),
             VisualizationType.Stripes => profile.GetConfig<StripesVisualizationConfig>(),
             VisualizationType.PeaksMirrored => profile.GetConfig<PeaksMirroredVisualizationConfig>(),
             VisualizationType.StripesMirrored => profile.GetConfig<StripesMirroredVisualizationConfig>(),
