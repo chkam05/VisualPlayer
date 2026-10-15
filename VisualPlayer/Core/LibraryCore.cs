@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalonia.Threading;
 using VisualPlayer.Models.Player;
 using VisualPlayer.Utils;
 using VisualPlayer.ViewModels.Config;
@@ -96,15 +98,33 @@ public class LibraryCore
     private async Task ScanAsync(IEnumerable<LibraryFolderConfig> folders)
     {
         await _scanLock.WaitAsync();
+        LibraryFolderConfig[] folderSnapshot = [];
 
         try
         {
-            var folderSnapshot = folders
-                .Where(folder => Directory.Exists(folder.Path))
-                .Select(folder => (folder.Path, folder.IncludeSubdirectories))
-                .ToArray();
+            folderSnapshot = folders.ToArray();
+            var tracks = new List<Track>();
+            var knownPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var folder in folderSnapshot)
+            {
+                folder.ScanPercentage = null;
+                folder.IsScanning = true;
+            }
 
-            var tracks = await Task.Run(() => ScanFolders(folderSnapshot));
+            foreach (var folder in folderSnapshot)
+            {
+                var path = folder.Path;
+                var recursive = folder.IncludeSubdirectories;
+                var files = await Task.Run(() => EnumerateFiles(path, recursive)
+                    .Where(AudioFileUtils.IsSupported).ToArray());
+                folder.ScanPercentage = 0;
+                tracks.AddRange(await Task.Run(() => ScanFolder(folder, files, knownPaths)));
+                folder.IsScanning = false;
+                folder.ScanPercentage = null;
+            }
+
+            tracks.Sort((left, right) => StringComparer.CurrentCultureIgnoreCase.Compare(
+                left.DisplayTitle, right.DisplayTitle));
             Tracks.Clear();
 
             foreach (var track in tracks)
@@ -114,22 +134,26 @@ public class LibraryCore
         }
         finally
         {
+            foreach (var folder in folderSnapshot)
+            {
+                folder.IsScanning = false;
+                folder.ScanPercentage = null;
+            }
             _scanLock.Release();
         }
     }
 
-    private List<Track> ScanFolders(IEnumerable<(string Path, bool Recursive)> folders)
+    private async Task<List<Track>> ScanFolder(
+        LibraryFolderConfig folder, string[] files, HashSet<string> knownPaths)
     {
         var result = new List<Track>();
-        var knownPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var progressTimer = Stopwatch.StartNew();
 
-        foreach (var folder in folders)
+        for (var index = 0; index < files.Length; index++)
         {
-            foreach (var path in EnumerateFiles(folder.Path, folder.Recursive))
+            var path = files[index];
+            if (knownPaths.Add(path))
             {
-                if (!AudioFileUtils.IsSupported(path) || !knownPaths.Add(path))
-                    continue;
-
                 var track = new Track { FilePath = path };
 
                 if (TrackMetadataUtils.TryLoadMetadata(track, out var coverData) && coverData is not null)
@@ -137,11 +161,17 @@ public class LibraryCore
 
                 result.Add(track);
             }
+
+            // Keep large libraries from flooding the UI dispatcher with updates.
+            if (progressTimer.ElapsedMilliseconds >= 100 || index == files.Length - 1)
+            {
+                var percentage = (int)((index + 1L) * 100 / files.Length);
+                await Dispatcher.UIThread.InvokeAsync(() => folder.ScanPercentage = percentage);
+                progressTimer.Restart();
+            }
         }
 
-        return result
-            .OrderBy(track => track.DisplayTitle, StringComparer.CurrentCultureIgnoreCase)
-            .ToList();
+        return result;
     }
 
     #endregion SCANNING

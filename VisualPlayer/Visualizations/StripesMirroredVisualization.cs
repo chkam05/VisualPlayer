@@ -64,7 +64,6 @@ public class StripesMirroredVisualization : VisualizationBase<StripesMirroredVis
         var horizontalSpace = Config.HorizontalBarSpace * RenderScaling;
         var floatingBarHeight = Config.FloatingBarHeight * RenderScaling;
         var floatingSpace = Config.VerticalBarSpace * RenderScaling;
-        var centerHalfSpace = floatingSpace / 2;
         var visualizationBrush = CreateVisualizationBrush(brush);
 
         using (drawingContext.PushClip(DrawingArea))
@@ -80,8 +79,8 @@ public class StripesMirroredVisualization : VisualizationBase<StripesMirroredVis
                     {
                         if (Config.Direction == MirroredVisualizationDirection.Outside)
                         {
-                            DrawGradientSlice(drawingContext, visualizationBrush, new Rect(x, DrawingArea.Center.Y - centerHalfSpace - height, _stripeWidth, height));
-                            DrawGradientSlice(drawingContext, visualizationBrush, new Rect(x, DrawingArea.Center.Y + centerHalfSpace, _stripeWidth, height));
+                            // One continuous stripe avoids a seam at fractional pixel centers.
+                            DrawGradientSlice(drawingContext, visualizationBrush, new Rect(x, DrawingArea.Center.Y - height, _stripeWidth, height * 2));
                         }
                         else
                         {
@@ -105,8 +104,8 @@ public class StripesMirroredVisualization : VisualizationBase<StripesMirroredVis
                 {
                     if (Config.Direction == MirroredVisualizationDirection.Outside)
                     {
-                        DrawGradientSlice(drawingContext, visualizationBrush, new Rect(x, DrawingArea.Center.Y - centerHalfSpace - _floatingLevels[stripeIndex] - floatingSpace - floatingBarHeight, _stripeWidth, floatingBarHeight));
-                        DrawGradientSlice(drawingContext, visualizationBrush, new Rect(x, DrawingArea.Center.Y + centerHalfSpace + _floatingLevels[stripeIndex] + floatingSpace, _stripeWidth, floatingBarHeight));
+                        DrawGradientSlice(drawingContext, visualizationBrush, new Rect(x, DrawingArea.Center.Y - _floatingLevels[stripeIndex] - floatingSpace - floatingBarHeight, _stripeWidth, floatingBarHeight));
+                        DrawGradientSlice(drawingContext, visualizationBrush, new Rect(x, DrawingArea.Center.Y + _floatingLevels[stripeIndex] + floatingSpace, _stripeWidth, floatingBarHeight));
                     }
                     else
                     {
@@ -189,7 +188,7 @@ public class StripesMirroredVisualization : VisualizationBase<StripesMirroredVis
         var floatingHeight = Config.FloatingBarHeight * RenderScaling;
         var verticalSpace = Config.VerticalBarSpace * RenderScaling;
         var availableHeight = IsMirrored
-            ? DrawingArea.Height / 2 - verticalSpace / 2
+            ? DrawingArea.Height / 2 - (Config.Direction == MirroredVisualizationDirection.Inside ? verticalSpace / 2 : 0)
             : DrawingArea.Height;
 
         if (Config.ShowFloatingBar)

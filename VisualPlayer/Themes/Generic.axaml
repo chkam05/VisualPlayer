@@ -70,6 +70,10 @@
         <ResourceInclude Source="/Themes/Views/SidePanelContentListViewItemTheme.axaml" />
         <ResourceInclude Source="/Themes/Views/SidePanelContentListViewTheme.axaml" />
         <ResourceInclude Source="/Themes/Views/SidePanelTextBoxTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/LibraryManager/LibraryItemsListBoxItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/LibraryManager/LibraryItemsListBoxTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/Settings/LibraryFoldersListBoxItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/Settings/LibraryFoldersListBoxTheme.axaml" />
         <ResourceInclude Source="/Themes/Views/PlayListManager/NowPlayingButtonWithIconTheme.axaml" />
         <ResourceInclude Source="/Themes/Views/PlayListManager/TracksListBoxItemTheme.axaml" />
         <ResourceInclude Source="/Themes/Views/PlayListManager/TracksListBoxTheme.axaml" />

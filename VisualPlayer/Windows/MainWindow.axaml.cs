@@ -40,6 +40,7 @@ public partial class MainWindow : Window
     private readonly DispatcherTimer _positionTimer;
     private bool _allowWindowClose;
     private bool _wasPlaying;
+    private readonly IDisposable? _taskbarControls;
 
 
     #region CONSTRUCTIRS
@@ -65,6 +66,15 @@ public partial class MainWindow : Window
         SidePanel.MenuContext = _hamburgerMenuContext;
 
         SetupPlaybackVisibilityBehavior();
+
+        if (OperatingSystem.IsWindows())
+        {
+            _taskbarControls = new WindowsTaskbarControls(
+                this, _applicationContext.PlayerDataContext, _applicationContext.Translations,
+                () => PlayPanel_PreviousRequested(this, new RoutedEventArgs()),
+                () => PlayPanel_PlayPauseRequested(this, new RoutedEventArgs()),
+                () => PlayPanel_NextRequested(this, new RoutedEventArgs()));
+        }
 
         InternalMessages.CurrentViewChanged += Overlay_CurrentViewChanged;
         InternalViews.CurrentViewChanged += Overlay_CurrentViewChanged;
@@ -100,10 +110,10 @@ public partial class MainWindow : Window
         TransparencyLevelHint = OperatingSystem.IsWindows()
             ?
             [
-                WindowTransparencyLevel.Mica,
+                // Mica uses the desktop wallpaper, hiding windows behind the player.
+                WindowTransparencyLevel.Transparent,
                 WindowTransparencyLevel.AcrylicBlur,
-                WindowTransparencyLevel.Blur,
-                WindowTransparencyLevel.Transparent
+                WindowTransparencyLevel.Blur
             ]
             :
             [
@@ -534,6 +544,7 @@ public partial class MainWindow : Window
 
     private void MainWindow_Closed(object? sender, EventArgs e)
     {
+        _taskbarControls?.Dispose();
         _hamburgerMenuContext.Dispose();
         _applicationContext.PlayerDataContext.PropertyChanged -= PlayerDataContext_PropertyChanged;
         _applicationContext.PlayerCore.CurrentTrackChanged -= PlayerCore_CurrentTrackChanged;

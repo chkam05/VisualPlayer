@@ -1,0 +1,11 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <ControlTheme x:Key="LibraryFolders.ListBoxTheme" BasedOn="{StaticResource ListBoxTheme}" TargetType="ListBox">
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="ItemContainerTheme" Value="{StaticResource LibraryFolders.ListBoxItemTheme}"/>
+    </ControlTheme>
+
+</ResourceDictionary>
