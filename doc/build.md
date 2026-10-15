@@ -35,7 +35,23 @@ Audio file paths can also be passed as command-line arguments. Startup behavior 
 
 ## Publish
 
-VisualPlayer does not currently define a repository-level packaging pipeline. A framework-dependent build can be published with:
+To publish a self-contained Release build, run the script for your target platform from the repository root:
+
+```text
+Windows: build_windown.bat
+macOS:   bash build_macos.sh
+Linux:   bash build_linux.sh
+```
+
+The scripts detect the current architecture. You can specify a target explicitly, for example `build_windown.bat win-x64`, `bash build_macos.sh osx-arm64`, or `bash build_linux.sh linux-x64`. Each script also supports `--help`.
+
+The output is written to `artifacts/publish/<runtime>/`. Windows and Linux produce portable folders: run `VisualPlayer.exe` or `./VisualPlayer` and distribute the **entire folder**, including native libraries and translations. The target computer does not need .NET installed; native desktop/audio dependencies are still required.
+
+On macOS, run the script on a Mac. It creates `artifacts/publish/<runtime>/VisualPlayer.app`, ready to open in Finder or copy to Applications. The bundle contains the runtime, native libraries, translations, a standard/Retina `.icns` icon generated from `Assets/logo.png`, and `Info.plist` metadata read from the project. The title, product name, version, authors, company and copyright stay synchronized with the `.csproj`. Bundle identity and minimum macOS version are configured with `MacOSBundleIdentifier` and `MacOSMinimumSystemVersion` in that file.
+
+The standard macOS release version uses the first three components of `Version` (e.g. `7.1.1`); the full informational version (e.g. `7.1.1.0`) is preserved in the bundle information. By default the bundle build version matches the release version; override it with `MACOS_BUNDLE_VERSION=123 bash build_macos.sh` if needed. The script validates the property list and applies/verifies local ad-hoc code signatures. Developer ID signing and Apple notarization are separate distribution steps.
+
+A framework-dependent build can also be published manually:
 
 ```bash
 dotnet publish VisualPlayer/VisualPlayer.csproj \
