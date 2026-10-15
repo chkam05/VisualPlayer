@@ -35,7 +35,7 @@ public class VisualizationCore : IDisposable
 
     public bool FillScreen
     {
-        get => _config.Global.FillScreen;
+        get => _activeProfile?.FillScreen ?? false;
     }
 
     public TimeSpan FrameInterval
@@ -164,7 +164,7 @@ public class VisualizationCore : IDisposable
 
     public double GetFrequencyLevel(int minimumFrequency, int maximumFrequency)
     {
-        if (_spectrum.Length == 0)
+        if (CurrentVisualization is null || _spectrum.Length == 0)
             return 0;
 
         const double nyquist = 24000d;
@@ -233,6 +233,8 @@ public class VisualizationCore : IDisposable
         };
 
         CurrentVisualization?.UpdateGraphics(_drawingArea, _renderScaling);
+        if (CurrentVisualization is null)
+            Reset();
         _lastFrameTimestamp = 0;
     }
 

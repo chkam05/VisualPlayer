@@ -274,11 +274,18 @@ public class LogoControl : TemplatedControl
         _lastAnimationTimestamp = currentTimestamp;
         elapsedSeconds = Math.Clamp(elapsedSeconds, 0, 0.1);
 
-        var level = EnableAnimation && VisualizationCore is not null
-            ? VisualizationCore.GetFrequencyLevel(
-                AnimationMinimumFrequency,
-                AnimationMaximumFrequency)
-            : 0;
+        if (!EnableAnimation || VisualizationCore?.CurrentVisualization is null)
+        {
+            _beatLevel = 0;
+            _currentScale = 1;
+            _scaleTransform.ScaleX = 1;
+            _scaleTransform.ScaleY = 1;
+            return;
+        }
+
+        var level = VisualizationCore.GetFrequencyLevel(
+            AnimationMinimumFrequency,
+            AnimationMaximumFrequency);
 
         UpdateBeatLevel(level, elapsedSeconds);
 

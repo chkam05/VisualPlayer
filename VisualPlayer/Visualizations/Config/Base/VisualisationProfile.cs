@@ -13,11 +13,19 @@ public class VisualisationProfile : ViewModelBase
 {
     private VisualizationColorConfig? _color;
     private IVisualizationConfig? _config;
+    private bool _fillScreen;
     private bool _isDefault;
     private string _name = "Peaks";
     private VisualizationType _visualizationType = VisualizationType.Peaks;
 
     #region PROPERTIES
+
+    [NotifyPropertyUpdate]
+    public bool FillScreen
+    {
+        get => _fillScreen;
+        set => UpdateProperty(ref _fillScreen, value);
+    }
 
     [NotifyPropertyUpdate]
     public VisualizationColorConfig? Color
@@ -96,6 +104,7 @@ public class VisualisationProfile : ViewModelBase
             IsDefault = false,
             Name = name,
             VisualizationType = VisualizationType,
+            FillScreen = FillScreen,
             Color = Color?.Copy(),
             Config = CopyConfig(Config)
         };
@@ -123,6 +132,7 @@ public class VisualisationProfile : ViewModelBase
     public void OverwriteFrom(VisualisationProfile source)
     {
         VisualizationType = source.VisualizationType;
+        FillScreen = source.FillScreen;
         Color = source.Color?.Copy();
         Config = CopyConfig(source.Config);
     }

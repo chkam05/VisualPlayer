@@ -40,6 +40,8 @@ public class VisualisationProfileJsonConverter : JsonConverter<VisualisationProf
                 && isDefaultElement.ValueKind is JsonValueKind.True,
             Name = name,
             VisualizationType = visualizationType,
+            FillScreen = root.TryGetProperty("fillScreen", out var fillScreenElement)
+                && fillScreenElement.ValueKind == JsonValueKind.True,
             Color = color,
             Config = config
         };
@@ -53,6 +55,7 @@ public class VisualisationProfileJsonConverter : JsonConverter<VisualisationProf
 
         writer.WriteBoolean("isDefault", value.IsDefault);
         writer.WriteString("name", value.Name);
+        writer.WriteBoolean("fillScreen", value.FillScreen);
 
         writer.WritePropertyName("type");
         JsonSerializer.Serialize(writer, value.VisualizationType, options);

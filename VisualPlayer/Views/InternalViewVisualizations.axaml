@@ -194,7 +194,7 @@
                         Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_FULLSCREEN_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                         <components:Switch
-                            IsChecked="{ReflectionBinding VisualizationConfig.Global.FillScreen, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                            IsChecked="{Binding SelectedProfile.FillScreen, ElementName=Root, Mode=TwoWay}"/>
                     </controls:SettingsControl>
                 </StackPanel>
             </ScrollViewer>

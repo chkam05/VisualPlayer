@@ -42,7 +42,6 @@ public class VisualizationGlobalConfig : ViewModelBase
     private FftSize _fftSize = FftSize.Size2048;
     private FftWindowType _fftWindow = FftWindowType.Hann;
     private int _frameRateLimit = FRAME_RATE_DEFAULT;
-    private bool _fillScreen;
     private int _maximumDecibels = MAXIMUM_DECIBELS_DEFAULT;
     private int _maximumFrequency = MAXIMUM_FREQUENCY_DEFAULT;
     private int _minimumDecibels = MINIMUM_DECIBELS_DEFAULT;
@@ -86,13 +85,6 @@ public class VisualizationGlobalConfig : ViewModelBase
     {
         get => _frameRateLimit;
         set => UpdateProperty(ref _frameRateLimit, System.Math.Clamp(value, FRAME_RATE_MINIMUM, FRAME_RATE_MAXIMUM));
-    }
-
-    [NotifyPropertyUpdate]
-    public bool FillScreen
-    {
-        get => _fillScreen;
-        set => UpdateProperty(ref _fillScreen, value);
     }
 
     [NotifyPropertyUpdate]
