@@ -108,6 +108,9 @@ public class SidePanelControl : TemplatedControl
     public static readonly StyledProperty<double> MinimumPlayListWidthProperty
         = AvaloniaProperty.Register<SidePanelControl, double>(nameof(MinimumPlayListWidth), 420);
 
+    public static readonly StyledProperty<double> MinimumRemainingWidthProperty
+        = AvaloniaProperty.Register<SidePanelControl, double>(nameof(MinimumRemainingWidth), Dimensions.InfoBarMinimumWidth);
+
     public static readonly DirectProperty<SidePanelControl, double> OccupiedWidthProperty
         = AvaloniaProperty.RegisterDirect<SidePanelControl, double>(nameof(OccupiedWidth), control => control.OccupiedWidth);
 
@@ -178,13 +181,22 @@ public class SidePanelControl : TemplatedControl
         set => SetValue(MinimumPlayListWidthProperty, value);
     }
 
+    public double MinimumRemainingWidth
+    {
+        get => GetValue(MinimumRemainingWidthProperty);
+        set => SetValue(MinimumRemainingWidthProperty, value);
+    }
+
     public double OccupiedWidth
     {
         get => _occupiedWidth;
         private set
         {
             SetAndRaise(OccupiedWidthProperty, ref _occupiedWidth, value);
-            InfoBarMargin = new Thickness(value, 0, 0, 0);
+            var leftMargin = value <= 0
+                ? 0
+                : value;
+            InfoBarMargin = new Thickness(leftMargin, 0, 0, 0);
         }
     }
 
@@ -262,7 +274,12 @@ public class SidePanelControl : TemplatedControl
 
     private double GetConstrainedPlayListWidth(double width)
     {
-        var availableForPlayList = Math.Max(0, _availableWidth - Dimensions.SidePanelCollapsedWidth - Dimensions.SidePanelWindowClearance);
+        var availableForPlayList = Math.Max(
+            0,
+            _availableWidth
+            - Dimensions.SidePanelCollapsedWidth
+            - Dimensions.SidePanelResizeThumbWidth
+            - MinimumRemainingWidth);
         var maximum = Math.Min(MaximumPlayListWidth, availableForPlayList);
         var minimum = Math.Min(MinimumPlayListWidth, maximum);
         return Math.Clamp(width, minimum, maximum);
@@ -447,6 +464,13 @@ public class SidePanelControl : TemplatedControl
 
         if (change.Property == IsPlayListOpenProperty || change.Property == PlayListWidthProperty)
             PlayListHostWidth = IsPlayListOpen ? GetConstrainedPlayListWidth(PlayListWidth) : 0;
+
+        if (change.Property == MaximumPlayListWidthProperty
+            || change.Property == MinimumPlayListWidthProperty
+            || change.Property == MinimumRemainingWidthProperty)
+        {
+            SetPlayListWidthInstantly(GetConstrainedPlayListWidth(PlayListWidth));
+        }
 
         if (change.Property == IsMenuOpenProperty
             || change.Property == IsPlayListOpenProperty

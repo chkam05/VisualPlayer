@@ -9,7 +9,7 @@
     <DataTemplate x:Key="HamburgerMenuItemTemplate">
         <controls:HamburgerMenuItemControl
             HorizontalAlignment="Stretch"
-            IsMenuOpen="{ReflectionBinding IsOpen, RelativeSource={RelativeSource AncestorType={x:Type controls:HamburgerMenuControl}}}"/>
+            IsMenuOpen="{ReflectionBinding IsContentVisible, RelativeSource={RelativeSource AncestorType={x:Type controls:HamburgerMenuControl}}}"/>
     </DataTemplate>
 
     <!-- CONTROL TEMPLATE -->

@@ -15,7 +15,7 @@
 
     Background="Transparent"
     Icon="/Assets/logo.png"
-    MinWidth="720"
+    MinWidth="{x:Static resources:Dimensions.MainWindowMinimumWidth}"
     Title="{ReflectionBinding Translations[WINDOW_MAIN_WINDOW_TITLE_VISUALPLAYER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
     TransparencyBackgroundFallback="{ReflectionBinding Config.Appearance.WindowTransparencyFallbackBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
@@ -122,7 +122,8 @@
                     IsPlayListOpen="{ReflectionBinding Config.Window.PlayListOpen, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
                     Margin="{Binding IsHidden, ElementName=PlayPanel, Converter={x:Static converters:SidePanelMarginConverter.Instance}}"
                     MaximumPlayListWidth="768"
-                    MinimumPlayListWidth="420"
+                    MinimumPlayListWidth="{x:Static resources:Dimensions.SidePanelMinimumPlayListWidth}"
+                    MinimumRemainingWidth="{x:Static resources:Dimensions.InfoBarMinimumWidth}"
                     OpenPlaylistRequested="PlayList_OpenPlaylistRequested"
                     PlayListDataContext="{ReflectionBinding PlayListCore.PlayListViewModel, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     PlayListWidth="{ReflectionBinding Config.Window.PlayListWidth, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"

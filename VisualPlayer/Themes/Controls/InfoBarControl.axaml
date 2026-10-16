@@ -144,6 +144,7 @@
         TargetType="controls:InfoBarControl">
 
         <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        <Setter Property="MinWidth" Value="{x:Static resources:Dimensions.InfoBarMinimumWidth}" />
         <Setter Property="Template" Value="{StaticResource InfoBarControlTemplate}" />
 
     </ControlTheme>
