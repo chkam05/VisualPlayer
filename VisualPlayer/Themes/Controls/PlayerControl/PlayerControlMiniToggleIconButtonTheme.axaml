@@ -1,7 +1,9 @@
 <ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:components="using:VisualPlayer.Components">
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters">
 
     <ControlTheme x:Key="PlayerControl.MiniToggleIconButtonTheme" TargetType="components:ToggleButtonWithIcon" BasedOn="{StaticResource ColorizedToggleButtonWithIconTheme}">
         <Setter Property="Background" Value="Transparent"/>
@@ -12,6 +14,26 @@
         <Style Selector="^:checked">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="^:checked:pointerover, ^:checked:focus-visible">
+            <Setter Property="Background">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemeMouseOverBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentMouseOverColorBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:checked:pressed">
+            <Setter Property="Background">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemePressedBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentPressedBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter>
         </Style>
     </ControlTheme>
 

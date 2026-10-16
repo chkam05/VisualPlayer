@@ -20,7 +20,7 @@ public partial class App : Application
         {
             if (_applicationContext == null)
                 _applicationContext = ApplicationContext.Instance;
-            
+
             return _applicationContext;
         }
     }
@@ -37,7 +37,7 @@ public partial class App : Application
     {
         if (this.TryGetFeature<IActivatableLifetime>() is { } activatableLifetime)
             activatableLifetime.Activated += ActivatableLifetime_Activated;
-        
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             ApplicationContext.InitializeStartupFiles(desktop.Args ?? []);
@@ -84,6 +84,9 @@ public partial class App : Application
         if (window.WindowState != WindowState.Normal)
             return;
 
+        if (window.IsChangingDisplayMode)
+            return;
+
         var windowConfig = ApplicationContext.Config.Window;
 
         windowConfig.PosX = window.Position.X;
@@ -98,10 +101,21 @@ public partial class App : Application
         if (window.WindowState != WindowState.Normal)
             return;
 
+        if (window.IsChangingDisplayMode)
+            return;
+
         var windowConfig = ApplicationContext.Config.Window;
 
-        windowConfig.Width = window.ClientSize.Width;
-        windowConfig.Height = window.ClientSize.Height;
+        if (window.IsMiniMode)
+        {
+            windowConfig.MiniWidth = window.ClientSize.Width;
+            windowConfig.MiniHeight = window.ClientSize.Height;
+        }
+        else
+        {
+            windowConfig.Width = window.ClientSize.Width;
+            windowConfig.Height = window.ClientSize.Height;
+        }
     }
 
     #endregion ACTIONS
@@ -119,7 +133,7 @@ public partial class App : Application
             windowConfig.PosY,
             windowConfig.Width,
             windowConfig.Height);
-        
+
         mainWindow.WindowStartupLocation = WindowStartupLocation.Manual;
         mainWindow.Width = placement.Width;
         mainWindow.Height = placement.Height;
@@ -127,6 +141,7 @@ public partial class App : Application
 
         mainWindow.PositionChanged += MainWindow_PositionChanged;
         mainWindow.Resized += MainWindow_Resized;
+        mainWindow.IsMiniMode = windowConfig.IsMiniMode;
 
         return mainWindow;
     }

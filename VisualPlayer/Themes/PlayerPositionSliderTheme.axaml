@@ -44,7 +44,7 @@
         <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
         <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="CornerRadius" Value="8,8,0,0" />
+        <Setter Property="CornerRadius" Value="4,4,0,0" />
         <Setter Property="Template" Value="{StaticResource PositionSlider.ThumbTemplate}" />
 
         <!-- Mouse over -->

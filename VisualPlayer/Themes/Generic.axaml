@@ -31,6 +31,7 @@
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlIconButtonTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlMiniToggleIconButtonTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlToggleIconButtonTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayerMiniControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlSeparatorBorder.axaml" />
 
         <!-- INTERNAL MESSAGES -->

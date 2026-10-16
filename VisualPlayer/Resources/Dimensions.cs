@@ -10,6 +10,7 @@ public static class Dimensions
 
     public const double AutoHideRevealSize = 32;
     public const double InfoBarMinimumWidth = 384;
+    public const double PlayerControlMinimumWidth = 704;
     public const double SidePanelCollapsedWidth = 64;
     public const double SidePanelExpandedMenuWidth = 248;
     public const double SidePanelOuterLeftMargin = 8;

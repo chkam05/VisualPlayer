@@ -19,6 +19,7 @@ using VisualPlayer.Enums.UI;
 using VisualPlayer.Events;
 using VisualPlayer.Interfaces;
 using VisualPlayer.Models.Player;
+using VisualPlayer.Resources;
 using VisualPlayer.Utils;
 using VisualPlayer.ViewModels.Config;
 using VisualPlayer.ViewModels.Lyrics;
@@ -39,8 +40,46 @@ public partial class MainWindow : Window
     private readonly HamburgerMenuContext _hamburgerMenuContext;
     private readonly DispatcherTimer _positionTimer;
     private bool _allowWindowClose;
+    private Size _fullModeSize;
+    private bool _hasWindowRestoreState;
+    private bool _isMiniMode;
+    private double _restoreMaxHeight;
+    private double _restoreMaxWidth;
+    private double _restoreMinHeight;
+    private double _restoreMinWidth;
+    private bool _restoreExtendClientAreaToDecorationsHint;
+    private Avalonia.Controls.WindowDecorations _restoreWindowDecorations;
+    private WindowState _restoreWindowState;
     private bool _wasPlaying;
     private readonly IDisposable? _taskbarControls;
+
+    public static readonly DirectProperty<MainWindow, bool> IsMiniModeProperty
+        = AvaloniaProperty.RegisterDirect<MainWindow, bool>(nameof(IsMiniMode), window => window.IsMiniMode, (window, value) => window.IsMiniMode = value);
+
+    public static readonly DirectProperty<MainWindow, bool> IsFullModeProperty
+        = AvaloniaProperty.RegisterDirect<MainWindow, bool>(nameof(IsFullMode), window => window.IsFullMode);
+
+    public bool IsMiniMode
+    {
+        get => _isMiniMode;
+        set
+        {
+            if (_isMiniMode == value)
+                return;
+
+            SaveCurrentWindowSize(_isMiniMode);
+            IsChangingDisplayMode = true;
+            var oldFullMode = IsFullMode;
+            SetAndRaise(IsMiniModeProperty, ref _isMiniMode, value);
+            RaisePropertyChanged(IsFullModeProperty, oldFullMode, IsFullMode);
+            _applicationContext.Config.Window.IsMiniMode = value;
+            ApplyMiniMode();
+        }
+    }
+
+    public bool IsFullMode => !IsMiniMode;
+
+    public bool IsChangingDisplayMode { get; private set; }
 
 
     #region CONSTRUCTIRS
@@ -151,6 +190,127 @@ public partial class MainWindow : Window
     #endregion CONSTRUCTORS
 
     #region ACTIONS
+
+    private void ApplyMiniMode()
+    {
+        if (IsMiniMode)
+            EnterMiniMode();
+        else
+            ExitMiniMode();
+    }
+
+    private void EnterMiniMode()
+    {
+        var windowConfig = _applicationContext.Config.Window;
+        var targetMiniWidth = Math.Max(Dimensions.PlayerControlMinimumWidth, windowConfig.MiniWidth);
+
+        if (!_hasWindowRestoreState)
+        {
+            _restoreWindowState = WindowState;
+            _restoreMinWidth = MinWidth;
+            _restoreMinHeight = MinHeight;
+            _restoreMaxWidth = MaxWidth;
+            _restoreMaxHeight = MaxHeight;
+            _restoreWindowDecorations = WindowDecorations;
+            _restoreExtendClientAreaToDecorationsHint = ExtendClientAreaToDecorationsHint;
+            _hasWindowRestoreState = true;
+        }
+
+        SidePanel.SetCurrentValue(SidePanelControl.IsMenuOpenProperty, false);
+        SidePanel.SetCurrentValue(SidePanelControl.IsPlayListOpenProperty, false);
+        WindowState = WindowState.Normal;
+        WindowDecorations = Avalonia.Controls.WindowDecorations.None;
+        ExtendClientAreaToDecorationsHint = true;
+        TransparencyLevelHint = [WindowTransparencyLevel.Transparent];
+
+        Dispatcher.UIThread.Post(
+            () =>
+            {
+                if (!IsMiniMode)
+                    return;
+
+                MiniPlayPanel.Measure(new Size(Dimensions.PlayerControlMinimumWidth, double.PositiveInfinity));
+                var height = Math.Max(
+                    1,
+                    Math.Max(MiniPlayPanel.ExpandedHeight, MiniPlayPanel.DesiredSize.Height));
+                MinWidth = Dimensions.PlayerControlMinimumWidth;
+                MaxWidth = _restoreMaxWidth;
+                MinHeight = height;
+                MaxHeight = height;
+                Width = targetMiniWidth;
+                Height = height;
+                ClientSize = new Size(targetMiniWidth, height);
+                windowConfig.MiniHeight = height;
+                IsChangingDisplayMode = false;
+            },
+            DispatcherPriority.Loaded);
+    }
+
+    private void ExitMiniMode()
+    {
+        if (!_hasWindowRestoreState)
+            return;
+
+        var windowConfig = _applicationContext.Config.Window;
+        var targetFullSize = _fullModeSize.Width > 0 && _fullModeSize.Height > 0
+            ? _fullModeSize
+            : new Size(windowConfig.Width, windowConfig.Height);
+        var targetWindowState = _restoreWindowState;
+        MaxWidth = _restoreMaxWidth;
+        MaxHeight = _restoreMaxHeight;
+        MinWidth = _restoreMinWidth;
+        MinHeight = _restoreMinHeight;
+        WindowDecorations = _restoreWindowDecorations;
+        ExtendClientAreaToDecorationsHint = _restoreExtendClientAreaToDecorationsHint;
+        SetupTransparency();
+        WindowState = targetWindowState;
+        _hasWindowRestoreState = false;
+
+        if (targetWindowState == WindowState.Normal)
+        {
+            Dispatcher.UIThread.Post(
+                () =>
+                {
+                    if (!IsMiniMode)
+                    {
+                        Width = targetFullSize.Width;
+                        Height = targetFullSize.Height;
+                        ClientSize = targetFullSize;
+                        IsChangingDisplayMode = false;
+                    }
+                },
+                DispatcherPriority.Loaded);
+        }
+        else
+        {
+            IsChangingDisplayMode = false;
+        }
+    }
+
+    private void SaveCurrentWindowSize(bool miniMode)
+    {
+        if (WindowState != WindowState.Normal
+            || !double.IsFinite(ClientSize.Width)
+            || !double.IsFinite(ClientSize.Height)
+            || ClientSize.Width <= 0
+            || ClientSize.Height <= 0)
+        {
+            return;
+        }
+
+        var windowConfig = _applicationContext.Config.Window;
+        if (miniMode)
+        {
+            windowConfig.MiniWidth = ClientSize.Width;
+            windowConfig.MiniHeight = ClientSize.Height;
+        }
+        else
+        {
+            _fullModeSize = ClientSize;
+            windowConfig.Width = ClientSize.Width;
+            windowConfig.Height = ClientSize.Height;
+        }
+    }
 
     private void PlayerCore_CurrentTrackChanged(object? sender, EventArgs e)
     {
@@ -359,7 +519,14 @@ public partial class MainWindow : Window
 
     private void PlayPanel_PositionSeekRequested(object? sender, RoutedEventArgs e)
     {
-        _applicationContext.PlayerCore.Seek(PlayPanel.Position);
+        if (sender is PlayerControl playerControl)
+            _applicationContext.PlayerCore.Seek(playerControl.Position);
+    }
+
+    private void MiniPlayPanel_DragRequested(object? sender, PointerPressedEventArgs e)
+    {
+        BeginMoveDrag(e);
+        e.Handled = true;
     }
 
     private void PositionTimer_Tick(object? sender, EventArgs e)
@@ -544,6 +711,7 @@ public partial class MainWindow : Window
 
     private void MainWindow_Closed(object? sender, EventArgs e)
     {
+        SaveCurrentWindowSize(IsMiniMode);
         _taskbarControls?.Dispose();
         _hamburgerMenuContext.Dispose();
         _applicationContext.PlayerDataContext.PropertyChanged -= PlayerDataContext_PropertyChanged;

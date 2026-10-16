@@ -1,0 +1,174 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters">
+
+    <converters:PlayingToIconConverter x:Key="MiniPlayingToIconConverter"/>
+    <converters:RepeatModeToIconConverter x:Key="MiniRepeatModeToIconConverter"/>
+
+    <ControlTemplate
+        x:Key="PlayerMiniControlTemplate"
+        x:DataType="contexts:PlayerDataContext"
+        TargetType="controls:PlayerMiniControl">
+
+        <Grid
+            Background="Transparent"
+            ClipToBounds="True">
+
+            <Border
+                x:Name="PART_ContentHost"
+                Background="Transparent"
+                BorderBrush="{x:Null}"
+                BorderThickness="0"
+                MaxHeight="128"
+                Padding="0"
+                Theme="{StaticResource ControlBorderTheme}">
+
+                <Grid
+                    RowDefinitions="Auto,*">
+
+                    <!-- TRACK SLIDER -->
+                    <Grid
+                        Grid.Row="0">
+
+                        <Slider
+                            x:Name="PART_PositionSlider"
+                            Maximum="{Binding PositionMaximum}"
+                            Minimum="0"
+                            Theme="{StaticResource PlayerPositionSliderTheme}"
+                            Value="{TemplateBinding Position, Mode=TwoWay}"
+                            VerticalAlignment="Center"/>
+                        
+                    </Grid>
+                    
+                    <!-- BUTTONS -->
+                    <Border
+                        CornerRadius="0,0,8,8"
+                        Grid.Row="1"
+                        Padding="8"
+                        Theme="{StaticResource ControlBorderTheme}">
+
+                        <Grid
+                            ColumnDefinitions="Auto,*,Auto,*,Auto"
+                            RowDefinitions="Auto,*,Auto">
+
+                            <TextBlock
+                                FontSize="12"
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                MinWidth="48"
+                                Text="{Binding CurrentPositionText}"
+                                TextAlignment="Left"
+                                VerticalAlignment="Top"/>
+
+                            <StackPanel
+                                Grid.Column="2"
+                                Grid.RowSpan="3"
+                                Margin="0,8"
+                                Orientation="Horizontal"
+                                Spacing="6">
+
+                                <components:ToggleButtonWithIcon
+                                    IsChecked="{Binding IsShuffleEnabled, Mode=TwoWay}"
+                                    Kind="Shuffle"
+                                    Theme="{StaticResource PlayerControl.ToggleIconButtonTheme}"/>
+
+                                <components:ButtonWithIcon
+                                    x:Name="PART_RepeatButton"
+                                    Kind="{Binding RepeatMode,
+                                    Converter={StaticResource MiniRepeatModeToIconConverter}}"
+                                    Theme="{StaticResource PlayerControl.IconButtonTheme}"/>
+
+                                <Border
+                                    Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
+
+                                <components:ButtonWithIcon
+                                    x:Name="PART_PreviousButton"
+                                    Kind="SkipBack"
+                                    Theme="{StaticResource PlayerControl.IconButtonTheme}"/>
+
+                                <components:ButtonWithIcon
+                                    x:Name="PART_PlayPauseButton"
+                                    Kind="{Binding IsPlaying,
+                                    Converter={StaticResource MiniPlayingToIconConverter}}"
+                                    Theme="{StaticResource PlayerControl.IconButtonTheme}"/>
+
+                                <components:ButtonWithIcon
+                                    x:Name="PART_NextButton"
+                                    Kind="SkipForward"
+                                    Theme="{StaticResource PlayerControl.IconButtonTheme}"/>
+
+                                <components:ButtonWithIcon
+                                    x:Name="PART_StopButton"
+                                    Kind="Square"
+                                    Theme="{StaticResource PlayerControl.IconButtonTheme}"/>
+                                
+                                <Border
+                                    Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
+                                
+                                <components:ToggleButtonWithIcon
+                                    CheckedKind="VolumeX"
+                                    IsChecked="{Binding IsMuted, Mode=TwoWay}"
+                                    Kind="Volume2"
+                                    Theme="{StaticResource PlayerControl.ToggleIconButtonTheme}"
+                                    ToolTip.Tip="{ReflectionBinding Translations[VOLUME_TOOLTIP_MUTE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+                                <Slider
+                                    Margin="6,0"
+                                    Maximum="1"
+                                    Minimum="0"
+                                    Theme="{StaticResource PlayerVolumeSliderTheme}"
+                                    Value="{Binding Volume, Mode=TwoWay}"
+                                    Width="144"/>
+
+                            </StackPanel>
+
+                            <TextBlock
+                                FontSize="12"
+                                Grid.Column="4"
+                                Grid.Row="0"
+                                MinWidth="48"
+                                Text="{Binding DurationText}"
+                                TextAlignment="Right"
+                                VerticalAlignment="Top"/>
+
+                            <components:ToggleButtonWithIcon
+                                CheckedKind="Maximize2"
+                                Grid.Column="4"
+                                Grid.Row="2"
+                                HorizontalAlignment="Right"
+                                IsChecked="{Binding IsMiniMode, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                Kind="Minimize2"
+                                Theme="{StaticResource PlayerControl.MiniToggleIconButtonTheme}"/>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <controls:WindowResizeBorder
+                Cursor="SizeWestEast"
+                Edge="West"
+                HorizontalAlignment="Left"
+                Width="8"
+                ZIndex="100"/>
+            
+            <controls:WindowResizeBorder
+                Cursor="SizeWestEast"
+                Edge="East"
+                HorizontalAlignment="Right"
+                Width="8"
+                ZIndex="100"/>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTheme
+        x:Key="{x:Type controls:PlayerMiniControl}"
+        TargetType="controls:PlayerMiniControl"
+        BasedOn="{StaticResource {x:Type controls:PlayerControl}}">
+        
+        <Setter Property="Template" Value="{StaticResource PlayerMiniControlTemplate}"/>
+    </ControlTheme>
+</ResourceDictionary>

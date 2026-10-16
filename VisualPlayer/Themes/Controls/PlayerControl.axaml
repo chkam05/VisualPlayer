@@ -39,7 +39,8 @@
                 Theme="{StaticResource ControlBorderTheme}"
                 VerticalAlignment="Bottom">
 
-                <Grid RowDefinitions="Auto,*">
+                <Grid
+                    RowDefinitions="Auto,*">
 
                     <!-- TRACK SLIDER -->
                     <Grid
@@ -156,6 +157,7 @@
                                 Grid.Column="4"
                                 Grid.Row="2"
                                 HorizontalAlignment="Right"
+                                IsChecked="{Binding IsMiniMode, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                 Kind="Minimize2"
                                 Theme="{StaticResource PlayerControl.MiniToggleIconButtonTheme}" />
                         

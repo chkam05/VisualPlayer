@@ -26,6 +26,9 @@ public class VisualizationSurfaceControl : TemplatedControl
     public static readonly StyledProperty<double> LeftChromeWidthProperty
         = AvaloniaProperty.Register<VisualizationSurfaceControl, double>(nameof(LeftChromeWidth));
 
+    public static readonly StyledProperty<bool> IsRenderingEnabledProperty
+        = AvaloniaProperty.Register<VisualizationSurfaceControl, bool>(nameof(IsRenderingEnabled), true);
+
     public static readonly StyledProperty<double> TopChromeHeightProperty
         = AvaloniaProperty.Register<VisualizationSurfaceControl, double>(nameof(TopChromeHeight));
 
@@ -49,6 +52,12 @@ public class VisualizationSurfaceControl : TemplatedControl
     {
         get => GetValue(LeftChromeWidthProperty);
         set => SetValue(LeftChromeWidthProperty, value);
+    }
+
+    public bool IsRenderingEnabled
+    {
+        get => GetValue(IsRenderingEnabledProperty);
+        set => SetValue(IsRenderingEnabledProperty, value);
     }
 
     public double TopChromeHeight
@@ -96,7 +105,7 @@ public class VisualizationSurfaceControl : TemplatedControl
         _isFramePending = false;
         base.Render(context);
 
-        if (Core is null)
+        if (!IsRenderingEnabled || Core is null)
             return;
 
         var topInset = Core.FillScreen ? 0 : Math.Max(0, TopChromeHeight - Dimensions.AutoHideRevealSize);
@@ -115,6 +124,9 @@ public class VisualizationSurfaceControl : TemplatedControl
 
     private void RenderTimer_Tick(object? sender, EventArgs e)
     {
+        if (!IsRenderingEnabled)
+            return;
+
         if (Core is not null && _renderTimer.Interval != Core.FrameInterval)
             _renderTimer.Interval = Core.FrameInterval;
 
