@@ -29,6 +29,7 @@
         <ResourceInclude Source="/Themes/Controls/PlayListItemTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/ControlBorderTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlIconButtonTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlMiniToggleIconButtonTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlToggleIconButtonTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlSeparatorBorder.axaml" />
 

@@ -65,11 +65,13 @@
                         Theme="{StaticResource ControlBorderTheme}">
 
                         <Grid
-                            ColumnDefinitions="Auto,*,Auto,*,Auto">
+                            ColumnDefinitions="Auto,*,Auto,*,Auto"
+                            RowDefinitions="Auto,*,Auto">
 
                             <TextBlock
                                 FontSize="12"
                                 Grid.Column="0"
+                                Grid.Row="0"
                                 HorizontalAlignment="Left"
                                 MinWidth="48"
                                 Text="{Binding CurrentPositionText}"
@@ -78,6 +80,7 @@
                             
                             <StackPanel
                                 Grid.Column="2"
+                                Grid.RowSpan="3"
                                 Margin="0,8"
                                 Orientation="Horizontal"
                                 Spacing="6">
@@ -137,15 +140,24 @@
                                     ToolTip.Tip="{ReflectionBinding Translations[PLAYERCONTROL_BUTTON_VOLUME], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                             </StackPanel>
-                        
+                            
                             <TextBlock
                                 FontSize="12"
                                 Grid.Column="4"
+                                Grid.Row="0"
                                 HorizontalAlignment="Right"
                                 MinWidth="48"
                                 Text="{Binding DurationText}"
                                 TextAlignment="Right"
                                 VerticalAlignment="Top"/>
+                            
+                            <components:ToggleButtonWithIcon
+                                CheckedKind="Maximize2"
+                                Grid.Column="4"
+                                Grid.Row="2"
+                                HorizontalAlignment="Right"
+                                Kind="Minimize2"
+                                Theme="{StaticResource PlayerControl.MiniToggleIconButtonTheme}" />
                         
                         </Grid>
                     </Border>
