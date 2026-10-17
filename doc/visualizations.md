@@ -1,6 +1,6 @@
 # Visualization system
 
-[Polski](visualizations_pl-PL.md) · [Documentation index](../README.md#documentation)
+[Polski](visualizations_pl-PL.md) · [Documentation index](../README.md#technical-documentation)
 
 ## Data flow
 
@@ -64,6 +64,16 @@ Current visualization families are:
 - Circle: stripes and waveform.
 
 Every visualization has an independent configuration class and settings view. Shared algorithms belong in `Visualizations/Utils` only when multiple implementations use them.
+
+## Mini-player visualization
+
+`MiniVisualizationControl` is a dedicated seven-band renderer and is separate from the profile-based full-window implementations. It reads raw bands from `VisualizationCore` and draws 11 logical levels as 22 physical segments per band—each logical peak occupies a pair of segments. Two fixed edge columns frame the display.
+
+The selectable modes are Regular, Upside Down, Single, Center Filled, and Center Single. Regular, Upside Down, and Center Filled include floating peaks with mode-specific gravity and restart timing. Main levels continue their configured descent when playback stops, while floating groups complete their movement before restarting.
+
+The visual style emulates a vacuum fluorescent display. A low-opacity layer keeps every inactive segment faintly visible, while active segments use the accent color, a bright core, and a zero-offset glow. Edge bars remain red. Geometry, descent rates, delays, inactive opacity, and glow parameters are compile-time constants in `MiniVisualizationControl`.
+
+Visibility, mode, and opacity belong to `MiniPlayerConfig`. If enabled, the mini visualization participates in the mini window's minimum width and is not removed by responsive layout rules.
 
 ## Rendering and performance
 

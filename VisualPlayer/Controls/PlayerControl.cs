@@ -5,6 +5,7 @@ using Avalonia.Animation;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
+using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
@@ -61,6 +62,12 @@ public class PlayerControl : TemplatedControl
 
     public static readonly StyledProperty<bool> KeepOpenProperty
         = AvaloniaProperty.Register<PlayerControl, bool>(nameof(KeepOpen));
+
+    public static readonly StyledProperty<bool> IsMiniModeProperty
+        = AvaloniaProperty.Register<PlayerControl, bool>(nameof(IsMiniMode), defaultBindingMode: BindingMode.TwoWay);
+
+    public static readonly DirectProperty<PlayerControl, double> ExpandedHeightProperty
+        = AvaloniaProperty.RegisterDirect<PlayerControl, double>(nameof(ExpandedHeight), control => control.ExpandedHeight);
 
     public static readonly StyledProperty<double> PositionProperty
         = AvaloniaProperty.Register<PlayerControl, double>(nameof(Position), 0);
@@ -169,6 +176,18 @@ public class PlayerControl : TemplatedControl
     {
         get => GetValue(KeepOpenProperty);
         set => SetValue(KeepOpenProperty, value);
+    }
+
+    public bool IsMiniMode
+    {
+        get => GetValue(IsMiniModeProperty);
+        set => SetValue(IsMiniModeProperty, value);
+    }
+
+    public double ExpandedHeight
+    {
+        get => _expandedHeight;
+        private set => SetAndRaise(ExpandedHeightProperty, ref _expandedHeight, value);
     }
 
     public double Position
@@ -317,12 +336,18 @@ public class PlayerControl : TemplatedControl
 
     #region PROPERTY CHANGE HANDLING
 
+    protected virtual PlayerDataContext? ResolvePlayerDataContext(object? dataContext)
+    {
+        return dataContext as PlayerDataContext;
+    }
+
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
 
         if (change.Property == AutoHideProperty
             || change.Property == KeepOpenProperty
+            || change.Property == IsMiniModeProperty
             || change.Property == RevealSizeProperty)
         {
             Dispatcher.UIThread.Post(ApplyAutoHideState, DispatcherPriority.Loaded);
@@ -344,7 +369,7 @@ public class PlayerControl : TemplatedControl
         if (_playerDataContext is not null)
             _playerDataContext.PropertyChanged -= PlayerDataContext_PropertyChanged;
 
-        _playerDataContext = DataContext as PlayerDataContext;
+        _playerDataContext = ResolvePlayerDataContext(DataContext);
 
         if (_playerDataContext is not null)
             _playerDataContext.PropertyChanged += PlayerDataContext_PropertyChanged;
@@ -354,6 +379,9 @@ public class PlayerControl : TemplatedControl
 
     private void PlayerControl_LayoutUpdated(object? sender, EventArgs e)
     {
+        if (!_isAutoHideInitialized && IsEffectivelyVisible)
+            InitializeAutoHide();
+
         UpdateVolumePanelPosition();
     }
 
@@ -374,7 +402,7 @@ public class PlayerControl : TemplatedControl
         if (!_isAutoHideInitialized)
             return;
 
-        if (!AutoHide || KeepOpen || IsPointerOver)
+        if (IsMiniMode || !AutoHide || KeepOpen || IsPointerOver)
             ShowControl();
         else
             HideControl();
@@ -395,7 +423,7 @@ public class PlayerControl : TemplatedControl
 
     private void HideControl()
     {
-        if (!AutoHide || KeepOpen || !_isAutoHideInitialized || _contentHost is null || IsHidden)
+        if (IsMiniMode || !AutoHide || KeepOpen || !_isAutoHideInitialized || _contentHost is null || IsHidden)
             return;
 
         IsHidden = true;
@@ -413,7 +441,7 @@ public class PlayerControl : TemplatedControl
         if (expandedHeight <= 0)
             return;
 
-        _expandedHeight = expandedHeight;
+        ExpandedHeight = expandedHeight;
         _contentHost.RenderTransform = _hideTransform;
         Height = expandedHeight;
         _isAutoHideInitialized = true;

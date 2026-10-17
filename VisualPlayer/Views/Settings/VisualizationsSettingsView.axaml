@@ -15,9 +15,16 @@
         <converters:VisualizationGlobalOptionToTitleConverter x:Key="OptionToTitleConverter"/>
     </UserControl.Resources>
 
-    <StackPanel Spacing="8">
-        <Grid ColumnDefinitions="*,Auto">
-            <StackPanel Spacing="4">
+    <StackPanel
+        Spacing="8">
+
+        <!-- HEADER -->
+        <Grid
+            ColumnDefinitions="*,Auto">
+
+            <StackPanel
+                Spacing="4">
+
                 <TextBlock
                     FontSize="22"
                     FontWeight="SemiBold"
@@ -238,5 +245,6 @@
                 Suffix=" FPS"
                 Value="{ReflectionBinding VisualizationConfig.Global.FrameRateLimit, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
         </controls:SettingsControl>
+
     </StackPanel>
 </UserControl>

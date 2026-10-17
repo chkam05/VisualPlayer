@@ -12,9 +12,11 @@
     d:DesignWidth="800"
     d:DesignHeight="450"
     x:Class="VisualPlayer.Windows.MainWindow"
+    x:Name="Root"
 
     Background="Transparent"
     Icon="/Assets/logo.png"
+    MinHeight="548"
     MinWidth="{x:Static resources:Dimensions.MainWindowMinimumWidth}"
     Title="{ReflectionBinding Translations[WINDOW_MAIN_WINDOW_TITLE_VISUALPLAYER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
     TransparencyBackgroundFallback="{ReflectionBinding Config.Appearance.WindowTransparencyFallbackBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -25,26 +27,32 @@
         <Grid
             x:Name="ApplicationLayer">
 
-            <Grid.Background>
-                <MultiBinding Converter="{x:Static converters:BrushOpacityConverter.Instance}">
-                    <Binding Path="Config.Appearance.WindowBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
-                    <Binding Path="Config.Appearance.WindowOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
-                </MultiBinding>
-            </Grid.Background>
-            
-            <!-- IMAGE BACKGROUND -->
-            
-            <Border
-                IsVisible="{ReflectionBinding Config.Appearance.IsImageWindowBackground, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                Opacity="{ReflectionBinding Config.Appearance.WindowOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+            <!-- WINDOW BACKGROUND -->
 
-                <Border.Background>
-                    <MultiBinding Converter="{x:Static converters:BackgroundImageBrushConverter.Instance}">
-                        <Binding Path="Config.Appearance.WindowBackgroundImagePath" Source="{x:Static contexts:ApplicationContext.Instance}"/>
-                        <Binding Path="Config.Appearance.ImageFillMode" Source="{x:Static contexts:ApplicationContext.Instance}"/>
-                    </MultiBinding>
-                </Border.Background>
-            </Border>
+            <Grid IsVisible="{Binding IsFullMode, ElementName=Root}">
+                <Border>
+                    <Border.Background>
+                        <MultiBinding Converter="{x:Static converters:BrushOpacityConverter.Instance}">
+                            <Binding Path="Config.Appearance.WindowBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                            <Binding Path="Config.Appearance.WindowOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                        </MultiBinding>
+                    </Border.Background>
+                </Border>
+
+                <!-- IMAGE BACKGROUND -->
+
+                <Border
+                    IsVisible="{ReflectionBinding Config.Appearance.IsImageWindowBackground, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Opacity="{ReflectionBinding Config.Appearance.WindowOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                    <Border.Background>
+                        <MultiBinding Converter="{x:Static converters:BackgroundImageBrushConverter.Instance}">
+                            <Binding Path="Config.Appearance.WindowBackgroundImagePath" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                            <Binding Path="Config.Appearance.ImageFillMode" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                        </MultiBinding>
+                    </Border.Background>
+                </Border>
+            </Grid>
 
             <!-- VISUALISATION -->
             
@@ -53,6 +61,8 @@
                 BottomChromeHeight="{Binding Bounds.Height, ElementName=PlayPanel}"
                 Core="{ReflectionBinding VisualizationCore, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 IsHitTestVisible="False"
+                IsRenderingEnabled="{Binding IsFullMode, ElementName=Root}"
+                IsVisible="{Binding IsFullMode, ElementName=Root}"
                 LeftChromeWidth="{Binding VisualizationLeftInset, ElementName=SidePanel}"
                 TopChromeHeight="{Binding Bounds.Height, ElementName=TrackInfoBar}">
 
@@ -67,6 +77,7 @@
 
             <!-- LOGO -->
 
+            <Grid IsVisible="{Binding IsFullMode, ElementName=Root}">
             <controls:LogoControl
                 AnimationContraction="{ReflectionBinding Config.Logo.Contraction, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 AnimationMaximumFrequency="{ReflectionBinding Config.Logo.MaximumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
@@ -85,6 +96,7 @@
                 VisualBorder="{ReflectionBinding Config.Logo.BorderBrush1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 VisualFill="{ReflectionBinding Config.Logo.FillBrush1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 VisualizationCore="{ReflectionBinding VisualizationCore, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            </Grid>
 
             <!-- LAYOUT -->
             
@@ -97,6 +109,7 @@
                     Background="Transparent"
                     Grid.Row="0"
                     ClipToBounds="False"
+                    IsVisible="{Binding IsFullMode, ElementName=Root}"
                     Margin="{Binding InfoBarMargin, ElementName=SidePanel}"
                     Transitions="{Binding InfoBarTransitions, ElementName=SidePanel}"
                     ZIndex="1">
@@ -120,6 +133,7 @@
                     Grid.Row="0"
                     Grid.RowSpan="2"
                     IsPlayListOpen="{ReflectionBinding Config.Window.PlayListOpen, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                    IsVisible="{Binding IsFullMode, ElementName=Root}"
                     Margin="{Binding IsHidden, ElementName=PlayPanel, Converter={x:Static converters:SidePanelMarginConverter.Instance}}"
                     MaximumPlayListWidth="768"
                     MinimumPlayListWidth="{x:Static resources:Dimensions.SidePanelMinimumPlayListWidth}"
@@ -177,7 +191,9 @@
                         AutoHide="{ReflectionBinding Config.Appearance.AutoHidePlayerControl, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         DataContext="{ReflectionBinding PlayerDataContext, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         HorizontalAlignment="Stretch"
-                        MinWidth="704"
+                        IsMiniMode="{Binding IsMiniMode, ElementName=Root, Mode=TwoWay}"
+                        IsVisible="{Binding IsFullMode, ElementName=Root}"
+                        MinWidth="{x:Static resources:Dimensions.PlayerControlMinimumWidth}"
                         VerticalAlignment="Bottom"
                         NextRequested="PlayPanel_NextRequested"
                         PlayPauseRequested="PlayPanel_PlayPauseRequested"
@@ -196,11 +212,27 @@
                         </controls:PlayerControl.KeepOpen>
                     </controls:PlayerControl>
 
+                    <controls:PlayerMiniControl
+                        x:Name="MiniPlayPanel"
+                        CloseApplicationRequested="MiniPlayPanel_CloseApplicationRequested"
+                        DataContext="{ReflectionBinding PlayerMiniDataContext, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        DragRequested="MiniPlayPanel_DragRequested"
+                        HorizontalAlignment="Stretch"
+                        IsMiniMode="{Binding IsMiniMode, ElementName=Root, Mode=TwoWay}"
+                        IsVisible="{Binding IsMiniMode, ElementName=Root}"
+                        NextRequested="PlayPanel_NextRequested"
+                        PlayPauseRequested="PlayPanel_PlayPauseRequested"
+                        PositionSeekRequested="PlayPanel_PositionSeekRequested"
+                        PreviousRequested="PlayPanel_PreviousRequested"
+                        StopRequested="PlayPanel_StopRequested"
+                        VerticalAlignment="Bottom"/>
+
                 </Grid>
 
                 <Canvas
                     Grid.Row="0"
                     Grid.RowSpan="2"
+                    IsVisible="{Binding IsFullMode, ElementName=Root}"
                     Margin="{Binding IsHidden, ElementName=PlayPanel, Converter={x:Static converters:SidePanelMarginConverter.Instance}}"
                     ZIndex="51">
 
@@ -224,17 +256,19 @@
 
         </Grid>
 
-        <controls:InternalViewController
-            x:Name="InternalViews"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            ZIndex="100"/>
+        <Grid IsVisible="{Binding IsFullMode, ElementName=Root}">
+            <controls:InternalViewController
+                x:Name="InternalViews"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                ZIndex="100"/>
 
-        <controls:InternalMessageController
-            x:Name="InternalMessages"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            ZIndex="200"/>
+            <controls:InternalMessageController
+                x:Name="InternalMessages"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                ZIndex="200"/>
+        </Grid>
 
     </Grid>
 </Window>

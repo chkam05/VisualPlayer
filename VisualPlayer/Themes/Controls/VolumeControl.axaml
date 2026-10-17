@@ -21,7 +21,7 @@
                     Maximum="{x:Static viewModels:PlayerConfig.VOLUME_MAXIMUM}"
                     Minimum="{x:Static viewModels:PlayerConfig.VOLUME_MINIMUM}"
                     Orientation="Vertical"
-                    Theme="{StaticResource SliderTheme}"
+                    Theme="{StaticResource PlayerVolume.SliderTheme}"
                     Value="{Binding Volume, Mode=TwoWay}"
                     VerticalAlignment="Stretch"/>
 
@@ -31,7 +31,7 @@
                     HorizontalAlignment="Center"
                     IsChecked="{Binding IsMuted, Mode=TwoWay}"
                     Kind="Volume2"
-                    Theme="{StaticResource AccentToggleButtonWithIconTheme}"
+                    Theme="{StaticResource ColorizedToggleButtonWithIconTheme}"
                     ToolTip.Tip="{ReflectionBinding Translations[VOLUME_TOOLTIP_MUTE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
             </Grid>
         </Border>

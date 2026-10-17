@@ -28,6 +28,14 @@ Bieżąca playlista jest aktywną kolejką odtwarzania. Utwory można wyszukiwa�
 
 ![Bieżąca playlista](doc/images/playlist.png)
 
+### Mini odtwarzacz
+
+Główne okno może przełączyć się w kompaktowy, pozbawiony dekoracji tryb mini odtwarzacza. Przyciski sterowania i opcji pozostają dostępne przy każdej obsługiwanej szerokości. Przy zwiększaniu szerokości pojawiają się kolejno informacje o utworze i okładka. Opcjonalna siedmiopasmowa wizualizacja w stylu wyświetlacza VFD pozostaje widoczna aż do właściwego dla niej minimalnego rozmiaru i oferuje tryby Regular, Upside Down, Single, Center Filled oraz Center Single.
+
+Mini odtwarzacz może pozostawać nad innymi oknami, niezależnie pokazywać lub ukrywać okładkę i wizualizację oraz używać własnej, ograniczonej przezroczystości tła. Przełączniki widoczności i „zawsze na wierzchu” są dostępne w menu kontekstowym, natomiast osobna strona ustawień **Mini odtwarzacz** zawiera pełną konfigurację. Powrót do pełnego widoku zawsze wyłącza aktywny stan „zawsze na wierzchu”, ale nie usuwa zapisanej preferencji.
+
+![Mini odtwarzacz VisualPlayer](doc/images/miniplayer.png)
+
 ## Biblioteka muzyki
 
 Katalogi dodane w ustawieniach są skanowane w poszukiwaniu obsługiwanych plików audio. Dla każdego katalogu można osobno włączyć uwzględnianie podkatalogów. Bibliotekę można następnie przeglądać jako utwory, albumy, artystów albo drzewo katalogów.
@@ -99,13 +107,13 @@ VisualPlayer prowadzi lokalną bibliotekę tekstów powiązanych z utworami. Tek
 
 ## Wygląd i konfiguracja
 
-Aplikacja oferuje motyw jasny, ciemny i systemowy, konfigurowalne kolory akcentu, własne tła okna, przezroczystość interfejsu oraz kilka poziomów jego koloryzacji. Panel informacji, panel boczny, odtwarzacz i panel tekstu reagują na rozmiar okna oraz ustawienia widoczności.
+Aplikacja oferuje motyw jasny, ciemny i systemowy, konfigurowalne kolory akcentu, własne tła okna, przezroczystość interfejsu oraz kilka poziomów jego koloryzacji. Panel informacji, panel boczny, pełny odtwarzacz, mini odtwarzacz i panel tekstu reagują na rozmiar okna oraz ustawienia widoczności.
 
 Nad wizualizacją może być wyświetlane logo SVG. Jego wypełnienie, obramowanie, przezroczystość, skalę oraz animację reagującą na bas można konfigurować niezależnie. Skróty klawiszowe są edytowalne dla akcji interfejsu, odtwarzania, nawigacji i zmiany profilu wizualizacji.
 
 ![Ustawienia aplikacji](doc/images/settings.png)
 
-Zakładka informacji pokazuje nazwę i wersję aplikacji, autora oraz używane pakiety NuGet wraz z ich wersjami.
+Zakładka informacji pokazuje nazwę i wersję aplikacji, autora, osadzone fonty z odnośnikami do ich autorów oraz używane pakiety NuGet wraz z wersjami. Oxanium jest używany w całym interfejsie, a LED Sled i LED Counter 7 tworzą typografię wyświetlaczy odtwarzacza. Oryginalne pliki licencyjne/readme fontów znajdują się w `VisualPlayer/Assets/Fonts`.
 
 ![Informacje o aplikacji](doc/images/info.png)
 

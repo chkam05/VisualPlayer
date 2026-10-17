@@ -284,6 +284,7 @@
                             Value="{ReflectionBinding Config.Appearance.WindowOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
                     </Grid>
                 </controls:SettingsControl>
+
             </StackPanel>
 
         </controls:SettingsExpandControl>

@@ -28,6 +28,11 @@ public class VisualizationGlobalOptionToTitleConverter : IValueConverter
             ChannelMode.Stereo => ApplicationContext.Instance.Translations["ENUM_CHANNELMODE_STEREO"],
             ChannelMode.Mid => ApplicationContext.Instance.Translations["ENUM_CHANNELMODE_MID"],
             ChannelMode.Side => ApplicationContext.Instance.Translations["ENUM_CHANNELMODE_SIDE"],
+            MiniVisualizationType.Regular => ApplicationContext.Instance.Translations["ENUM_MINIVISUALIZATIONTYPE_REGULAR"],
+            MiniVisualizationType.UpsideDown => ApplicationContext.Instance.Translations["ENUM_MINIVISUALIZATIONTYPE_UPSIDE_DOWN"],
+            MiniVisualizationType.Single => ApplicationContext.Instance.Translations["ENUM_MINIVISUALIZATIONTYPE_SINGLE"],
+            MiniVisualizationType.CenterFilled => ApplicationContext.Instance.Translations["ENUM_MINIVISUALIZATIONTYPE_CENTER_FILLED"],
+            MiniVisualizationType.CenterSingle => ApplicationContext.Instance.Translations["ENUM_MINIVISUALIZATIONTYPE_CENTER_SINGLE"],
             _ => value?.ToString() ?? string.Empty
         };
     }

@@ -26,6 +26,7 @@ public class VisualizationCore : IDisposable
     private float[] _rawSpectrum = [];
     private double _renderScaling = 1;
     private float[] _spectrum = [];
+    private float[] _spectrumTargets = [];
     private float[] _waveform = [];
     private VisualizationGlobalConfig _subscribedGlobalConfig;
 
@@ -47,7 +48,9 @@ public class VisualizationCore : IDisposable
             return TimeSpan.FromSeconds(1d / Math.Min(configuredFrameRate, maximumFrameRate));
         }
     }
-    
+
+    public bool IsPlaying => _isPlayingProvider();
+
     #endregion PROPERTIES
 
     #region CONSTRUCTOR
@@ -126,6 +129,17 @@ public class VisualizationCore : IDisposable
         if (CurrentVisualization is null)
             return;
 
+        var elapsed = UpdateSpectrum();
+        var frame = new VisualizationFrame(elapsed, _spectrum, _waveform, _isPlayingProvider());
+        CurrentVisualization.PreCalculate(frame);
+        CurrentVisualization.Draw(drawingContext, brush);
+    }
+
+    public TimeSpan UpdateSpectrum()
+    {
+        if (_isDisposed)
+            return TimeSpan.Zero;
+
         var timestamp = Stopwatch.GetTimestamp();
         var elapsed = _lastFrameTimestamp == 0
             ? TimeSpan.FromSeconds(1d / 60)
@@ -147,16 +161,14 @@ public class VisualizationCore : IDisposable
         }
 
         ProcessSpectrum(elapsed);
-
-        var frame = new VisualizationFrame(elapsed, _spectrum, _waveform, isPlaying);
-        CurrentVisualization.PreCalculate(frame);
-        CurrentVisualization.Draw(drawingContext, brush);
+        return elapsed;
     }
 
     public void Reset()
     {
         Array.Clear(_rawSpectrum);
         Array.Clear(_spectrum);
+        Array.Clear(_spectrumTargets);
         Array.Clear(_waveform);
         _lastFrameTimestamp = 0;
         CurrentVisualization?.Reset();
@@ -164,7 +176,7 @@ public class VisualizationCore : IDisposable
 
     public double GetFrequencyLevel(int minimumFrequency, int maximumFrequency)
     {
-        if (CurrentVisualization is null || _spectrum.Length == 0)
+        if (_spectrum.Length == 0)
             return 0;
 
         const double nyquist = 24000d;
@@ -190,6 +202,35 @@ public class VisualizationCore : IDisposable
         }
 
         return maximumLevel;
+    }
+
+    public void GetFrequencyBands(Span<double> destination)
+    {
+        GetFrequencyBands(_spectrum, destination);
+    }
+
+    public void GetRawFrequencyBands(Span<double> destination)
+    {
+        GetFrequencyBands(_spectrumTargets, destination);
+    }
+
+    private static void GetFrequencyBands(ReadOnlySpan<float> spectrum, Span<double> destination)
+    {
+        if (destination.Length == 0)
+            return;
+
+        destination.Clear();
+        if (spectrum.Length == 0)
+            return;
+
+        for (var bandIndex = 0; bandIndex < destination.Length; bandIndex++)
+        {
+            var start = bandIndex * spectrum.Length / destination.Length;
+            var end = Math.Max(start + 1, (bandIndex + 1) * spectrum.Length / destination.Length);
+
+            for (var spectrumIndex = start; spectrumIndex < Math.Min(end, spectrum.Length); spectrumIndex++)
+                destination[bandIndex] = Math.Max(destination[bandIndex], spectrum[spectrumIndex]);
+        }
     }
 
     public void SetVisualization(VisualizationType visualizationType)
@@ -266,6 +307,7 @@ public class VisualizationCore : IDisposable
         {
             _rawSpectrum = new float[spectrumSize];
             _spectrum = new float[spectrumSize];
+            _spectrumTargets = new float[spectrumSize];
         }
 
 
@@ -322,6 +364,7 @@ public class VisualizationCore : IDisposable
                 0.000001f);
             var decibels = 20 * Math.Log10(magnitude);
             var target = Math.Clamp((decibels - minimumDecibels) / (maximumDecibels - minimumDecibels), 0, 1);
+            _spectrumTargets[index] = (float)target;
             var time = target > _spectrum[index] ? config.AttackTime : config.ReleaseTime;
             var factor = time <= 0 ? 1 : 1 - Math.Exp(-elapsed.TotalMilliseconds / time);
             _spectrum[index] = (float)(_spectrum[index] + (target - _spectrum[index]) * factor);

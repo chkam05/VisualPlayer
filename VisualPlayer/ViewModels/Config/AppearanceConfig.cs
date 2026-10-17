@@ -27,6 +27,7 @@ public class AppearanceConfig : ViewModelBase
     public const int INFO_BAR_DISPLAY_DURATION_MAXIMUM = 30;
     public const int INFO_BAR_DISPLAY_DURATION_MINIMUM = 5;
 
+
     public const double OPACITY_MAXIMUM = 1.0;
     public const double OPACITY_MINIMUM = 0.5;
     public const double OPACITY_SMALL_CHANGE = 0.01;
@@ -56,7 +57,7 @@ public class AppearanceConfig : ViewModelBase
     private ColorizationLevel _colorizationLevel = ColorizationLevel.Poorly;
     private int _infoBarDisplayDuration = 5;
     private InfoBarDisplayMode _infoBarDisplayMode = InfoBarDisplayMode.Manual;
-    private double _interfaceOpacity = DEFAULT_INTERFACE_OPACITY;    
+    private double _interfaceOpacity = DEFAULT_INTERFACE_OPACITY;
     //private double _overlayOpacity = DEFAULT_OVERLAY_OPACITY;
     private ObservableCollection<AccentColor> _recentAccentColors = new();
     private ApplicationTheme _theme = ApplicationTheme.Dark;

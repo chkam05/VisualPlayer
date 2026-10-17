@@ -1,6 +1,6 @@
 # Library and playlists
 
-[Polski](library-and-playlists_pl-PL.md) · [Documentation index](../README.md#documentation)
+[Polski](library-and-playlists_pl-PL.md) · [Documentation index](../README.md#technical-documentation)
 
 ## Supported audio files
 

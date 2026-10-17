@@ -1,6 +1,6 @@
 # System audio
 
-[English](audio.md) · [Indeks dokumentacji](../README_pl-PL.md#dokumentacja)
+[English](audio.md) · [Indeks dokumentacji](../README_pl-PL.md#dokumentacja-techniczna)
 
 ## Tor odtwarzania
 

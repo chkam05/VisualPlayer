@@ -10,6 +10,11 @@ public static class Dimensions
 
     public const double AutoHideRevealSize = 32;
     public const double InfoBarMinimumWidth = 384;
+    public const double PlayerControlMinimumWidth = 736;
+    public const double PlayerMiniControlMinimumWidth = 512;
+    public const double PlayerMiniControlWithVisualizationMinimumWidth = 608;
+    public const double PlayerMiniTitlesAdditionalWidth = 128;
+    public const double PlayerMiniCoverAdditionalWidth = 224;
     public const double SidePanelCollapsedWidth = 64;
     public const double SidePanelExpandedMenuWidth = 248;
     public const double SidePanelOuterLeftMargin = 8;

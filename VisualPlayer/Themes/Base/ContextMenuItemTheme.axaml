@@ -15,13 +15,9 @@
                 CornerRadius="{TemplateBinding CornerRadius}"
                 Padding="{TemplateBinding Padding}">
 
-                <Grid ColumnDefinitions="Auto,*,Auto,Auto">
-                    <Border
-                        x:Name="PART_CheckBoxPresenter"
-                        Background="Transparent"
-                        BorderBrush="{TemplateBinding Foreground}"
-                        BorderThickness="1"
-                        CornerRadius="4"
+                <Grid ColumnDefinitions="Auto,Auto,*,Auto,Auto">
+                    <Grid
+                        x:Name="PART_TogglePresenter"
                         Grid.Column="0"
                         Height="18"
                         IsVisible="False"
@@ -30,17 +26,35 @@
                         Width="18">
 
                         <LucideIcon
-                            x:Name="PART_CheckIcon"
-                            Foreground="{ReflectionBinding Config.Appearance.AccentForegroundColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            x:Name="PART_CheckBoxUncheckedIcon"
+                            Kind="Square"
+                            Size="18"/>
+
+                        <LucideIcon
+                            x:Name="PART_CheckBoxCheckedIcon"
+                            Foreground="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                             IsVisible="False"
-                            Kind="Check"
-                            Size="14"/>
-                    </Border>
+                            Kind="SquareCheck"
+                            Size="18"/>
+
+                        <LucideIcon
+                            x:Name="PART_RadioUncheckedIcon"
+                            IsVisible="False"
+                            Kind="Circle"
+                            Size="18"/>
+
+                        <LucideIcon
+                            x:Name="PART_RadioCheckedIcon"
+                            Foreground="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            IsVisible="False"
+                            Kind="CircleCheck"
+                            Size="18"/>
+                    </Grid>
 
                     <ContentControl
                         x:Name="PART_IconPresenter"
                         Content="{TemplateBinding Icon}"
-                        Grid.Column="0"
+                        Grid.Column="1"
                         Height="18"
                         IsVisible="False"
                         Margin="0,0,10,0"
@@ -51,14 +65,14 @@
                         x:Name="PART_HeaderPresenter"
                         Content="{TemplateBinding Header}"
                         ContentTemplate="{TemplateBinding HeaderTemplate}"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         HorizontalAlignment="Stretch"
                         RecognizesAccessKey="True"
                         VerticalAlignment="Center"/>
 
                     <TextBlock
                         x:Name="PART_InputGestureText"
-                        Grid.Column="2"
+                        Grid.Column="3"
                         Margin="24,0,0,0"
                         Opacity="0.65"
                         Text="{TemplateBinding InputGesture}"
@@ -68,7 +82,7 @@
                         x:Name="PART_ChevronPath"
                         Data="{StaticResource ContextMenuItem.Chevron}"
                         Fill="{TemplateBinding Foreground}"
-                        Grid.Column="3"
+                        Grid.Column="4"
                         Height="12"
                         Margin="14,0,2,0"
                         Stretch="Uniform"
@@ -118,16 +132,35 @@
             <Setter Property="IsVisible" Value="True"/>
         </Style>
 
-        <Style Selector="^[ToggleType=CheckBox] /template/ Border#PART_CheckBoxPresenter">
+        <Style Selector="^[ToggleType=CheckBox] /template/ Grid#PART_TogglePresenter">
             <Setter Property="IsVisible" Value="True"/>
         </Style>
 
-        <Style Selector="^[ToggleType=CheckBox]:checked /template/ Border#PART_CheckBoxPresenter">
-            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
-            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Style Selector="^[ToggleType=CheckBox]:checked /template/ LucideIcon#PART_CheckBoxUncheckedIcon">
+            <Setter Property="IsVisible" Value="False"/>
         </Style>
 
-        <Style Selector="^[ToggleType=CheckBox]:checked /template/ LucideIcon#PART_CheckIcon">
+        <Style Selector="^[ToggleType=CheckBox]:checked /template/ LucideIcon#PART_CheckBoxCheckedIcon">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^[ToggleType=Radio] /template/ Grid#PART_TogglePresenter">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^[ToggleType=Radio] /template/ LucideIcon#PART_CheckBoxUncheckedIcon">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+
+        <Style Selector="^[ToggleType=Radio] /template/ LucideIcon#PART_RadioUncheckedIcon">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^[ToggleType=Radio]:checked /template/ LucideIcon#PART_RadioUncheckedIcon">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+
+        <Style Selector="^[ToggleType=Radio]:checked /template/ LucideIcon#PART_RadioCheckedIcon">
             <Setter Property="IsVisible" Value="True"/>
         </Style>
 

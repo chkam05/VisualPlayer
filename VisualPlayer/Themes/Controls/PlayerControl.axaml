@@ -39,7 +39,8 @@
                 Theme="{StaticResource ControlBorderTheme}"
                 VerticalAlignment="Bottom">
 
-                <Grid RowDefinitions="Auto,*">
+                <Grid
+                    RowDefinitions="Auto,*">
 
                     <!-- TRACK SLIDER -->
                     <Grid
@@ -50,7 +51,7 @@
                             Grid.Column="1"
                             Maximum="{Binding PositionMaximum}"
                             Minimum="0"
-                            Theme="{StaticResource PlayerPositionSliderTheme}"
+                            Theme="{StaticResource PlayerPosition.SliderTheme}"
                             Value="{TemplateBinding Position, Mode=TwoWay}"
                             VerticalAlignment="Center"/>
 
@@ -58,6 +59,7 @@
                     
                     <!-- BUTTONS -->
                     <Border
+                        BorderThickness="1,0,1,1"
                         CornerRadius="0,0,8,8"
                         Grid.Row="1"
                         Margin="0"
@@ -69,7 +71,8 @@
                             RowDefinitions="Auto,*,Auto">
 
                             <TextBlock
-                                FontSize="12"
+                                FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                                FontSize="16"
                                 Grid.Column="0"
                                 Grid.Row="0"
                                 HorizontalAlignment="Left"
@@ -83,7 +86,7 @@
                                 Grid.RowSpan="3"
                                 Margin="0,8"
                                 Orientation="Horizontal"
-                                Spacing="6">
+                                Spacing="8">
 
                                 <components:ToggleButtonWithIcon
                                     IsChecked="{Binding IsShuffleEnabled, Mode=TwoWay}"
@@ -98,7 +101,8 @@
                                     ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_REPEAT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
                                 
                                 <!-- SEPARATOR -->
-                                <Border Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
+                                <Border
+                                    Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
 
                                 <components:ButtonWithIcon
                                     x:Name="PART_PreviousButton"
@@ -125,7 +129,8 @@
                                     ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_STOP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
                                 
                                 <!-- SEPARATOR -->
-                                <Border Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
+                                <Border
+                                    Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
 
                                 <components:ButtonWithIcon
                                     x:Name="PART_SpeedButton"
@@ -142,7 +147,8 @@
                             </StackPanel>
                             
                             <TextBlock
-                                FontSize="12"
+                                FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                                FontSize="16"
                                 Grid.Column="4"
                                 Grid.Row="0"
                                 HorizontalAlignment="Right"
@@ -156,8 +162,11 @@
                                 Grid.Column="4"
                                 Grid.Row="2"
                                 HorizontalAlignment="Right"
+                                IsChecked="{Binding IsMiniMode, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                 Kind="Minimize2"
-                                Theme="{StaticResource PlayerControl.MiniToggleIconButtonTheme}" />
+                                Theme="{StaticResource PlayerControl.MiniToggleButtonWithIconTheme}"
+                                ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_TOGGLE_MINI_PLAYER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                                VerticalAlignment="Bottom" />
                         
                         </Grid>
                     </Border>

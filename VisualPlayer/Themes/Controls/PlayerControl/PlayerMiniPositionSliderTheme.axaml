@@ -1,0 +1,162 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters">
+
+    <!-- CONVERTERS -->
+
+    <converters:BrushOpacityConverter x:Key="BrushOpacityConverter"/>
+
+    <!-- PARTS -->
+
+    <ControlTemplate x:Key="PlayerMini.PositionSliderButtonTemplate" TargetType="RepeatButton">
+        <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="PlayerMini.PositionSliderThumbTemplate" TargetType="Thumb">
+        <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"/>
+    </ControlTemplate>
+
+
+    <ControlTheme x:Key="PlayerMini.PositionSliderDecreaseButtonTheme" TargetType="RepeatButton">
+        <Setter Property="Background">
+            <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.ThemeShadeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.AccentPressedBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="4,0,0,4"/>
+        <Setter Property="Margin" Value="0,0,-14,0"/>
+        <Setter Property="Template" Value="{StaticResource PlayerMini.PositionSliderButtonTemplate}"/>
+    </ControlTheme>
+
+    <ControlTheme x:Key="PlayerMini.PositionSliderIncreaseButtonTheme" TargetType="RepeatButton">
+        <Setter Property="Background">
+            <MultiBinding Converter="{StaticResource BrushOpacityConverter}">
+                <Binding Path="Config.Appearance.ThemeShadeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.InterfaceOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0,4,4,0"/>
+        <Setter Property="Margin" Value="-14,0,0,0"/>
+        <Setter Property="Opacity" Value="{ReflectionBinding Config.Appearance.InterfaceOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="Template" Value="{StaticResource PlayerMini.PositionSliderButtonTemplate}"/>
+    </ControlTheme>
+
+    <ControlTheme x:Key="PlayerMini.PositionSliderThumbTheme" TargetType="Thumb">
+        <Setter Property="Background">
+            <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.ThemeForegroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.AccentColorBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <Setter Property="BorderBrush">
+            <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.ThemeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.AccentColorBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="Height" Value="10"/>
+        <Setter Property="Margin" Value="0,1"/>
+        <Setter Property="Template" Value="{StaticResource PlayerMini.PositionSliderThumbTemplate}"/>
+        <Setter Property="Width" Value="24"/>
+        <Setter Property="ZIndex" Value="10"/>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemeMouseOverBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentMouseOverColorBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:pressed">
+            <Setter Property="Background">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemePressedBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentPressedBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Background">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemeDisabledBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentDisabledBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter>
+            <Setter Property="BorderBrush">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemeDisabledBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentDisabledBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter>
+            <Setter Property="Opacity" Value="0.6"/>
+        </Style>
+    </ControlTheme>
+
+    <!-- SLIDER -->
+
+    <ControlTemplate x:Key="PlayerMini.PositionSliderTemplate" TargetType="Slider">
+        <Track
+            x:Name="PART_Track"
+            Height="10"
+            Minimum="{TemplateBinding Minimum}"
+            Maximum="{TemplateBinding Maximum}"
+            Orientation="Horizontal"
+            Value="{TemplateBinding Value, Mode=TwoWay}">
+
+            <Track.DecreaseButton>
+                <RepeatButton
+                    x:Name="PART_DecreaseButton"
+                    Focusable="False"
+                    Theme="{StaticResource PlayerMini.PositionSliderDecreaseButtonTheme}"/>
+            </Track.DecreaseButton>
+
+            <Track.Thumb>
+                <Thumb
+                    Theme="{StaticResource PlayerMini.PositionSliderThumbTheme}"/>
+            </Track.Thumb>
+
+            <Track.IncreaseButton>
+                <RepeatButton
+                    x:Name="PART_IncreaseButton"
+                    Focusable="False"
+                    Theme="{StaticResource PlayerMini.PositionSliderIncreaseButtonTheme}"/>
+            </Track.IncreaseButton>
+        </Track>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="PlayerMini.PositionSliderTheme" TargetType="Slider">
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="Template" Value="{StaticResource PlayerMini.PositionSliderTemplate}"/>
+    </ControlTheme>
+
+</ResourceDictionary>

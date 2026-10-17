@@ -1,6 +1,6 @@
 # Project architecture
 
-[Polski](architecture_pl-PL.md) · [Documentation index](../README.md#documentation)
+[Polski](architecture_pl-PL.md) · [Documentation index](../README.md#technical-documentation)
 
 ## Startup and lifetime
 
@@ -32,7 +32,9 @@
 
 ## UI composition
 
-`MainWindow` hosts the visualization surface and overlays the side panel, information bar, player, speed, volume, logo, lyrics, and internal view controller. The side panel combines the hamburger menu with the now-playing playlist.
+`MainWindow` hosts the visualization surface and overlays the side panel, information bar, full player, mini player, speed, volume, logo, lyrics, and internal view controller. The side panel combines the hamburger menu with the now-playing playlist. Switching display modes preserves separate full and mini sizes, changes window decorations, and applies topmost state only when both mini mode and the saved preference are enabled.
+
+`PlayerMiniControl` is a responsive alternative to `PlayerControl`. Its mandatory transport and option groups determine the base minimum width. Enabling the mini visualization selects a larger minimum; the visualization then remains fixed while titles and the optional cover are revealed as space becomes available. `PlayerMiniDataContext` combines playback state from `PlayerDataContext` with metadata from `InfoBarContext`.
 
 Major feature screens are implemented as internal views:
 
@@ -45,7 +47,7 @@ Major feature screens are implemented as internal views:
 
 ## State and notification model
 
-Bindable classes derive from `ViewModelBase`. Properties use `UpdateProperty`, and the custom `NotifyPropertyUpdate` attribute is used by the project's notification mechanism. Persistent settings are grouped under configuration contexts instead of being stored directly in controls.
+Bindable classes derive from `ViewModelBase`. Properties use `UpdateProperty`, and the custom `NotifyPropertyUpdate` attribute is used by the project's notification mechanism. Persistent settings are grouped under configuration contexts instead of being stored directly in controls. `MiniPlayerConfig` owns the compact player's topmost, cover, visualization, visualization-type, and opacity preferences.
 
 ## Feature boundaries
 

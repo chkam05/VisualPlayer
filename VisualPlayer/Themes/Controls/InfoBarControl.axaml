@@ -30,7 +30,7 @@
                 VerticalAlignment="Top">
 
                 <Grid
-                    ColumnDefinitions="64,*,Auto"
+                    ColumnDefinitions="Auto,*,Auto"
                     ColumnSpacing="12">
                     
                     <!-- COVER -->
@@ -62,32 +62,34 @@
                     <StackPanel
                         Grid.Column="1"
                         MinWidth="0"
-                        Spacing="2"
                         VerticalAlignment="Center">
 
                         <!-- Title -->
                         <TextBlock
-                            FontSize="16"
+                            FontFamily="{StaticResource ElectronicDisplayFontFamily}"
+                            FontSize="20"
                             FontWeight="SemiBold"
                             MinWidth="0"
-                            Text="{Binding Title}"
+                            Text="{Binding Title, Converter={StaticResource LatinTransliterationConverter}}"
                             TextTrimming="CharacterEllipsis"/>
 
                         <!-- Album -->
                         <Grid ColumnDefinitions="Auto,*">
 
                             <TextBlock
-                                FontSize="13"
+                                FontFamily="{StaticResource ElectronicDisplayFontFamily}"
+                                FontSize="16"
                                 Margin="0,0,5,0"
                                 Opacity="0.6"
                                 Text="{Binding AlbumLabel}"/>
 
                             <TextBlock
-                                FontSize="13"
+                                FontFamily="{StaticResource ElectronicDisplayFontFamily}"
+                                FontSize="16"
                                 Grid.Column="1"
                                 MinWidth="0"
                                 Opacity="0.75"
-                                Text="{Binding Album}"
+                                Text="{Binding Album, Converter={StaticResource LatinTransliterationConverter}}"
                                 TextTrimming="CharacterEllipsis"/>
 
                         </Grid>
@@ -96,17 +98,19 @@
                         <Grid ColumnDefinitions="Auto,*">
 
                             <TextBlock
-                                FontSize="13"
+                                FontFamily="{StaticResource ElectronicDisplayFontFamily}"
+                                FontSize="16"
                                 Margin="0,0,5,0"
                                 Opacity="0.6"
                                 Text="{Binding ArtistLabel}"/>
 
                             <TextBlock
-                                FontSize="13"
+                                FontFamily="{StaticResource ElectronicDisplayFontFamily}"
+                                FontSize="16"
                                 Grid.Column="1"
                                 MinWidth="0"
                                 Opacity="0.75"
-                                Text="{Binding Artist}"
+                                Text="{Binding Artist, Converter={StaticResource LatinTransliterationConverter}}"
                                 TextTrimming="CharacterEllipsis"/>
 
                         </Grid>
@@ -121,13 +125,17 @@
                         VerticalAlignment="Center">
 
                         <TextBlock
+                            FontFamily="{StaticResource Lcd14DisplayFontFamily}"
                             MinWidth="48"
                             Text="{Binding Player.CurrentPositionText}"
                             TextAlignment="Right"/>
 
-                        <TextBlock Text="/"/>
+                        <TextBlock
+                            FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                            Text="/"/>
 
                         <TextBlock
+                            FontFamily="{StaticResource Lcd14DisplayFontFamily}"
                             MinWidth="48"
                             Text="{Binding Player.TotalDurationText}"
                             TextAlignment="Left"/>
