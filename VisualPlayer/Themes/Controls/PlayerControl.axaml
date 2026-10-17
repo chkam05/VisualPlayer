@@ -71,7 +71,8 @@
                             RowDefinitions="Auto,*,Auto">
 
                             <TextBlock
-                                FontSize="12"
+                                FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                                FontSize="16"
                                 Grid.Column="0"
                                 Grid.Row="0"
                                 HorizontalAlignment="Left"
@@ -146,7 +147,8 @@
                             </StackPanel>
                             
                             <TextBlock
-                                FontSize="12"
+                                FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                                FontSize="16"
                                 Grid.Column="4"
                                 Grid.Row="0"
                                 HorizontalAlignment="Right"

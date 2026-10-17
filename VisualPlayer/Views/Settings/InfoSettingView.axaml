@@ -8,21 +8,53 @@
     x:Class="VisualPlayer.Views.Settings.InfoSettingView"
     x:DataType="local:InfoSettingView">
 
-    <StackPanel
-        Spacing="16">
+    <UserControl.Resources>
+        <ResourceDictionary>
 
-        <!-- GENERAL INFO -->
+            <ControlTheme x:Key="Header.TextBlockTheme" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </ControlTheme>
+
+            <ControlTheme x:Key="InfoTitle.TextBlockTheme" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </ControlTheme>
+
+            <ControlTheme x:Key="InfoValue.TextBlockTheme" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="16"/>
+            </ControlTheme>
+
+            <ControlTheme x:Key="SeparatorBorderTheme" TargetType="{x:Type Border}">
+                <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+                <Setter Property="BorderBrush" Value="{x:Null}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Height" Value="1"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="Margin" Value="8,0"/>
+            </ControlTheme>
+
+            <ControlTheme x:Key="Title.TextBlockTheme" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="28"/>
+            </ControlTheme>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel
+        Spacing="32">
+
+        <!-- LOGO -->
         <StackPanel
-            Spacing="8">
+            HorizontalAlignment="Center">
 
             <controls:LogoControl
                 AnimationContraction="0"
                 EnableAnimation="False"
                 Height="{x:Static controls:LogoControl.INFO_HEIGHT}"
-                HorizontalAlignment="Center"
                 LogoHeight="{x:Static controls:LogoControl.INFO_HEIGHT}"
                 LogoWidth="{x:Static controls:LogoControl.INFO_WIDTH}"
-                Opacity="{ReflectionBinding Config.Logo.Opacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                Opacity="1.0"
                 PlayerBorder="{ReflectionBinding Config.Logo.BorderBrush2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 PlayerFill="{ReflectionBinding Config.Logo.FillBrush2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 ReferenceHeight="{x:Static controls:LogoControl.INFO_HEIGHT}"
@@ -31,58 +63,134 @@
                 VisualFill="{ReflectionBinding Config.Logo.FillBrush1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 Width="{x:Static controls:LogoControl.INFO_WIDTH}"/>
 
+            <StackPanel
+                Orientation="Horizontal"
+                Spacing="8">
+
+                <TextBlock
+                    Text="{Binding AppName}"
+                    Theme="{StaticResource Title.TextBlockTheme}" />
+
+                <TextBlock
+                    Text="{Binding AppVersion}"
+                    Theme="{StaticResource Title.TextBlockTheme}" />
+
+            </StackPanel>
+
+        </StackPanel>
+
+        <!-- Basic Informations -->
+        <StackPanel
+            Spacing="16">
+
             <TextBlock
-                FontSize="22"
-                FontWeight="SemiBold"
-                Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_BASIC_INFORMATION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+                Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_BASIC_INFORMATION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                Theme="{StaticResource Header.TextBlockTheme}" />
 
             <Grid
                 ColumnDefinitions="Auto,*"
                 ColumnSpacing="8"
                 RowDefinitions="Auto,Auto,Auto"
-                RowSpacing="2">
+                RowSpacing="6">
 
                 <!-- Title -->
                 <TextBlock
-                    FontWeight="SemiBold"
-                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_NAME], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_NAME], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Theme="{StaticResource InfoTitle.TextBlockTheme}" />
 
                 <TextBlock
                     Grid.Column="1"
-                    Text="{Binding AppName}"/>
+                    Text="{Binding AppName}"
+                    Theme="{StaticResource InfoValue.TextBlockTheme}" />
 
                 <!-- Version -->
                 <TextBlock
-                    FontWeight="SemiBold"
                     Grid.Row="1"
-                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_VERSION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_VERSION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Theme="{StaticResource InfoTitle.TextBlockTheme}"/>
 
                 <TextBlock
                     Grid.Column="1"
                     Grid.Row="1"
-                    Text="{Binding AppVersion}"/>
+                    Text="{Binding AppVersion}"
+                    Theme="{StaticResource InfoValue.TextBlockTheme}"/>
 
                 <!-- Author -->
                 <TextBlock
-                    FontWeight="SemiBold"
                     Grid.Row="2"
-                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_AUTHOR], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+                    Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_AUTHOR], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Theme="{StaticResource InfoTitle.TextBlockTheme}"/>
 
                 <TextBlock
                     Grid.Column="1"
                     Grid.Row="2"
-                    Text="{Binding Copyright}"/>
+                    Text="{Binding Copyright}"
+                    Theme="{StaticResource InfoValue.TextBlockTheme}"/>
             </Grid>
         </StackPanel>
 
-        <!-- INCLUDED LIBRARIES -->
+        <Border
+            Theme="{StaticResource SeparatorBorderTheme}"/>
+
+        <!-- Included Fonts -->
         <StackPanel
-            Spacing="8">
+            Spacing="16">
 
             <TextBlock
-                FontSize="22"
-                FontWeight="SemiBold"
-                Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_LIBRARIES], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+                Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_FONTS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                Theme="{StaticResource Header.TextBlockTheme}"/>
+
+            <ItemsControl
+                Grid.IsSharedSizeScope="True"
+                ItemsSource="{Binding Fonts}">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:FontInfo">
+                        <Grid
+                            ColumnSpacing="16"
+                            Margin="0,3">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    SharedSizeGroup="Name"
+                                    Width="Auto"/>
+
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Text="{Binding Name}"
+                                Theme="{StaticResource InfoTitle.TextBlockTheme}" />
+
+                            <TextBlock
+                                Grid.Column="1"
+                                Opacity="0.75"
+                                Text="{Binding Author}"
+                                Theme="{StaticResource InfoValue.TextBlockTheme}"/>
+
+                            <Button
+                                Click="OpenFontWebsite_Click"
+                                Content="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_BUTTON_WEBSITE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                                Grid.Column="2"
+                                Tag="{Binding Website}"
+                                Theme="{StaticResource ThemeButtonTheme}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <Border
+            Theme="{StaticResource SeparatorBorderTheme}"/>
+
+        <!-- INCLUDED LIBRARIES -->
+        <StackPanel
+            Spacing="16">
+
+            <TextBlock
+                Text="{ReflectionBinding Translations[VIEW_SETTINGS_INFO_SETTING_TEXT_LIBRARIES], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                Theme="{StaticResource Header.TextBlockTheme}"/>
 
             <ItemsControl
                 Grid.IsSharedSizeScope="True"
@@ -91,8 +199,8 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="models:NuGetPackageInfo">
                         <Grid
-                            ColumnSpacing="8"
-                            Margin="0,2">
+                            ColumnSpacing="16"
+                            Margin="0,3">
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition
@@ -103,16 +211,18 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock
-                                FontWeight="SemiBold"
-                                Text="{Binding Name}"/>
+                                Text="{Binding Name}"
+                                Theme="{StaticResource InfoTitle.TextBlockTheme}"/>
 
                             <TextBlock
                                 Grid.Column="1"
-                                Text="{Binding Version}"/>
+                                Text="{Binding Version}"
+                                Theme="{StaticResource InfoValue.TextBlockTheme}"/>
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
+
     </StackPanel>
 </UserControl>

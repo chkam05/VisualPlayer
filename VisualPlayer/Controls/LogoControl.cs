@@ -19,8 +19,8 @@ public class LogoControl : TemplatedControl
     public const double DEFAULT_WIDTH = 300;
     public const double DEFAULT_REFERENCE_HEIGHT = 720;
     public const double DEFAULT_REFERENCE_WIDTH = 1280;
-    public const double INFO_HEIGHT = 110;
-    public const double INFO_WIDTH = 127;
+    public const double INFO_HEIGHT = 240;
+    public const double INFO_WIDTH = 278;
 
     #endregion CONST
 

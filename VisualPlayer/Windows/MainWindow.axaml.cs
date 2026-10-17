@@ -74,6 +74,7 @@ public partial class MainWindow : Window
             RaisePropertyChanged(IsFullModeProperty, oldFullMode, IsFullMode);
             _applicationContext.Config.Window.IsMiniMode = value;
             ApplyMiniMode();
+            UpdateTopmost();
         }
     }
 
@@ -105,6 +106,8 @@ public partial class MainWindow : Window
         SidePanel.MenuContext = _hamburgerMenuContext;
 
         SetupPlaybackVisibilityBehavior();
+        _applicationContext.Config.Window.PropertyChanged += WindowConfig_PropertyChanged;
+        UpdateTopmost();
 
         if (OperatingSystem.IsWindows())
         {
@@ -197,6 +200,17 @@ public partial class MainWindow : Window
             EnterMiniMode();
         else
             ExitMiniMode();
+    }
+
+    private void UpdateTopmost()
+    {
+        Topmost = IsMiniMode && _applicationContext.Config.Window.StayOnTop;
+    }
+
+    private void WindowConfig_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(WindowConfig.StayOnTop))
+            UpdateTopmost();
     }
 
     private void EnterMiniMode()
@@ -719,6 +733,7 @@ public partial class MainWindow : Window
         SaveCurrentWindowSize(IsMiniMode);
         _taskbarControls?.Dispose();
         _hamburgerMenuContext.Dispose();
+        _applicationContext.Config.Window.PropertyChanged -= WindowConfig_PropertyChanged;
         _applicationContext.PlayerDataContext.PropertyChanged -= PlayerDataContext_PropertyChanged;
         _applicationContext.PlayerCore.CurrentTrackChanged -= PlayerCore_CurrentTrackChanged;
     }

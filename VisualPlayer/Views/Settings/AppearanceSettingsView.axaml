@@ -284,6 +284,28 @@
                             Value="{ReflectionBinding Config.Appearance.WindowOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
                     </Grid>
                 </controls:SettingsControl>
+
+                <controls:SettingsControl
+                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_MINI_PLAYER_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Icon="PictureInPicture2"
+                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_MINI_PLAYER_OPACITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                    <Grid ColumnDefinitions="48,180" ColumnSpacing="8">
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            Text="{ReflectionBinding Config.Appearance.MiniPlayerOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Converter={StaticResource OpacityToPercentageConverter}, Mode=OneWay}"
+                            VerticalAlignment="Center"/>
+
+                        <Slider
+                            Grid.Column="1"
+                            Maximum="{x:Static viewModelConfig:AppearanceConfig.MINI_PLAYER_OPACITY_MAXIMUM}"
+                            Minimum="{x:Static viewModelConfig:AppearanceConfig.MINI_PLAYER_OPACITY_MINIMUM}"
+                            SmallChange="{x:Static viewModelConfig:AppearanceConfig.MINI_PLAYER_OPACITY_SMALL_CHANGE}"
+                            Theme="{StaticResource SliderTheme}"
+                            Value="{ReflectionBinding Config.Appearance.MiniPlayerOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                    </Grid>
+                </controls:SettingsControl>
             </StackPanel>
 
         </controls:SettingsExpandControl>

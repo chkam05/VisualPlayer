@@ -21,9 +21,18 @@
 
             <Border
                 x:Name="PART_ContentHost"
+                BorderBrush="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                BorderThickness="1"
+                CornerRadius="8"
                 MaxHeight="128"
-                Padding="8"
-                Theme="{StaticResource ControlBorderTheme}">
+                Padding="8">
+
+                <Border.Background>
+                    <MultiBinding Converter="{StaticResource BrushOpacityConverter}">
+                        <Binding Path="Config.Appearance.ControlBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                        <Binding Path="Config.Appearance.MiniPlayerOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    </MultiBinding>
+                </Border.Background>
 
                 <Border.ContextMenu>
                     <ContextMenu
@@ -37,6 +46,18 @@
                             <MenuItem.Icon>
                                 <LucideIcon
                                     Kind="Maximize2"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem
+                            Header="{ReflectionBinding Translations[PLAYER_MINI_CONTEXT_STAY_ON_TOP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            IsChecked="{ReflectionBinding Config.Window.StayOnTop, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                            ToggleType="CheckBox">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="Pin"
                                     Size="16"/>
                             </MenuItem.Icon>
                         </MenuItem>
@@ -164,7 +185,8 @@
                         Grid.Row="0">
 
                         <TextBlock
-                            FontSize="12"
+                            FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                            FontSize="16"
                             Grid.Column="0"
                             HorizontalAlignment="Stretch"
                             MinWidth="48"
@@ -182,7 +204,8 @@
                             VerticalAlignment="Center"/>
 
                         <TextBlock
-                            FontSize="12"
+                            FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                            FontSize="16"
                             Grid.Column="2"
                             HorizontalAlignment="Stretch"
                             MinWidth="48"
@@ -230,47 +253,59 @@
                             IsVisible="{Binding IsTitlesVisible, RelativeSource={RelativeSource TemplatedParent}}"
                             Margin="0,0,8,0"
                             MinWidth="0"
-                            Spacing="2"
                             VerticalAlignment="Center">
 
                             <!-- Title -->
                             <TextBlock
+                                FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                                FontSize="18"
                                 FontWeight="SemiBold"
                                 MinWidth="0"
-                                Text="{Binding InfoBar.Title}"
+                                Text="{Binding InfoBar.Title, Converter={StaticResource LatinTransliterationConverter}}"
                                 TextTrimming="CharacterEllipsis"/>
 
                             <!-- Album -->
                             <Grid
-                                ColumnDefinitions="Auto,*">
+                                ColumnDefinitions="Auto,*"
+                                ColumnSpacing="26">
 
                                 <TextBlock
+                                    FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                                    FontSize="18"
                                     Margin="0,0,5,0"
                                     Opacity="0.6"
                                     Text="{Binding InfoBar.AlbumLabel}"/>
 
                                 <TextBlock
+                                    FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                                    FontSize="18"
                                     Grid.Column="1"
                                     MinWidth="0"
                                     Opacity="0.75"
-                                    Text="{Binding InfoBar.Album}"
+                                    Text="{Binding InfoBar.Album, Converter={StaticResource LatinTransliterationConverter}}"
                                     TextTrimming="CharacterEllipsis"/>
 
                             </Grid>
 
                             <!-- Author -->
-                            <Grid ColumnDefinitions="Auto,*">
+                            <Grid
+                                ColumnDefinitions="Auto,*"
+                                ColumnSpacing="4">
 
                                 <TextBlock
+                                    FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                                    FontSize="18"
                                     Margin="0,0,5,0"
                                     Opacity="0.6"
                                     Text="{Binding InfoBar.ArtistLabel}"/>
 
                                 <TextBlock
+                                    FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                                    FontSize="18"
                                     Grid.Column="1"
                                     MinWidth="0"
                                     Opacity="0.75"
-                                    Text="{Binding InfoBar.Artist}"
+                                    Text="{Binding InfoBar.Artist, Converter={StaticResource LatinTransliterationConverter}}"
                                     TextTrimming="CharacterEllipsis"/>
 
                             </Grid>

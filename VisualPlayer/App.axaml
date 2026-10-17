@@ -15,5 +15,13 @@
 
     <Application.Styles>
         <FluentTheme />
+
+        <Style Selector="TemplatedControl">
+            <Setter Property="FontFamily" Value="{StaticResource ApplicationFontFamily}" />
+        </Style>
+
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource ApplicationFontFamily}" />
+        </Style>
     </Application.Styles>
 </Application>
