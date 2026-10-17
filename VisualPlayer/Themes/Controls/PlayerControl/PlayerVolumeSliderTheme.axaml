@@ -1,0 +1,317 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters">
+
+    <!-- CONVERTERS -->
+
+    <converters:BrushOpacityConverter x:Key="BrushOpacityConverter"/>
+
+    <!-- PARTS -->
+
+    <ControlTemplate x:Key="PlayerVolume.ButtonTemplate" TargetType="RepeatButton">
+        <Grid Background="Transparent">
+            <Border
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                Height="{TemplateBinding Height}"
+                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                Width="{TemplateBinding Width}" />
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="PlayerVolume.ThumbTemplate" TargetType="Thumb">
+        <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}" />
+    </ControlTemplate>
+
+    <ControlTheme x:Key="PlayerVolume.ThumbTheme" TargetType="Thumb">
+        <Setter Property="Background">
+            <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.ThemeForegroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.AccentColorBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <Setter Property="BorderBrush">
+            <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.ThemeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.AccentColorBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Template" Value="{StaticResource PlayerVolume.ThumbTemplate}" />
+
+        <!-- Mouse over -->
+        <Style Selector="^:pointerover">
+            <!--Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentMouseOverColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" /-->
+            <Setter Property="Background">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemeMouseOverBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentMouseOverColorBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter>
+            <!--Setter Property="BorderBrush">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemeMouseOverBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentMouseOverColorBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter-->
+        </Style>
+
+        <!-- Pressed / dragging -->
+        <Style Selector="^:pressed">
+            <!--Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentPressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" /-->
+            <Setter Property="Background">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemePressedBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentPressedBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter>
+            <!--Setter Property="BorderBrush">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemePressedBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentPressedBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter-->
+        </Style>
+
+        <!-- Disabled -->
+        <Style Selector="^:disabled">
+            <!--Setter Property="Background" Value="{ReflectionBinding Config.Appearance.AccentDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" /-->
+            <Setter Property="Background">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemeDisabledBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentDisabledBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter>
+            <Setter Property="BorderBrush">
+                <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                    <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.ThemeDisabledBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                    <Binding Path="Config.Appearance.AccentDisabledBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                </MultiBinding>
+            </Setter>
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+    </ControlTheme>
+
+    <!-- HORIZONTAL -->
+
+    <ControlTheme x:Key="PlayerVolume.HorizontalDecreaseButtonTheme" TargetType="RepeatButton">
+        <Setter Property="Background">
+            <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.ThemeShadeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.AccentPressedBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <!--Setter Property="BorderBrush">
+            <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.ThemeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.AccentColorBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <Setter Property="BorderThickness" Value="1,1,0,1" /-->
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="4,0,0,4" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="Template" Value="{StaticResource PlayerVolume.ButtonTemplate}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="PlayerVolume.HorizontalIncreaseButtonTheme" TargetType="RepeatButton">
+        <Setter Property="Background">
+            <MultiBinding Converter="{StaticResource BrushOpacityConverter}">
+                <Binding Path="Config.Appearance.ThemeShadeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.InterfaceOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <!--Setter Property="BorderBrush">
+            <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.ThemeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.AccentColorBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <Setter Property="BorderThickness" Value="0,1,1,1" /-->
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="0,4,4,0" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="Opacity" Value="{ReflectionBinding Config.Appearance.InterfaceOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="Template" Value="{StaticResource PlayerVolume.ButtonTemplate}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </ControlTheme>
+
+    <ControlTemplate x:Key="PlayerVolume.HorizontalSliderTemplate" TargetType="Slider">
+        <Grid
+            ClipToBounds="False"
+            Height="16">
+
+            <Track
+                x:Name="PART_Track"
+                ClipToBounds="False"
+                Height="16"
+                Margin="1,0"
+                Maximum="{TemplateBinding Maximum}"
+                Minimum="{TemplateBinding Minimum}"
+                Orientation="Horizontal"
+                Value="{TemplateBinding Value, Mode=TwoWay}">
+
+                <Track.DecreaseButton>
+                    <RepeatButton
+                        x:Name="PART_DecreaseButton"
+                        Focusable="False"
+                        Margin="0,0,-8,0"
+                        Theme="{StaticResource PlayerVolume.HorizontalDecreaseButtonTheme}"/>
+                </Track.DecreaseButton>
+
+                <Track.Thumb>
+                    <Thumb
+                        Height="16"
+                        Theme="{StaticResource PlayerVolume.ThumbTheme}"
+                        Width="16"
+                        ZIndex="1"/>
+                </Track.Thumb>
+
+                <Track.IncreaseButton>
+                    <RepeatButton
+                        x:Name="PART_IncreaseButton"
+                        Focusable="False"
+                        Margin="-8,0,0,0"
+                        Theme="{StaticResource PlayerVolume.HorizontalIncreaseButtonTheme}"/>
+                </Track.IncreaseButton>
+
+            </Track>
+        </Grid>
+    </ControlTemplate>
+
+    <!-- VERTICAL -->
+
+    <ControlTheme x:Key="PlayerVolume.VerticalIncreaseButtonTheme" TargetType="RepeatButton">
+        <Setter Property="Background">
+            <MultiBinding Converter="{StaticResource BrushOpacityConverter}">
+                <Binding Path="Config.Appearance.ThemeShadeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.InterfaceOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <!--Setter Property="BorderBrush">
+            <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.ThemeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.AccentColorBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <Setter Property="BorderThickness" Value="1,1,1,0" /-->
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="4,4,0,0" />
+        <Setter Property="Height" Value="NaN"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Opacity" Value="{ReflectionBinding Config.Appearance.InterfaceOpacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+        <Setter Property="Template" Value="{StaticResource PlayerVolume.ButtonTemplate}" />
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Width" Value="8"/>
+    </ControlTheme>
+
+    <ControlTheme x:Key="PlayerVolume.VerticalDecreaseButtonTheme" TargetType="RepeatButton">
+        <Setter Property="Background">
+            <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.ThemeShadeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.AccentPressedBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <!--Setter Property="BorderBrush">
+            <MultiBinding Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+                <Binding Path="Config.Appearance.ColorizationLevel" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.ThemeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                <Binding Path="Config.Appearance.AccentColorBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+            </MultiBinding>
+        </Setter>
+        <Setter Property="BorderThickness" Value="1,0,1,1" /-->
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="0,0,4,4" />
+        <Setter Property="Height" Value="NaN"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Template" Value="{StaticResource PlayerVolume.ButtonTemplate}" />
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Width" Value="8"/>
+    </ControlTheme>
+
+    <ControlTemplate x:Key="PlayerVolume.VerticalSliderTemplate" TargetType="Slider">
+        <Grid
+            ClipToBounds="False"
+            Width="16">
+
+            <Track
+                x:Name="PART_Track"
+                ClipToBounds="False"
+                Margin="0,1"
+                Minimum="{TemplateBinding Minimum}"
+                Maximum="{TemplateBinding Maximum}"
+                Orientation="Vertical"
+                Value="{TemplateBinding Value, Mode=TwoWay}"
+                Width="16">
+
+                <Track.DecreaseButton>
+                    <RepeatButton
+                        x:Name="PART_DecreaseButton"
+                        Focusable="False"
+                        Margin="0,0,0,0"
+                        Theme="{StaticResource PlayerVolume.VerticalDecreaseButtonTheme}"/>
+                </Track.DecreaseButton>
+
+                <Track.Thumb>
+                    <Thumb
+                        Height="16"
+                        Theme="{StaticResource PlayerVolume.ThumbTheme}"
+                        Width="16"
+                        ZIndex="1"/>
+                </Track.Thumb>
+
+                <Track.IncreaseButton>
+                    <RepeatButton
+                        x:Name="PART_IncreaseButton"
+                        Focusable="False"
+                        Margin="0,0,0,0"
+                        Theme="{StaticResource PlayerVolume.VerticalIncreaseButtonTheme}"/>
+                </Track.IncreaseButton>
+                
+            </Track>
+        </Grid>
+    </ControlTemplate>
+
+    <!-- BASE -->
+
+    <ControlTheme x:Key="PlayerVolume.SliderTheme" TargetType="Slider">
+        <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        <Setter Property="Template" Value="{StaticResource PlayerVolume.HorizontalSliderTemplate}" />
+        <Style Selector="^[Orientation=Vertical]">
+            <Setter Property="Template" Value="{StaticResource PlayerVolume.VerticalSliderTemplate}"/>
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

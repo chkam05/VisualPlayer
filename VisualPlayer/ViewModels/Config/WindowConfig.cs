@@ -1,4 +1,5 @@
 using VisualPlayer.Attributes;
+using VisualPlayer.Resources;
 
 namespace VisualPlayer.ViewModels.Config;
 
@@ -9,7 +10,7 @@ public class WindowConfig : ViewModelBase
     private double _height = 760;
     private bool _isMiniMode;
     private double _miniHeight = 128;
-    private double _miniWidth = 704;
+    private double _miniWidth = Dimensions.PlayerMiniControlMinimumWidth;
     private bool _playListOpen;
     private double _playListWidth = 640;
     private double _width = 1200;

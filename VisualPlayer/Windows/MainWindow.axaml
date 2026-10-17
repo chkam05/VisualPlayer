@@ -16,6 +16,7 @@
 
     Background="Transparent"
     Icon="/Assets/logo.png"
+    MinHeight="548"
     MinWidth="{x:Static resources:Dimensions.MainWindowMinimumWidth}"
     Title="{ReflectionBinding Translations[WINDOW_MAIN_WINDOW_TITLE_VISUALPLAYER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
     TransparencyBackgroundFallback="{ReflectionBinding Config.Appearance.WindowTransparencyFallbackBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -213,12 +214,13 @@
 
                     <controls:PlayerMiniControl
                         x:Name="MiniPlayPanel"
-                        DataContext="{ReflectionBinding PlayerDataContext, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        CloseApplicationRequested="MiniPlayPanel_CloseApplicationRequested"
+                        DataContext="{ReflectionBinding PlayerMiniDataContext, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         DragRequested="MiniPlayPanel_DragRequested"
                         HorizontalAlignment="Stretch"
                         IsMiniMode="{Binding IsMiniMode, ElementName=Root, Mode=TwoWay}"
                         IsVisible="{Binding IsMiniMode, ElementName=Root}"
-                        MinWidth="{x:Static resources:Dimensions.PlayerControlMinimumWidth}"
+                        MinWidth="{x:Static resources:Dimensions.PlayerMiniControlMinimumWidth}"
                         NextRequested="PlayPanel_NextRequested"
                         PlayPauseRequested="PlayPanel_PlayPauseRequested"
                         PositionSeekRequested="PlayPanel_PositionSeekRequested"

@@ -30,7 +30,7 @@
                 VerticalAlignment="Top">
 
                 <Grid
-                    ColumnDefinitions="64,*,Auto"
+                    ColumnDefinitions="Auto,*,Auto"
                     ColumnSpacing="12">
                     
                     <!-- COVER -->

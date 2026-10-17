@@ -202,7 +202,7 @@ public partial class MainWindow : Window
     private void EnterMiniMode()
     {
         var windowConfig = _applicationContext.Config.Window;
-        var targetMiniWidth = Math.Max(Dimensions.PlayerControlMinimumWidth, windowConfig.MiniWidth);
+        var targetMiniWidth = Math.Max(Dimensions.PlayerMiniControlMinimumWidth, windowConfig.MiniWidth);
 
         if (!_hasWindowRestoreState)
         {
@@ -229,11 +229,11 @@ public partial class MainWindow : Window
                 if (!IsMiniMode)
                     return;
 
-                MiniPlayPanel.Measure(new Size(Dimensions.PlayerControlMinimumWidth, double.PositiveInfinity));
+                MiniPlayPanel.Measure(new Size(Dimensions.PlayerMiniControlMinimumWidth, double.PositiveInfinity));
                 var height = Math.Max(
                     1,
                     Math.Max(MiniPlayPanel.ExpandedHeight, MiniPlayPanel.DesiredSize.Height));
-                MinWidth = Dimensions.PlayerControlMinimumWidth;
+                MinWidth = Dimensions.PlayerMiniControlMinimumWidth;
                 MaxWidth = _restoreMaxWidth;
                 MinHeight = height;
                 MaxHeight = height;
@@ -527,6 +527,11 @@ public partial class MainWindow : Window
     {
         BeginMoveDrag(e);
         e.Handled = true;
+    }
+
+    private void MiniPlayPanel_CloseApplicationRequested(object? sender, EventArgs e)
+    {
+        Close();
     }
 
     private void PositionTimer_Tick(object? sender, EventArgs e)

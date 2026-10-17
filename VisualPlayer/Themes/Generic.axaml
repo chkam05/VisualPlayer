@@ -15,8 +15,9 @@
         <ResourceInclude Source="/Themes/Base/TextBox.axaml" />
 
         <!-- PLAYER -->
-        <ResourceInclude Source="/Themes/PlayerPositionSliderTheme.axaml" />
-        <ResourceInclude Source="/Themes/PlayerVolumeSliderTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerPositionSliderTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerMiniPositionSliderTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerVolumeSliderTheme.axaml" />
 
         <!-- CUSTOM COMPONENTS -->
         <ResourceInclude Source="/Themes/Components/ButtonWithIcon.axaml" />
@@ -29,8 +30,8 @@
         <ResourceInclude Source="/Themes/Controls/PlayListItemTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/ControlBorderTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlIconButtonTheme.axaml" />
-        <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlMiniToggleIconButtonTheme.axaml" />
-        <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlToggleIconButtonTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlMiniButtonWithIconTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerMiniControlButtonTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerMiniControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlSeparatorBorder.axaml" />
 
@@ -49,6 +50,7 @@
         <ResourceInclude Source="/Themes/Controls/InternalMessageController.axaml" />
         <ResourceInclude Source="/Themes/Controls/LogoControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/LyricsControl.axaml" />
+        <ResourceInclude Source="/Themes/Controls/MiniVisualizationControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayListItemControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayListControl.axaml" />

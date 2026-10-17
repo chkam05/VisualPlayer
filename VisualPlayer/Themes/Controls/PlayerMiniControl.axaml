@@ -6,12 +6,13 @@
     xmlns:controls="using:VisualPlayer.Controls"
     xmlns:converters="using:VisualPlayer.Converters">
 
+    <converters:BrushOpacityConverter x:Key="BrushOpacityConverter"/>
     <converters:PlayingToIconConverter x:Key="MiniPlayingToIconConverter"/>
     <converters:RepeatModeToIconConverter x:Key="MiniRepeatModeToIconConverter"/>
 
     <ControlTemplate
         x:Key="PlayerMiniControlTemplate"
-        x:DataType="contexts:PlayerDataContext"
+        x:DataType="contexts:PlayerMiniDataContext"
         TargetType="controls:PlayerMiniControl">
 
         <Grid
@@ -20,131 +21,363 @@
 
             <Border
                 x:Name="PART_ContentHost"
-                Background="Transparent"
-                BorderBrush="{x:Null}"
-                BorderThickness="0"
                 MaxHeight="128"
-                Padding="0"
+                Padding="8"
                 Theme="{StaticResource ControlBorderTheme}">
 
+                <Border.ContextMenu>
+                    <ContextMenu
+                        x:Name="PART_ContextMenu"
+                        Theme="{StaticResource {x:Type ContextMenu}}">
+
+                        <MenuItem
+                            x:Name="PART_FullPlayerMenuItem"
+                            Header="{ReflectionBinding Translations[PLAYER_MINI_CONTEXT_FULL_PLAYER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="Maximize2"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <Separator/>
+
+                        <MenuItem
+                            x:Name="PART_PlayMenuItem"
+                            Header="{ReflectionBinding Translations[COMMON_BUTTON_PLAY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            IsVisible="{Binding !Player.IsPlaying}">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="Play"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem
+                            x:Name="PART_PauseMenuItem"
+                            Header="{ReflectionBinding Translations[PLAYER_MINI_CONTEXT_PAUSE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            IsVisible="{Binding Player.IsPlaying}">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="Pause"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem
+                            x:Name="PART_PreviousMenuItem"
+                            Header="{ReflectionBinding Translations[PLAYER_TOOLTIP_PREVIOUS_TRACK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="SkipBack"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem
+                            x:Name="PART_NextMenuItem"
+                            Header="{ReflectionBinding Translations[PLAYER_TOOLTIP_NEXT_TRACK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="SkipForward"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem
+                            x:Name="PART_StopMenuItem"
+                            Header="{ReflectionBinding Translations[PLAYER_TOOLTIP_STOP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="Square"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <Separator/>
+
+                        <MenuItem
+                            Header="{ReflectionBinding Translations[PLAYER_MINI_CONTEXT_VISUALIZATION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="AudioLines"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+
+                            <MenuItem
+                                x:Name="PART_RegularVisualizationMenuItem"
+                                Header="{ReflectionBinding Translations[ENUM_MINIVISUALIZATIONTYPE_REGULAR], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                                Tag="Regular"
+                                ToggleType="Radio"/>
+
+                            <MenuItem x:Name="PART_UpsideDownVisualizationMenuItem"
+                                Header="{ReflectionBinding Translations[ENUM_MINIVISUALIZATIONTYPE_UPSIDE_DOWN], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                                Tag="UpsideDown"
+                                ToggleType="Radio"/>
+
+                            <MenuItem x:Name="PART_SingleVisualizationMenuItem"
+                                Header="{ReflectionBinding Translations[ENUM_MINIVISUALIZATIONTYPE_SINGLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                                Tag="Single"
+                                ToggleType="Radio"/>
+
+                            <MenuItem x:Name="PART_CenterFilledVisualizationMenuItem"
+                                Header="{ReflectionBinding Translations[ENUM_MINIVISUALIZATIONTYPE_CENTER_FILLED], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                                Tag="CenterFilled"
+                                ToggleType="Radio"/>
+
+                            <MenuItem x:Name="PART_CenterSingleVisualizationMenuItem"
+                                Header="{ReflectionBinding Translations[ENUM_MINIVISUALIZATIONTYPE_CENTER_SINGLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                                Tag="CenterSingle"
+                                ToggleType="Radio"/>
+                        </MenuItem>
+
+                        <Separator/>
+
+                        <MenuItem
+                            x:Name="PART_CloseApplicationMenuItem"
+                            Header="{ReflectionBinding Translations[PLAYER_MINI_CONTEXT_CLOSE_APPLICATION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="Power"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </Border.ContextMenu>
+
                 <Grid
-                    RowDefinitions="Auto,*">
+                    RowDefinitions="Auto,*"
+                    RowSpacing="4">
 
                     <!-- TRACK SLIDER -->
                     <Grid
+                        ColumnDefinitions="Auto,*,Auto"
+                        ColumnSpacing="6"
                         Grid.Row="0">
+
+                        <TextBlock
+                            FontSize="12"
+                            Grid.Column="0"
+                            HorizontalAlignment="Stretch"
+                            MinWidth="48"
+                            Text="{Binding Player.CurrentPositionText}"
+                            TextAlignment="Center"
+                            VerticalAlignment="Center"/>
 
                         <Slider
                             x:Name="PART_PositionSlider"
-                            Maximum="{Binding PositionMaximum}"
+                            Grid.Column="1"
+                            Maximum="{Binding Player.PositionMaximum}"
                             Minimum="0"
-                            Theme="{StaticResource PlayerPositionSliderTheme}"
+                            Theme="{StaticResource PlayerMini.PositionSliderTheme}"
                             Value="{TemplateBinding Position, Mode=TwoWay}"
                             VerticalAlignment="Center"/>
-                        
+
+                        <TextBlock
+                            FontSize="12"
+                            Grid.Column="2"
+                            HorizontalAlignment="Stretch"
+                            MinWidth="48"
+                            Text="{Binding Player.DurationText}"
+                            TextAlignment="Center"
+                            VerticalAlignment="Center"/>
+
                     </Grid>
-                    
-                    <!-- BUTTONS -->
-                    <Border
-                        CornerRadius="0,0,8,8"
-                        Grid.Row="1"
-                        Padding="8"
-                        Theme="{StaticResource ControlBorderTheme}">
 
-                        <Grid
-                            ColumnDefinitions="Auto,*,Auto,*,Auto"
-                            RowDefinitions="Auto,*,Auto">
+                    <!-- CONTENT -->
+                    <Grid
+                        ColumnDefinitions="Auto,*,Auto,Auto,48"
+                        Grid.Row="1">
 
+                        <!-- COVER -->
+                        <Border
+                            Background="{ReflectionBinding Config.Appearance.ThemeShadeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            ClipToBounds="True"
+                            CornerRadius="6"
+                            Grid.Column="0"
+                            Height="48"
+                            IsVisible="{Binding IsCoverVisible, RelativeSource={RelativeSource TemplatedParent}}"
+                            Margin="0,0,8,0"
+                            Width="48">
+
+                            <Grid>
+
+                                <LucideIcon
+                                    HorizontalAlignment="Center"
+                                    Kind="Music"
+                                    Opacity="0.35"
+                                    Size="24"
+                                    VerticalAlignment="Center"/>
+
+                                <Image
+                                    Source="{Binding InfoBar.Cover}"
+                                    Stretch="UniformToFill"/>
+
+                            </Grid>
+                        </Border>
+
+                        <!-- TITLES -->
+                        <StackPanel
+                            Grid.Column="1"
+                            IsVisible="{Binding IsTitlesVisible, RelativeSource={RelativeSource TemplatedParent}}"
+                            Margin="0,0,8,0"
+                            MinWidth="0"
+                            Spacing="2"
+                            VerticalAlignment="Center">
+
+                            <!-- Title -->
                             <TextBlock
-                                FontSize="12"
-                                Grid.Column="0"
-                                Grid.Row="0"
-                                MinWidth="48"
-                                Text="{Binding CurrentPositionText}"
-                                TextAlignment="Left"
-                                VerticalAlignment="Top"/>
+                                FontWeight="SemiBold"
+                                MinWidth="0"
+                                Text="{Binding InfoBar.Title}"
+                                TextTrimming="CharacterEllipsis"/>
 
-                            <StackPanel
-                                Grid.Column="2"
-                                Grid.RowSpan="3"
-                                Margin="0,8"
-                                Orientation="Horizontal"
-                                Spacing="6">
+                            <!-- Album -->
+                            <Grid
+                                ColumnDefinitions="Auto,*">
 
-                                <components:ToggleButtonWithIcon
-                                    IsChecked="{Binding IsShuffleEnabled, Mode=TwoWay}"
-                                    Kind="Shuffle"
-                                    Theme="{StaticResource PlayerControl.ToggleIconButtonTheme}"/>
+                                <TextBlock
+                                    Margin="0,0,5,0"
+                                    Opacity="0.6"
+                                    Text="{Binding InfoBar.AlbumLabel}"/>
 
-                                <components:ButtonWithIcon
-                                    x:Name="PART_RepeatButton"
-                                    Kind="{Binding RepeatMode,
-                                    Converter={StaticResource MiniRepeatModeToIconConverter}}"
-                                    Theme="{StaticResource PlayerControl.IconButtonTheme}"/>
+                                <TextBlock
+                                    Grid.Column="1"
+                                    MinWidth="0"
+                                    Opacity="0.75"
+                                    Text="{Binding InfoBar.Album}"
+                                    TextTrimming="CharacterEllipsis"/>
 
-                                <Border
-                                    Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
+                            </Grid>
 
-                                <components:ButtonWithIcon
-                                    x:Name="PART_PreviousButton"
-                                    Kind="SkipBack"
-                                    Theme="{StaticResource PlayerControl.IconButtonTheme}"/>
+                            <!-- Author -->
+                            <Grid ColumnDefinitions="Auto,*">
 
-                                <components:ButtonWithIcon
-                                    x:Name="PART_PlayPauseButton"
-                                    Kind="{Binding IsPlaying,
-                                    Converter={StaticResource MiniPlayingToIconConverter}}"
-                                    Theme="{StaticResource PlayerControl.IconButtonTheme}"/>
+                                <TextBlock
+                                    Margin="0,0,5,0"
+                                    Opacity="0.6"
+                                    Text="{Binding InfoBar.ArtistLabel}"/>
 
-                                <components:ButtonWithIcon
-                                    x:Name="PART_NextButton"
-                                    Kind="SkipForward"
-                                    Theme="{StaticResource PlayerControl.IconButtonTheme}"/>
+                                <TextBlock
+                                    Grid.Column="1"
+                                    MinWidth="0"
+                                    Opacity="0.75"
+                                    Text="{Binding InfoBar.Artist}"
+                                    TextTrimming="CharacterEllipsis"/>
 
-                                <components:ButtonWithIcon
-                                    x:Name="PART_StopButton"
-                                    Kind="Square"
-                                    Theme="{StaticResource PlayerControl.IconButtonTheme}"/>
-                                
-                                <Border
-                                    Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
-                                
-                                <components:ToggleButtonWithIcon
-                                    CheckedKind="VolumeX"
-                                    IsChecked="{Binding IsMuted, Mode=TwoWay}"
-                                    Kind="Volume2"
-                                    Theme="{StaticResource PlayerControl.ToggleIconButtonTheme}"
-                                    ToolTip.Tip="{ReflectionBinding Translations[VOLUME_TOOLTIP_MUTE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+                            </Grid>
+                        </StackPanel>
 
-                                <Slider
-                                    Margin="6,0"
-                                    Maximum="1"
-                                    Minimum="0"
-                                    Theme="{StaticResource PlayerVolumeSliderTheme}"
-                                    Value="{Binding Volume, Mode=TwoWay}"
-                                    Width="144"/>
+                        <!-- MINI VISUALIZATION -->
+                        <controls:MiniVisualizationControl
+                            Core="{ReflectionBinding VisualizationCore, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            Grid.Column="2"
+                            HorizontalAlignment="Left"
+                            IsVisible="{Binding IsMiniVisualizationVisible, RelativeSource={RelativeSource TemplatedParent}}"
+                            Margin="0,0,16,0"
+                            VerticalAlignment="Center"
+                            VisualizationType="{ReflectionBinding VisualizationConfig.Global.MiniVisualizationType, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
 
-                            </StackPanel>
-
-                            <TextBlock
-                                FontSize="12"
-                                Grid.Column="4"
-                                Grid.Row="0"
-                                MinWidth="48"
-                                Text="{Binding DurationText}"
-                                TextAlignment="Right"
-                                VerticalAlignment="Top"/>
+                        <!-- CONTROL BUTTONS -->
+                        <StackPanel
+                            Grid.Column="3"
+                            Grid.Row="1"
+                            Orientation="Horizontal"
+                            Spacing="4">
 
                             <components:ToggleButtonWithIcon
-                                CheckedKind="Maximize2"
-                                Grid.Column="4"
-                                Grid.Row="2"
+                                IsChecked="{Binding Player.IsShuffleEnabled, Mode=TwoWay}"
+                                Kind="Shuffle"
+                                Theme="{StaticResource PlayerMiniControl.ToggleIconButtonTheme}"/>
+
+                            <components:ButtonWithIcon
+                                x:Name="PART_RepeatButton"
+                                Kind="{Binding Player.RepeatMode,
+                                Converter={StaticResource MiniRepeatModeToIconConverter}}"
+                                Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+
+                            <Border
+                                Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
+
+                            <components:ButtonWithIcon
+                                x:Name="PART_PreviousButton"
+                                Kind="SkipBack"
+                                Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+
+                            <components:ButtonWithIcon
+                                x:Name="PART_PlayPauseButton"
+                                Kind="{Binding Player.IsPlaying,
+                                Converter={StaticResource MiniPlayingToIconConverter}}"
+                                Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+
+                            <components:ButtonWithIcon
+                                x:Name="PART_NextButton"
+                                Kind="SkipForward"
+                                Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+
+                            <components:ButtonWithIcon
+                                x:Name="PART_StopButton"
+                                Kind="Square"
+                                Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+
+                            <Border
+                                Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
+
+                            <components:ToggleButtonWithIcon
+                                CheckedKind="VolumeX"
+                                IsChecked="{Binding Player.IsMuted, Mode=TwoWay}"
+                                Kind="Volume2"
+                                Theme="{StaticResource PlayerMiniControl.ToggleIconButtonTheme}"
+                                ToolTip.Tip="{ReflectionBinding Translations[VOLUME_TOOLTIP_MUTE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+                            <Slider
+                                Margin="4,0"
+                                Maximum="1"
+                                Minimum="0"
+                                Theme="{StaticResource PlayerVolume.SliderTheme}"
+                                Value="{Binding Player.Volume, Mode=TwoWay}"
+                                Width="128"/>
+
+                        </StackPanel>
+
+                        <!-- OPTION BUTTONS -->
+                        <Grid
+                            Grid.Column="4"
+                            HorizontalAlignment="Stretch">
+
+                            <Border
+                                BorderBrush="{x:Null}"
+                                BorderThickness="0"
+                                CornerRadius="16"
                                 HorizontalAlignment="Right"
-                                IsChecked="{Binding IsMiniMode, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                Kind="Minimize2"
-                                Theme="{StaticResource PlayerControl.MiniToggleIconButtonTheme}"/>
+                                Padding="1"
+                                VerticalAlignment="Bottom">
+
+                                <Border.Background>
+                                    <MultiBinding Converter="{StaticResource BrushOpacityConverter}">
+                                        <Binding Path="Config.Appearance.ThemeShadeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                                        <Binding Path="Config.Appearance.InterfaceOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                                    </MultiBinding>
+                                </Border.Background>
+
+                                <components:ToggleButtonWithIcon
+                                    CheckedKind="Maximize2"
+                                    IsChecked="{Binding IsMiniMode, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                    Kind="Minimize2"
+                                Theme="{StaticResource PlayerControl.MiniToggleButtonWithIconTheme}"
+                                ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_TOGGLE_MINI_PLAYER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+                            </Border>
                         </Grid>
-                    </Border>
+
+                    </Grid>
                 </Grid>
             </Border>
 

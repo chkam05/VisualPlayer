@@ -33,6 +33,7 @@ public class ApplicationContext : ViewModelBase
     public PlayListLibraryCore PlayListLibraryCore { get; private set; }
     public PlayerCore PlayerCore { get; private set; }
     public PlayerDataContext PlayerDataContext => PlayerCore.DataContext;
+    public PlayerMiniDataContext PlayerMiniDataContext { get; private set; }
     public TranslationContext Translations { get; private set; }
     public VisualizationCore VisualizationCore { get; private set; }
     public VisualizationConfigurationContext VisualizationConfig { get; private set; }
@@ -74,6 +75,7 @@ public class ApplicationContext : ViewModelBase
             PlayerDataContext,
             PlayListCore.PlayListViewModel.CurrentTrack,
             Translations);
+        PlayerMiniDataContext = new PlayerMiniDataContext(PlayerDataContext, InfoBarContext);
         LyricsCore = new LyricsCore(Config.Lyrics);
         LyricsCore.SetCurrentTrack(PlayerCore.CurrentTrack);
         VisualizationCore = new VisualizationCore(

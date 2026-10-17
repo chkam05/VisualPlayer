@@ -336,6 +336,11 @@ public class PlayerControl : TemplatedControl
 
     #region PROPERTY CHANGE HANDLING
 
+    protected virtual PlayerDataContext? ResolvePlayerDataContext(object? dataContext)
+    {
+        return dataContext as PlayerDataContext;
+    }
+
     protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
@@ -364,7 +369,7 @@ public class PlayerControl : TemplatedControl
         if (_playerDataContext is not null)
             _playerDataContext.PropertyChanged -= PlayerDataContext_PropertyChanged;
 
-        _playerDataContext = DataContext as PlayerDataContext;
+        _playerDataContext = ResolvePlayerDataContext(DataContext);
 
         if (_playerDataContext is not null)
             _playerDataContext.PropertyChanged += PlayerDataContext_PropertyChanged;

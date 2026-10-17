@@ -265,7 +265,7 @@
                     x:Name="PART_PositionSlider"
                     Maximum="{ReflectionBinding PlayerDataContext.PositionMaximum, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Minimum="0"
-                    Theme="{StaticResource PlayerPositionSliderTheme}"
+                    Theme="{StaticResource PlayerPosition.SliderTheme}"
                     ValueChanged="PositionSlider_ValueChanged"
                     Value="{ReflectionBinding PlayerDataContext.Position, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
 

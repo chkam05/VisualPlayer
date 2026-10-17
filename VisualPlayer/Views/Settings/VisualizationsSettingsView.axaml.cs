@@ -13,6 +13,7 @@ public partial class VisualizationsSettingsView : UserControl
     public IReadOnlyList<ChannelMode> ChannelModes { get; } = Enum.GetValues<ChannelMode>();
     public IReadOnlyList<FftSize> FftSizes { get; } = Enum.GetValues<FftSize>();
     public IReadOnlyList<FftWindowType> FftWindows { get; } = Enum.GetValues<FftWindowType>();
+    public IReadOnlyList<MiniVisualizationType> MiniVisualizationTypes { get; } = Enum.GetValues<MiniVisualizationType>();
     public IReadOnlyList<ScalingStrategy> ScalingStrategies { get; } = Enum.GetValues<ScalingStrategy>();
 
     #region CONSTRUCTORS

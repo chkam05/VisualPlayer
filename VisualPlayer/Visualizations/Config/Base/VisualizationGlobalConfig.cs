@@ -44,10 +44,12 @@ public class VisualizationGlobalConfig : ViewModelBase
     private int _frameRateLimit = FRAME_RATE_DEFAULT;
     private int _maximumDecibels = MAXIMUM_DECIBELS_DEFAULT;
     private int _maximumFrequency = MAXIMUM_FREQUENCY_DEFAULT;
+    private MiniVisualizationType _miniVisualizationType = MiniVisualizationType.Regular;
     private int _minimumDecibels = MINIMUM_DECIBELS_DEFAULT;
     private int _minimumFrequency = MINIMUM_FREQUENCY_DEFAULT;
     private int _releaseTime = RELEASE_TIME_DEFAULT;
     private ScalingStrategy _scalingStrategy = ScalingStrategy.Logarithmic;
+    private bool _showMiniVisualization;
 
 
     #region PROPERTIES
@@ -102,6 +104,13 @@ public class VisualizationGlobalConfig : ViewModelBase
     }
 
     [NotifyPropertyUpdate]
+    public MiniVisualizationType MiniVisualizationType
+    {
+        get => _miniVisualizationType;
+        set => UpdateProperty(ref _miniVisualizationType, value);
+    }
+
+    [NotifyPropertyUpdate]
     public int MinimumDecibels
     {
         get => _minimumDecibels;
@@ -127,6 +136,13 @@ public class VisualizationGlobalConfig : ViewModelBase
     {
         get => _scalingStrategy;
         set => UpdateProperty(ref _scalingStrategy, value);
+    }
+
+    [NotifyPropertyUpdate]
+    public bool ShowMiniVisualization
+    {
+        get => _showMiniVisualization;
+        set => UpdateProperty(ref _showMiniVisualization, value);
     }
 
     #endregion PROPERTIES
