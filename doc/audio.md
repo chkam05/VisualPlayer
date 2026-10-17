@@ -1,6 +1,6 @@
 # Audio system
 
-[Polski](audio_pl-PL.md) · [Documentation index](../README.md#documentation)
+[Polski](audio_pl-PL.md) · [Documentation index](../README.md#technical-documentation)
 
 ## Playback pipeline
 

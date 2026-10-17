@@ -1,6 +1,6 @@
 # System tekstów piosenek
 
-[English](lyrics.md) · [Indeks dokumentacji](../README_pl-PL.md#dokumentacja)
+[English](lyrics.md) · [Indeks dokumentacji](../README_pl-PL.md#dokumentacja-techniczna)
 
 ## Źródła i priorytet
 

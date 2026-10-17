@@ -1,6 +1,6 @@
 # Lyrics system
 
-[Polski](lyrics_pl-PL.md) · [Documentation index](../README.md#documentation)
+[Polski](lyrics_pl-PL.md) · [Documentation index](../README.md#technical-documentation)
 
 ## Sources and priority
 

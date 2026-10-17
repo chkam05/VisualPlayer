@@ -1,6 +1,6 @@
 # System wizualizacji
 
-[English](visualizations.md) · [Indeks dokumentacji](../README_pl-PL.md#dokumentacja)
+[English](visualizations.md) · [Indeks dokumentacji](../README_pl-PL.md#dokumentacja-techniczna)
 
 ## Przepływ danych
 
@@ -64,6 +64,16 @@ Obecne rodziny wizualizacji:
 - Circle: paski i waveform.
 
 Każda wizualizacja ma niezależną klasę konfiguracji i widok ustawień. Wspólne algorytmy trafiają do `Visualizations/Utils` wyłącznie wtedy, gdy korzysta z nich więcej niż jedna implementacja.
+
+## Wizualizacja mini odtwarzacza
+
+`MiniVisualizationControl` jest osobnym, siedmiopasmowym rendererem, niezależnym od profilowanych wizualizacji pełnego okna. Pobiera surowe pasma z `VisualizationCore` i rysuje 11 poziomów logicznych jako 22 fizyczne segmenty na pasmo — każdy logiczny peak zajmuje parę segmentów. Wyświetlacz jest ograniczony dwiema stałymi kolumnami krawędziowymi.
+
+Dostępne tryby to Regular, Upside Down, Single, Center Filled i Center Single. Regular, Upside Down oraz Center Filled zawierają pływające peaki z grawitacją i czasem ponownego uruchomienia właściwym dla trybu. Po zatrzymaniu odtwarzania główne poziomy nadal opadają z ustawioną szybkością, a grupy pływających peaków kończą ruch przed ponownym pojawieniem się.
+
+Wygląd naśladuje próżniowy wyświetlacz fluorescencyjny. Warstwa o niskiej przezroczystości pozostawia wszystkie nieaktywne segmenty słabo widoczne, natomiast aktywne segmenty używają koloru akcentu, jasnego rdzenia i poświaty bez przesunięcia. Elementy krawędzi pozostają czerwone. Geometria, szybkości opadania, opóźnienia, przezroczystość nieaktywnych segmentów i parametry poświaty są stałymi czasu kompilacji w `MiniVisualizationControl`.
+
+Widoczność, tryb i przezroczystość należą do `MiniPlayerConfig`. Włączona mini wizualizacja uczestniczy w wyznaczaniu minimalnej szerokości okna mini i nie jest usuwana przez reguły responsywne.
 
 ## Renderowanie i wydajność
 

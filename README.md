@@ -28,6 +28,14 @@ The current playlist is the live playback queue. Tracks can be searched, sorted,
 
 ![Current playlist](doc/images/playlist.png)
 
+### Mini player
+
+The main window can switch to a compact, borderless mini-player layout. Transport and option buttons remain available at every supported width. Track titles and cover artwork appear progressively when more horizontal space is available. An optional seven-band VFD-style visualization remains visible down to the visualization-specific minimum width and offers Regular, Upside Down, Single, Center Filled, and Center Single modes.
+
+The mini player can remain above other windows, show or hide its cover and visualization, and use an independently restricted background opacity. Topmost and visibility switches are available in its context menu, while the dedicated **Mini player** settings page contains the complete configuration. Returning to the full player always disables the active topmost window state without clearing the saved preference.
+
+![VisualPlayer mini player](doc/images/miniplayer.png)
+
 ## Music library
 
 Folders added in the settings are scanned for supported audio files. Each folder can optionally include its subdirectories. The library can then be browsed as tracks, albums, artists, or a directory tree.
@@ -99,13 +107,13 @@ VisualPlayer maintains a local lyrics library associated with music tracks. Lyri
 
 ## Appearance and configuration
 
-The application offers light, dark, and system themes, configurable accent colors, custom window backgrounds, interface opacity, and several levels of interface colorization. The information bar, side panel, player, and lyrics panel can respond to window size and visibility settings.
+The application offers light, dark, and system themes, configurable accent colors, custom window backgrounds, interface opacity, and several levels of interface colorization. The information bar, side panel, full player, mini player, and lyrics panel respond to window size and visibility settings.
 
 An SVG logo can be displayed above the visualization. Its fill, border, opacity, scale, and bass-reactive animation can be configured independently. Keyboard shortcuts are editable for interface actions, playback, navigation, and visualization profile selection.
 
 ![Application settings](doc/images/settings.png)
 
-The information page reports the application name, version, author, and included NuGet packages with their versions.
+The information page reports the application name, version, author, bundled fonts with links to their authors, and included NuGet packages with their versions. Oxanium is used throughout the interface, while LED Sled and LED Counter 7 provide the player-display typography. Original font license/readme files are included in `VisualPlayer/Assets/Fonts`.
 
 ![Application information](doc/images/info.png)
 

@@ -1,6 +1,6 @@
 # Building VisualPlayer
 
-[Polski](build_pl-PL.md) · [Documentation index](../README.md#documentation)
+[Polski](build_pl-PL.md) · [Documentation index](../README.md#technical-documentation)
 
 ## Requirements
 
@@ -47,6 +47,8 @@ The scripts detect the current architecture. You can specify a target explicitly
 
 The output is written to `artifacts/publish/<runtime>/`. Windows and Linux produce portable folders: run `VisualPlayer.exe` or `./VisualPlayer` and distribute the **entire folder**, including native libraries and translations. The target computer does not need .NET installed; native desktop/audio dependencies are still required.
 
+Fonts under `VisualPlayer/Assets/Fonts` are compiled as Avalonia resources, so target systems do not need Oxanium, LED Sled, or LED Counter 7 installed. Keep the bundled license/readme files with redistributed builds and review their terms separately from the project's MIT license, especially for commercial distribution.
+
 On macOS, run the script on a Mac. It creates `artifacts/publish/<runtime>/VisualPlayer.app`, ready to open in Finder or copy to Applications. The bundle contains the runtime, native libraries, translations, a standard/Retina `.icns` icon generated from `Assets/logo.png`, and `Info.plist` metadata read from the project. The title, product name, version, authors, company and copyright stay synchronized with the `.csproj`. Bundle identity and minimum macOS version are configured with `MacOSBundleIdentifier` and `MacOSMinimumSystemVersion` in that file.
 
 The standard macOS release version uses the first three components of `Version` (e.g. `7.1.1`); the full informational version (e.g. `7.1.1.0`) is preserved in the bundle information. By default the bundle build version matches the release version; override it with `MACOS_BUNDLE_VERSION=123 bash build_macos.sh` if needed. The script validates the property list and applies/verifies local ad-hoc code signatures. Developer ID signing and Apple notarization are separate distribution steps.
@@ -72,8 +74,10 @@ If an Avalonia XAML error occurs, inspect the first file and line reported by `d
 
 Versions are defined in `VisualPlayer/VisualPlayer.csproj`:
 
-- Avalonia desktop, Fluent theme, and Inter font.
+- Avalonia desktop, Fluent theme, and Inter fallback font.
 - CommunityToolkit.Mvvm.
 - JAJ.Packages.MiniAudioEx.
 - Lucide.Avalonia.
 - TagLibSharp.
+
+The interface also embeds Oxanium, LED Sled, and LED Counter 7 as application assets; they are not NuGet dependencies.
