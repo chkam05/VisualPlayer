@@ -20,7 +20,6 @@ public class AppearanceConfig : ViewModelBase
     private const int ACCENT_SELECTED_FACTOR = 5;
 
     private const double DEFAULT_INTERFACE_OPACITY = 0.85;
-    private const double DEFAULT_MINI_PLAYER_OPACITY = 0.90;
     private const double DEFAULT_OVERLAY_OPACITY = 0.85;
     private const double DEFAULT_WINDOW_OPACITY = 0.85;
 
@@ -28,9 +27,6 @@ public class AppearanceConfig : ViewModelBase
     public const int INFO_BAR_DISPLAY_DURATION_MAXIMUM = 30;
     public const int INFO_BAR_DISPLAY_DURATION_MINIMUM = 5;
 
-    public const double MINI_PLAYER_OPACITY_MAXIMUM = 1.0;
-    public const double MINI_PLAYER_OPACITY_MINIMUM = 0.75;
-    public const double MINI_PLAYER_OPACITY_SMALL_CHANGE = 0.01;
 
     public const double OPACITY_MAXIMUM = 1.0;
     public const double OPACITY_MINIMUM = 0.5;
@@ -62,7 +58,6 @@ public class AppearanceConfig : ViewModelBase
     private int _infoBarDisplayDuration = 5;
     private InfoBarDisplayMode _infoBarDisplayMode = InfoBarDisplayMode.Manual;
     private double _interfaceOpacity = DEFAULT_INTERFACE_OPACITY;
-    private double _miniPlayerOpacity = DEFAULT_MINI_PLAYER_OPACITY;
     //private double _overlayOpacity = DEFAULT_OVERLAY_OPACITY;
     private ObservableCollection<AccentColor> _recentAccentColors = new();
     private ApplicationTheme _theme = ApplicationTheme.Dark;
@@ -186,15 +181,6 @@ public class AppearanceConfig : ViewModelBase
     {
         get => _interfaceOpacity;
         set => UpdateProperty(ref _interfaceOpacity, Math.Clamp(value, OPACITY_MINIMUM, OPACITY_MAXIMUM));
-    }
-
-    [NotifyPropertyUpdate]
-    public double MiniPlayerOpacity
-    {
-        get => _miniPlayerOpacity;
-        set => UpdateProperty(
-            ref _miniPlayerOpacity,
-            Math.Clamp(value, MINI_PLAYER_OPACITY_MINIMUM, MINI_PLAYER_OPACITY_MAXIMUM));
     }
 
     [NotifyPropertyUpdate]

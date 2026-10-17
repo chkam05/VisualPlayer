@@ -175,15 +175,6 @@
             </ComboBox>
         </controls:SettingsControl>
 
-        <controls:SettingsControl
-            Description="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_MINI_STAY_ON_TOP_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-            Icon="Pin"
-            Title="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_MINI_STAY_ON_TOP_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
-
-            <components:Switch
-                IsChecked="{ReflectionBinding Config.Window.StayOnTop, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
-
         <controls:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_LIBRARY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Library"

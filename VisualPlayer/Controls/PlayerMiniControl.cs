@@ -9,7 +9,7 @@ using Avalonia.VisualTree;
 using VisualPlayer.Contexts;
 using VisualPlayer.Enums;
 using VisualPlayer.Resources;
-using VisualPlayer.Visualizations.Config.Base;
+using VisualPlayer.ViewModels.Config;
 
 namespace VisualPlayer.Controls;
 
@@ -24,25 +24,23 @@ public class PlayerMiniControl : PlayerControl
         = AvaloniaProperty.RegisterDirect<PlayerMiniControl, bool>(nameof(IsTitlesVisible), control => control.IsTitlesVisible);
 
     public static readonly DirectProperty<PlayerMiniControl, bool> IsMiniVisualizationVisibleProperty
-        = AvaloniaProperty.RegisterDirect<PlayerMiniControl, bool>(
-            nameof(IsMiniVisualizationVisible),
-            control => control.IsMiniVisualizationVisible);
+        = AvaloniaProperty.RegisterDirect<PlayerMiniControl, bool>(nameof(IsMiniVisualizationVisible), control => control.IsMiniVisualizationVisible);
 
     #endregion AVALONIA PROPERTIES
 
-    private bool _isCoverVisible;
-    private bool _isMiniVisualizationVisible;
-    private bool _isTitlesVisible;
     private ContextMenu? _contextMenu;
     private MenuItem? _closeApplicationMenuItem;
     private MenuItem? _fullPlayerMenuItem;
+    private bool _isCoverVisible;
+    private bool _isMiniVisualizationVisible;
+    private bool _isTitlesVisible;
+    private MiniPlayerConfig? _miniPlayerConfig;
     private MenuItem? _nextMenuItem;
     private MenuItem? _pauseMenuItem;
     private MenuItem? _playMenuItem;
     private MenuItem? _previousMenuItem;
     private MenuItem? _stopMenuItem;
     private MenuItem[] _visualizationMenuItems = [];
-    private VisualizationGlobalConfig? _visualizationGlobalConfig;
 
     #region EVENTS
 
@@ -96,19 +94,16 @@ public class PlayerMiniControl : PlayerControl
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnAttachedToVisualTree(e);
-        ApplicationContext.Instance.VisualizationConfig.PropertyChanged += VisualizationConfig_PropertyChanged;
-        SubscribeVisualizationGlobalConfig();
+        SubscribeMiniPlayerConfig();
         UpdateResponsiveVisibility(Bounds.Width);
     }
 
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
-        ApplicationContext.Instance.VisualizationConfig.PropertyChanged -= VisualizationConfig_PropertyChanged;
+        if (_miniPlayerConfig is not null)
+            _miniPlayerConfig.PropertyChanged -= MiniPlayerConfig_PropertyChanged;
 
-        if (_visualizationGlobalConfig is not null)
-            _visualizationGlobalConfig.PropertyChanged -= VisualizationGlobalConfig_PropertyChanged;
-
-        _visualizationGlobalConfig = null;
+        _miniPlayerConfig = null;
         base.OnDetachedFromVisualTree(e);
     }
 
@@ -188,6 +183,55 @@ public class PlayerMiniControl : PlayerControl
 
     #region ACTIONS
 
+    private void PlayerMiniControl_PointerPressed(object? sender, PointerPressedEventArgs e)
+    {
+        if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+            return;
+
+        if (e.Source is not Visual source
+            || source.FindAncestorOfType<WindowResizeBorder>(includeSelf: true) is not null
+            || source.FindAncestorOfType<Button>(includeSelf: true) is not null
+            || source.FindAncestorOfType<Slider>(includeSelf: true) is not null
+            || source.FindAncestorOfType<MiniVisualizationControl>(includeSelf: true) is not null)
+        {
+            return;
+        }
+
+        DragRequested?.Invoke(this, e);
+    }
+
+    private void PlayerMiniControl_SizeChanged(object? sender, SizeChangedEventArgs e)
+    {
+        UpdateResponsiveVisibility(e.NewSize.Width);
+    }
+
+    private void SubscribeMiniPlayerConfig()
+    {
+        if (_miniPlayerConfig is not null)
+            _miniPlayerConfig.PropertyChanged -= MiniPlayerConfig_PropertyChanged;
+
+        _miniPlayerConfig = ApplicationContext.Instance.Config.MiniPlayer;
+        _miniPlayerConfig.PropertyChanged += MiniPlayerConfig_PropertyChanged;
+    }
+
+    private void UpdateResponsiveVisibility(double width)
+    {
+        var showVisualization = _miniPlayerConfig?.ShowVisualization == true;
+        var minimumWidth = showVisualization
+            ? Dimensions.PlayerMiniControlWithVisualizationMinimumWidth
+            : Dimensions.PlayerMiniControlMinimumWidth;
+
+        MinWidth = minimumWidth;
+        IsMiniVisualizationVisible = showVisualization;
+        IsTitlesVisible = width >= minimumWidth + Dimensions.PlayerMiniTitlesAdditionalWidth;
+        IsCoverVisible = _miniPlayerConfig?.ShowCover == true
+            && width >= minimumWidth + Dimensions.PlayerMiniCoverAdditionalWidth;
+    }
+
+    #endregion ACTIONS
+
+    #region BUTTON ACTIONS
+
     private void CloseApplicationMenuItem_Click(object? sender, RoutedEventArgs e)
     {
         CloseApplicationRequested?.Invoke(this, EventArgs.Empty);
@@ -195,7 +239,7 @@ public class PlayerMiniControl : PlayerControl
 
     private void ContextMenu_Opened(object? sender, RoutedEventArgs e)
     {
-        var selectedType = ApplicationContext.Instance.VisualizationConfig.Global.MiniVisualizationType;
+        var selectedType = ApplicationContext.Instance.Config.MiniPlayer.VisualizationType;
 
         foreach (var item in _visualizationMenuItems)
         {
@@ -235,65 +279,13 @@ public class PlayerMiniControl : PlayerControl
         if (sender is MenuItem { Tag: string value }
             && Enum.TryParse<MiniVisualizationType>(value, out var type))
         {
-            ApplicationContext.Instance.VisualizationConfig.Global.MiniVisualizationType = type;
+            ApplicationContext.Instance.Config.MiniPlayer.VisualizationType = type;
         }
     }
 
-    private void PlayerMiniControl_PointerPressed(object? sender, PointerPressedEventArgs e)
-    {
-        if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
-            return;
+    #endregion BUTTON ACTIONS
 
-        if (e.Source is not Visual source
-            || source.FindAncestorOfType<WindowResizeBorder>(includeSelf: true) is not null
-            || source.FindAncestorOfType<Button>(includeSelf: true) is not null
-            || source.FindAncestorOfType<Slider>(includeSelf: true) is not null
-            || source.FindAncestorOfType<MiniVisualizationControl>(includeSelf: true) is not null)
-        {
-            return;
-        }
-
-        DragRequested?.Invoke(this, e);
-    }
-
-    private void PlayerMiniControl_SizeChanged(object? sender, SizeChangedEventArgs e)
-    {
-        UpdateResponsiveVisibility(e.NewSize.Width);
-    }
-
-    private void VisualizationConfig_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName != nameof(VisualizationConfigurationContext.Global))
-            return;
-
-        SubscribeVisualizationGlobalConfig();
-        UpdateResponsiveVisibility(Bounds.Width);
-    }
-
-    private void VisualizationGlobalConfig_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(VisualizationGlobalConfig.ShowMiniVisualization))
-            UpdateResponsiveVisibility(Bounds.Width);
-    }
-
-    private void SubscribeVisualizationGlobalConfig()
-    {
-        if (_visualizationGlobalConfig is not null)
-            _visualizationGlobalConfig.PropertyChanged -= VisualizationGlobalConfig_PropertyChanged;
-
-        _visualizationGlobalConfig = ApplicationContext.Instance.VisualizationConfig.Global;
-        _visualizationGlobalConfig.PropertyChanged += VisualizationGlobalConfig_PropertyChanged;
-    }
-
-    private void UpdateResponsiveVisibility(double width)
-    {
-        IsTitlesVisible = width >= Dimensions.PlayerMiniTitlesMinimumWidth;
-        IsCoverVisible = width >= Dimensions.PlayerMiniCoverMinimumWidth;
-        IsMiniVisualizationVisible = _visualizationGlobalConfig?.ShowMiniVisualization == true
-            && width >= Dimensions.PlayerMiniVisualizationMinimumWidth;
-    }
-
-    #endregion ACTIONS
+    #region DATA CONTEXT
 
     protected override PlayerDataContext? ResolvePlayerDataContext(object? dataContext)
     {
@@ -301,4 +293,20 @@ public class PlayerMiniControl : PlayerControl
             ? miniDataContext.Player
             : base.ResolvePlayerDataContext(dataContext);
     }
+
+    #endregion DATA CONTEXT
+
+    #region PROPERTY CHANGES
+
+    private void MiniPlayerConfig_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is nameof(MiniPlayerConfig.ShowCover)
+            or nameof(MiniPlayerConfig.ShowVisualization))
+        {
+            UpdateResponsiveVisibility(Bounds.Width);
+        }
+    }
+
+    #endregion PROPERTY CHANGES
+
 }

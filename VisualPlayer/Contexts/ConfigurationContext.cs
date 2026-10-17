@@ -29,6 +29,7 @@ public class ConfigurationContext : ConfigurationContextBase
     private LibraryConfig _library = new();
     private LogoConfig _logo = new();
     private LyricsConfig _lyrics = new();
+    private MiniPlayerConfig _miniPlayer = new();
     private PlayerConfig _player = new();
     private WindowConfig _window = new();
 
@@ -76,6 +77,13 @@ public class ConfigurationContext : ConfigurationContextBase
     {
         get => _lyrics;
         set => UpdateProperty(ref _lyrics, value ?? new LyricsConfig());
+    }
+
+    [NotifyPropertyUpdate]
+    public MiniPlayerConfig MiniPlayer
+    {
+        get => _miniPlayer;
+        set => UpdateProperty(ref _miniPlayer, value ?? new MiniPlayerConfig());
     }
 
     [NotifyPropertyUpdate]

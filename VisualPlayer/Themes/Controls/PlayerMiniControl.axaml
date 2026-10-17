@@ -30,7 +30,7 @@
                 <Border.Background>
                     <MultiBinding Converter="{StaticResource BrushOpacityConverter}">
                         <Binding Path="Config.Appearance.ControlBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
-                        <Binding Path="Config.Appearance.MiniPlayerOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                        <Binding Path="Config.MiniPlayer.Opacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
                     </MultiBinding>
                 </Border.Background>
 
@@ -50,14 +50,40 @@
                             </MenuItem.Icon>
                         </MenuItem>
 
+                        <Separator/>
+
                         <MenuItem
                             Header="{ReflectionBinding Translations[PLAYER_MINI_CONTEXT_STAY_ON_TOP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                            IsChecked="{ReflectionBinding Config.Window.StayOnTop, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                            IsChecked="{ReflectionBinding Config.MiniPlayer.StayOnTop, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
                             ToggleType="CheckBox">
 
                             <MenuItem.Icon>
                                 <LucideIcon
                                     Kind="Pin"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem
+                            Header="{ReflectionBinding Translations[PLAYER_MINI_CONTEXT_SHOW_COVER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            IsChecked="{ReflectionBinding Config.MiniPlayer.ShowCover, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                            ToggleType="CheckBox">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="Image"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <MenuItem
+                            Header="{ReflectionBinding Translations[PLAYER_MINI_CONTEXT_SHOW_VISUALIZATION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            IsChecked="{ReflectionBinding Config.MiniPlayer.ShowVisualization, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
+                            ToggleType="CheckBox">
+
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="AudioLines"
                                     Size="16"/>
                             </MenuItem.Icon>
                         </MenuItem>
@@ -319,7 +345,7 @@
                             IsVisible="{Binding IsMiniVisualizationVisible, RelativeSource={RelativeSource TemplatedParent}}"
                             Margin="0,0,16,0"
                             VerticalAlignment="Center"
-                            VisualizationType="{ReflectionBinding VisualizationConfig.Global.MiniVisualizationType, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
+                            VisualizationType="{ReflectionBinding Config.MiniPlayer.VisualizationType, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
 
                         <!-- CONTROL BUTTONS -->
                         <StackPanel

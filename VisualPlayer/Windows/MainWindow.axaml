@@ -220,7 +220,6 @@
                         HorizontalAlignment="Stretch"
                         IsMiniMode="{Binding IsMiniMode, ElementName=Root, Mode=TwoWay}"
                         IsVisible="{Binding IsMiniMode, ElementName=Root}"
-                        MinWidth="{x:Static resources:Dimensions.PlayerMiniControlMinimumWidth}"
                         NextRequested="PlayPanel_NextRequested"
                         PlayPauseRequested="PlayPanel_PlayPauseRequested"
                         PositionSeekRequested="PlayPanel_PositionSeekRequested"

@@ -36,6 +36,11 @@ public class MiniVisualizationControl : TemplatedControl
     public const double FloatingBarRestartDelay = 0.3;
     public const double MinimumVisibleLevel = 0.5;
 
+    public const double InactiveSegmentOpacity = 0.10;
+    public const double ActiveSegmentOpacity = 1.0;
+    public const double GlowBlurRadius = 4;
+    public const double GlowOpacity = 0.85;
+
     public const double SegmentHeight = 2;
     public const double SegmentHorizontalSpacing = 4;
     public const double SegmentVerticalSpacing = 1;
@@ -46,6 +51,7 @@ public class MiniVisualizationControl : TemplatedControl
     private readonly double[] _bandLevels = new double[FrequencyBandCount];
     private readonly double[] _floatingLevels = new double[FrequencyBandCount];
     private readonly double[] _mainLevels = new double[FrequencyBandCount];
+    private readonly List<DropShadowEffect> _accentGlowEffects = [];
     private readonly List<Shape> _accentShapes = [];
     private readonly Rectangle[,] _segments = new Rectangle[FrequencyBandCount, SegmentCount];
     private readonly DispatcherTimer _renderTimer;
@@ -127,6 +133,7 @@ public class MiniVisualizationControl : TemplatedControl
             return;
 
         _canvas.Children.Clear();
+        _accentGlowEffects.Clear();
         _accentShapes.Clear();
 
         var visualisationHeight = SegmentCount * SegmentHeight
@@ -147,16 +154,32 @@ public class MiniVisualizationControl : TemplatedControl
 
             for (var segmentIndex = 0; segmentIndex < SegmentCount; segmentIndex++)
             {
-                var segment = new Rectangle
+                var top = segmentIndex * (SegmentHeight + SegmentVerticalSpacing);
+                var inactiveSegment = new Rectangle
                 {
                     Fill = Foreground,
                     Height = SegmentHeight,
+                    Opacity = InactiveSegmentOpacity,
+                    Width = SegmentWidth
+                };
+
+                Canvas.SetLeft(inactiveSegment, x);
+                Canvas.SetTop(inactiveSegment, top);
+                _accentShapes.Add(inactiveSegment);
+                _canvas.Children.Add(inactiveSegment);
+
+                var segment = new Rectangle
+                {
+                    Effect = CreateGlowEffect(Foreground, _accentGlowEffects),
+                    Fill = Foreground,
+                    Height = SegmentHeight,
                     IsVisible = false,
+                    Opacity = ActiveSegmentOpacity,
                     Width = SegmentWidth
                 };
 
                 Canvas.SetLeft(segment, x);
-                Canvas.SetTop(segment, segmentIndex * (SegmentHeight + SegmentVerticalSpacing));
+                Canvas.SetTop(segment, top);
                 _segments[bandIndex, segmentIndex] = segment;
                 _accentShapes.Add(segment);
                 _canvas.Children.Add(segment);
@@ -177,6 +200,7 @@ public class MiniVisualizationControl : TemplatedControl
         {
             var bar = new Rectangle
             {
+                Effect = CreateGlowEffect(Brushes.Red),
                 Fill = Brushes.Red,
                 Height = EdgeBarHeight,
                 Width = EdgeWidth
@@ -196,6 +220,7 @@ public class MiniVisualizationControl : TemplatedControl
             {
                 var dot = new Ellipse
                 {
+                    Effect = CreateGlowEffect(Foreground, _accentGlowEffects),
                     Fill = Foreground,
                     Height = EdgeDotSize,
                     Width = EdgeDotSize
@@ -458,6 +483,34 @@ public class MiniVisualizationControl : TemplatedControl
     {
         foreach (var shape in _accentShapes)
             shape.Fill = Foreground;
+
+        var glowColor = GetBrushColor(Foreground);
+        foreach (var effect in _accentGlowEffects)
+            effect.Color = glowColor;
+    }
+
+    private static DropShadowEffect CreateGlowEffect(
+        IBrush? brush,
+        List<DropShadowEffect>? trackedEffects = null)
+    {
+        var effect = new DropShadowEffect
+        {
+            BlurRadius = GlowBlurRadius,
+            Color = GetBrushColor(brush),
+            OffsetX = 0,
+            OffsetY = 0,
+            Opacity = GlowOpacity
+        };
+
+        trackedEffects?.Add(effect);
+        return effect;
+    }
+
+    private static Color GetBrushColor(IBrush? brush)
+    {
+        return brush is ISolidColorBrush solidColorBrush
+            ? solidColorBrush.Color
+            : Colors.White;
     }
 
     private void UpdateSegments()

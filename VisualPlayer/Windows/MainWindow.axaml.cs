@@ -106,7 +106,7 @@ public partial class MainWindow : Window
         SidePanel.MenuContext = _hamburgerMenuContext;
 
         SetupPlaybackVisibilityBehavior();
-        _applicationContext.Config.Window.PropertyChanged += WindowConfig_PropertyChanged;
+        _applicationContext.Config.MiniPlayer.PropertyChanged += MiniPlayerConfig_PropertyChanged;
         UpdateTopmost();
 
         if (OperatingSystem.IsWindows())
@@ -204,19 +204,44 @@ public partial class MainWindow : Window
 
     private void UpdateTopmost()
     {
-        Topmost = IsMiniMode && _applicationContext.Config.Window.StayOnTop;
+        Topmost = IsMiniMode && _applicationContext.Config.MiniPlayer.StayOnTop;
     }
 
-    private void WindowConfig_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private void MiniPlayerConfig_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(WindowConfig.StayOnTop))
+        if (e.PropertyName == nameof(MiniPlayerConfig.StayOnTop))
             UpdateTopmost();
+        else if (e.PropertyName == nameof(MiniPlayerConfig.ShowVisualization))
+            UpdateMiniModeMinimumWidth();
+    }
+
+    private double GetMiniModeMinimumWidth()
+    {
+        return _applicationContext.Config.MiniPlayer.ShowVisualization
+            ? Dimensions.PlayerMiniControlWithVisualizationMinimumWidth
+            : Dimensions.PlayerMiniControlMinimumWidth;
+    }
+
+    private void UpdateMiniModeMinimumWidth()
+    {
+        if (!IsMiniMode)
+            return;
+
+        var minimumWidth = GetMiniModeMinimumWidth();
+        MinWidth = minimumWidth;
+
+        if (ClientSize.Width >= minimumWidth)
+            return;
+
+        Width = minimumWidth;
+        ClientSize = new Size(minimumWidth, ClientSize.Height);
     }
 
     private void EnterMiniMode()
     {
         var windowConfig = _applicationContext.Config.Window;
-        var targetMiniWidth = Math.Max(Dimensions.PlayerMiniControlMinimumWidth, windowConfig.MiniWidth);
+        var minimumWidth = GetMiniModeMinimumWidth();
+        var targetMiniWidth = Math.Max(minimumWidth, windowConfig.MiniWidth);
 
         if (!_hasWindowRestoreState)
         {
@@ -243,11 +268,11 @@ public partial class MainWindow : Window
                 if (!IsMiniMode)
                     return;
 
-                MiniPlayPanel.Measure(new Size(Dimensions.PlayerMiniControlMinimumWidth, double.PositiveInfinity));
+                MiniPlayPanel.Measure(new Size(minimumWidth, double.PositiveInfinity));
                 var height = Math.Max(
                     1,
                     Math.Max(MiniPlayPanel.ExpandedHeight, MiniPlayPanel.DesiredSize.Height));
-                MinWidth = Dimensions.PlayerMiniControlMinimumWidth;
+                MinWidth = minimumWidth;
                 MaxWidth = _restoreMaxWidth;
                 MinHeight = height;
                 MaxHeight = height;
@@ -733,7 +758,7 @@ public partial class MainWindow : Window
         SaveCurrentWindowSize(IsMiniMode);
         _taskbarControls?.Dispose();
         _hamburgerMenuContext.Dispose();
-        _applicationContext.Config.Window.PropertyChanged -= WindowConfig_PropertyChanged;
+        _applicationContext.Config.MiniPlayer.PropertyChanged -= MiniPlayerConfig_PropertyChanged;
         _applicationContext.PlayerDataContext.PropertyChanged -= PlayerDataContext_PropertyChanged;
         _applicationContext.PlayerCore.CurrentTrackChanged -= PlayerCore_CurrentTrackChanged;
     }

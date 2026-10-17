@@ -246,42 +246,5 @@
                 Value="{ReflectionBinding VisualizationConfig.Global.FrameRateLimit, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
         </controls:SettingsControl>
 
-        <!-- MINI PLAYER VISUALIZATION -->
-        <controls:SettingsExpandControl
-            Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINI_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-            Icon="ChartNoAxesColumn"
-            Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINI_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
-
-            <StackPanel Spacing="4">
-                <controls:SettingsControl
-                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINI_SHOW_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                    Icon="ToggleRight"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINI_SHOW_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
-
-                    <components:Switch
-                        IsChecked="{ReflectionBinding VisualizationConfig.Global.ShowMiniVisualization, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
-
-                <controls:SettingsControl
-                    Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINI_TYPE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                    Icon="AudioLines"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
-                    Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINI_TYPE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
-
-                    <ComboBox
-                        ItemsSource="{Binding MiniVisualizationTypes, ElementName=Root}"
-                        SelectedItem="{ReflectionBinding VisualizationConfig.Global.MiniVisualizationType, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
-                        Theme="{StaticResource ComboBoxTheme}">
-
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Converter={StaticResource OptionToTitleConverter}}"/>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </controls:SettingsControl>
-            </StackPanel>
-        </controls:SettingsExpandControl>
     </StackPanel>
 </UserControl>

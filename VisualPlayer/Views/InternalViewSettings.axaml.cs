@@ -25,6 +25,7 @@ public partial class InternalViewSettings : InternalViewBase
     private readonly KeyboardSettingsView _keyboardSettingsView = new();
     private readonly LogoSettingsView _logoSettingsView = new();
     private readonly LyricsSettingsView _lyricsSettingsView = new();
+    private readonly MiniPlayerSettingsView _miniPlayerSettingsView = new();
     private readonly PlayerSettingsView _playerSettingsView = new();
     private readonly VisualizationsSettingsView _visualizationsSettingsView = new();
     
@@ -57,6 +58,7 @@ public partial class InternalViewSettings : InternalViewBase
             new MenuItemViewModel(LucideIconKind.Settings, T["VIEW_SETTINGS_NAV_GENERAL"], ShowGeneralSettings),
             new MenuItemViewModel(LucideIconKind.CirclePlay, T["VIEW_SETTINGS_NAV_PLAYER"], ShowPlayerSettings),
             new MenuItemViewModel(LucideIconKind.Box, T["VIEW_SETTINGS_NAV_LOGO"], ShowLogoSettings),
+            new MenuItemViewModel(LucideIconKind.PictureInPicture2, T["VIEW_SETTINGS_NAV_MINI_PLAYER"], ShowMiniPlayerSettings),
             new MenuItemViewModel(LucideIconKind.Keyboard, T["VIEW_SETTINGS_NAV_KEYBOARD"], ShowKeyboardSettings),
             new MenuItemViewModel(LucideIconKind.Type, T["VIEW_SETTINGS_NAV_LYRICS"], ShowLyricsSettings),
             new MenuItemViewModel(LucideIconKind.AudioLines, T["MENU_VISUALIZATIONS"], ShowVisualizationsSettings),
@@ -86,11 +88,12 @@ public partial class InternalViewSettings : InternalViewBase
         NavigationItems[0].Title = T["VIEW_SETTINGS_NAV_GENERAL"];
         NavigationItems[1].Title = T["VIEW_SETTINGS_NAV_PLAYER"];
         NavigationItems[2].Title = T["VIEW_SETTINGS_NAV_LOGO"];
-        NavigationItems[3].Title = T["VIEW_SETTINGS_NAV_KEYBOARD"];
-        NavigationItems[4].Title = T["VIEW_SETTINGS_NAV_LYRICS"];
-        NavigationItems[5].Title = T["MENU_VISUALIZATIONS"];
-        NavigationItems[6].Title = T["VIEW_SETTINGS_NAV_APPEARANCE"];
-        NavigationItems[8].Title = T["VIEW_SETTINGS_NAV_INFO"];
+        NavigationItems[3].Title = T["VIEW_SETTINGS_NAV_MINI_PLAYER"];
+        NavigationItems[4].Title = T["VIEW_SETTINGS_NAV_KEYBOARD"];
+        NavigationItems[5].Title = T["VIEW_SETTINGS_NAV_LYRICS"];
+        NavigationItems[6].Title = T["MENU_VISUALIZATIONS"];
+        NavigationItems[7].Title = T["VIEW_SETTINGS_NAV_APPEARANCE"];
+        NavigationItems[9].Title = T["VIEW_SETTINGS_NAV_INFO"];
     }
 
     private void InternalViewSettings_SaveRequested(object? sender, EventArgs e)
@@ -139,6 +142,11 @@ public partial class InternalViewSettings : InternalViewBase
     private void ShowLogoSettings()
     {
         PART_ContentHost.Content = _logoSettingsView;
+    }
+
+    private void ShowMiniPlayerSettings()
+    {
+        PART_ContentHost.Content = _miniPlayerSettingsView;
     }
 
     private void ShowKeyboardSettings()

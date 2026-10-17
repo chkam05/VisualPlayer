@@ -13,7 +13,6 @@ public class WindowConfig : ViewModelBase
     private double _miniWidth = Dimensions.PlayerMiniControlMinimumWidth;
     private bool _playListOpen;
     private double _playListWidth = 640;
-    private bool _stayOnTop;
     private double _width = 1200;
 
 
@@ -71,13 +70,6 @@ public class WindowConfig : ViewModelBase
     {
         get => _playListWidth;
         set => UpdateProperty(ref _playListWidth, value);
-    }
-
-    [NotifyPropertyUpdate]
-    public bool StayOnTop
-    {
-        get => _stayOnTop;
-        set => UpdateProperty(ref _stayOnTop, value);
     }
 
     [NotifyPropertyUpdate]

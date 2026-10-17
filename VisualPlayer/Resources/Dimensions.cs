@@ -12,9 +12,9 @@ public static class Dimensions
     public const double InfoBarMinimumWidth = 384;
     public const double PlayerControlMinimumWidth = 736;
     public const double PlayerMiniControlMinimumWidth = 512;
-    public const double PlayerMiniTitlesMinimumWidth = 640;
-    public const double PlayerMiniCoverMinimumWidth = 736;
-    public const double PlayerMiniVisualizationMinimumWidth = 816;
+    public const double PlayerMiniControlWithVisualizationMinimumWidth = 608;
+    public const double PlayerMiniTitlesAdditionalWidth = 128;
+    public const double PlayerMiniCoverAdditionalWidth = 224;
     public const double SidePanelCollapsedWidth = 64;
     public const double SidePanelExpandedMenuWidth = 248;
     public const double SidePanelOuterLeftMargin = 8;
