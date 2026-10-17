@@ -72,11 +72,11 @@
 
                             <TextBlock
                                 FontFamily="{StaticResource Lcd14DisplayFontFamily}"
-                                FontSize="16"
+                                FontSize="20"
                                 Grid.Column="0"
                                 Grid.Row="0"
                                 HorizontalAlignment="Left"
-                                MinWidth="48"
+                                MinWidth="64"
                                 Text="{Binding CurrentPositionText}"
                                 TextAlignment="Left"
                                 VerticalAlignment="Top"/>
@@ -148,11 +148,11 @@
                             
                             <TextBlock
                                 FontFamily="{StaticResource Lcd14DisplayFontFamily}"
-                                FontSize="16"
+                                FontSize="20"
                                 Grid.Column="4"
                                 Grid.Row="0"
                                 HorizontalAlignment="Right"
-                                MinWidth="48"
+                                MinWidth="64"
                                 Text="{Binding DurationText}"
                                 TextAlignment="Right"
                                 VerticalAlignment="Top"/>

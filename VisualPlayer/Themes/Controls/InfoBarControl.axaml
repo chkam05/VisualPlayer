@@ -126,16 +126,19 @@
 
                         <TextBlock
                             FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                            FontSize="20"
                             MinWidth="48"
                             Text="{Binding Player.CurrentPositionText}"
                             TextAlignment="Right"/>
 
                         <TextBlock
                             FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                            FontSize="20"
                             Text="/"/>
 
                         <TextBlock
                             FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                            FontSize="20"
                             MinWidth="48"
                             Text="{Binding Player.TotalDurationText}"
                             TextAlignment="Left"/>

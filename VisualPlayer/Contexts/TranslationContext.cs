@@ -60,7 +60,23 @@ public sealed class TranslationContext : ViewModelBase
 
     public string this[string key] => Translate(key);
 
-    public static string LangDirectoryPath => Path.Combine(AppContext.BaseDirectory, LANG_DIRECTORY_NAME);
+    public static string LangDirectoryPath
+    {
+        get
+        {
+            var defaultPath = Path.Combine(AppContext.BaseDirectory, LANG_DIRECTORY_NAME);
+            if (!OperatingSystem.IsMacOS())
+                return defaultPath;
+
+            var bundleResourcesPath = Path.GetFullPath(Path.Combine(
+                AppContext.BaseDirectory,
+                "..",
+                "Resources",
+                LANG_DIRECTORY_NAME));
+
+            return Directory.Exists(bundleResourcesPath) ? bundleResourcesPath : defaultPath;
+        }
+    }
 
     #endregion PROPERTIES
 

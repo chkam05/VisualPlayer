@@ -102,10 +102,17 @@ contents="$staged_app/Contents"
 mkdir -p "$contents/MacOS" "$contents/Resources"
 
 echo "Publishing VisualPlayer Release for $runtime..."
+publish_dir="$work_dir/publish"
 dotnet publish "$project" \
     --configuration Release --runtime "$runtime" --self-contained true \
-    --output "$contents/MacOS" \
-    -p:PublishTrimmed=false -p:PublishSingleFile=false -p:UseAppHost=true
+    --output "$publish_dir" \
+    -p:PublishTrimmed=false -p:PublishSingleFile=true \
+    -p:IncludeNativeLibrariesForSelfExtract=true \
+    -p:DebugSymbols=false -p:DebugType=None -p:UseAppHost=true
+mv -- "$publish_dir/$assembly_name" "$contents/MacOS/$assembly_name"
+if [[ -d "$publish_dir/Lang" ]]; then
+    mv -- "$publish_dir/Lang" "$contents/Resources/Lang"
+fi
 chmod +x "$contents/MacOS/$assembly_name"
 
 # Supply all standard and Retina icon sizes using the existing application logo.
@@ -148,9 +155,6 @@ plutil -lint "$plist"
 printf 'APPL????' > "$contents/PkgInfo"
 
 # Local ad-hoc signatures allow the assembled bundle to run on Apple Silicon.
-while IFS= read -r -d '' library; do
-    codesign --force --sign - "$library"
-done < <(find "$contents/MacOS" -type f -name '*.dylib' -print0)
 codesign --force --sign - "$contents/MacOS/$assembly_name"
 codesign --force --sign - "$staged_app"
 codesign --verify --deep --strict "$staged_app"

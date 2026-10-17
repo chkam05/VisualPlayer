@@ -25,26 +25,28 @@ public class MiniVisualizationControl : TemplatedControl
     public const int SegmentCount = LogicalLevelCount * 2;
     public const int CenterMaximumDistance = LogicalLevelCount / 2;
 
-    public const double EdgeBarHeight = 2;
+    public const double EdgeBarHeight = 3;
     public const double EdgeDotSize = 2;
     public const double EdgeSpacing = 4;
-    public const double EdgeWidth = 5;
+    public const double EdgeWidth = 6;
+
+    public const double FloatingBarDescentRate = 10;
+    public const double FloatingBarRestartDelay = 0.3;
 
     public const double MainDescentRate = 20;
-    public const double FloatingBarDescentRate = 10;
-    public const double RegularFloatingBarFallDelay = 0.2;
-    public const double FloatingBarRestartDelay = 0.3;
     public const double MinimumVisibleLevel = 0.5;
+    public const double RegularFloatingBarFallDelay = 0.2;
 
-    public const double InactiveSegmentOpacity = 0.10;
+    
     public const double ActiveSegmentOpacity = 1.0;
+    public const double InactiveSegmentOpacity = 0.10;
     public const double GlowBlurRadius = 4;
     public const double GlowOpacity = 0.85;
 
-    public const double SegmentHeight = 2;
+    public const double SegmentHeight = 3;
     public const double SegmentHorizontalSpacing = 4;
     public const double SegmentVerticalSpacing = 1;
-    public const double SegmentWidth = 10;
+    public const double SegmentWidth = 14;
 
     #endregion CONST
 

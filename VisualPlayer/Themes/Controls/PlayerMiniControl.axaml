@@ -201,13 +201,26 @@
                 </Border.ContextMenu>
 
                 <Grid
+                    ColumnDefinitions="Auto,*"
                     RowDefinitions="Auto,*"
                     RowSpacing="4">
+
+                    <!-- MINI VISUALIZATION -->
+                    <controls:MiniVisualizationControl
+                        Core="{ReflectionBinding VisualizationCore, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        Grid.Column="0"
+                        Grid.RowSpan="2"
+                        HorizontalAlignment="Left"
+                        IsVisible="{Binding IsMiniVisualizationVisible, RelativeSource={RelativeSource TemplatedParent}}"
+                        Margin="0,0,16,0"
+                        VerticalAlignment="Center"
+                        VisualizationType="{ReflectionBinding Config.MiniPlayer.VisualizationType, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
 
                     <!-- TRACK SLIDER -->
                     <Grid
                         ColumnDefinitions="Auto,*,Auto"
                         ColumnSpacing="6"
+                        Grid.Column="1"
                         Grid.Row="0">
 
                         <TextBlock
@@ -243,7 +256,8 @@
 
                     <!-- CONTENT -->
                     <Grid
-                        ColumnDefinitions="Auto,*,Auto,Auto,48"
+                        ColumnDefinitions="Auto,*,Auto,48"
+                        Grid.Column="1"
                         Grid.Row="1">
 
                         <!-- COVER -->
@@ -337,19 +351,9 @@
                             </Grid>
                         </StackPanel>
 
-                        <!-- MINI VISUALIZATION -->
-                        <controls:MiniVisualizationControl
-                            Core="{ReflectionBinding VisualizationCore, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                            Grid.Column="2"
-                            HorizontalAlignment="Left"
-                            IsVisible="{Binding IsMiniVisualizationVisible, RelativeSource={RelativeSource TemplatedParent}}"
-                            Margin="0,0,16,0"
-                            VerticalAlignment="Center"
-                            VisualizationType="{ReflectionBinding Config.MiniPlayer.VisualizationType, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-
                         <!-- CONTROL BUTTONS -->
                         <StackPanel
-                            Grid.Column="3"
+                            Grid.Column="2"
                             Grid.Row="1"
                             Orientation="Horizontal"
                             Spacing="4">
@@ -411,7 +415,7 @@
 
                         <!-- OPTION BUTTONS -->
                         <Grid
-                            Grid.Column="4"
+                            Grid.Column="3"
                             HorizontalAlignment="Stretch">
 
                             <Border
