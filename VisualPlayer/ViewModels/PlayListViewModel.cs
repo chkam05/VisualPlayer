@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using VisualPlayer.Attributes;
 using VisualPlayer.Commands;
+using VisualPlayer.Contexts;
 using VisualPlayer.Core;
 using VisualPlayer.Enums.Player;
 using VisualPlayer.Models.Player;
@@ -14,6 +15,7 @@ public class PlayListViewModel : ViewModelBase
 {
     private readonly CoverCache _coverCache;
     private readonly PlayListCore _playListCore;
+    private readonly TranslationContext _translations;
     
     private TrackViewModel? _currentTrack;
     private bool _isSelectionMode;
@@ -54,7 +56,9 @@ public class PlayListViewModel : ViewModelBase
     [NotifyPropertyUpdate]
     public string Name
     {
-        get => _name;
+        get => string.IsNullOrWhiteSpace(_name) || _name is "Teraz Odtwarzane" or "Teraz odtwarzane" or "Now Playing"
+            ? _translations["MENU_NOW_PLAYING"]
+            : _name;
         set
         {
             UpdateProperty(ref _name, value);
@@ -89,7 +93,9 @@ public class PlayListViewModel : ViewModelBase
     }
 
     public PlayList Model => _playListCore.PlayList;
-    public string SelectionButtonText => IsSelectionMode ? "Anuluj" : "Zaznacz";
+    public string SelectionButtonText => _translations[IsSelectionMode
+        ? "DIALOG_INTERNAL_MESSAGE_BUTTON_CANCEL"
+        : "COMMON_BUTTON_SELECT"];
     public ObservableCollection<TrackViewModel> Tracks { get; }
     public ObservableCollection<TrackViewModel> VisibleTracks { get; }
 
@@ -110,10 +116,11 @@ public class PlayListViewModel : ViewModelBase
 
     #region CONSTRUCTORS
 
-    public PlayListViewModel(PlayListCore playListCore, CoverCache coverCache)
+    public PlayListViewModel(PlayListCore playListCore, CoverCache coverCache, TranslationContext translations)
     {
         _playListCore = playListCore;
         _coverCache = coverCache;
+        _translations = translations;
         _name = playListCore.PlayList.Name;
 
         Tracks = new ObservableCollection<TrackViewModel>(
@@ -136,6 +143,12 @@ public class PlayListViewModel : ViewModelBase
     #endregion CONSTRUCTORS
 
     #region ACTIONS
+
+    internal void RefreshTranslations()
+    {
+        NotifyPropertyChanged(nameof(Name));
+        NotifyPropertyChanged(nameof(SelectionButtonText));
+    }
 
     internal void AddTrack(Track track)
     {

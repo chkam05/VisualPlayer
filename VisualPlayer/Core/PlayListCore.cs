@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using VisualPlayer.Events;
+using VisualPlayer.Contexts;
 using VisualPlayer.Models.Player;
 using VisualPlayer.Utils;
 using VisualPlayer.ViewModels;
@@ -18,6 +19,7 @@ public class PlayListCore : IDisposable
     private readonly SemaphoreSlim _addFilesSemaphore = new(1, 1);
     private readonly CoverCache _coverCache;
     private readonly ShuffleCycle _shuffleCycle;
+    private readonly TranslationContext _translations;
 
     private bool _isDisposed;
     private int? _removedTrackPreviousIndex;
@@ -45,12 +47,14 @@ public class PlayListCore : IDisposable
 
     #region CONSTRUCTORS
 
-    public PlayListCore()
+    public PlayListCore(TranslationContext translations)
     {
+        _translations = translations;
         _coverCache = new CoverCache();
         PlayList = new PlayList();
         _shuffleCycle = new ShuffleCycle(PlayList.Tracks.Count);
-        PlayListViewModel = new PlayListViewModel(this, _coverCache);
+        PlayListViewModel = new PlayListViewModel(this, _coverCache, translations);
+        _translations.LanguageChanged += Translations_LanguageChanged;
 
         PlayList.Tracks.CollectionChanged += Tracks_CollectionChanged;
     }
@@ -61,6 +65,7 @@ public class PlayListCore : IDisposable
             return;
 
         PlayList.Tracks.CollectionChanged -= Tracks_CollectionChanged;
+        _translations.LanguageChanged -= Translations_LanguageChanged;
         _addFilesSemaphore.Dispose();
         _isDisposed = true;
     }
@@ -68,6 +73,11 @@ public class PlayListCore : IDisposable
     #endregion CONSTRUCTORS
 
     #region PLAYLIST MANAGEMENT
+
+    private void Translations_LanguageChanged(object? sender, EventArgs e)
+    {
+        PlayListViewModel.RefreshTranslations();
+    }
 
     public void AddTrack(Track track, byte[]? coverData = null)
     {

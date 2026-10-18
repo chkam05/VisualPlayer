@@ -35,7 +35,7 @@
         <Setter Property="Template" Value="{StaticResource KeyBindControlTemplate}"/>
 
         <Style Selector="^:capturing /template/ Button#PART_InputButton">
-            <Setter Property="Content" Value="Naciśnij skrót…"/>
+            <Setter Property="Content" Value="{ReflectionBinding Translations[KEYBIND_CAPTURING], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
             <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
         </Style>
     </ControlTheme>

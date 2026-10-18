@@ -11,8 +11,9 @@ public static class Dimensions
     public const double AutoHideRevealSize = 32;
     public const double InfoBarMinimumWidth = 384;
     public const double PlayerControlMinimumWidth = 736;
-    public const double PlayerMiniControlMinimumWidth = 464;
-    public const double PlayerMiniControlWithVisualizationMinimumWidth = 622;
+    public const double PlayerMiniResizeHandleWidth = 16;
+    public const double PlayerMiniControlMinimumWidth = 464 + 2 * PlayerMiniResizeHandleWidth;
+    public const double PlayerMiniControlWithVisualizationMinimumWidth = 622 + 2 * PlayerMiniResizeHandleWidth;
     public const double PlayerMiniMetadataLabelsAdditionalWidth = 112;
     public const double PlayerMiniCoverAdditionalWidth = 224;
     public const double PlayerMiniCoverOccupiedWidth = 72;

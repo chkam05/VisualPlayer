@@ -1,0 +1,36 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components">
+
+    <ControlTemplate x:Key="ScrollTextBlockTemplate" TargetType="components:ScrollTextBlock">
+        <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            ClipToBounds="True"
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Padding="{TemplateBinding Padding}">
+
+            <Canvas
+                x:Name="PART_Viewport"
+                ClipToBounds="True">
+                
+                <TextBlock
+                    x:Name="PART_Text"
+                    FontFamily="{TemplateBinding FontFamily}"
+                    FontSize="{TemplateBinding FontSize}"
+                    FontStretch="{TemplateBinding FontStretch}"
+                    FontStyle="{TemplateBinding FontStyle}"
+                    FontWeight="{TemplateBinding FontWeight}"
+                    Foreground="{TemplateBinding Foreground}"
+                    Text="{TemplateBinding Text}"
+                    TextWrapping="NoWrap"/>
+            </Canvas>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="{x:Type components:ScrollTextBlock}" TargetType="components:ScrollTextBlock">
+        <Setter Property="Template" Value="{StaticResource ScrollTextBlockTemplate}" />
+    </ControlTheme>
+</ResourceDictionary>

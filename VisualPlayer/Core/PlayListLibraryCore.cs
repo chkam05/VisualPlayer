@@ -70,7 +70,9 @@ public class PlayListLibraryCore
 
     public string GetUniqueName(string requestedName)
     {
-        var baseName = string.IsNullOrWhiteSpace(requestedName) ? "Nowa playlista" : requestedName.Trim();
+        var baseName = string.IsNullOrWhiteSpace(requestedName)
+            ? ApplicationContext.Instance.Translations["COMMON_NEW_PLAYLIST"]
+            : requestedName.Trim();
         var name = baseName;
         var suffix = 2;
 

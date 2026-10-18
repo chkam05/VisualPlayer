@@ -8,7 +8,7 @@ public class PlayList
 {
     #region PROPERTIES
 
-    public string Name { get; set; } = "Teraz Odtwarzane";
+    public string Name { get; set; } = "Now Playing";
     public ObservableCollection<Track> Tracks { get; } = new();
 
     #endregion PROPERTIES

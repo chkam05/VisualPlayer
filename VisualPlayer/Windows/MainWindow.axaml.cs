@@ -678,7 +678,7 @@ public partial class MainWindow : Window
     {
         var input = new InternalMessageInput(
             _applicationContext.Translations["VIEW_PLAYLISTS_SAVE"],
-            _applicationContext.PlayListCore.PlayList.Name,
+            _applicationContext.PlayListCore.PlayListViewModel.Name,
             LucideIconKind.ListMusic);
         var result = await InternalMessages.ShowDialogAsync(input);
 
@@ -696,7 +696,7 @@ public partial class MainWindow : Window
             new FilePickerSaveOptions
             {
                 Title = _applicationContext.Translations["PLAYLIST_ITEM_EXPORT_PLAYLIST"],
-                SuggestedFileName = $"{_applicationContext.PlayListCore.PlayList.Name}.vpl",
+                SuggestedFileName = $"{_applicationContext.PlayListCore.PlayListViewModel.Name}.vpl",
                 DefaultExtension = "vpl",
                 FileTypeChoices =
                 [

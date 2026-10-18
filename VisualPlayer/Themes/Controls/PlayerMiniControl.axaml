@@ -4,7 +4,8 @@
     xmlns:components="using:VisualPlayer.Components"
     xmlns:contexts="using:VisualPlayer.Contexts"
     xmlns:controls="using:VisualPlayer.Controls"
-    xmlns:converters="using:VisualPlayer.Converters">
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:resources="using:VisualPlayer.Resources">
 
     <converters:BrushOpacityConverter x:Key="BrushOpacityConverter"/>
     <converters:PlayingToIconConverter x:Key="MiniPlayingToIconConverter"/>
@@ -25,7 +26,7 @@
                 BorderThickness="1"
                 CornerRadius="8"
                 MaxHeight="128"
-                Padding="8">
+                Padding="4,8">
 
                 <Border.Background>
                     <MultiBinding Converter="{StaticResource BrushOpacityConverter}">
@@ -201,18 +202,38 @@
                 </Border.ContextMenu>
 
                 <Grid
-                    ColumnDefinitions="Auto,*"
+                    ColumnDefinitions="Auto,Auto,*,Auto"
                     RowDefinitions="Auto,*"
                     RowSpacing="4">
+
+                    <!-- LEFT RESIZE HANDLE -->
+                    <controls:WindowResizeBorder
+                        x:Name="PART_LeftResizeHandle"
+                        Cursor="SizeWestEast"
+                        Edge="West"
+                        Grid.Column="0"
+                        Grid.RowSpan="2"
+                        VerticalAlignment="Stretch"
+                        Width="{x:Static resources:Dimensions.PlayerMiniResizeHandleWidth}">
+
+                        <Border
+                            Background="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            CornerRadius="3"
+                            Height="56"
+                            HorizontalAlignment="Center"
+                            Opacity="0.65"
+                            VerticalAlignment="Center"
+                            Width="6"/>
+                    </controls:WindowResizeBorder>
 
                     <!-- MINI VISUALIZATION -->
                     <controls:MiniVisualizationControl
                         Core="{ReflectionBinding VisualizationCore, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                        Grid.Column="0"
+                        Grid.Column="1"
                         Grid.RowSpan="2"
                         HorizontalAlignment="Left"
                         IsVisible="{Binding IsMiniVisualizationVisible, RelativeSource={RelativeSource TemplatedParent}}"
-                        Margin="0,0,16,0"
+                        Margin="4,0,16,0"
                         VerticalAlignment="Center"
                         VisualizationType="{ReflectionBinding Config.MiniPlayer.VisualizationType, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
 
@@ -220,8 +241,9 @@
                     <Grid
                         ColumnDefinitions="Auto,*,Auto"
                         ColumnSpacing="6"
-                        Grid.Column="1"
-                        Grid.Row="0">
+                        Grid.Column="2"
+                        Grid.Row="0"
+                        Margin="0,0,4,0">
 
                         <TextBlock
                             FontFamily="{StaticResource Lcd14DisplayFontFamily}"
@@ -257,8 +279,9 @@
                     <!-- CONTENT -->
                     <Grid
                         ColumnDefinitions="Auto,*"
-                        Grid.Column="1"
-                        Grid.Row="1">
+                        Grid.Column="2"
+                        Grid.Row="1"
+                        Margin="0,0,4,0">
 
                         <!-- COVER -->
                         <Border
@@ -295,13 +318,12 @@
                             RowSpacing="4">
 
                             <!-- TITLE -->
-                            <TextBlock
+                            <components:ScrollTextBlock
                                 FontFamily="{StaticResource Lcd14DisplayFontFamily}"
                                 FontSize="18"
                                 FontWeight="SemiBold"
                                 MinWidth="0"
                                 Text="{Binding InfoBar.Title, Converter={StaticResource LatinTransliterationConverter}}"
-                                TextTrimming="CharacterEllipsis"
                                 VerticalAlignment="Center" />
 
                             <!-- CONTROLS -->
@@ -373,13 +395,15 @@
                                     <components:ToggleButtonWithIcon
                                         IsChecked="{Binding Player.IsShuffleEnabled, Mode=TwoWay}"
                                         Kind="Shuffle"
-                                        Theme="{StaticResource PlayerMiniControl.ToggleIconButtonTheme}"/>
+                                        Theme="{StaticResource PlayerMiniControl.ToggleIconButtonTheme}"
+                                        ToolTip.Tip="{ReflectionBinding Translations[PLAYERCONTROL_BUTTON_SHUFFLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                                     <components:ButtonWithIcon
                                         x:Name="PART_RepeatButton"
                                         Kind="{Binding Player.RepeatMode,
                                         Converter={StaticResource MiniRepeatModeToIconConverter}}"
-                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"
+                                        ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_REPEAT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                                     <Border
                                         Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
@@ -387,23 +411,27 @@
                                     <components:ButtonWithIcon
                                         x:Name="PART_PreviousButton"
                                         Kind="SkipBack"
-                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"
+                                        ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_PREVIOUS_TRACK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                                     <components:ButtonWithIcon
                                         x:Name="PART_PlayPauseButton"
                                         Kind="{Binding Player.IsPlaying,
                                         Converter={StaticResource MiniPlayingToIconConverter}}"
-                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"
+                                        ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_PLAY_PAUSE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                                     <components:ButtonWithIcon
                                         x:Name="PART_NextButton"
                                         Kind="SkipForward"
-                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"
+                                        ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_NEXT_TRACK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                                     <components:ButtonWithIcon
                                         x:Name="PART_StopButton"
                                         Kind="Square"
-                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"
+                                        ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_STOP], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
 
                                     <Border
                                         Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
@@ -450,30 +478,35 @@
                                             CheckedKind="Maximize2"
                                             IsChecked="{Binding IsMiniMode, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                             Kind="Minimize2"
-                                        Theme="{StaticResource PlayerControl.MiniToggleButtonWithIconTheme}"
-                                        ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_TOGGLE_MINI_PLAYER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+                                            Theme="{StaticResource PlayerControl.MiniToggleButtonWithIconTheme}"
+                                            ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_TOGGLE_MINI_PLAYER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
                                     </Border>
                                 </Grid>
 
                             </Grid>
                         </Grid>
                     </Grid>
+                    <!-- RIGHT RESIZE HANDLE -->
+                    <controls:WindowResizeBorder
+                        x:Name="PART_RightResizeHandle"
+                        Cursor="SizeWestEast"
+                        Edge="East"
+                        Grid.Column="3"
+                        Grid.RowSpan="2"
+                        VerticalAlignment="Stretch"
+                        Width="{x:Static resources:Dimensions.PlayerMiniResizeHandleWidth}">
+
+                        <Border
+                            Background="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                            CornerRadius="3"
+                            Height="56"
+                            HorizontalAlignment="Center"
+                            Opacity="0.65"
+                            VerticalAlignment="Center"
+                            Width="6"/>
+                    </controls:WindowResizeBorder>
                 </Grid>
             </Border>
-
-            <controls:WindowResizeBorder
-                Cursor="SizeWestEast"
-                Edge="West"
-                HorizontalAlignment="Left"
-                Width="8"
-                ZIndex="100"/>
-            
-            <controls:WindowResizeBorder
-                Cursor="SizeWestEast"
-                Edge="East"
-                HorizontalAlignment="Right"
-                Width="8"
-                ZIndex="100"/>
         </Grid>
     </ControlTemplate>
 

@@ -25,6 +25,7 @@
         <ResourceInclude Source="/Themes/Components/ColorValueSlider.axaml" />
         <ResourceInclude Source="/Themes/Components/KeyBindControl.axaml" />
         <ResourceInclude Source="/Themes/Components/NumericUpDown.axaml" />
+        <ResourceInclude Source="/Themes/Components/ScrollTextBlock.axaml" />
         <ResourceInclude Source="/Themes/Components/Switch.axaml" />
         <ResourceInclude Source="/Themes/Components/ToggleButtonWithIcon.axaml" />
         <ResourceInclude Source="/Themes/Components/ColorizedButtonThemes.axaml" />

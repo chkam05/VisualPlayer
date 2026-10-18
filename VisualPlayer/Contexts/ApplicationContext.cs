@@ -60,7 +60,7 @@ public class ApplicationContext : ViewModelBase
         VisualizationConfig = VisualizationConfigurationContext.Load();
         _platformSettings = GetPlatformSettings(_config);
         
-        PlayListCore = new PlayListCore();
+        PlayListCore = new PlayListCore(Translations);
         LibraryCore = new LibraryCore(Config.Library, PlayListCore.CoverCache);
         PlayListLibraryCore = new PlayListLibraryCore();
         PlayListCore.PlayListViewModel.PropertyChanged += PlayListViewModel_PropertyChanged;
