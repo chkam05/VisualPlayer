@@ -256,7 +256,7 @@
 
                     <!-- CONTENT -->
                     <Grid
-                        ColumnDefinitions="Auto,*,Auto,48"
+                        ColumnDefinitions="Auto,*"
                         Grid.Column="1"
                         Grid.Row="1">
 
@@ -266,10 +266,11 @@
                             ClipToBounds="True"
                             CornerRadius="6"
                             Grid.Column="0"
-                            Height="48"
+                            Height="64"
                             IsVisible="{Binding IsCoverVisible, RelativeSource={RelativeSource TemplatedParent}}"
                             Margin="0,0,8,0"
-                            Width="48">
+                            VerticalAlignment="Center"
+                            Width="64">
 
                             <Grid>
 
@@ -277,7 +278,7 @@
                                     HorizontalAlignment="Center"
                                     Kind="Music"
                                     Opacity="0.35"
-                                    Size="24"
+                                    Size="28"
                                     VerticalAlignment="Center"/>
 
                                 <Image
@@ -287,161 +288,175 @@
                             </Grid>
                         </Border>
 
-                        <!-- TITLES -->
-                        <StackPanel
+                        <!-- CONTROLS -->
+                        <Grid
                             Grid.Column="1"
-                            IsVisible="{Binding IsTitlesVisible, RelativeSource={RelativeSource TemplatedParent}}"
-                            Margin="0,0,8,0"
-                            MinWidth="0"
-                            VerticalAlignment="Center">
+                            RowDefinitions="Auto,*"
+                            RowSpacing="4">
 
-                            <!-- Title -->
+                            <!-- TITLE -->
                             <TextBlock
                                 FontFamily="{StaticResource Lcd14DisplayFontFamily}"
                                 FontSize="18"
                                 FontWeight="SemiBold"
                                 MinWidth="0"
                                 Text="{Binding InfoBar.Title, Converter={StaticResource LatinTransliterationConverter}}"
-                                TextTrimming="CharacterEllipsis"/>
+                                TextTrimming="CharacterEllipsis"
+                                VerticalAlignment="Center" />
 
-                            <!-- Album -->
+                            <!-- CONTROLS -->
                             <Grid
-                                ColumnDefinitions="Auto,*"
-                                ColumnSpacing="26">
+                                ColumnDefinitions="*,Auto,48"
+                                Grid.Row="1">
 
-                                <TextBlock
-                                    FontFamily="{StaticResource Lcd14DisplayFontFamily}"
-                                    FontSize="18"
-                                    Margin="0,0,5,0"
-                                    Opacity="0.6"
-                                    Text="{Binding InfoBar.AlbumLabel}"/>
-
-                                <TextBlock
-                                    FontFamily="{StaticResource Lcd14DisplayFontFamily}"
-                                    FontSize="18"
-                                    Grid.Column="1"
+                                <!-- ALBUM & ARTIST -->
+                                <StackPanel
+                                    Grid.Column="0"
+                                    Margin="0,0,8,0"
                                     MinWidth="0"
-                                    Opacity="0.75"
-                                    Text="{Binding InfoBar.Album, Converter={StaticResource LatinTransliterationConverter}}"
-                                    TextTrimming="CharacterEllipsis"/>
+                                    VerticalAlignment="Top">
+
+                                    <!-- Album -->
+                                    <Grid
+                                        ColumnDefinitions="Auto,*">
+
+                                        <TextBlock
+                                            FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                                            FontSize="18"
+                                            IsVisible="{Binding AreMetadataLabelsVisible, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Margin="0,0,31,0"
+                                            Opacity="0.6"
+                                            Text="{Binding InfoBar.AlbumLabel}"/>
+
+                                        <TextBlock
+                                            FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                                            FontSize="18"
+                                            Grid.Column="1"
+                                            MinWidth="0"
+                                            Opacity="0.75"
+                                            Text="{Binding InfoBar.Album, Converter={StaticResource LatinTransliterationConverter}}"
+                                            TextTrimming="CharacterEllipsis"/>
+
+                                    </Grid>
+
+                                    <!-- Author -->
+                                    <Grid
+                                        ColumnDefinitions="Auto,*">
+
+                                        <TextBlock
+                                            FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                                            FontSize="18"
+                                            IsVisible="{Binding AreMetadataLabelsVisible, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Margin="0,0,9,0"
+                                            Opacity="0.6"
+                                            Text="{Binding InfoBar.ArtistLabel}"/>
+
+                                        <TextBlock
+                                            FontFamily="{StaticResource Lcd14DisplayFontFamily}"
+                                            FontSize="18"
+                                            Grid.Column="1"
+                                            MinWidth="0"
+                                            Opacity="0.75"
+                                            Text="{Binding InfoBar.Artist, Converter={StaticResource LatinTransliterationConverter}}"
+                                            TextTrimming="CharacterEllipsis"/>
+
+                                    </Grid>
+                                </StackPanel>
+
+                                <!-- BUTTONS -->
+                                <StackPanel
+                                    Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    Spacing="4"
+                                    VerticalAlignment="Center">
+
+                                    <components:ToggleButtonWithIcon
+                                        IsChecked="{Binding Player.IsShuffleEnabled, Mode=TwoWay}"
+                                        Kind="Shuffle"
+                                        Theme="{StaticResource PlayerMiniControl.ToggleIconButtonTheme}"/>
+
+                                    <components:ButtonWithIcon
+                                        x:Name="PART_RepeatButton"
+                                        Kind="{Binding Player.RepeatMode,
+                                        Converter={StaticResource MiniRepeatModeToIconConverter}}"
+                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+
+                                    <Border
+                                        Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
+
+                                    <components:ButtonWithIcon
+                                        x:Name="PART_PreviousButton"
+                                        Kind="SkipBack"
+                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+
+                                    <components:ButtonWithIcon
+                                        x:Name="PART_PlayPauseButton"
+                                        Kind="{Binding Player.IsPlaying,
+                                        Converter={StaticResource MiniPlayingToIconConverter}}"
+                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+
+                                    <components:ButtonWithIcon
+                                        x:Name="PART_NextButton"
+                                        Kind="SkipForward"
+                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+
+                                    <components:ButtonWithIcon
+                                        x:Name="PART_StopButton"
+                                        Kind="Square"
+                                        Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
+
+                                    <Border
+                                        Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
+
+                                    <components:ToggleButtonWithIcon
+                                        CheckedKind="VolumeX"
+                                        IsChecked="{Binding Player.IsMuted, Mode=TwoWay}"
+                                        Kind="Volume2"
+                                        Theme="{StaticResource PlayerMiniControl.ToggleIconButtonTheme}"
+                                        ToolTip.Tip="{ReflectionBinding Translations[VOLUME_TOOLTIP_MUTE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+                                    <Slider
+                                        Margin="4,0"
+                                        Maximum="1"
+                                        Minimum="0"
+                                        Theme="{StaticResource PlayerVolume.SliderTheme}"
+                                        Value="{Binding Player.Volume, Mode=TwoWay}"
+                                        Width="128"/>
+
+                                </StackPanel>
+
+                                <!-- OPTION BUTTONS -->
+                                <Grid
+                                    Grid.Column="2"
+                                    Grid.Row="1"
+                                    VerticalAlignment="Bottom">
+
+                                    <Border
+                                        BorderBrush="{x:Null}"
+                                        BorderThickness="0"
+                                        CornerRadius="16"
+                                        HorizontalAlignment="Right"
+                                        Padding="1"
+                                        VerticalAlignment="Bottom">
+
+                                        <Border.Background>
+                                            <MultiBinding Converter="{StaticResource BrushOpacityConverter}">
+                                                <Binding Path="Config.Appearance.ThemeShadeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                                                <Binding Path="Config.Appearance.InterfaceOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
+                                            </MultiBinding>
+                                        </Border.Background>
+
+                                        <components:ToggleButtonWithIcon
+                                            CheckedKind="Maximize2"
+                                            IsChecked="{Binding IsMiniMode, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                            Kind="Minimize2"
+                                        Theme="{StaticResource PlayerControl.MiniToggleButtonWithIconTheme}"
+                                        ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_TOGGLE_MINI_PLAYER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+                                    </Border>
+                                </Grid>
 
                             </Grid>
-
-                            <!-- Author -->
-                            <Grid
-                                ColumnDefinitions="Auto,*"
-                                ColumnSpacing="4">
-
-                                <TextBlock
-                                    FontFamily="{StaticResource Lcd14DisplayFontFamily}"
-                                    FontSize="18"
-                                    Margin="0,0,5,0"
-                                    Opacity="0.6"
-                                    Text="{Binding InfoBar.ArtistLabel}"/>
-
-                                <TextBlock
-                                    FontFamily="{StaticResource Lcd14DisplayFontFamily}"
-                                    FontSize="18"
-                                    Grid.Column="1"
-                                    MinWidth="0"
-                                    Opacity="0.75"
-                                    Text="{Binding InfoBar.Artist, Converter={StaticResource LatinTransliterationConverter}}"
-                                    TextTrimming="CharacterEllipsis"/>
-
-                            </Grid>
-                        </StackPanel>
-
-                        <!-- CONTROL BUTTONS -->
-                        <StackPanel
-                            Grid.Column="2"
-                            Grid.Row="1"
-                            Orientation="Horizontal"
-                            Spacing="4">
-
-                            <components:ToggleButtonWithIcon
-                                IsChecked="{Binding Player.IsShuffleEnabled, Mode=TwoWay}"
-                                Kind="Shuffle"
-                                Theme="{StaticResource PlayerMiniControl.ToggleIconButtonTheme}"/>
-
-                            <components:ButtonWithIcon
-                                x:Name="PART_RepeatButton"
-                                Kind="{Binding Player.RepeatMode,
-                                Converter={StaticResource MiniRepeatModeToIconConverter}}"
-                                Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
-
-                            <Border
-                                Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
-
-                            <components:ButtonWithIcon
-                                x:Name="PART_PreviousButton"
-                                Kind="SkipBack"
-                                Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
-
-                            <components:ButtonWithIcon
-                                x:Name="PART_PlayPauseButton"
-                                Kind="{Binding Player.IsPlaying,
-                                Converter={StaticResource MiniPlayingToIconConverter}}"
-                                Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
-
-                            <components:ButtonWithIcon
-                                x:Name="PART_NextButton"
-                                Kind="SkipForward"
-                                Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
-
-                            <components:ButtonWithIcon
-                                x:Name="PART_StopButton"
-                                Kind="Square"
-                                Theme="{StaticResource PlayerMiniControl.IconButtonTheme}"/>
-
-                            <Border
-                                Theme="{StaticResource PlayerControl.SeparatorBorder}"/>
-
-                            <components:ToggleButtonWithIcon
-                                CheckedKind="VolumeX"
-                                IsChecked="{Binding Player.IsMuted, Mode=TwoWay}"
-                                Kind="Volume2"
-                                Theme="{StaticResource PlayerMiniControl.ToggleIconButtonTheme}"
-                                ToolTip.Tip="{ReflectionBinding Translations[VOLUME_TOOLTIP_MUTE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
-
-                            <Slider
-                                Margin="4,0"
-                                Maximum="1"
-                                Minimum="0"
-                                Theme="{StaticResource PlayerVolume.SliderTheme}"
-                                Value="{Binding Player.Volume, Mode=TwoWay}"
-                                Width="128"/>
-
-                        </StackPanel>
-
-                        <!-- OPTION BUTTONS -->
-                        <Grid
-                            Grid.Column="3"
-                            HorizontalAlignment="Stretch">
-
-                            <Border
-                                BorderBrush="{x:Null}"
-                                BorderThickness="0"
-                                CornerRadius="16"
-                                HorizontalAlignment="Right"
-                                Padding="1"
-                                VerticalAlignment="Bottom">
-
-                                <Border.Background>
-                                    <MultiBinding Converter="{StaticResource BrushOpacityConverter}">
-                                        <Binding Path="Config.Appearance.ThemeShadeBackgroundBrush" Source="{x:Static contexts:ApplicationContext.Instance}"/>
-                                        <Binding Path="Config.Appearance.InterfaceOpacity" Source="{x:Static contexts:ApplicationContext.Instance}"/>
-                                    </MultiBinding>
-                                </Border.Background>
-
-                                <components:ToggleButtonWithIcon
-                                    CheckedKind="Maximize2"
-                                    IsChecked="{Binding IsMiniMode, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                    Kind="Minimize2"
-                                Theme="{StaticResource PlayerControl.MiniToggleButtonWithIconTheme}"
-                                ToolTip.Tip="{ReflectionBinding Translations[PLAYER_TOOLTIP_TOGGLE_MINI_PLAYER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
-                            </Border>
                         </Grid>
-
                     </Grid>
                 </Grid>
             </Border>

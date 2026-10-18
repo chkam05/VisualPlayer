@@ -20,8 +20,10 @@ public class PlayerMiniControl : PlayerControl
     public static readonly DirectProperty<PlayerMiniControl, bool> IsCoverVisibleProperty
         = AvaloniaProperty.RegisterDirect<PlayerMiniControl, bool>(nameof(IsCoverVisible), control => control.IsCoverVisible);
 
-    public static readonly DirectProperty<PlayerMiniControl, bool> IsTitlesVisibleProperty
-        = AvaloniaProperty.RegisterDirect<PlayerMiniControl, bool>(nameof(IsTitlesVisible), control => control.IsTitlesVisible);
+    public static readonly DirectProperty<PlayerMiniControl, bool> AreMetadataLabelsVisibleProperty
+        = AvaloniaProperty.RegisterDirect<PlayerMiniControl, bool>(
+            nameof(AreMetadataLabelsVisible),
+            control => control.AreMetadataLabelsVisible);
 
     public static readonly DirectProperty<PlayerMiniControl, bool> IsMiniVisualizationVisibleProperty
         = AvaloniaProperty.RegisterDirect<PlayerMiniControl, bool>(nameof(IsMiniVisualizationVisible), control => control.IsMiniVisualizationVisible);
@@ -33,7 +35,7 @@ public class PlayerMiniControl : PlayerControl
     private MenuItem? _fullPlayerMenuItem;
     private bool _isCoverVisible;
     private bool _isMiniVisualizationVisible;
-    private bool _isTitlesVisible;
+    private bool _areMetadataLabelsVisible;
     private MiniPlayerConfig? _miniPlayerConfig;
     private MenuItem? _nextMenuItem;
     private MenuItem? _pauseMenuItem;
@@ -57,10 +59,13 @@ public class PlayerMiniControl : PlayerControl
         private set => SetAndRaise(IsCoverVisibleProperty, ref _isCoverVisible, value);
     }
 
-    public bool IsTitlesVisible
+    public bool AreMetadataLabelsVisible
     {
-        get => _isTitlesVisible;
-        private set => SetAndRaise(IsTitlesVisibleProperty, ref _isTitlesVisible, value);
+        get => _areMetadataLabelsVisible;
+        private set => SetAndRaise(
+            AreMetadataLabelsVisibleProperty,
+            ref _areMetadataLabelsVisible,
+            value);
     }
 
     public bool IsMiniVisualizationVisible
@@ -223,9 +228,11 @@ public class PlayerMiniControl : PlayerControl
 
         MinWidth = minimumWidth;
         IsMiniVisualizationVisible = showVisualization;
-        IsTitlesVisible = width >= minimumWidth + Dimensions.PlayerMiniTitlesAdditionalWidth;
         IsCoverVisible = _miniPlayerConfig?.ShowCover == true
             && width >= minimumWidth + Dimensions.PlayerMiniCoverAdditionalWidth;
+        AreMetadataLabelsVisible = width >= minimumWidth
+            + Dimensions.PlayerMiniMetadataLabelsAdditionalWidth
+            + (IsCoverVisible ? Dimensions.PlayerMiniCoverOccupiedWidth : 0);
     }
 
     #endregion ACTIONS
