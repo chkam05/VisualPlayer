@@ -1,3 +1,30 @@
 <Solution>
+  <Project Path="VisualPlayer.VisualizationBase/VisualPlayer.VisualizationBase.csproj" />
+  <Project Path="VisualPlayer.UI/VisualPlayer.UI.csproj" />
+  <Project Path="VisualPlayer.Visualizations/VisualPlayer.Visualizations.csproj" />
   <Project Path="VisualPlayer/VisualPlayer.csproj" />
+  <Folder Name="/Visualizations/">
+    <Project Path="Visualizations/VisualPlayer.Visualizations.StripesBouncing/VisualPlayer.Visualizations.StripesBouncing.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.PeaksBouncing/VisualPlayer.Visualizations.PeaksBouncing.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.WaveformMirrored/VisualPlayer.Visualizations.WaveformMirrored.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.Waveform/VisualPlayer.Visualizations.Waveform.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.StripesMirrored/VisualPlayer.Visualizations.StripesMirrored.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.Stripes/VisualPlayer.Visualizations.Stripes.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.PeaksMirrored/VisualPlayer.Visualizations.PeaksMirrored.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.PeaksFloatingMirrored/VisualPlayer.Visualizations.PeaksFloatingMirrored.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.PeaksFloating/VisualPlayer.Visualizations.PeaksFloating.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.OscilloscopeFilled/VisualPlayer.Visualizations.OscilloscopeFilled.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.OscilloscopeDouble/VisualPlayer.Visualizations.OscilloscopeDouble.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.OscilloscopeCenter/VisualPlayer.Visualizations.OscilloscopeCenter.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.Oscilloscope/VisualPlayer.Visualizations.Oscilloscope.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.CircleWaveform/VisualPlayer.Visualizations.CircleWaveform.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.CircleStripes/VisualPlayer.Visualizations.CircleStripes.csproj" />
+    <Project Path="Visualizations/VisualPlayer.Visualizations.Peaks/VisualPlayer.Visualizations.Peaks.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="tests/VisualPlayer.SampleUiPlugin/VisualPlayer.SampleUiPlugin.csproj" />
+    <Project Path="tests/VisualPlayer.UiChecks/VisualPlayer.UiChecks.csproj" />
+    <Project Path="tests/VisualPlayer.SamplePlugin/VisualPlayer.SamplePlugin.csproj" />
+    <Project Path="tests/VisualPlayer.VisualizationChecks/VisualPlayer.VisualizationChecks.csproj" />
+  </Folder>
 </Solution>

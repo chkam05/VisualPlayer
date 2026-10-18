@@ -1,0 +1,40 @@
+{
+    "header":  {
+                   "code":  "pl-PL",
+                   "name":  "Polski"
+               },
+    "translations":  {
+                         "ENUM_VISUALIZATIONTYPE_CIRCLESTRIPES":  "Circle - Stripes",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_BEAM_EFFECT_DESC":  "Dodaje lekką poświatę wokół promieniowych pasków.",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_CENTER_OFFSET_X_DESC":  "Przesuwa środek okręgu w poziomie względem środka obszaru wizualizacji.",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_CENTER_OFFSET_X_TITLE":  "Przesunięcie X",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_CENTER_OFFSET_Y_DESC":  "Przesuwa środek okręgu w pionie względem środka obszaru wizualizacji.",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_CENTER_OFFSET_Y_TITLE":  "Przesunięcie Y",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_DESCENT_RATE_DESC":  "Określa szybkość opadania długości pasków.",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_DIRECTION_DESC":  "Określa kierunek wzrostu promieniowych pasków.",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_INNER_RADIUS_DESC":  "Określa promień koła, przy którym zaczynają się lub kończą paski.",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_INNER_RADIUS_TITLE":  "Promień wewnętrzny",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_LINE_THICKNESS_DESC":  "Określa grubość linii. Wartość jest ograniczana, gdy paski nie mieszczą się na kole wewnętrznym.",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_MIRROR_DESC":  "Odbija kolejność pasm FFT na drugiej połowie okręgu.",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_MIRROR_TITLE":  "Mirror",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_ANIMATION_DESC":  "Steruje ciągłym obracaniem wizualizacji.",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_ANIMATION_TITLE":  "Animacja obrotu",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_DESC":  "Określa początkowy kąt wizualizacji. Ustawienie jest blokowane podczas animacji obrotu.",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_DIRECTION_DESC":  "Określa kierunek animowanego obrotu.",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_DIRECTION_TITLE":  "Kierunek obrotu",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_ENABLED_DESC":  "Włącza ciągły obrót wizualizacji.",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_ENABLED_TITLE":  "Włącz animację",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_SPEED_DESC":  "Określa liczbę stopni obrotu na sekundę.",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_SPEED_TITLE":  "Szybkość obrotu",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_TITLE":  "Kąt obrotu",
+                         "VIEW_VISUALIZATIONS_CIRCLE_STRIPES_STRIPES_COUNT_DESC":  "Określa liczbę promieniowych pasków rozmieszczonych na okręgu.",
+                         "VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE":  "Szybkość opadania",
+                         "VIEW_VISUALIZATIONS_DIRECTION_TITLE":  "Kierunek",
+                         "VIEW_VISUALIZATIONS_LINE_EFFECT_TITLE":  "Efekt linii",
+                         "VIEW_VISUALIZATIONS_LINE_THICKNESS_TITLE":  "Grubość linii",
+                         "VIEW_VISUALIZATIONS_NUM_TITLE":  "Liczba pasków",
+                         "VIEW_VISUALIZATIONS_TRANSFORM_TITLE":  "Przekształcanie",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORM_DESC":  "Przekształcanie wizualizacji.",
+                         "PRESET_DEFAULT":  "Circle - Stripes"
+                     }
+}

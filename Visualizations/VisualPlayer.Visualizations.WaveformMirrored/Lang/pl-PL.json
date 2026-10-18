@@ -1,0 +1,32 @@
+{
+    "header":  {
+                   "code":  "pl-PL",
+                   "name":  "Polski"
+               },
+    "translations":  {
+                         "COMMON_OPACITY_TITLE":  "Przezroczystość",
+                         "ENUM_VISUALIZATIONTYPE_WAVEFORMMIRRORED":  "Waveform - Mirrored",
+                         "VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE":  "Szybkość opadania",
+                         "VIEW_VISUALIZATIONS_DIRECTION_TITLE":  "Kierunek",
+                         "VIEW_VISUALIZATIONS_LINE_EFFECT_TITLE":  "Efekt linii",
+                         "VIEW_VISUALIZATIONS_LINE_THICKNESS_TITLE":  "Grubość linii",
+                         "VIEW_VISUALIZATIONS_TRANSFORM_TITLE":  "Przekształcanie",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_BEAM_EFFECT_DESC":  "Dodaje lekką poświatę wokół linii fali.",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_DESCENT_RATE_DESC":  "Określa szybkość opadania fali po zmniejszeniu poziomu częstotliwości.",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_DIRECTION_DESC":  "Określa, czy fala rośnie do środka, czy na zewnątrz.",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_FILL_ENABLED_DESC":  "Wypełnia obszar pomiędzy falą a jej środkową osią.",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_FILL_ENABLED_TITLE":  "Wypełnienie",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_LINE_THICKNESS_DESC":  "Określa grubość krawędzi fali.",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_NUM_DESC":  "Określa liczbę próbek FFT tworzących kształt fali.",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_NUM_TITLE":  "Liczba peaków",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_OPACITY_DESC":  "Określa przezroczystość wypełnionego obszaru.",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_SHIFT_DESC":  "Odwraca kolejność pasm FFT dolnej fali w osi poziomej.",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_SHIFT_TITLE":  "Shift",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORM_DESC":  "Przekształcanie wizualizacji.",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_DESC":  "Moduluje wysokość peaków jednym okresem wybranej funkcji na całej szerokości wizualizacji.",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_MINIMUM_DESC":  "Określa minimalną wysokość przebiegu SIN lub COS przed przemnożeniem przez poziom FFT.",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_MINIMUM_TITLE":  "Minimum przekształcenia",
+                         "VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_TITLE":  "Rodzaj przekształcenia",
+                         "PRESET_DEFAULT":  "Waveform - Mirrored"
+                     }
+}

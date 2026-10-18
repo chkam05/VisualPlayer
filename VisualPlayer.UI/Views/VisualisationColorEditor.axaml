@@ -1,0 +1,178 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:VisualPlayer.UI.Views"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:visualizationConfig="using:VisualPlayer.Visualizations.Config.Base"
+    x:Class="VisualPlayer.UI.Views.VisualisationColorEditor"
+    x:DataType="local:VisualisationColorEditor"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:GradientTypeToTitleConverter x:Key="GradientTypeToTitleConverter"/>
+        <converters:VisualizationColorModeToTitleConverter x:Key="VisualizationColorModeToTitleConverter"/>
+    </UserControl.Resources>
+
+    <controls:SettingsExpandControl
+        Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_DESC], ElementName=Root, Mode=OneWay}"
+        Icon="Palette"
+        Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_COLOR], ElementName=Root, Mode=OneWay}">
+
+        <StackPanel
+            Spacing="8">
+
+            <!-- Color type -->
+            <controls:SettingsControl
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_MODE_DESC], ElementName=Root, Mode=OneWay}"
+                Icon="Paintbrush"
+                Theme="{StaticResource SettingsControlDarkerControl}"
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_COLOR_TYPE], ElementName=Root, Mode=OneWay}">
+
+                <ComboBox
+                    ItemsSource="{Binding ColorModeOptions, ElementName=Root}"
+                    SelectedValueBinding="{ReflectionBinding Value}"
+                    SelectedValue="{ReflectionBinding EditorContext.Color.Mode, Mode=TwoWay, ElementName=Root}"
+                    Theme="{StaticResource ComboBoxTheme}">
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource VisualizationColorModeToTitleConverter}">
+                                        <ReflectionBinding Path="Value"/>
+                                        <ReflectionBinding Path="Translations"/>
+                                        <ReflectionBinding Path="Translations.CurrentLanguageCode"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </controls:SettingsControl>
+
+            <!-- Gradient -->
+            <controls:GradientControl
+                x:Name="GradientEditor"
+                Translations="{Binding Translations, ElementName=Root}"
+                Gradient="{ReflectionBinding EditorContext.Color.Gradient, Mode=TwoWay, ElementName=Root}"
+                IsVisible="{ReflectionBinding EditorContext.Color.IsGradient, ElementName=Root}"/>
+
+            <!-- Rainbow type -->
+            <controls:SettingsControl
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_GRADIENT_TYPE_DESC], ElementName=Root, Mode=OneWay}"
+                Icon="Blend"
+                IsVisible="{ReflectionBinding EditorContext.Color.IsRainbow, ElementName=Root}"
+                Theme="{StaticResource SettingsControlDarkerControl}"
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_TYPE_OF_RAINBOW], ElementName=Root, Mode=OneWay}">
+
+                <ComboBox
+                    ItemsSource="{Binding GradientTypeOptions, ElementName=Root}"
+                    SelectedValueBinding="{ReflectionBinding Value}"
+                    SelectedValue="{ReflectionBinding EditorContext.Color.RainbowGradientType, Mode=TwoWay, ElementName=Root}"
+                    Theme="{StaticResource ComboBoxTheme}">
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource GradientTypeToTitleConverter}">
+                                        <ReflectionBinding Path="Value"/>
+                                        <ReflectionBinding Path="Translations"/>
+                                        <ReflectionBinding Path="Translations.CurrentLanguageCode"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </controls:SettingsControl>
+
+            <!-- Rainbow angle -->
+            <controls:SettingsControl
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_ANGLE_DESC], ElementName=Root, Mode=OneWay}"
+                Icon="RotateCw"
+                IsVisible="{ReflectionBinding EditorContext.Color.IsRainbow, ElementName=Root}"
+                Theme="{StaticResource SettingsControlDarkerControl}"
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_RAINBOW_ANGLE], ElementName=Root, Mode=OneWay}">
+
+                <components:NumericUpDown
+                    Maximum="{x:Static visualizationConfig:GradientDefinition.ANGLE_MAXIMUM}"
+                    Minimum="{x:Static visualizationConfig:GradientDefinition.ANGLE_MINIMUM}"
+                    Suffix="°"
+                    Value="{ReflectionBinding EditorContext.Color.RainbowAngle, Mode=TwoWay, ElementName=Root}"/>
+            </controls:SettingsControl>
+
+            <!-- Solid color palette -->
+            <controls:ColorPaletteControl
+                IsVisible="{ReflectionBinding EditorContext.Color.IsSolid, ElementName=Root}"
+                RecentAccentColors="{ReflectionBinding EditorContext.Color.RecentColors, ElementName=Root}"
+                SelectedColor="{ReflectionBinding EditorContext.Color.SolidColor, Mode=TwoWay, ElementName=Root}"
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_VISUALIZATION_COLOR], ElementName=Root, Mode=OneWay}"/>
+
+            <!-- Gradient color palette -->
+            <controls:ColorPaletteControl
+                IsVisible="{ReflectionBinding EditorContext.Color.IsGradient, ElementName=Root}"
+                RecentAccentColors="{ReflectionBinding EditorContext.Color.RecentColors, ElementName=Root}"
+                SelectedColor="{Binding SelectedPoint.Color, ElementName=GradientEditor, Mode=TwoWay}"
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_COLOR_OF_THE_SELECTED_POINT], ElementName=Root, Mode=OneWay}"/>
+
+            <!-- Animation enable -->
+            <controls:SettingsControl
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_ANIMATION_DESC], ElementName=Root, Mode=OneWay}"
+                Icon="AudioWaveform"
+                IsVisible="{ReflectionBinding EditorContext.Color.IsAnimationAvailable, ElementName=Root}"
+                Theme="{StaticResource SettingsControlDarkerControl}"
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_GRADIENT_ANIMATION], ElementName=Root, Mode=OneWay}">
+
+                <components:Switch IsChecked="{ReflectionBinding EditorContext.Color.AnimateGradient, Mode=TwoWay, ElementName=Root}"/>
+            </controls:SettingsControl>
+
+            <controls:SettingsControl
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_ANIMATION_SPEED_MINIMUM_DESC], ElementName=Root, Mode=OneWay}"
+                Icon="ClockArrowUp"
+                IsVisible="{ReflectionBinding EditorContext.Color.IsAnimationEnabled, ElementName=Root}"
+                Theme="{StaticResource SettingsControlDarkerControl}"
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_ANIMATION_SPEED_MINIMUM_TITLE], ElementName=Root, Mode=OneWay}">
+
+                <components:NumericUpDown
+                    Increment="{x:Static visualizationConfig:VisualizationColorConfig.ANIMATION_SPEED_INCREMENT}"
+                    Maximum="{x:Static visualizationConfig:VisualizationColorConfig.ANIMATION_SPEED_MAXIMUM}"
+                    Minimum="{x:Static visualizationConfig:VisualizationColorConfig.ANIMATION_SPEED_MINIMUM}"
+                    Suffix=" px/s"
+                    Value="{ReflectionBinding EditorContext.Color.VerticalAnimationSpeed, Mode=TwoWay, ElementName=Root}"/>
+            </controls:SettingsControl>
+
+            <controls:SettingsControl
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_HORIZONTAL_SPEED_DESC], ElementName=Root, Mode=OneWay}"
+                Icon="ClockArrowRight"
+                IsVisible="{ReflectionBinding EditorContext.Color.IsAnimationEnabled, ElementName=Root}"
+                Theme="{StaticResource SettingsControlDarkerControl}"
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_TITLE_HORIZONTAL_SPEED], ElementName=Root, Mode=OneWay}">
+
+                <components:NumericUpDown
+                    Increment="{x:Static visualizationConfig:VisualizationColorConfig.ANIMATION_SPEED_INCREMENT}"
+                    Maximum="{x:Static visualizationConfig:VisualizationColorConfig.ANIMATION_SPEED_MAXIMUM}"
+                    Minimum="{x:Static visualizationConfig:VisualizationColorConfig.ANIMATION_SPEED_MINIMUM}"
+                    Suffix=" px/s"
+                    Value="{ReflectionBinding EditorContext.Color.HorizontalAnimationSpeed, Mode=TwoWay, ElementName=Root}"/>
+            </controls:SettingsControl>
+
+            <controls:SettingsControl
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_STRETCH_MINIMUM_DESC], ElementName=Root, Mode=OneWay}"
+                Icon="Expand"
+                IsVisible="{ReflectionBinding EditorContext.Color.IsAnimationAvailable, ElementName=Root}"
+                Theme="{StaticResource SettingsControlDarkerControl}"
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_COLOR_STRETCH_MINIMUM_TITLE], ElementName=Root, Mode=OneWay}">
+
+                <components:NumericUpDown
+                    Increment="{x:Static visualizationConfig:VisualizationColorConfig.STRETCH_INCREMENT}"
+                    Maximum="{x:Static visualizationConfig:VisualizationColorConfig.STRETCH_MAXIMUM}"
+                    Minimum="{x:Static visualizationConfig:VisualizationColorConfig.STRETCH_MINIMUM}"
+                    Suffix="%"
+                    Value="{ReflectionBinding EditorContext.Color.Stretch, Mode=TwoWay, ElementName=Root}"/>
+            </controls:SettingsControl>
+        </StackPanel>
+    </controls:SettingsExpandControl>
+</UserControl>

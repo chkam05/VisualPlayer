@@ -10,10 +10,11 @@ using VisualPlayer.Models.Localization;
 using VisualPlayer.Resources;
 using VisualPlayer.ViewModels;
 using VisualPlayer.ViewModels.Config;
+using VisualPlayer.VisualizationBase.Localization;
 
 namespace VisualPlayer.Contexts;
 
-public sealed class TranslationContext : ViewModelBase
+public sealed class TranslationContext : ViewModelBase, ITranslationScope
 {
     public event EventHandler? LanguageChanged;
 
@@ -287,6 +288,7 @@ public sealed class TranslationContext : ViewModelBase
         NotifyPropertyChanged(nameof(CurrentLanguageCode));
         NotifyPropertyChanged(nameof(SelectedLanguage));
         NotifyPropertyChanged("Item[]");
+        NotifyPropertyChanged("Item");
         LanguageChanged?.Invoke(this, EventArgs.Empty);
     }
 }

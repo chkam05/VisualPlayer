@@ -1,0 +1,18 @@
+{
+    "header":  {
+                   "code":  "pl-PL",
+                   "name":  "Polski"
+               },
+    "translations":  {
+                         "ENUM_VISUALIZATIONTYPE_STRIPESBOUNCING":  "Stripes - Bouncing",
+                         "VIEW_VISUALIZATIONS_BOUNCING_DESCENT_RATE_DESC":  "Określa szybkość opadania wewnętrznej krawędzi pasma w kierunku środka, w pikselach na sekundę.",
+                         "VIEW_VISUALIZATIONS_BOUNCING_UPPER_EDGE_DESCENT_RATE_DESC":  "Określa szybkość opadania zewnętrznej krawędzi szczytowej w kierunku środka, w pikselach na sekundę. Wolniejsze opadanie tworzy szersze odbijające się pasmo.",
+                         "VIEW_VISUALIZATIONS_BOUNCING_UPPER_EDGE_DESCENT_RATE_TITLE":  "Szybkość opadania górnej krawędzi",
+                         "VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE":  "Szybkość opadania",
+                         "VIEW_VISUALIZATIONS_NUM_TITLE":  "Liczba pasków",
+                         "VIEW_VISUALIZATIONS_PEAKS_NUM_DESC":  "Określa liczbę pasm częstotliwości wyświetlanych na ekranie.",
+                         "VIEW_VISUALIZATIONS_STRIPES_HORIZONTAL_BAR_SPACE_DESC":  "Określa poziomy odstęp pomiędzy sąsiednimi paskami.",
+                         "VIEW_VISUALIZATIONS_STRIPES_HORIZONTAL_BAR_SPACE_TITLE":  "Odstęp pasków w poziomie",
+                         "PRESET_DEFAULT":  "Stripes - Bouncing"
+                     }
+}

@@ -1,0 +1,40 @@
+<Project>
+  <!-- Shared by system visualization projects under Visualizations/. Only the package is deployed. -->
+  <Target Name="PackageVisualization" AfterTargets="Build">
+    <PropertyGroup>
+      <VisualizationPackageDir>$(TargetDir)Package/$(VisualizationId)/</VisualizationPackageDir>
+      <_PackageRoot>$([System.IO.Path]::GetFullPath('$(TargetDir)Package/'))</_PackageRoot>
+      <_PackageDestination>$([System.IO.Path]::GetFullPath('$(VisualizationPackageDir)'))</_PackageDestination>
+    </PropertyGroup>
+    <Error Condition="!$([System.Text.RegularExpressions.Regex]::IsMatch('$(VisualizationId)', '^[a-z0-9][a-z0-9.-]*$')) Or !$([System.String]::Copy('$(_PackageDestination)').StartsWith('$(_PackageRoot)'))"
+           Text="Visualization package output must remain inside the generated Package directory." />
+    <!-- Validated generated output only; rebuild without stale private dependencies. -->
+    <ItemGroup>
+      <_OldPackageFiles Include="$(VisualizationPackageDir)**/*" />
+      <_PluginBinary Include="$(TargetPath);$(TargetDir)$(AssemblyName).deps.json" />
+      <!-- Copy private dependencies, preserving subdirectories, but never ship host contract replacements. -->
+      <_PluginPrivate Include="@(ReferenceCopyLocalPaths)"
+                      Condition="!$([System.String]::Copy('%(Filename)').StartsWith('Avalonia')) And ! $([System.String]::Copy('%(Filename)').StartsWith('Lucide')) And '%(Filename)' != 'VisualPlayer.UI' And '%(Filename)' != 'VisualPlayer.VisualizationBase'" />
+    </ItemGroup>
+    <Delete Files="@(_OldPackageFiles)" />
+    <MakeDir Directories="$(VisualizationPackageDir)" />
+    <Copy SourceFiles="@(_PluginBinary)" DestinationFolder="$(VisualizationPackageDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(_PluginPrivate)" DestinationFiles="@(_PluginPrivate->'$(VisualizationPackageDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)/manifest.json" DestinationFolder="$(VisualizationPackageDir)" SkipUnchangedFiles="true" />
+    <ItemGroup>
+      <_PluginLanguages Include="$(MSBuildProjectDirectory)/Lang/**/*" />
+      <_PluginAssets Include="$(MSBuildProjectDirectory)/Assets/**/*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_PluginLanguages)" DestinationFiles="@(_PluginLanguages->'$(VisualizationPackageDir)Lang/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(_PluginAssets)" DestinationFiles="@(_PluginAssets->'$(VisualizationPackageDir)Assets/%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+    <ZipDirectory SourceDirectory="$(VisualizationPackageDir)" DestinationFile="$(TargetDir)$(VisualizationId)-$(Version).zip" Overwrite="true" />
+  </Target>
+  <Target Name="GetVisualizationPackage" DependsOnTargets="Build" Returns="@(_VisualizationPackage)">
+    <ItemGroup>
+      <_VisualizationPackage Include="$(VisualizationPackageDir)**/*" />
+      <_VisualizationPackage Update="@(_VisualizationPackage)">
+        <PackagePath>$(VisualizationId)/%(_VisualizationPackage.RecursiveDir)%(_VisualizationPackage.Filename)%(_VisualizationPackage.Extension)</PackagePath>
+      </_VisualizationPackage>
+    </ItemGroup>
+  </Target>
+</Project>

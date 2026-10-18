@@ -839,7 +839,7 @@ public partial class MainWindow : Window
 
         var currentIndex = config.Profiles.IndexOf(config.SelectedProfile);
         var nextIndex = (currentIndex + offset + config.Profiles.Count) % config.Profiles.Count;
-        config.SelectedProfileName = config.Profiles[nextIndex].Name;
+        config.SelectedProfileId = config.Profiles[nextIndex].ProfileId;
     }
 
     #endregion WINDOW EVENTS

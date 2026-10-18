@@ -1,0 +1,320 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <!-- CONTROL TEMPLATE -->
+    <ControlTemplate
+        x:Key="ToggleButtonWithIconTemplate"
+        TargetType="components:ToggleButtonWithIcon">
+    
+        <Border
+            x:Name="PART_Background"
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Padding="{TemplateBinding Padding}">
+
+            <Grid>
+                <LucideIcon
+                    x:Name="PART_IconOnly"
+                    Foreground="{TemplateBinding Foreground}"
+                    HorizontalAlignment="Center"
+                    IsVisible="False"
+                    Kind="{TemplateBinding CurrentKind}"
+                    Size="{TemplateBinding CalculatedIconSize}"
+                    VerticalAlignment="Center"/>
+
+                <DockPanel
+                    x:Name="PART_Layout"
+                    HorizontalAlignment="Stretch"
+                    LastChildFill="True"
+                    VerticalAlignment="Stretch">
+
+                    <LucideIcon
+                        x:Name="PART_Icon"
+                        Foreground="{TemplateBinding Foreground}"
+                        HorizontalAlignment="Center"
+                        Kind="{TemplateBinding CurrentKind}"
+                        Size="{TemplateBinding CalculatedIconSize}"
+                        VerticalAlignment="Center"/>
+
+                    <Border
+                        x:Name="PART_HorizontalGap"
+                        Height="0"
+                        IsVisible="False"
+                        Width="{TemplateBinding Gap}"/>
+
+                    <Border
+                        x:Name="PART_VerticalGap"
+                        Height="{TemplateBinding Gap}"
+                        IsVisible="False"
+                        Width="0"/>
+
+                    <ContentPresenter
+                        x:Name="PART_ButtonContent"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        TextElement.Foreground="{TemplateBinding Foreground}"/>
+
+                </DockPanel>
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
+    <!-- BASE THEME -->
+    <ControlTheme
+        x:Key="{x:Type components:ToggleButtonWithIcon}"
+        TargetType="components:ToggleButtonWithIcon"
+        BasedOn="{StaticResource {x:Type ToggleButton}}">
+
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="MinHeight" Value="28" />
+        <Setter Property="MinWidth" Value="28" />
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Template" Value="{StaticResource ToggleButtonWithIconTemplate}" />
+
+        <Style Selector="^:has-content /template/ DockPanel#PART_Layout">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^:not(:has-content) /template/ DockPanel#PART_Layout">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+
+        <Style Selector="^:not(:has-content) /template/ LucideIcon#PART_IconOnly">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <!-- ICON LEFT -->
+
+        <Style Selector="^[IconPosition=Left] /template/ LucideIcon#PART_Icon">
+            <Setter Property="DockPanel.Dock" Value="Left"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Left] /template/ Border#PART_HorizontalGap">
+            <Setter Property="DockPanel.Dock" Value="Left"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Left]:has-content /template/ Border#PART_HorizontalGap">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Auto][IconPosition=Left] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- ICON TOP -->
+        
+        <Style Selector="^[IconPosition=Top] /template/ LucideIcon#PART_Icon">
+            <Setter Property="DockPanel.Dock" Value="Top"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Top] /template/ Border#PART_VerticalGap">
+            <Setter Property="DockPanel.Dock" Value="Top"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Top]:has-content /template/ Border#PART_VerticalGap">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Auto][IconPosition=Top] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <!-- ICON RIGHT -->
+        
+        <Style Selector="^[IconPosition=Right] /template/ LucideIcon#PART_Icon">
+            <Setter Property="DockPanel.Dock" Value="Right"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Right] /template/ Border#PART_HorizontalGap">
+            <Setter Property="DockPanel.Dock" Value="Right"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Right]:has-content /template/ Border#PART_HorizontalGap">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Auto][IconPosition=Right] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- ICON BOTTOM -->
+        
+        <Style Selector="^[IconPosition=Bottom] /template/ LucideIcon#PART_Icon">
+            <Setter Property="DockPanel.Dock" Value="Bottom"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Bottom] /template/ Border#PART_VerticalGap">
+            <Setter Property="DockPanel.Dock" Value="Bottom"/>
+        </Style>
+
+        <Style Selector="^[IconPosition=Bottom]:has-content /template/ Border#PART_VerticalGap">
+            <Setter Property="IsVisible" Value="True"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Auto][IconPosition=Bottom] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+
+        <!-- MANUAL CONTENT ALIGNMENT -->
+
+        <Style Selector="^[ContentAlignmentMode=Manual][HorizontalContentAlignment=Left] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][HorizontalContentAlignment=Center] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][HorizontalContentAlignment=Right] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][HorizontalContentAlignment=Stretch] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][VerticalContentAlignment=Top] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][VerticalContentAlignment=Center] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][VerticalContentAlignment=Bottom] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+
+        <Style Selector="^[ContentAlignmentMode=Manual][VerticalContentAlignment=Stretch] /template/ ContentPresenter#PART_ButtonContent">
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+        </Style>
+
+    </ControlTheme>
+
+    <!-- ACCENT THEME -->
+    <ControlTheme
+        x:Key="AccentToggleButtonWithIconTheme"
+        TargetType="components:ToggleButtonWithIcon"
+        BasedOn="{StaticResource {x:Type components:ToggleButtonWithIcon}}">
+
+        <Setter Property="Background" Value="{DynamicResource UI.AccentColorBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource UI.AccentColorBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource UI.AccentForegroundColorBrush}"/>
+
+        <!-- Checked -->
+        <Style Selector="^:checked">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentSelectedColorBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.AccentColorBrush}"/>
+        </Style>
+
+        <!-- Checked + mouse over -->
+        <Style Selector="^:checked:pointerover">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentMouseOverColorBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.AccentColorBrush}"/>
+        </Style>
+
+        <!-- Checked + keyboard focus -->
+        <Style Selector="^:checked:focus-visible">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentMouseOverColorBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.AccentColorBrush}"/>
+        </Style>
+
+        <!-- Checked + pressed -->
+        <Style Selector="^:checked:pressed">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentPressedBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.AccentColorBrush}"/>
+        </Style>
+
+        <!-- Mouse over -->
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentMouseOverColorBrush}"/>
+        </Style>
+
+        <!-- Keyboard focus -->
+        <Style Selector="^:focus-visible">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentMouseOverColorBrush}"/>
+        </Style>
+
+        <!-- Pressed -->
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentPressedBrush}"/>
+        </Style>
+
+        <!-- Disabled -->
+        <Style Selector="^:disabled">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentDisabledBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.AccentDisabledBrush}"/>
+            <Setter Property="Opacity" Value="0.6"/>
+        </Style>
+
+    </ControlTheme>
+
+    <!-- THEME THEME -->
+    <ControlTheme
+        x:Key="ThemeToggleButtonWithIconTheme"
+        TargetType="components:ToggleButtonWithIcon"
+        BasedOn="{StaticResource {x:Type components:ToggleButtonWithIcon}}">
+
+        <Setter Property="Background" Value="{DynamicResource UI.ThemeShadeBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeShadeBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+
+        <!-- Checked -->
+        <Style Selector="^:checked">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemeSelectedBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeShadeBackgroundBrush}"/>
+        </Style>
+
+        <!-- Checked + mouse over -->
+        <Style Selector="^:checked:pointerover">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemeMouseOverBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeShadeBackgroundBrush}"/>
+        </Style>
+
+        <!-- Checked + keyboard focus -->
+        <Style Selector="^:checked:focus-visible">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemeMouseOverBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeShadeBackgroundBrush}"/>
+        </Style>
+
+        <!-- Checked + pressed -->
+        <Style Selector="^:checked:pressed">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemePressedBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeShadeBackgroundBrush}"/>
+        </Style>
+
+        <!-- Mouse over -->
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemeMouseOverBrush}"/>
+        </Style>
+
+        <!-- Keyboard focus -->
+        <Style Selector="^:focus-visible">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemeMouseOverBrush}"/>
+        </Style>
+
+        <!-- Pressed -->
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemePressedBrush}"/>
+        </Style>
+
+        <!-- Disabled -->
+        <Style Selector="^:disabled">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemeDisabledBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeDisabledBrush}"/>
+            <Setter Property="Opacity" Value="0.6"/>
+        </Style>
+
+    </ControlTheme>
+
+</ResourceDictionary>

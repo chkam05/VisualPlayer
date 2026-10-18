@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../VisualPlayer/VisualPlayer.csproj" />
+    <ProjectReference Include="../VisualPlayer.SamplePlugin/VisualPlayer.SamplePlugin.csproj" />
+    <PackageReference Include="Avalonia.Headless" Version="12.1.2" />
+    <None Update="Fixtures/*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Import Project="../../scripts/BuildSystemVisualizations.targets" />
+</Project>

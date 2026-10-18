@@ -4,16 +4,8 @@
     xmlns:converters="using:VisualPlayer.Converters">
 
     <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Generic.axaml"/>
         <!-- BASE -->
-        <ResourceInclude Source="/Themes/Base/ButtonTheme.axaml" />
-        <ResourceInclude Source="/Themes/Base/ContextMenuTheme.axaml" />
-        <ResourceInclude Source="/Themes/Base/ContextMenuItemTheme.axaml" />
-        <ResourceInclude Source="/Themes/Base/ComboBoxItemTheme.axaml" />
-        <ResourceInclude Source="/Themes/Base/ComboBoxTheme.axaml" />
-        <ResourceInclude Source="/Themes/Base/ListBoxItemTheme.axaml" />
-        <ResourceInclude Source="/Themes/Base/ListBoxTheme.axaml" />
-        <ResourceInclude Source="/Themes/Base/SliderTheme.axaml" />
-        <ResourceInclude Source="/Themes/Base/TextBox.axaml" />
 
         <!-- PLAYER -->
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerPositionSliderTheme.axaml" />
@@ -21,16 +13,7 @@
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerVolumeSliderTheme.axaml" />
 
         <!-- CUSTOM COMPONENTS -->
-        <ResourceInclude Source="/Themes/Components/ButtonWithIcon.axaml" />
-        <ResourceInclude Source="/Themes/Components/ColorValueSlider.axaml" />
-        <ResourceInclude Source="/Themes/Components/KeyBindControl.axaml" />
-        <ResourceInclude Source="/Themes/Components/NumericUpDown.axaml" />
-        <ResourceInclude Source="/Themes/Components/ScrollTextBlock.axaml" />
-        <ResourceInclude Source="/Themes/Components/Switch.axaml" />
-        <ResourceInclude Source="/Themes/Components/ToggleButtonWithIcon.axaml" />
-        <ResourceInclude Source="/Themes/Components/ColorizedButtonThemes.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayListItemTheme.axaml" />
-        <ResourceInclude Source="/Themes/Controls/ControlBorderTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlIconButtonTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlMiniButtonWithIconTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerMiniControlButtonTheme.axaml" />
@@ -42,8 +25,6 @@
         <ResourceInclude Source="/Themes/Messages/InternalMessageButtonWithIconTheme.axaml" />
 
         <!-- CONTROLS -->
-        <ResourceInclude Source="/Themes/Controls/ColorPaletteControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/GradientControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/HamburgerMenuItemControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/HamburgerMenuControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/InfoBarControl.axaml" />
@@ -56,9 +37,7 @@
         <ResourceInclude Source="/Themes/Controls/PlayerControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayListItemControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayListControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/SettingsControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/SidePanelControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/SettingsExpandControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/SpeedControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/VolumeControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/VisualizationSurfaceControl.axaml" />
@@ -94,8 +73,8 @@
 
     <converters:LatinTransliterationConverter x:Key="LatinTransliterationConverter" />
 
-    <FontFamily x:Key="ApplicationFontFamily">avares://VisualPlayer/Assets/Fonts#Oxanium, Inter</FontFamily>
-    <FontFamily x:Key="ElectronicDisplayFontFamily">avares://VisualPlayer/Assets/Fonts#LED Counter 7, avares://VisualPlayer/Assets/Fonts#Oxanium, Inter</FontFamily>
-    <FontFamily x:Key="Lcd14DisplayFontFamily">avares://VisualPlayer/Assets/Fonts#LED Sled, avares://VisualPlayer/Assets/Fonts#Oxanium, Inter</FontFamily>
+    <FontFamily x:Key="ApplicationFontFamily">avares://VisualPlayer.UI/Assets/Fonts#Oxanium, Inter</FontFamily>
+    <FontFamily x:Key="ElectronicDisplayFontFamily">avares://VisualPlayer.UI/Assets/Fonts#LED Counter 7, avares://VisualPlayer.UI/Assets/Fonts#Oxanium, Inter</FontFamily>
+    <FontFamily x:Key="Lcd14DisplayFontFamily">avares://VisualPlayer.UI/Assets/Fonts#LED Sled, avares://VisualPlayer.UI/Assets/Fonts#Oxanium, Inter</FontFamily>
 
 </ResourceDictionary>

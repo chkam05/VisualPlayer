@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Platform;
 using VisualPlayer.Attributes;
 using VisualPlayer.Core;
@@ -12,6 +13,10 @@ using VisualPlayer.Utils;
 using VisualPlayer.Utils.Platform;
 using VisualPlayer.ViewModels;
 using VisualPlayer.ViewModels.Config;
+using VisualPlayer.UI.Localization;
+using VisualPlayer.Visualizations.Registry;
+using VisualPlayer.Visualizations.Loading;
+using VisualPlayer.VisualizationBase.Localization;
 
 namespace VisualPlayer.Contexts;
 
@@ -24,6 +29,7 @@ public class ApplicationContext : ViewModelBase
     private KeyboardConfig _keyboardConfig = null!;
     private MacOSMediaCommandService? _macOSMediaCommandService;
     private readonly IPlatformSettings? _platformSettings;
+    private UiResourceBridge? _uiResources;
 
     public EqualizerConfigurationContext EqualizerConfig { get; private set; }
     public InfoBarContext InfoBarContext { get; private set; }
@@ -35,6 +41,10 @@ public class ApplicationContext : ViewModelBase
     public PlayerDataContext PlayerDataContext => PlayerCore.DataContext;
     public PlayerMiniDataContext PlayerMiniDataContext { get; private set; }
     public TranslationContext Translations { get; private set; }
+    public TranslationService PluginTranslations { get; }
+    public TranslationCatalog UiTranslations { get; }
+    public VisualizationRegistry VisualizationRegistry { get; }
+    public VisualizationPluginLoader VisualizationPlugins { get; }
     public VisualizationCore VisualizationCore { get; private set; }
     public VisualizationConfigurationContext VisualizationConfig { get; private set; }
     
@@ -56,8 +66,18 @@ public class ApplicationContext : ViewModelBase
     {
         Config = ConfigurationContext.Load();
         Translations = new TranslationContext(Config.General);
+        PluginTranslations = new TranslationService(Translations.CurrentLanguageCode);
+        UiTranslations = UiCatalogs.Register(PluginTranslations);
+        Translations.LanguageChanged += SharedLanguageChanged;
         EqualizerConfig = EqualizerConfigurationContext.Load(Translations);
-        VisualizationConfig = VisualizationConfigurationContext.Load();
+        var visualizationServices = new VisualizationHostServices(Translations, UiTranslations);
+        VisualizationRegistry = new VisualizationRegistry(visualizationServices);
+        VisualizationPlugins = new VisualizationPluginLoader(VisualizationRegistry, PluginTranslations, UiTranslations,
+            [typeof(VisualPlayer.UI.Views.VisualisationColorEditor).Assembly],
+            diagnostic => System.Diagnostics.Debug.WriteLine($"Visualization: {diagnostic.Path}: {diagnostic.Message} {diagnostic.Exception}"));
+        VisualizationPlugins.Load(VisualizationPluginPaths.ForCurrentHost());
+        VisualizationConfig = VisualizationConfigurationContext.Load(
+            Path.Combine(ConfigurationContext.DirectoryPath, "visualizations.json"), VisualizationRegistry);
         _platformSettings = GetPlatformSettings(_config);
         
         PlayListCore = new PlayListCore(Translations);
@@ -117,6 +137,8 @@ public class ApplicationContext : ViewModelBase
 
     public void Dispose()
     {
+        _uiResources?.Dispose();
+        Translations.LanguageChanged -= SharedLanguageChanged;
         if (Config.Player.RememberLastPlayList)
             PlayListCore.Save(ConfigurationContext.NowPlayingFilePath);
         else if (File.Exists(ConfigurationContext.NowPlayingFilePath))
@@ -133,6 +155,9 @@ public class ApplicationContext : ViewModelBase
         EqualizerConfig.Dispose();
         LyricsCore.Dispose();
         VisualizationCore.Dispose();
+        VisualizationConfig.Dispose();
+        VisualizationPlugins.Dispose();
+        VisualizationRegistry.Dispose();
         PlayerCore.Dispose();
         PlayListCore.Dispose();
     }
@@ -140,6 +165,15 @@ public class ApplicationContext : ViewModelBase
     #endregion CONSTRUCTORS
 
     #region ACTIONS
+
+    public void InitializeUiResources(IResourceDictionary resources)
+    {
+        _uiResources?.Dispose();
+        _uiResources = new UiResourceBridge(Config, resources, UiTranslations);
+    }
+
+    private void SharedLanguageChanged(object? sender, EventArgs e)
+        => PluginTranslations.SelectLanguage(Translations.CurrentLanguageCode);
 
     private void SetupSystemMediaCommands()
     {

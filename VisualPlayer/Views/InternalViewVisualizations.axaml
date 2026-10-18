@@ -12,10 +12,6 @@
     x:DataType="local:InternalViewVisualizations"
     x:Name="Root">
 
-    <views:InternalViewBase.Resources>
-        <converters:VisualizationTypeToTitleConverter x:Key="VisualizationTypeToTitleConverter"/>
-    </views:InternalViewBase.Resources>
-
     <Grid
         ColumnDefinitions="Auto,*"
         ColumnSpacing="16"
@@ -98,10 +94,10 @@
                                 ColumnDefinitions="*,Auto"
                                 ColumnSpacing="8"
                                 Margin="0"
-                                ToolTip.Tip="{Binding Name}">
+                                ToolTip.Tip="{Binding DisplayName}">
 
                                 <TextBlock
-                                    Text="{Binding Name}"
+                                    Text="{Binding DisplayName}"
                                     TextTrimming="CharacterEllipsis"
                                     VerticalAlignment="Center"/>
 
@@ -170,13 +166,13 @@
                         <ComboBox
                             IsEnabled="{Binding SelectedProfile.CanChangeVisualizationType, ElementName=Root}"
                             ItemsSource="{Binding VisualizationTypes, ElementName=Root}"
-                            SelectedItem="{Binding SelectedProfile.VisualizationType, ElementName=Root, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedProfile.Registration, ElementName=Root, Mode=TwoWay}"
                             Theme="{StaticResource ComboBoxTheme}">
 
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock
-                                    Text="{Binding Converter={StaticResource VisualizationTypeToTitleConverter}}"/>
+                                        Text="{ReflectionBinding Name}"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>

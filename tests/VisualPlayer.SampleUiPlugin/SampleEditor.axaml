@@ -1,0 +1,11 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="using:VisualPlayer.UI.Views"
+             xmlns:components="using:VisualPlayer.Components"
+             x:Class="VisualPlayer.SampleUiPlugin.SampleEditor">
+    <StackPanel>
+        <TextBlock x:Name="LocalTitle" Text="{ReflectionBinding Services.Translations[NAME]}"/>
+        <components:ScrollTextBlock Text="A standalone plugin editor" FontSize="18"/>
+        <ui:VisualisationColorEditor EditorContext="{ReflectionBinding}"/>
+    </StackPanel>
+</UserControl>

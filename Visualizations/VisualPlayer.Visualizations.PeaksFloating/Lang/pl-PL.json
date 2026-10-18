@@ -1,0 +1,20 @@
+{
+    "header":  {
+                   "code":  "pl-PL",
+                   "name":  "Polski"
+               },
+    "translations":  {
+                         "ENUM_VISUALIZATIONTYPE_PEAKSFLOATING":  "Peaks - Floating",
+                         "VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE":  "Szybkość opadania",
+                         "VIEW_VISUALIZATIONS_DIRECTION_TITLE":  "Kierunek",
+                         "VIEW_VISUALIZATIONS_NUM_TITLE":  "Liczba pasków",
+                         "VIEW_VISUALIZATIONS_PEAKS_BAR_HEIGHT_DESC":  "Określa wysokość pojedynczego bloczka budującego pasek.",
+                         "VIEW_VISUALIZATIONS_PEAKS_BAR_HEIGHT_TITLE":  "Wysokość bloczka",
+                         "VIEW_VISUALIZATIONS_PEAKS_DESCENT_RATE_DESC":  "Określa szybkość opadania głównych pasków w pikselach na sekundę.",
+                         "VIEW_VISUALIZATIONS_PEAKS_DIRECTION_DESC":  "Określa, czy wizualizacja rośnie do środka, czy na zewnątrz.",
+                         "VIEW_VISUALIZATIONS_PEAKS_HORIZONTAL_BAR_SPACE_DESC":  "Określa poziomy odstęp pomiędzy sąsiednimi pasmami.",
+                         "VIEW_VISUALIZATIONS_PEAKS_HORIZONTAL_BAR_SPACE_TITLE":  "Odstęp bloczków w poziomie",
+                         "VIEW_VISUALIZATIONS_PEAKS_NUM_DESC":  "Określa liczbę pasm częstotliwości wyświetlanych na ekranie.",
+                         "PRESET_DEFAULT":  "Peaks - Floating"
+                     }
+}

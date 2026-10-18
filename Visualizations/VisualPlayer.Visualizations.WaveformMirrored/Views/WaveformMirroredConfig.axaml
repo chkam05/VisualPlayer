@@ -1,0 +1,221 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:plugins="using:VisualPlayer.VisualizationBase.Plugins"
+    xmlns:common="using:VisualPlayer.UI.Views"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:config="using:VisualPlayer.Visualizations.WaveformMirrored.Config"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:profile="using:VisualPlayer.Visualizations.Config.Base"
+    x:Class="VisualPlayer.Visualizations.WaveformMirrored.Views.WaveformMirroredConfig"
+    x:DataType="plugins:VisualizationEditorContext"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:BeamEffectToTitleConverter x:Key="BeamEffectToTitleConverter"/>
+        <converters:OpacityToPercentageConverter x:Key="OpacityToPercentageConverter"/>
+        <converters:MirroredVisualizationDirectionToTitleConverter x:Key="MirroredVisualizationDirectionToTitleConverter"/>
+        <converters:WaveformTransformationToTitleConverter x:Key="WaveformTransformationToTitleConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel
+        Spacing="8">
+
+        <!-- Color -->
+        <common:VisualisationColorEditor EditorContext="{Binding}"/>
+
+        <!-- Number of peaks -->
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_NUM_DESC], Mode=OneWay}"
+            Icon="ChartNoAxesColumn"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_NUM_TITLE], Mode=OneWay}">
+
+            <components:NumericUpDown
+                Maximum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MINIMUM}"
+                Value="{ReflectionBinding Configuration.PeaksCount, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Direction -->
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_DIRECTION_DESC], Mode=OneWay}"
+            Icon="ArrowUpDown"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_DIRECTION_TITLE], Mode=OneWay}">
+
+            <ComboBox
+                ItemsSource="{Binding Directions, ElementName=Root}"
+                SelectedValueBinding="{ReflectionBinding Value}"
+                SelectedValue="{ReflectionBinding Configuration.Direction, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource MirroredVisualizationDirectionToTitleConverter}">
+                                    <ReflectionBinding Path="Value"/>
+                                    <ReflectionBinding Path="Translations"/>
+                                    <ReflectionBinding Path="Translations.CurrentLanguageCode"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </controls:SettingsControl>
+
+        <!-- Thickness -->
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_LINE_THICKNESS_DESC], Mode=OneWay}"
+            Icon="Minus"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_LINE_THICKNESS_TITLE], Mode=OneWay}">
+
+            <components:NumericUpDown
+                Maximum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MINIMUM}"
+                Suffix=" px"
+                Value="{ReflectionBinding Configuration.LineThickness, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Falling speed -->
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_DESCENT_RATE_DESC], Mode=OneWay}"
+            Icon="ClockFading"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE], Mode=OneWay}">
+
+            <components:NumericUpDown
+                Increment="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_INCREMENT}"
+                Maximum="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_MINIMUM}"
+                Suffix=" px/s"
+                Value="{ReflectionBinding Configuration.DescentRate, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Effects -->
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_BEAM_EFFECT_DESC], Mode=OneWay}"
+            Icon="Sparkles"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_LINE_EFFECT_TITLE], Mode=OneWay}">
+
+            <ComboBox
+                ItemsSource="{Binding BeamEffects, ElementName=Root}"
+                SelectedValueBinding="{ReflectionBinding Value}"
+                SelectedValue="{ReflectionBinding Configuration.BeamEffect, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource BeamEffectToTitleConverter}">
+                                    <ReflectionBinding Path="Value"/>
+                                    <ReflectionBinding Path="Translations"/>
+                                    <ReflectionBinding Path="Translations.CurrentLanguageCode"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </controls:SettingsControl>
+
+        <!-- Fill -->
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_FILL_ENABLED_DESC], Mode=OneWay}"
+            Icon="PaintBucket"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_FILL_ENABLED_TITLE], Mode=OneWay}">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Configuration.FillEnabled, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Transparency -->
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_OPACITY_DESC], Mode=OneWay}"
+            Icon="Blend"
+            IsVisible="{ReflectionBinding Configuration.FillEnabled}"
+            Title="{ReflectionBinding Services.Translations[COMMON_OPACITY_TITLE], Mode=OneWay}">
+
+            <Grid ColumnDefinitions="48,180" ColumnSpacing="8">
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{ReflectionBinding Configuration.Opacity, Converter={StaticResource OpacityToPercentageConverter}, Mode=OneWay}"
+                    VerticalAlignment="Center"/>
+
+                <Slider
+                    Grid.Column="1"
+                    Maximum="{x:Static config:WaveformMirroredVisualizationConfig.OPACITY_MAXIMUM}"
+                    Minimum="{x:Static config:WaveformMirroredVisualizationConfig.OPACITY_MINIMUM}"
+                    SmallChange="{x:Static config:WaveformMirroredVisualizationConfig.OPACITY_SMALL_CHANGE}"
+                    Theme="{StaticResource SliderTheme}"
+                    Value="{ReflectionBinding Configuration.Opacity, Mode=TwoWay}"/>
+            </Grid>
+        </controls:SettingsControl>
+
+        <!-- Transformation -->
+        <controls:SettingsExpandControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORM_DESC], Mode=OneWay}"
+            Icon="Move3d"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_TRANSFORM_TITLE], Mode=OneWay}">
+
+            <StackPanel
+                Spacing="8">
+
+                <controls:SettingsControl
+                    Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_DESC], Mode=OneWay}"
+                    Icon="AudioWaveform"
+                    Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_TITLE], Mode=OneWay}">
+
+                    <ComboBox
+                        ItemsSource="{Binding Transformations, ElementName=Root}"
+                        SelectedValueBinding="{ReflectionBinding Value}"
+                SelectedValue="{ReflectionBinding Configuration.Transformation, Mode=TwoWay}"
+                        Theme="{StaticResource ComboBoxTheme}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource WaveformTransformationToTitleConverter}">
+                                            <ReflectionBinding Path="Value"/>
+                                            <ReflectionBinding Path="Translations"/>
+                                            <ReflectionBinding Path="Translations.CurrentLanguageCode"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </controls:SettingsControl>
+
+                <!-- Transformation shift -->
+                <controls:SettingsControl
+                    Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_MINIMUM_DESC], Mode=OneWay}"
+                    Icon="MoveVertical"
+                    IsVisible="{ReflectionBinding Configuration.IsTransformationEnabled}"
+                    Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_MINIMUM_TITLE], Mode=OneWay}">
+
+                    <components:NumericUpDown
+                        Increment="{x:Static profile:VisualizationBaseConfig.TRANSFORMATION_MINIMUM_INCREMENT}"
+                        Maximum="{x:Static profile:VisualizationBaseConfig.TRANSFORMATION_MINIMUM_MAXIMUM}"
+                        Minimum="{x:Static profile:VisualizationBaseConfig.TRANSFORMATION_MINIMUM_MINIMUM}"
+                        Suffix="%"
+                        Value="{ReflectionBinding Configuration.TransformationMinimum, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+                <!-- Shift -->
+                <controls:SettingsControl
+                    Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_SHIFT_DESC], Mode=OneWay}"
+                    Icon="ArrowLeftRight"
+                    Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_WAVEFORM_SHIFT_TITLE], Mode=OneWay}">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Configuration.Shift, Mode=TwoWay}"/>
+                </controls:SettingsControl>
+
+            </StackPanel>
+        </controls:SettingsExpandControl>
+
+    </StackPanel>
+</UserControl>

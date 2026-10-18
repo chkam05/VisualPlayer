@@ -1,0 +1,74 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="UI.AccentColorBrush" Color="#5B8DEF"/>
+    <SolidColorBrush x:Key="UI.AccentDisabledBrush" Color="#454552"/>
+    <SolidColorBrush x:Key="UI.AccentForegroundColorBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="UI.AccentMouseOverColorBrush" Color="#454552"/>
+    <SolidColorBrush x:Key="UI.AccentPressedBrush" Color="#454552"/>
+    <SolidColorBrush x:Key="UI.AccentSelectedColorBrush" Color="#454552"/>
+    <SolidColorBrush x:Key="UI.ControlBackgroundBrush" Color="#24242B"/>
+    <SolidColorBrush x:Key="UI.ThemeBackgroundBrush" Color="#18181D"/>
+    <SolidColorBrush x:Key="UI.ThemeDisabledBrush" Color="#454552"/>
+    <SolidColorBrush x:Key="UI.ThemeForegroundBrush" Color="#EEEEEE"/>
+    <SolidColorBrush x:Key="UI.ThemeMouseOverBrush" Color="#454552"/>
+    <SolidColorBrush x:Key="UI.ThemePressedBrush" Color="#454552"/>
+    <SolidColorBrush x:Key="UI.ThemeSelectedBrush" Color="#454552"/>
+    <SolidColorBrush x:Key="UI.ThemeShadeBackgroundBrush" Color="#30303A"/>
+    <SolidColorBrush x:Key="UI.Colorized.ThemeBackgroundBrush.AccentColorBrush" Color="#30303A"/>
+    <SolidColorBrush x:Key="UI.Colorized.ThemeDisabledBrush.AccentDisabledBrush" Color="#30303A"/>
+    <SolidColorBrush x:Key="UI.Colorized.ThemeForegroundBrush.AccentForegroundColorBrush" Color="#30303A"/>
+    <SolidColorBrush x:Key="UI.Colorized.ThemeMouseOverBrush.AccentMouseOverColorBrush" Color="#30303A"/>
+    <SolidColorBrush x:Key="UI.Colorized.ThemePressedBrush.AccentPressedBrush" Color="#30303A"/>
+    <SolidColorBrush x:Key="UI.Colorized.ThemeSelectedBrush.AccentSelectedColorBrush" Color="#30303A"/>
+    <SolidColorBrush x:Key="UI.Colorized.ThemeShadeBackgroundBrush.AccentColorBrush" Color="#30303A"/>
+    <SolidColorBrush x:Key="UI.ControlSurfaceBrush" Color="#30303A"/>
+    <x:String x:Key="UI.Text.COLORPALETTE_BUTTON_ADD_COLOR">Add your own color</x:String>
+    <x:String x:Key="UI.Text.COLORPALETTE_LABEL_LAST_USED">Recently used colors</x:String>
+    <x:String x:Key="UI.Text.COLORPALETTE_TITLE">Accent color</x:String>
+    <x:String x:Key="UI.Text.COMPONENT_NUMERIC_UP_DOWN_BUTTON_DECREASE">Decrease</x:String>
+    <x:String x:Key="UI.Text.COMPONENT_NUMERIC_UP_DOWN_BUTTON_INCREASE">Increase</x:String>
+    <x:String x:Key="UI.Text.ENUM_BEAMEFFECT_BEAM">Radius</x:String>
+    <x:String x:Key="UI.Text.ENUM_BEAMEFFECT_NONE">None</x:String>
+    <x:String x:Key="UI.Text.ENUM_GRADIENTTYPE_CONIC">Conical</x:String>
+    <x:String x:Key="UI.Text.ENUM_GRADIENTTYPE_LINEAR">Linear</x:String>
+    <x:String x:Key="UI.Text.ENUM_GRADIENTTYPE_RADIAL">Radial</x:String>
+    <x:String x:Key="UI.Text.ENUM_MIRROREDVISUALIZATIONDIRECTION_INSIDE">Inside</x:String>
+    <x:String x:Key="UI.Text.ENUM_MIRROREDVISUALIZATIONDIRECTION_OUTSIDE">Outside</x:String>
+    <x:String x:Key="UI.Text.ENUM_RADIALVISUALIZATIONDIRECTION_INSIDEOUT">Insideout</x:String>
+    <x:String x:Key="UI.Text.ENUM_RADIALVISUALIZATIONDIRECTION_OUTSIDEIN">Outsidein</x:String>
+    <x:String x:Key="UI.Text.ENUM_ROTATIONDIRECTION_CLOCKWISE">Clockwise</x:String>
+    <x:String x:Key="UI.Text.ENUM_ROTATIONDIRECTION_COUNTERCLOCKWISE">Counter-clockwise</x:String>
+    <x:String x:Key="UI.Text.ENUM_VISUALIZATIONCOLORMODE_GRADIENT">Gradient</x:String>
+    <x:String x:Key="UI.Text.ENUM_VISUALIZATIONCOLORMODE_RAINBOW">Rainbow</x:String>
+    <x:String x:Key="UI.Text.ENUM_VISUALIZATIONCOLORMODE_SOLID">Solid</x:String>
+    <x:String x:Key="UI.Text.ENUM_VISUALIZATIONDIRECTION_BOTTOMUP">From bottom to top</x:String>
+    <x:String x:Key="UI.Text.ENUM_VISUALIZATIONDIRECTION_TOPDOWN">From top to bottom</x:String>
+    <x:String x:Key="UI.Text.ENUM_WAVEFORMTRANSFORMATION_COS">COS</x:String>
+    <x:String x:Key="UI.Text.ENUM_WAVEFORMTRANSFORMATION_SIN">SIN</x:String>
+    <x:String x:Key="UI.Text.GRADIENT_BUTTON_ADD_A_POINT">Add a point</x:String>
+    <x:String x:Key="UI.Text.GRADIENT_BUTTON_REMOVE_POINT">Remove point</x:String>
+    <x:String x:Key="UI.Text.KEYBIND_BUTTON_CLEAN">Clear shortcut</x:String>
+    <x:String x:Key="UI.Text.KEYBIND_CAPTURING">Press a shortcut…</x:String>
+    <x:String x:Key="UI.Text.KEYBIND_TITLE">Click, then press the key combination</x:String>
+    <x:String x:Key="UI.Text.SETTINGSEXPAND_TOOLTIP_EXPAND_COLLAPSE">Expand / collapse</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_ANGLE_DESC">Specifies the orientation angle of the linear or conical rainbow.</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_ANIMATION_DESC">Shifts the gradient while the visualization is running.</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_ANIMATION_SPEED_MINIMUM_DESC">A negative value reverses the direction of vertical movement.</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_ANIMATION_SPEED_MINIMUM_TITLE">Vertical speed</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_DESC">Choose a solid color, a custom gradient, or an animated rainbow visualization.</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_GRADIENT_TYPE_DESC">It defines the rainbow color scheme.</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_HORIZONTAL_SPEED_DESC">A negative value reverses the direction of horizontal movement.</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_MODE_DESC">Specifies how visualization elements are colored.</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_STRETCH_MINIMUM_DESC">Specifies how large a fragment of the gradient fits into the visualization area at one time.</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_STRETCH_MINIMUM_TITLE">Gradient stretch</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_TITLE_COLOR">Color</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_TITLE_COLOR_OF_THE_SELECTED_POINT">Color of the selected point</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_TITLE_COLOR_TYPE">Color type</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_TITLE_GRADIENT_ANIMATION">Gradient animation</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_TITLE_HORIZONTAL_SPEED">Horizontal speed</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_TITLE_RAINBOW_ANGLE">Rainbow angle</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_TITLE_TYPE_OF_RAINBOW">Type of rainbow</x:String>
+    <x:String x:Key="UI.Text.VIEW_VISUALIZATIONS_COLOR_TITLE_VISUALIZATION_COLOR">Visualization color</x:String>
+    <FontFamily x:Key="ApplicationFontFamily">avares://VisualPlayer.UI/Assets/Fonts#Oxanium, Inter</FontFamily>
+    <FontFamily x:Key="ElectronicDisplayFontFamily">avares://VisualPlayer.UI/Assets/Fonts#LED Counter 7, avares://VisualPlayer.UI/Assets/Fonts#Oxanium, Inter</FontFamily>
+    <FontFamily x:Key="Lcd14DisplayFontFamily">avares://VisualPlayer.UI/Assets/Fonts#LED Sled, avares://VisualPlayer.UI/Assets/Fonts#Oxanium, Inter</FontFamily>
+</ResourceDictionary>

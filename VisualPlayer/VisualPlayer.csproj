@@ -21,6 +21,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../VisualPlayer.VisualizationBase/VisualPlayer.VisualizationBase.csproj" />
+    <ProjectReference Include="../VisualPlayer.UI/VisualPlayer.UI.csproj" />
+    <ProjectReference Include="../VisualPlayer.Visualizations/VisualPlayer.Visualizations.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
     <Content Include="Lang\**\*.json">
@@ -47,4 +53,5 @@
   <ItemGroup>
     <AssemblyMetadata Include="@(PackageReference->'NuGetPackage:%(Identity)')" Value="%(Version)" />
   </ItemGroup>
+  <Import Project="../scripts/BuildSystemVisualizations.targets" />
 </Project>

@@ -1,0 +1,87 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <!-- COMPONENTS -->
+
+    <ControlTemplate x:Key="ColorValueSlider.TrackButtonTemplate" TargetType="RepeatButton">
+        <Border
+            Background="Transparent"/>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="ColorValueSlider.ThumbTemplate" TargetType="Thumb">
+        <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="12"/>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="ColorValueSlider.TrackButtonTheme" TargetType="RepeatButton">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Template" Value="{StaticResource ColorValueSlider.TrackButtonTemplate}"/>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ColorValueSlider.ThumbTheme" TargetType="Thumb">
+        <Setter Property="Background" Value="{DynamicResource UI.ThemeBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="Width" Value="24"/>
+        <Setter Property="Template" Value="{StaticResource ColorValueSlider.ThumbTemplate}"/>
+    </ControlTheme>
+
+    <ControlTemplate x:Key="ColorValueSliderTemplate" TargetType="Slider">
+        <Grid
+            MinHeight="160"
+            Width="32">
+
+            <Border
+                Background="{TemplateBinding Background}"
+                BorderBrush="{DynamicResource UI.ThemeForegroundBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                HorizontalAlignment="Center"
+                Width="16"/>
+
+            <Track
+                x:Name="PART_Track"
+                IsDirectionReversed="False"
+                Maximum="{TemplateBinding Maximum}"
+                Minimum="{TemplateBinding Minimum}"
+                Orientation="Vertical"
+                Value="{TemplateBinding Value, Mode=TwoWay}">
+
+                <Track.DecreaseButton>
+                    <RepeatButton
+                        Theme="{StaticResource ColorValueSlider.TrackButtonTheme}"/>
+                </Track.DecreaseButton>
+
+                <Track.Thumb>
+                    <Thumb
+                        x:Name="PART_Thumb"
+                        Theme="{StaticResource ColorValueSlider.ThumbTheme}" ZIndex="1"/>
+                </Track.Thumb>
+
+                <Track.IncreaseButton>
+                    <RepeatButton
+                        Theme="{StaticResource ColorValueSlider.TrackButtonTheme}"/>
+                </Track.IncreaseButton>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="ColorValueSliderTheme" TargetType="Slider">
+        <Setter Property="Template" Value="{StaticResource ColorValueSliderTemplate}"/>
+
+        <Style Selector="^:pointerover /template/ Thumb#PART_Thumb">
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.AccentMouseOverColorBrush}"/>
+        </Style>
+
+        <Style Selector="^:pressed /template/ Thumb#PART_Thumb">
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.AccentPressedBrush}"/>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

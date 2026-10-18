@@ -1,0 +1,65 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:plugins="using:VisualPlayer.VisualizationBase.Plugins"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:common="using:VisualPlayer.UI.Views"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:visualizationConfig="using:VisualPlayer.Visualizations.Config.Base"
+    x:Class="VisualPlayer.Visualizations.StripesBouncing.Views.StripesBouncingConfig"
+    x:DataType="plugins:VisualizationEditorContext"
+    x:Name="Root">
+
+    <StackPanel Spacing="8">
+        <common:VisualisationColorEditor EditorContext="{Binding}"/>
+
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_PEAKS_NUM_DESC], Mode=OneWay}"
+            Icon="ChartNoAxesColumn"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_NUM_TITLE], Mode=OneWay}">
+
+            <components:NumericUpDown
+                Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.BARS_COUNT_MAXIMUM}"
+                Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.BARS_COUNT_MINIMUM}"
+                Value="{ReflectionBinding Configuration.StripesCount, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_STRIPES_HORIZONTAL_BAR_SPACE_DESC], Mode=OneWay}"
+            Icon="BetweenVerticalStart"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_STRIPES_HORIZONTAL_BAR_SPACE_TITLE], Mode=OneWay}">
+
+            <components:NumericUpDown
+                Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.BAR_SPACE_MAXIMUM}"
+                Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.BAR_SPACE_MINIMUM}"
+                Suffix=" px"
+                Value="{ReflectionBinding Configuration.HorizontalBarSpace, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_BOUNCING_DESCENT_RATE_DESC], Mode=OneWay}"
+            Icon="ClockFading"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE], Mode=OneWay}">
+
+            <components:NumericUpDown
+                Increment="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_INCREMENT}"
+                Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_MAXIMUM}"
+                Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_MINIMUM}"
+                Suffix=" px/s"
+                Value="{ReflectionBinding Configuration.DescentRate, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_BOUNCING_UPPER_EDGE_DESCENT_RATE_DESC], Mode=OneWay}"
+            Icon="ClockFading"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_BOUNCING_UPPER_EDGE_DESCENT_RATE_TITLE], Mode=OneWay}">
+
+            <components:NumericUpDown
+                Increment="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_INCREMENT}"
+                Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_MAXIMUM}"
+                Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_MINIMUM}"
+                Suffix=" px/s"
+                Value="{ReflectionBinding Configuration.UpperEdgeDescentRate, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+    </StackPanel>
+</UserControl>

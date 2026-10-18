@@ -1,0 +1,1176 @@
+[
+  {
+    "isDefault": true,
+    "name": "None",
+    "fillScreen": false,
+    "type": "none",
+    "color": null,
+    "config": null
+  },
+  {
+    "isDefault": true,
+    "name": "Circle - Stripes",
+    "fillScreen": false,
+    "type": "circleStripes",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 0,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.5
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.75
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "radial"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "gradient",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "beamEffect": "beam",
+      "centerOffsetX": -12,
+      "centerOffsetY": 0,
+      "descentRate": 360,
+      "direction": "insideOut",
+      "innerRadius": 64,
+      "lineThickness": 1,
+      "mirror": true,
+      "rotation": 270,
+      "rotationAnimationEnabled": false,
+      "rotationDirection": "clockwise",
+      "rotationSpeed": 10,
+      "stripesCount": 64
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Circle - Waveform",
+    "fillScreen": false,
+    "type": "circleWaveform",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 0,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.5
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.75
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "radial"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "gradient",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "beamEffect": "beam",
+      "centerOffsetX": -12,
+      "centerOffsetY": 0,
+      "descentRate": 360,
+      "fillEnabled": true,
+      "innerRadius": 32,
+      "lineThickness": 1,
+      "mirror": false,
+      "opacity": 0.4,
+      "peaksCount": 64,
+      "rotation": 270,
+      "rotationAnimationEnabled": false,
+      "rotationDirection": "clockwise",
+      "rotationSpeed": 10
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Oscilloscope",
+    "fillScreen": false,
+    "type": "oscilloscope",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.166
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.332
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.668
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.834
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "rainbow",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "beamEffect": "beam",
+      "lineThickness": 1,
+      "smoothLine": true
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Oscilloscope - Center",
+    "fillScreen": false,
+    "type": "oscilloscopeCenter",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.166
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.332
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.668
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.834
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "rainbow",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "beamEffect": "beam",
+      "lineThickness": 1,
+      "smoothLine": true
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Oscilloscope - Double",
+    "fillScreen": false,
+    "type": "oscilloscopeDouble",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.166
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.332
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.668
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.834
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "rainbow",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "beamEffect": "beam",
+      "lineThickness": 1,
+      "smoothLine": true
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Oscilloscope - Filled",
+    "fillScreen": false,
+    "type": "oscilloscopeFilled",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.166
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.332
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.668
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.834
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "rainbow",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "beamEffect": "beam",
+      "lineThickness": 1,
+      "opacity": 0.5,
+      "smoothLine": true
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Peaks",
+    "fillScreen": false,
+    "type": "peaks",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.33
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.66
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "gradient",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "barHeight": 3,
+      "descentRate": 360,
+      "direction": "bottomUp",
+      "floatingBarDescentRate": 60,
+      "horizontalBarSpace": 2,
+      "peaksCount": 48,
+      "showFloatingBar": true,
+      "useFloatingBarGravity": false,
+      "verticalBarSpace": 2
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Peaks - Bouncing",
+    "fillScreen": false,
+    "type": "peaksBouncing",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.166
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.332
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.668
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.834
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "gradient",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "peaksCount": 48,
+      "barHeight": 3,
+      "verticalBarSpace": 2,
+      "descentRate": 360,
+      "upperEdgeDescentRate": 60,
+      "horizontalBarSpace": 2
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Peaks - Floating",
+    "fillScreen": false,
+    "type": "peaksFloating",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.33
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.66
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "gradient",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "barHeight": 3,
+      "descentRate": 360,
+      "direction": "bottomUp",
+      "horizontalBarSpace": 2,
+      "peaksCount": 48
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Peaks - Floating Mirrored",
+    "fillScreen": false,
+    "type": "peaksFloatingMirrored",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.166
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.332
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.668
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.834
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "gradient",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "barHeight": 3,
+      "descentRate": 360,
+      "direction": "outside",
+      "horizontalBarSpace": 2,
+      "peaksCount": 48,
+      "verticalBarSpace": 2
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Peaks - Mirrored",
+    "fillScreen": false,
+    "type": "peaksMirrored",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.166
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.332
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.668
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.834
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "gradient",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "barHeight": 3,
+      "descentRate": 360,
+      "direction": "outside",
+      "floatingBarDescentRate": 60,
+      "horizontalBarSpace": 2,
+      "peaksCount": 48,
+      "showFloatingBar": true,
+      "useFloatingBarGravity": true,
+      "verticalBarSpace": 2
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Stripes",
+    "fillScreen": false,
+    "type": "stripes",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.33
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.66
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "gradient",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "descentRate": 360,
+      "direction": "bottomUp",
+      "floatingBarDescentRate": 60,
+      "floatingBarHeight": 3,
+      "horizontalBarSpace": 2,
+      "showFloatingBar": true,
+      "stripesCount": 48,
+      "useFloatingBarGravity": false,
+      "verticalBarSpace": 2
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Stripes - Bouncing",
+    "fillScreen": false,
+    "type": "stripesBouncing",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.166
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.332
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.668
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.834
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "gradient",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "stripesCount": 48,
+      "descentRate": 360,
+      "upperEdgeDescentRate": 60,
+      "horizontalBarSpace": 2
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Stripes - Mirrored",
+    "fillScreen": false,
+    "type": "stripesMirrored",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.166
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.332
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.668
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.834
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "gradient",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "descentRate": 360,
+      "direction": "outside",
+      "floatingBarDescentRate": 60,
+      "floatingBarHeight": 3,
+      "horizontalBarSpace": 2,
+      "showFloatingBar": true,
+      "stripesCount": 48,
+      "useFloatingBarGravity": false,
+      "verticalBarSpace": 2
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Waveform",
+    "fillScreen": false,
+    "type": "waveform",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.166
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.332
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.668
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.834
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "rainbow",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "beamEffect": "none",
+      "descentRate": 360,
+      "direction": "bottomUp",
+      "fillEnabled": true,
+      "lineThickness": 1,
+      "opacity": 1,
+      "peaksCount": 48,
+      "transformation": "none",
+      "transformationMinimum": 0
+    }
+  },
+  {
+    "isDefault": true,
+    "name": "Waveform - Mirrored",
+    "fillScreen": false,
+    "type": "waveformMirrored",
+    "color": {
+      "animateGradient": false,
+      "gradient": {
+        "angle": 270,
+        "points": [
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 0
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.166
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.332
+          },
+          {
+            "color": {
+              "hexCode": "#10893E",
+              "name": ""
+            },
+            "position": 0.668
+          },
+          {
+            "color": {
+              "hexCode": "#FFB900",
+              "name": ""
+            },
+            "position": 0.834
+          },
+          {
+            "color": {
+              "hexCode": "#E81123",
+              "name": ""
+            },
+            "position": 1
+          }
+        ],
+        "type": "linear"
+      },
+      "horizontalAnimationSpeed": 30,
+      "mode": "rainbow",
+      "recentColors": [],
+      "rainbowAngle": 0,
+      "rainbowGradientType": "linear",
+      "solidColor": {
+        "hexCode": "#10893E",
+        "name": ""
+      },
+      "stretch": 100,
+      "verticalAnimationSpeed": 0
+    },
+    "config": {
+      "beamEffect": "none",
+      "descentRate": 360,
+      "direction": "inside",
+      "fillEnabled": true,
+      "lineThickness": 1,
+      "opacity": 1,
+      "peaksCount": 48,
+      "shift": false,
+      "transformation": "none",
+      "transformationMinimum": 0
+    }
+  }
+]

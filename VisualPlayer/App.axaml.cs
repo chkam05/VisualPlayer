@@ -40,6 +40,7 @@ public partial class App : Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            ApplicationContext.InitializeUiResources(Resources);
             ApplicationContext.InitializeStartupFiles(desktop.Args ?? []);
 
             desktop.MainWindow = CreateWindow();

@@ -1,0 +1,15 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <ControlTheme x:Key="ListBoxTheme" BasedOn="{StaticResource {x:Type ListBox}}" TargetType="ListBox">
+        <Setter Property="Background" Value="{DynamicResource UI.ThemeShadeBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeBackgroundBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+        <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemTheme}"/>
+        <Setter Property="Padding" Value="8,6"/>
+    </ControlTheme>
+</ResourceDictionary>

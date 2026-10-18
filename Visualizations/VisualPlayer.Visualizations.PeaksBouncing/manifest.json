@@ -1,0 +1,13 @@
+{
+  "manifestVersion": 1,
+  "id": "visualplayer.peaks-bouncing",
+  "version": "1.0.0",
+  "apiMajor": 1,
+  "minimumApiMinor": 0,
+  "targetFramework": "net10.0",
+  "avaloniaVersion": "12.1.2",
+  "entryAssembly": "VisualPlayer.Visualizations.PeaksBouncing.dll",
+  "entryType": "VisualPlayer.Visualizations.PeaksBouncing.PeaksBouncingPlugin",
+  "defaultLanguage": "en-US",
+  "languageDirectory": "Lang"
+}

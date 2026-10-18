@@ -1,8 +1,20 @@
 param(
-    [string] $ProjectPath = (Join-Path $PSScriptRoot '../VisualPlayer')
+    [string] $ProjectPath
 )
 
 $ErrorActionPreference = 'Stop'
+if ([string]::IsNullOrWhiteSpace($ProjectPath)) {
+    $root = Join-Path $PSScriptRoot '..'
+    $projects = @(Get-ChildItem -LiteralPath $root -Directory)
+    if (Test-Path -LiteralPath (Join-Path $root 'Visualizations')) {
+        $projects += @(Get-ChildItem -LiteralPath (Join-Path $root 'Visualizations') -Directory)
+    }
+    $projects | Where-Object {
+        (Test-Path -LiteralPath (Join-Path $_.FullName 'Resources/EnglishTranslations.cs')) -and
+        (Test-Path -LiteralPath (Join-Path $_.FullName 'Lang/pl-PL.json'))
+    } | ForEach-Object { & $PSCommandPath -ProjectPath $_.FullName }
+    return
+}
 $project = (Resolve-Path -LiteralPath $ProjectPath).Path
 $englishPath = [IO.Path]::GetFullPath((Join-Path $project 'Resources/EnglishTranslations.cs'))
 $polishPath = [IO.Path]::GetFullPath((Join-Path $project 'Lang/pl-PL.json'))
@@ -58,7 +70,7 @@ Get-ChildItem -LiteralPath $project -Recurse -File | Where-Object {
 } | ForEach-Object {
     $file = $_.FullName
     foreach ($match in [regex]::Matches([IO.File]::ReadAllText($file),
-        'Translations\[([A-Z][A-Z0-9_]+)\]|"([A-Z][A-Z0-9]*(?:_[A-Z0-9]+)+)"')) {
+        '(?:Translations\[|UI\.Text\.)([A-Z][A-Z0-9_]+)|"([A-Z][A-Z0-9]*(?:_[A-Z0-9]+)+)"')) {
         $key = if ($match.Groups[1].Success) { $match.Groups[1].Value } else { $match.Groups[2].Value }
         $references[$key] = $true
         if (!$english.ContainsKey($key)) { $problems.Add("Undefined translation: $key ($file)") }
@@ -69,4 +81,4 @@ if ($problems.Count -gt 0) {
     $problems | Sort-Object -Unique | ForEach-Object { Write-Output $_ }
     throw "Translation audit failed: $($problems.Count) problem(s)."
 }
-Write-Output "Translations OK: $($english.Count) English, $($polish.Count) Polish, $($references.Count) referenced keys."
+Write-Output "Translations OK ($([IO.Path]::GetFileName($project))): $($english.Count) English, $($polish.Count) Polish, $($references.Count) referenced keys."

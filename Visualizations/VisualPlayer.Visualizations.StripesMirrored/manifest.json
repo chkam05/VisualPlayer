@@ -1,0 +1,13 @@
+{
+  "manifestVersion": 1,
+  "id": "visualplayer.stripes-mirrored",
+  "version": "1.0.0",
+  "apiMajor": 1,
+  "minimumApiMinor": 0,
+  "targetFramework": "net10.0",
+  "avaloniaVersion": "12.1.2",
+  "entryAssembly": "VisualPlayer.Visualizations.StripesMirrored.dll",
+  "entryType": "VisualPlayer.Visualizations.StripesMirrored.StripesMirroredPlugin",
+  "defaultLanguage": "en-US",
+  "languageDirectory": "Lang"
+}

@@ -1,0 +1,57 @@
+using System.Collections.ObjectModel;
+
+namespace VisualPlayer.UI.Resources;
+
+public static class EnglishTranslations
+{
+    public static IReadOnlyDictionary<string,string> Values { get; } = new ReadOnlyDictionary<string,string>(new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase)
+    {
+        ["COLORPALETTE_BUTTON_ADD_COLOR"] = "Add your own color",
+        ["COLORPALETTE_LABEL_LAST_USED"] = "Recently used colors",
+        ["COLORPALETTE_TITLE"] = "Accent color",
+        ["COMPONENT_NUMERIC_UP_DOWN_BUTTON_DECREASE"] = "Decrease",
+        ["COMPONENT_NUMERIC_UP_DOWN_BUTTON_INCREASE"] = "Increase",
+        ["ENUM_BEAMEFFECT_BEAM"] = "Radius",
+        ["ENUM_BEAMEFFECT_NONE"] = "None",
+        ["ENUM_GRADIENTTYPE_CONIC"] = "Conical",
+        ["ENUM_GRADIENTTYPE_LINEAR"] = "Linear",
+        ["ENUM_GRADIENTTYPE_RADIAL"] = "Radial",
+        ["ENUM_MIRROREDVISUALIZATIONDIRECTION_INSIDE"] = "Inside",
+        ["ENUM_MIRROREDVISUALIZATIONDIRECTION_OUTSIDE"] = "Outside",
+        ["ENUM_RADIALVISUALIZATIONDIRECTION_INSIDEOUT"] = "Insideout",
+        ["ENUM_RADIALVISUALIZATIONDIRECTION_OUTSIDEIN"] = "Outsidein",
+        ["ENUM_ROTATIONDIRECTION_CLOCKWISE"] = "Clockwise",
+        ["ENUM_ROTATIONDIRECTION_COUNTERCLOCKWISE"] = "Counter-clockwise",
+        ["ENUM_VISUALIZATIONCOLORMODE_GRADIENT"] = "Gradient",
+        ["ENUM_VISUALIZATIONCOLORMODE_RAINBOW"] = "Rainbow",
+        ["ENUM_VISUALIZATIONCOLORMODE_SOLID"] = "Solid",
+        ["ENUM_VISUALIZATIONDIRECTION_BOTTOMUP"] = "From bottom to top",
+        ["ENUM_VISUALIZATIONDIRECTION_TOPDOWN"] = "From top to bottom",
+        ["ENUM_WAVEFORMTRANSFORMATION_COS"] = "COS",
+        ["ENUM_WAVEFORMTRANSFORMATION_SIN"] = "SIN",
+        ["GRADIENT_BUTTON_ADD_A_POINT"] = "Add a point",
+        ["GRADIENT_BUTTON_REMOVE_POINT"] = "Remove point",
+        ["KEYBIND_BUTTON_CLEAN"] = "Clear shortcut",
+        ["KEYBIND_CAPTURING"] = "Press a shortcut…",
+        ["KEYBIND_TITLE"] = "Click, then press the key combination",
+        ["SETTINGSEXPAND_TOOLTIP_EXPAND_COLLAPSE"] = "Expand / collapse",
+        ["VIEW_VISUALIZATIONS_COLOR_ANGLE_DESC"] = "Specifies the orientation angle of the linear or conical rainbow.",
+        ["VIEW_VISUALIZATIONS_COLOR_ANIMATION_DESC"] = "Shifts the gradient while the visualization is running.",
+        ["VIEW_VISUALIZATIONS_COLOR_ANIMATION_SPEED_MINIMUM_DESC"] = "A negative value reverses the direction of vertical movement.",
+        ["VIEW_VISUALIZATIONS_COLOR_ANIMATION_SPEED_MINIMUM_TITLE"] = "Vertical speed",
+        ["VIEW_VISUALIZATIONS_COLOR_DESC"] = "Choose a solid color, a custom gradient, or an animated rainbow visualization.",
+        ["VIEW_VISUALIZATIONS_COLOR_GRADIENT_TYPE_DESC"] = "It defines the rainbow color scheme.",
+        ["VIEW_VISUALIZATIONS_COLOR_HORIZONTAL_SPEED_DESC"] = "A negative value reverses the direction of horizontal movement.",
+        ["VIEW_VISUALIZATIONS_COLOR_MODE_DESC"] = "Specifies how visualization elements are colored.",
+        ["VIEW_VISUALIZATIONS_COLOR_STRETCH_MINIMUM_DESC"] = "Specifies how large a fragment of the gradient fits into the visualization area at one time.",
+        ["VIEW_VISUALIZATIONS_COLOR_STRETCH_MINIMUM_TITLE"] = "Gradient stretch",
+        ["VIEW_VISUALIZATIONS_COLOR_TITLE_COLOR"] = "Color",
+        ["VIEW_VISUALIZATIONS_COLOR_TITLE_COLOR_OF_THE_SELECTED_POINT"] = "Color of the selected point",
+        ["VIEW_VISUALIZATIONS_COLOR_TITLE_COLOR_TYPE"] = "Color type",
+        ["VIEW_VISUALIZATIONS_COLOR_TITLE_GRADIENT_ANIMATION"] = "Gradient animation",
+        ["VIEW_VISUALIZATIONS_COLOR_TITLE_HORIZONTAL_SPEED"] = "Horizontal speed",
+        ["VIEW_VISUALIZATIONS_COLOR_TITLE_RAINBOW_ANGLE"] = "Rainbow angle",
+        ["VIEW_VISUALIZATIONS_COLOR_TITLE_TYPE_OF_RAINBOW"] = "Type of rainbow",
+        ["VIEW_VISUALIZATIONS_COLOR_TITLE_VISUALIZATION_COLOR"] = "Visualization color",
+    });
+}

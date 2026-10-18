@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -8,13 +7,10 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using VisualPlayer.Contexts;
-using VisualPlayer.Enums;
+using VisualPlayer.Visualizations.Registry;
 using VisualPlayer.Events;
-using VisualPlayer.Resources;
-using VisualPlayer.Visualizations.Config;
 using VisualPlayer.Visualizations.Config.Base;
 using VisualPlayer.Views.Base;
-using VisualPlayer.Views.Visualisations;
 
 namespace VisualPlayer.Views;
 
@@ -24,23 +20,6 @@ public partial class InternalViewVisualizations : InternalViewBase
 
     private readonly VisualizationConfigurationContext _config;
 
-    private readonly PeaksFloatingConfig _peaksFloatingConfig = new();
-    private readonly OscilloscopeCenterConfig _oscilloscopeCenterConfig = new();
-    private readonly OscilloscopeFilledConfig _oscilloscopeFilledConfig = new();
-    private readonly OscilloscopeDoubleConfig _oscilloscopeDoubleConfig = new();
-    private readonly PeaksFloatingMirroredConfig _peaksFloatingMirroredConfig = new();
-    private readonly PeaksMirroredConfig _peaksMirroredConfig = new();
-    private readonly PeaksBouncingConfig _peaksBouncingConfig = new();
-    private readonly StripesBouncingConfig _stripesBouncingConfig = new();
-    private readonly StripesMirroredConfig _stripesMirroredConfig = new();
-    private readonly OscilloscopeConfig _oscilloscopeConfig = new();
-    private readonly PeaksConfig _peaksConfig = new();
-    private readonly StripesConfig _stripesConfig = new();
-    private readonly WaveformConfig _waveformConfig = new();
-    private readonly WaveformMirroredConfig _waveformMirroredConfig = new();
-    private readonly CircleStripesConfig _circleStripesConfig = new();
-    private readonly CircleWaveformConfig _circleWaveformConfig = new();
-    
     private bool _canSaveProfile;
     private bool _sortAscending = true;
     private string _profileName = string.Empty;
@@ -110,7 +89,7 @@ public partial class InternalViewVisualizations : InternalViewBase
 
             SetAndRaise(SelectedProfileProperty, ref _selectedProfile, value);
             value.PropertyChanged += SelectedProfile_PropertyChanged;
-            _config.SelectedProfileName = value.Name;
+            _config.SelectedProfileId = value.ProfileId;
             ProfileName = value.Name;
             UpdateConfigView();
         }
@@ -118,10 +97,7 @@ public partial class InternalViewVisualizations : InternalViewBase
 
     public ObservableCollection<VisualisationProfile> VisibleProfiles { get; } = [];
 
-    public IReadOnlyList<VisualizationType> VisualizationTypes { get; }
-        = Enum.GetValues<VisualizationType>()
-            .OrderBy(type => type.ToString(), StringComparer.Ordinal)
-            .ToArray();
+    public ReadOnlyObservableCollection<VisualizationRegistration> VisualizationTypes => _config.Registry.Available;
 
     #endregion PROPERTIES
 
@@ -154,6 +130,7 @@ public partial class InternalViewVisualizations : InternalViewBase
         if (_selectedProfile is not null)
             _selectedProfile.PropertyChanged -= SelectedProfile_PropertyChanged;
 
+        PART_ConfigHost.Content = null;
         base.OnClosed();
     }
 
@@ -161,12 +138,13 @@ public partial class InternalViewVisualizations : InternalViewBase
     {
         Title = T["MENU_VISUALIZATIONS"];
         RefreshVisibleProfiles();
-        UpdateConfigView();
+        if (SelectedProfile is { IsAvailable: false } || SelectedProfile?.PluginId == VisualizationRegistry.NoneId) UpdateConfigView();
     }
 
     private void InternalViewVisualizations_SaveRequested(object? sender, EventArgs e)
     {
-        _config.Save();
+        try { _config.Save(); }
+        catch (Exception exception) { ShowStatus(T.Format("VIEW_VISUALIZATIONS_SAVE_ERROR", exception.Message)); }
     }
 
     public void OverwriteProfile(VisualisationProfile profile)
@@ -212,19 +190,19 @@ public partial class InternalViewVisualizations : InternalViewBase
         var searchText = SearchText.Trim();
         var profiles = _config.Profiles.Where(profile =>
             searchText.Length == 0
-            || profile.Name.Contains(searchText, StringComparison.CurrentCultureIgnoreCase));
+            || profile.DisplayName.Contains(searchText, StringComparison.CurrentCultureIgnoreCase));
 
         if (_sortAscending)
         {
             profiles = profiles
                 .OrderBy(profile => profile.IsDefault ? 0 : 1)
-                .ThenBy(profile => profile.Name, StringComparer.CurrentCultureIgnoreCase);
+                .ThenBy(profile => profile.DisplayName, StringComparer.CurrentCultureIgnoreCase);
         }
         else
         {
             profiles = profiles
                 .OrderBy(profile => profile.IsDefault ? 0 : 1)
-                .ThenByDescending(profile => profile.Name, StringComparer.CurrentCultureIgnoreCase);
+                .ThenByDescending(profile => profile.DisplayName, StringComparer.CurrentCultureIgnoreCase);
         }
 
         VisibleProfiles.Clear();
@@ -242,7 +220,7 @@ public partial class InternalViewVisualizations : InternalViewBase
         var profileName = ProfileName.Trim();
         CanSaveProfile = SelectedProfile is not null
             && profileName.Length > 0
-            && !DefaultVisualizationProfiles.IsDefaultName(profileName);
+            && !_config.Profiles.Any(p => p.IsDefault && (p.Name.Equals(profileName, StringComparison.CurrentCultureIgnoreCase) || p.DisplayName.Equals(profileName, StringComparison.CurrentCultureIgnoreCase)));
     }
 
     private void UpdateConfigView()
@@ -250,99 +228,29 @@ public partial class InternalViewVisualizations : InternalViewBase
         if (PART_ConfigHost is null || SelectedProfile is null)
             return;
 
-        switch (SelectedProfile.VisualizationType)
+        PART_ConfigHost.Content = null;
+        if (!SelectedProfile.IsAvailable)
         {
-            case VisualizationType.PeaksBouncing:
-                SelectedProfile.GetConfig<PeaksBouncingVisualizationConfig>();
-                _peaksBouncingConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _peaksBouncingConfig;
-                break;
-            case VisualizationType.StripesBouncing:
-                SelectedProfile.GetConfig<StripesBouncingVisualizationConfig>();
-                _stripesBouncingConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _stripesBouncingConfig;
-                break;
-            case VisualizationType.Peaks:
-                SelectedProfile.GetConfig<PeaksVisualizationConfig>();
-                _peaksConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _peaksConfig;
-                break;
-            case VisualizationType.Stripes:
-                SelectedProfile.GetConfig<StripesVisualizationConfig>();
-                _stripesConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _stripesConfig;
-                break;
-            case VisualizationType.PeaksMirrored:
-                SelectedProfile.GetConfig<PeaksMirroredVisualizationConfig>();
-                _peaksMirroredConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _peaksMirroredConfig;
-                break;
-            case VisualizationType.StripesMirrored:
-                SelectedProfile.GetConfig<StripesMirroredVisualizationConfig>();
-                _stripesMirroredConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _stripesMirroredConfig;
-                break;
-            case VisualizationType.PeaksFloating:
-                SelectedProfile.GetConfig<PeaksFloatingVisualizationConfig>();
-                _peaksFloatingConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _peaksFloatingConfig;
-                break;
-            case VisualizationType.PeaksFloatingMirrored:
-                SelectedProfile.GetConfig<PeaksFloatingMirroredVisualizationConfig>();
-                _peaksFloatingMirroredConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _peaksFloatingMirroredConfig;
-                break;
-            case VisualizationType.Oscilloscope:
-                SelectedProfile.GetConfig<OscilloscopeVisualizationConfig>();
-                _oscilloscopeConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _oscilloscopeConfig;
-                break;
-            case VisualizationType.OscilloscopeDouble:
-                SelectedProfile.GetConfig<OscilloscopeDoubleVisualizationConfig>();
-                _oscilloscopeDoubleConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _oscilloscopeDoubleConfig;
-                break;
-            case VisualizationType.OscilloscopeFilled:
-                SelectedProfile.GetConfig<OscilloscopeFilledVisualizationConfig>();
-                _oscilloscopeFilledConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _oscilloscopeFilledConfig;
-                break;
-            case VisualizationType.OscilloscopeCenter:
-                SelectedProfile.GetConfig<OscilloscopeCenterVisualizationConfig>();
-                _oscilloscopeCenterConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _oscilloscopeCenterConfig;
-                break;
-            case VisualizationType.Waveform:
-                SelectedProfile.GetConfig<WaveformVisualizationConfig>();
-                _waveformConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _waveformConfig;
-                break;
-            case VisualizationType.WaveformMirrored:
-                SelectedProfile.GetConfig<WaveformMirroredVisualizationConfig>();
-                _waveformMirroredConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _waveformMirroredConfig;
-                break;
-            case VisualizationType.CircleStripes:
-                SelectedProfile.GetConfig<CircleStripesVisualizationConfig>();
-                _circleStripesConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _circleStripesConfig;
-                break;
-            case VisualizationType.CircleWaveform:
-                SelectedProfile.GetConfig<CircleWaveformVisualizationConfig>();
-                _circleWaveformConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _circleWaveformConfig;
-                break;
-            default:
-                PART_ConfigHost.Content = new TextBlock
-                {
-                    Margin = new Thickness(8),
-                    Opacity = 0.6,
-                    Text = T["VIEW_VISUALIZATIONS_DISABLED"]
-                };
-                break;
+            ShowStatus(T.Format("VIEW_VISUALIZATIONS_PLUGIN_UNAVAILABLE", SelectedProfile.PluginId, SelectedProfile.ConfigurationError ?? string.Empty));
+            return;
+        }
+        if (SelectedProfile.PluginId == VisualizationRegistry.NoneId)
+        {
+            ShowStatus(T["VIEW_VISUALIZATIONS_DISABLED"]);
+            return;
+        }
+        try { PART_ConfigHost.Content = SelectedProfile.Registration?.CreateEditor(SelectedProfile); }
+        catch (Exception exception)
+        {
+            SelectedProfile.Registration?.Report("Cannot create configuration editor.", exception);
+            ShowStatus(T.Format("VIEW_VISUALIZATIONS_EDITOR_ERROR", SelectedProfile.PluginId));
         }
     }
 
+    private void ShowStatus(string text) => PART_ConfigHost.Content = new TextBlock
+    {
+        Margin = new Thickness(8), Opacity = 0.6, Text = text, TextWrapping = Avalonia.Media.TextWrapping.Wrap
+    };
     #endregion ACTIONS
 
     #region BUTTON ACTIONS
@@ -410,10 +318,10 @@ public partial class InternalViewVisualizations : InternalViewBase
 
     private void SelectedProfile_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(VisualisationProfile.VisualizationType))
+        if (e.PropertyName == nameof(VisualisationProfile.Config))
             UpdateConfigView();
 
-        if (e.PropertyName == nameof(VisualisationProfile.Name))
+        if (e.PropertyName is nameof(VisualisationProfile.Name) or nameof(VisualisationProfile.DisplayName))
             RefreshVisibleProfiles();
     }
 

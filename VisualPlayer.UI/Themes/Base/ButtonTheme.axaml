@@ -1,0 +1,78 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <!-- BASE THEME -->
+    <ControlTheme
+        x:Key="BaseButtonTheme"
+        TargetType="Button"
+        BasedOn="{StaticResource {x:Type Button}}">
+
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="8"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="MinHeight" Value="28"/>
+        <Setter Property="MinWidth" Value="28"/>
+        <Setter Property="Padding" Value="12,6"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </ControlTheme>
+
+    <!-- ACCENT THEME -->
+    <ControlTheme
+        x:Key="AccentButtonTheme"
+        TargetType="Button"
+        BasedOn="{StaticResource BaseButtonTheme}">
+
+        <Setter Property="Background" Value="{DynamicResource UI.AccentColorBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource UI.AccentColorBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource UI.AccentForegroundColorBrush}"/>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentMouseOverColorBrush}"/>
+        </Style>
+
+        <Style Selector="^:focus-visible">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentMouseOverColorBrush}"/>
+        </Style>
+
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentPressedBrush}"/>
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentDisabledBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.AccentDisabledBrush}"/>
+            <Setter Property="Opacity" Value="0.6"/>
+        </Style>
+    </ControlTheme>
+
+    <!-- THEME THEME -->
+    <ControlTheme
+        x:Key="ThemeButtonTheme"
+        TargetType="Button"
+        BasedOn="{StaticResource BaseButtonTheme}">
+
+        <Setter Property="Background" Value="{DynamicResource UI.ThemeShadeBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeShadeBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemeMouseOverBrush}"/>
+        </Style>
+
+        <Style Selector="^:focus-visible">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemeMouseOverBrush}"/>
+        </Style>
+
+        <Style Selector="^:pressed">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemePressedBrush}"/>
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemeDisabledBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeDisabledBrush}"/>
+            <Setter Property="Opacity" Value="0.6"/>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

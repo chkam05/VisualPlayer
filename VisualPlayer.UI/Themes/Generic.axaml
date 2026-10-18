@@ -1,0 +1,27 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Defaults.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Base/ButtonTheme.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Base/ContextMenuTheme.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Base/ContextMenuItemTheme.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Base/ComboBoxItemTheme.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Base/ComboBoxTheme.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Base/ListBoxItemTheme.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Base/ListBoxTheme.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Base/SliderTheme.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Base/TextBox.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Components/ButtonWithIcon.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Components/ColorValueSlider.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Components/KeyBindControl.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Components/NumericUpDown.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Components/ScrollTextBlock.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Components/Switch.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Components/ToggleButtonWithIcon.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Components/ColorizedButtonThemes.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Controls/ControlBorderTheme.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Controls/ColorPaletteControl.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Controls/GradientControl.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Controls/SettingsControl.axaml"/>
+        <ResourceInclude Source="avares://VisualPlayer.UI/Themes/Controls/SettingsExpandControl.axaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

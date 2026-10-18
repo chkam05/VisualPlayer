@@ -1,0 +1,13 @@
+{
+  "manifestVersion": 1,
+  "id": "visualplayer.oscilloscope-center",
+  "version": "1.0.0",
+  "apiMajor": 1,
+  "minimumApiMinor": 0,
+  "targetFramework": "net10.0",
+  "avaloniaVersion": "12.1.2",
+  "entryAssembly": "VisualPlayer.Visualizations.OscilloscopeCenter.dll",
+  "entryType": "VisualPlayer.Visualizations.OscilloscopeCenter.OscilloscopeCenterPlugin",
+  "defaultLanguage": "en-US",
+  "languageDirectory": "Lang"
+}

@@ -1,0 +1,148 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:visualizationConfig="using:VisualPlayer.Visualizations.Config.Base">
+
+    <converters:GradientTypeToTitleConverter x:Key="GradientTypeToTitleConverter"/>
+
+    <!-- GRADIENT POINT HANDLER -->
+    
+    <ControlTheme x:Key="GradientPoint.ThumbTheme" TargetType="Thumb">
+        <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Height" Value="108"/>
+        <Setter Property="Width" Value="18"/>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid
+                    RowDefinitions="*,18">
+
+                    <Border
+                        Background="{TemplateBinding BorderBrush}"
+                        HorizontalAlignment="Center"
+                        Margin="0,1,0,-1"
+                        Width="2"/>
+
+                    <Ellipse
+                        Fill="{TemplateBinding Background}"
+                        Grid.Row="1"
+                        Height="18"
+                        Stroke="{TemplateBinding BorderBrush}"
+                        StrokeThickness="2"
+                        Width="18"/>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.AccentMouseOverColorBrush}"/>
+        </Style>
+
+        <Style Selector="^.Selected">
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.AccentColorBrush}"/>
+            <Setter Property="BorderThickness" Value="3"/>
+        </Style>
+    </ControlTheme>
+
+    <!-- GRADIENT CONTROL TEMPLATE -->
+
+    <ControlTemplate x:Key="GradientControlTemplate" TargetType="controls:GradientControl">
+        <StackPanel
+            Orientation="Vertical"
+            Spacing="10">
+
+            <!-- Type & Angle -->
+            <Grid
+                ColumnDefinitions="*,160"
+                ColumnSpacing="8">
+
+                <ComboBox
+                    Height="38"
+                    ItemsSource="{ReflectionBinding GradientOptions, RelativeSource={RelativeSource TemplatedParent}}"
+                    SelectedValueBinding="{ReflectionBinding Value}"
+                    SelectedValue="{ReflectionBinding Gradient.Type, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                    Theme="{StaticResource ComboBoxTheme}">
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource GradientTypeToTitleConverter}">
+                                        <ReflectionBinding Path="Value"/>
+                                        <ReflectionBinding Path="Translations"/>
+                                        <ReflectionBinding Path="Translations.CurrentLanguageCode"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <components:NumericUpDown
+                    Grid.Column="1"
+                    Height="38"
+                    Maximum="{x:Static visualizationConfig:GradientDefinition.ANGLE_MAXIMUM}"
+                    Minimum="{x:Static visualizationConfig:GradientDefinition.ANGLE_MINIMUM}"
+                    Suffix="°"
+                    Value="{ReflectionBinding Gradient.Angle, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+            </Grid>
+
+            <!-- Gradient -->
+            <Grid Height="132">
+                <Border
+                    x:Name="PART_Preview"
+                    Background="{TemplateBinding GradientBrush}"
+                    BorderBrush="{DynamicResource UI.ThemeForegroundBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Height="96"
+                    VerticalAlignment="Top"/>
+
+                <Canvas
+                    x:Name="PART_StopsCanvas"
+                    Background="Transparent"
+                    Height="132"/>
+            </Grid>
+
+            <!-- Buttons -->
+            <StackPanel
+                HorizontalAlignment="Right"
+                Orientation="Horizontal"
+                Spacing="8">
+
+                <components:ButtonWithIcon
+                    x:Name="PART_AddPointButton"
+                    Content="{DynamicResource UI.Text.GRADIENT_BUTTON_ADD_A_POINT}"
+                    Height="40"
+                    Kind="Plus"
+                    Theme="{StaticResource AccentButtonWithIconTheme}"/>
+
+                <components:ButtonWithIcon
+                    x:Name="PART_RemovePointButton"
+                    Content="{DynamicResource UI.Text.GRADIENT_BUTTON_REMOVE_POINT}"
+                    Height="40"
+                    Kind="Trash"
+                    Theme="{StaticResource AccentButtonWithIconTheme}"/>
+            </StackPanel>
+        </StackPanel>
+    </ControlTemplate>
+
+    <!-- GRADIENT CONTROL THEME -->
+    
+    <ControlTheme x:Key="{x:Type controls:GradientControl}" TargetType="controls:GradientControl">
+        <Setter Property="Translations" Value="{DynamicResource UI.TranslationScope}"/>
+        <Setter Property="Template" Value="{StaticResource GradientControlTemplate}"/>
+
+        <Style Selector="^ /template/ Thumb.GradientPoint">
+            <Setter Property="Theme" Value="{StaticResource GradientPoint.ThumbTheme}"/>
+        </Style>
+
+        <Style Selector="^ /template/ TextBlock.GradientPointPosition">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

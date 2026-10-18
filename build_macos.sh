@@ -113,6 +113,9 @@ mv -- "$publish_dir/$assembly_name" "$contents/MacOS/$assembly_name"
 if [[ -d "$publish_dir/Lang" ]]; then
     mv -- "$publish_dir/Lang" "$contents/Resources/Lang"
 fi
+if [[ -d "$publish_dir/Plugins" ]]; then
+    mv -- "$publish_dir/Plugins" "$contents/Resources/Plugins"
+fi
 chmod +x "$contents/MacOS/$assembly_name"
 
 # Supply all standard and Retina icon sizes using the existing application logo.

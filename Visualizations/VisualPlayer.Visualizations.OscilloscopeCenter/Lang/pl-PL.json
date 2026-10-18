@@ -1,0 +1,16 @@
+{
+    "header":  {
+                   "code":  "pl-PL",
+                   "name":  "Polski"
+               },
+    "translations":  {
+                         "ENUM_VISUALIZATIONTYPE_OSCILLOSCOPECENTER":  "Oscilloscope - Center",
+                         "VIEW_VISUALIZATIONS_LINE_EFFECT_TITLE":  "Efekt linii",
+                         "VIEW_VISUALIZATIONS_LINE_THICKNESS_TITLE":  "Grubość linii",
+                         "VIEW_VISUALIZATIONS_OSCILLOSCOPE_BEAM_EFFECT_DESC":  "Dodaje lekką poświatę wokół linii.",
+                         "VIEW_VISUALIZATIONS_OSCILLOSCOPE_CENTER_LINE_THICKNESS_DESC":  "Określa grubość linii oscyloskopu zderzeniowego.",
+                         "VIEW_VISUALIZATIONS_OSCILLOSCOPE_SMOOTH_LINE_DESC":  "Interpoluje próbki, aby ograniczyć ostre załamania linii.",
+                         "VIEW_VISUALIZATIONS_OSCILLOSCOPE_SMOOTH_LINE_TITLE":  "Wygładzanie linii",
+                         "PRESET_DEFAULT":  "Oscilloscope - Center"
+                     }
+}

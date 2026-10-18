@@ -1,0 +1,28 @@
+<Project>
+  <ItemGroup>
+    <SystemVisualizationProject Include="$(MSBuildThisFileDirectory)../Visualizations/*/*.csproj" />
+  </ItemGroup>
+  <Target Name="BuildSystemVisualizations" AfterTargets="Build">
+    <!-- Build orchestration only: no plugin assembly becomes a reference of the host. -->
+    <!-- Keep restore in a distinct evaluation so a first build imports its newly generated NuGet/Avalonia targets. -->
+    <MSBuild Projects="@(SystemVisualizationProject)" Targets="Restore"
+             RemoveProperties="RuntimeIdentifier;SelfContained;PublishSingleFile;PublishAot;OutputPath;PublishDir;TargetFramework"
+             Properties="Configuration=$(Configuration);_VisualizationPackageRestore=true" />
+    <MSBuild Projects="@(SystemVisualizationProject)" Targets="GetVisualizationPackage"
+             RemoveProperties="RuntimeIdentifier;SelfContained;PublishSingleFile;PublishAot;OutputPath;PublishDir;TargetFramework"
+             Properties="Configuration=$(Configuration)">
+      <Output TaskParameter="TargetOutputs" ItemName="_SystemVisualizationFiles" />
+    </MSBuild>
+    <Copy SourceFiles="@(_SystemVisualizationFiles)"
+          DestinationFiles="@(_SystemVisualizationFiles->'$(TargetDir)Plugins/%(PackagePath)')" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="PublishSystemVisualizations" AfterTargets="ComputeFilesToPublish" DependsOnTargets="BuildSystemVisualizations">
+    <ItemGroup>
+      <ResolvedFileToPublish Include="@(_SystemVisualizationFiles)">
+        <RelativePath>Plugins/%(_SystemVisualizationFiles.PackagePath)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+</Project>

@@ -4,7 +4,6 @@ using System.Threading;
 using MiniAudioEx.Native;
 using VisualPlayer.Interfaces;
 using VisualPlayer.Enums;
-using VisualPlayer.Visualizations.Config;
 using VisualPlayer.Visualizations.Config.Base;
 
 namespace VisualPlayer.Core;

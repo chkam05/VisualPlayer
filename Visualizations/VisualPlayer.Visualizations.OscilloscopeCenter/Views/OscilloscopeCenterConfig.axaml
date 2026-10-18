@@ -1,0 +1,77 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:plugins="using:VisualPlayer.VisualizationBase.Plugins"
+    xmlns:common="using:VisualPlayer.UI.Views"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:config="using:VisualPlayer.Visualizations.OscilloscopeCenter.Config"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:local="using:VisualPlayer.Views.Visualisations"
+    xmlns:profile="using:VisualPlayer.Visualizations.Config.Base"
+    x:Class="VisualPlayer.Visualizations.OscilloscopeCenter.Views.OscilloscopeCenterConfig"
+    x:DataType="plugins:VisualizationEditorContext"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:BeamEffectToTitleConverter x:Key="BeamEffectToTitleConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel
+        Spacing="8">
+
+        <!-- Color -->
+        <common:VisualisationColorEditor EditorContext="{Binding}"/>
+
+        <!-- Thickness -->
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_CENTER_LINE_THICKNESS_DESC], Mode=OneWay}"
+            Icon="Minus"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_LINE_THICKNESS_TITLE], Mode=OneWay}">
+
+            <components:NumericUpDown
+                Maximum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MINIMUM}"
+                Suffix=" px"
+                Value="{ReflectionBinding Configuration.LineThickness, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Smooth -->
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_SMOOTH_LINE_DESC], Mode=OneWay}"
+            Icon="AudioWaveform"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_SMOOTH_LINE_TITLE], Mode=OneWay}">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Configuration.SmoothLine, Mode=TwoWay}"/>
+        </controls:SettingsControl>
+
+        <!-- Effects -->
+        <controls:SettingsControl
+            Description="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_BEAM_EFFECT_DESC], Mode=OneWay}"
+            Icon="Sparkles"
+            Title="{ReflectionBinding Services.Translations[VIEW_VISUALIZATIONS_LINE_EFFECT_TITLE], Mode=OneWay}">
+
+            <ComboBox
+                ItemsSource="{Binding BeamEffects, ElementName=Root}"
+                SelectedValueBinding="{ReflectionBinding Value}"
+                SelectedValue="{ReflectionBinding Configuration.BeamEffect, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource BeamEffectToTitleConverter}">
+                                    <ReflectionBinding Path="Value"/>
+                                    <ReflectionBinding Path="Translations"/>
+                                    <ReflectionBinding Path="Translations.CurrentLanguageCode"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </controls:SettingsControl>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,53 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <ControlTheme x:Key="ComboBoxItemTheme" BasedOn="{StaticResource {x:Type ComboBoxItem}}" TargetType="ComboBoxItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="6"/>
+        <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+        <Setter Property="Margin" Value="0,1"/>
+        <Setter Property="Padding" Value="10,7"/>
+
+        <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+        </Style>
+
+        <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentMouseOverColorBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource UI.AccentForegroundColorBrush}"/>
+        </Style>
+
+        <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource UI.AccentPressedBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource UI.AccentForegroundColorBrush}"/>
+        </Style>
+
+        <Style Selector="^:selected">
+            <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource UI.AccentSelectedColorBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource UI.AccentForegroundColorBrush}"/>
+            </Style>
+
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource UI.AccentMouseOverColorBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource UI.AccentForegroundColorBrush}"/>
+            </Style>
+
+            <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource UI.AccentPressedBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource UI.AccentForegroundColorBrush}"/>
+            </Style>
+        </Style>
+
+        <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemeDisabledBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+            <Setter Property="Opacity" Value="0.5"/>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

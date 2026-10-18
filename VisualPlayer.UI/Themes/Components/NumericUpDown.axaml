@@ -1,0 +1,90 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <ControlTheme x:Key="NumericUpDownButtonTheme" BasedOn="{StaticResource ThemeButtonWithIconTheme}" TargetType="components:ButtonWithIcon">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="16"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Width" Value="32"/>
+    </ControlTheme>
+
+    <ControlTheme x:Key="NumericUpDownTextBoxTheme" BasedOn="{StaticResource TextBoxTheme}" TargetType="TextBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="MinHeight" Value="32"/>
+        <Setter Property="Padding" Value="4,0"/>
+
+        <Style Selector="^:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="^:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+    </ControlTheme>
+
+    <ControlTemplate x:Key="NumericUpDownTemplate" TargetType="components:NumericUpDown">
+        <Border
+            Background="{TemplateBinding Background}"
+            BorderBrush="{TemplateBinding BorderBrush}"
+            BorderThickness="{TemplateBinding BorderThickness}"
+            CornerRadius="{TemplateBinding CornerRadius}"
+            Padding="2">
+
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <components:ButtonWithIcon
+                    x:Name="PART_DecreaseButton"
+                    Kind="Minus"
+                    Theme="{StaticResource NumericUpDownButtonTheme}"
+                    ToolTip.Tip="{DynamicResource UI.Text.COMPONENT_NUMERIC_UP_DOWN_BUTTON_DECREASE}"/>
+
+                <TextBox
+                    x:Name="PART_Input"
+                    Grid.Column="1"
+                    HorizontalContentAlignment="Center"
+                    Margin="4,0"
+                    MinWidth="48"
+                    Theme="{StaticResource NumericUpDownTextBoxTheme}"
+                    TextAlignment="Center"
+                    VerticalContentAlignment="Center"/>
+
+                <components:ButtonWithIcon
+                    x:Name="PART_IncreaseButton"
+                    Grid.Column="2"
+                    Kind="Plus"
+                    Theme="{StaticResource NumericUpDownButtonTheme}"
+                    ToolTip.Tip="{DynamicResource UI.Text.COMPONENT_NUMERIC_UP_DOWN_BUTTON_INCREASE}"/>
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="{x:Type components:NumericUpDown}" TargetType="components:NumericUpDown">
+        <Setter Property="Background" Value="{DynamicResource UI.ThemeShadeBackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeBackgroundBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="19"/>
+        <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+        <Setter Property="Height" Value="38"/>
+        <Setter Property="MinWidth" Value="128"/>
+        <Setter Property="Template" Value="{StaticResource NumericUpDownTemplate}"/>
+
+        <Style Selector="^:focus-within">
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.AccentColorBrush}"/>
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5"/>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

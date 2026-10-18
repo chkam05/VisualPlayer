@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.0.0</Version>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <IsPackable>false</IsPackable>
+    <VisualizationId>visualplayer.stripes</VisualizationId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../VisualPlayer.VisualizationBase/VisualPlayer.VisualizationBase.csproj" />
+    <ProjectReference Include="../../VisualPlayer.UI/VisualPlayer.UI.csproj" />
+  </ItemGroup>
+  <Import Project="../../scripts/VisualizationPackage.targets" />
+</Project>

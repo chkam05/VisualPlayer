@@ -1,0 +1,30 @@
+{
+    "header":  {
+                   "code":  "pl-PL",
+                   "name":  "Polski"
+               },
+    "translations":  {
+                         "ENUM_VISUALIZATIONTYPE_STRIPESMIRRORED":  "Stripes - Mirrored",
+                         "VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE":  "Szybkość opadania",
+                         "VIEW_VISUALIZATIONS_DIRECTION_TITLE":  "Kierunek",
+                         "VIEW_VISUALIZATIONS_NUM_TITLE":  "Liczba pasków",
+                         "VIEW_VISUALIZATIONS_PEAKS_DESCENT_RATE_DESC":  "Określa szybkość opadania głównych pasków w pikselach na sekundę.",
+                         "VIEW_VISUALIZATIONS_PEAKS_DIRECTION_DESC":  "Określa, czy wizualizacja rośnie do środka, czy na zewnątrz.",
+                         "VIEW_VISUALIZATIONS_PEAKS_FLOATING_BAR_DESCENT_RATE_DESC":  "Określa szybkość opadania dodatkowego bloczka w pikselach na sekundę.",
+                         "VIEW_VISUALIZATIONS_PEAKS_FLOATING_BAR_DESCENT_RATE_TITLE":  "Szybkość dodatkowego bloczka",
+                         "VIEW_VISUALIZATIONS_PEAKS_FLOATING_DESC":  "Ustawienia wolniej opadającego bloczka wartości szczytowej.",
+                         "VIEW_VISUALIZATIONS_PEAKS_NUM_DESC":  "Określa liczbę pasm częstotliwości wyświetlanych na ekranie.",
+                         "VIEW_VISUALIZATIONS_PEAKS_SHOW_FLOATING_BAR_DESC":  "Pokazuje nad każdym paskiem wolniej opadający bloczek wartości szczytowej.",
+                         "VIEW_VISUALIZATIONS_PEAKS_SHOW_FLOATING_BAR_TITLE":  "Pokazuj opadający bloczek",
+                         "VIEW_VISUALIZATIONS_PEAKS_TITLE_FALLING_BLOCK":  "Opadający bloczek",
+                         "VIEW_VISUALIZATIONS_PEAKS_USE_FLOATING_BAR_GRAVITY_DESC":  "Pozwala znacznikowi przyspieszać w dół, wypaść poza ekran i pojawić się ponownie przy aktualnym poziomie.",
+                         "VIEW_VISUALIZATIONS_PEAKS_USE_FLOATING_BAR_GRAVITY_TITLE":  "Grawitacja znacznika",
+                         "VIEW_VISUALIZATIONS_PEAKS_VERTICAL_BAR_SPACE_TITLE":  "Odstęp bloczków w pionie",
+                         "VIEW_VISUALIZATIONS_STRIPES_CENTER_SPACE_DESC":  "Określa przerwę środkową oraz odstęp między głównym paskiem i znacznikiem.",
+                         "VIEW_VISUALIZATIONS_STRIPES_FLOATING_BAR_HEIGHT_DESC":  "Określa wysokość dodatkowego znacznika wartości szczytowej.",
+                         "VIEW_VISUALIZATIONS_STRIPES_FLOATING_BAR_HEIGHT_TITLE":  "Wysokość dodatkowego bloczka",
+                         "VIEW_VISUALIZATIONS_STRIPES_HORIZONTAL_BAR_SPACE_DESC":  "Określa poziomy odstęp pomiędzy sąsiednimi paskami.",
+                         "VIEW_VISUALIZATIONS_STRIPES_HORIZONTAL_BAR_SPACE_TITLE":  "Odstęp pasków w poziomie",
+                         "PRESET_DEFAULT":  "Stripes - Mirrored"
+                     }
+}

@@ -1,0 +1,76 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:converters="using:VisualPlayer.Converters">
+
+    <ControlTheme x:Key="ColorizedButtonWithIconTheme" TargetType="components:ButtonWithIcon" BasedOn="{StaticResource ThemeButtonWithIconTheme}">
+        <Setter Property="Background">
+            <DynamicResource ResourceKey="UI.Colorized.ThemeShadeBackgroundBrush.AccentColorBrush"/>
+        </Setter>
+
+        <Setter Property="BorderBrush">
+            <DynamicResource ResourceKey="UI.Colorized.ThemeBackgroundBrush.AccentColorBrush"/>
+        </Setter>
+
+        <Setter Property="Foreground">
+            <DynamicResource ResourceKey="UI.Colorized.ThemeForegroundBrush.AccentForegroundColorBrush"/>
+        </Setter>
+
+        <Style Selector="^:pointerover, ^:focus-visible">
+            <Setter Property="Background">
+                <DynamicResource ResourceKey="UI.Colorized.ThemeMouseOverBrush.AccentMouseOverColorBrush"/>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:pressed">
+            <Setter Property="Background">
+                <DynamicResource ResourceKey="UI.Colorized.ThemePressedBrush.AccentPressedBrush"/>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Background">
+                <DynamicResource ResourceKey="UI.Colorized.ThemeDisabledBrush.AccentDisabledBrush"/>
+            </Setter>
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ColorizedToggleButtonWithIconTheme" TargetType="components:ToggleButtonWithIcon" BasedOn="{StaticResource ThemeToggleButtonWithIconTheme}">
+        <Setter Property="Background">
+            <DynamicResource ResourceKey="UI.Colorized.ThemeShadeBackgroundBrush.AccentColorBrush"/>
+        </Setter>
+
+        <Setter Property="BorderBrush">
+            <DynamicResource ResourceKey="UI.Colorized.ThemeBackgroundBrush.AccentColorBrush"/>
+        </Setter>
+
+        <Setter Property="Foreground">
+            <DynamicResource ResourceKey="UI.Colorized.ThemeForegroundBrush.AccentForegroundColorBrush"/>
+        </Setter>
+
+        <Style Selector="^:checked">
+            <Setter Property="Background">
+                <DynamicResource ResourceKey="UI.Colorized.ThemeSelectedBrush.AccentSelectedColorBrush"/>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:pointerover, ^:focus-visible, ^:checked:pointerover, ^:checked:focus-visible">
+            <Setter Property="Background">
+                <DynamicResource ResourceKey="UI.Colorized.ThemeMouseOverBrush.AccentMouseOverColorBrush"/>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:pressed, ^:checked:pressed">
+            <Setter Property="Background">
+                <DynamicResource ResourceKey="UI.Colorized.ThemePressedBrush.AccentPressedBrush"/>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Background">
+                <DynamicResource ResourceKey="UI.Colorized.ThemeDisabledBrush.AccentDisabledBrush"/>
+            </Setter>
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

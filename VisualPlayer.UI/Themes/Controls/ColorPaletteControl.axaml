@@ -1,0 +1,145 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:configViewModels="using:VisualPlayer.ViewModels.Config">
+
+    <ItemsPanelTemplate x:Key="ColorPaletteItemsPanel">
+        <WrapPanel Orientation="Horizontal"/>
+    </ItemsPanelTemplate>
+
+    <!-- DATA TEMPLATE -->
+
+    <DataTemplate x:Key="AccentColorItemTemplate" DataType="configViewModels:AccentColorViewModel" x:DataType="configViewModels:AccentColorViewModel">
+        <Border
+            Background="{Binding Brush}"
+            CornerRadius="5"
+            Height="40"
+            ToolTip.Tip="{Binding Name}"
+            Width="40"/>
+    </DataTemplate>
+
+    <!-- ITEM -->
+
+    <ControlTheme x:Key="ColorPaletteItemTheme" BasedOn="{StaticResource ListBoxItemTheme}" TargetType="ListBoxItem">
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="Margin" Value="1"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Width" Value="48"/>
+
+        <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemeMouseOverBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+        </Style>
+
+        <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemeMouseOverBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+        </Style>
+
+        <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemePressedBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+        </Style>
+
+        <Style Selector="^:selected">
+            <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource UI.ThemeSelectedBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+            </Style>
+
+            <Style Selector="^:not(:focus) /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource UI.ThemeSelectedBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+            </Style>
+
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource UI.ThemeMouseOverBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+            </Style>
+
+            <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{DynamicResource UI.ThemePressedBrush}"/>
+                <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+            </Style>
+        </Style>
+
+        <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource UI.ThemeDisabledBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource UI.ThemeForegroundBrush}"/>
+            <Setter Property="Opacity" Value="0.6"/>
+        </Style>
+    </ControlTheme>
+
+    <!-- CONTROL -->
+
+    <ControlTemplate x:Key="ColorPaletteControlTemplate" TargetType="controls:ColorPaletteControl">
+        <StackPanel Spacing="12">
+            <TextBlock
+                FontSize="16"
+                FontWeight="SemiBold"
+                Text="{TemplateBinding Title}"/>
+
+            <ListBox
+                x:Name="PART_PaletteList"
+                Background="Transparent"
+                BorderThickness="0"
+                ItemContainerTheme="{StaticResource ColorPaletteItemTheme}"
+                ItemsPanel="{StaticResource ColorPaletteItemsPanel}"
+                ItemsSource="{ReflectionBinding PaletteItems, RelativeSource={RelativeSource TemplatedParent}}"
+                Padding="0"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                SelectionMode="Single">
+
+                <ListBox.DataTemplates>
+                    <StaticResource ResourceKey="AccentColorItemTemplate"/>
+                </ListBox.DataTemplates>
+            </ListBox>
+
+            <TextBlock
+                FontSize="16"
+                FontWeight="SemiBold"
+                Margin="0,8,0,0"
+                Text="{DynamicResource UI.Text.COLORPALETTE_LABEL_LAST_USED}"/>
+
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                <ListBox
+                    x:Name="PART_RecentList"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    ItemContainerTheme="{StaticResource ColorPaletteItemTheme}"
+                    ItemTemplate="{StaticResource AccentColorItemTemplate}"
+                    ItemsPanel="{StaticResource ColorPaletteItemsPanel}"
+                    ItemsSource="{ReflectionBinding RecentColors, RelativeSource={RelativeSource TemplatedParent}}"
+                    Padding="0"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                    SelectionMode="Single"/>
+
+                <components:ButtonWithIcon
+                    x:Name="PART_AddColorButton"
+                    Grid.Column="1"
+                    Height="40"
+                    Kind="Plus"
+                    Margin="4"
+                    Theme="{StaticResource AccentButtonWithIconTheme}"
+                    ToolTip.Tip="{DynamicResource UI.Text.COLORPALETTE_BUTTON_ADD_COLOR}"
+                    Width="40"/>
+            </Grid>
+        </StackPanel>
+    </ControlTemplate>
+
+    <ControlTheme x:Key="{x:Type controls:ColorPaletteControl}" TargetType="controls:ColorPaletteControl">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Title" Value="{DynamicResource UI.Text.COLORPALETTE_TITLE}"/>
+        <Setter Property="Template" Value="{StaticResource ColorPaletteControlTemplate}"/>
+    </ControlTheme>
+</ResourceDictionary>
