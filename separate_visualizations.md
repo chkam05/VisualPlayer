@@ -27,7 +27,7 @@ Projekty wizualizacji systemowych umieszczaj w podkatalogu
 
 | Projekt | Odpowiedzialność |
 | --- | --- |
-| `VisualPlayer` | Okno aplikacji, odtwarzanie, integracja usług, zarządzanie dodatkami, prezentowanie edytora |
+| `VisualPlayer` | Okno aplikacji, odtwarzanie, integracja usług, lista dodatków w widoku informacji, prezentowanie edytora |
 | `VisualPlayer.UI` | Komponenty, współdzielone kontrolki ustawień, motywy, templates, konwertery i zasoby UI |
 | `VisualPlayer.Visualizations` | Loader, rejestr, runtime, profile, serializacja, przygotowanie danych wizualizacji |
 | `VisualPlayer.VisualizationBase` | Publiczne API dodatków, klasy bazowe, dane klatki, konfiguracja współdzielona, kontrakty usług |
@@ -118,7 +118,7 @@ do jego konfiguracji i edytora.
 
 Kontrakty rysowania oraz edytora mogą zależeć od Avalonia. Nie jest wymagane tworzenie
 abstrakcji innego silnika renderującego. Fabryki edytorów, aktywacja i rysowanie działają
-na wątku UI. Kosztowne operacje plikowe instalatora nie powinny go blokować.
+na wątku UI. Odczyt metadanych nie powinien niepotrzebnie blokować interfejsu.
 
 Pamięci `Spectrum` i `Waveform` są ważne podczas obsługi bieżącej klatki. Plugin nie
 może zachować ich zawartości jako niezmiennego snapshotu na kolejne klatki; jeśli jej
@@ -323,7 +323,8 @@ Kolejność startu: ustawienia ogólne i język -> środowisko Avalonia/zasoby U
 paczek i rejestr -> odczyt/migracja profili -> wybór aktywnego dodatku -> runtime i widoki.
 Oddziel wykrycie metadanych od tworzenia edytora i instancji rysującej.
 
-Na początku aktualizacje, usuwanie oraz instalacje aktywują się po restarcie.
+Użytkownik instaluje, aktualizuje i usuwa paczki ręcznie przy zamkniętej aplikacji;
+zmiany są wykrywane przy następnym starcie.
 Nie realizuj hot reload ani nie wymagaj natychmiastowego wyładowania assembly.
 Odłączaj widoki i eventy po zmianie profilu. Konteksty mogą żyć do zamknięcia procesu.
 
@@ -336,43 +337,65 @@ ani nieufnego kodu. Pełna izolacja procesowa nie należy do pierwszego wydania.
 
 ## Instalowanie i katalogi
 
-Użytkownik wybiera ZIP w widoku zarządzania wizualizacjami. Wyświetl metadane,
-zgodność i wynik instalacji, a dla zmiany wymagającej restartu odpowiedni komunikat.
-Wszystkie teksty tego widoku należą do słownika aplikacji.
+Instalacja jest ręczna, opisana w `README.md` i `README_pl-PL.md`. Użytkownik zamyka
+aplikację, rozpakowuje ZIP i przenosi kompletny folder paczki do `Plugins` wewnątrz
+istniejącego katalogu ustawień aplikacji. Aplikacja skanuje rozpakowane paczki,
+nie rozpakowuje ZIP-ów i nie udostępnia instalatora ani osobnego widoku zarządzania.
 
-| System | Katalog dodatków użytkownika |
-| --- | --- |
-| Windows | `%LOCALAPPDATA%/VisualPlayer/Plugins` |
-| Linux | `$XDG_DATA_HOME/VisualPlayer/Plugins`, domyślnie `~/.local/share/VisualPlayer/Plugins` |
-| macOS | `~/Library/Application Support/VisualPlayer/Plugins` |
+Jedyną podstawą ścieżki użytkownika jest `ConfigurationContext.DirectoryPath`:
 
-Ścieżki udostępnia host przez jedną usługę; nie wyznacza ich każdy plugin osobno.
-Zachowaj dotychczasową lokalizację konfiguracji aplikacji, dopóki jej migracja nie
-jest potrzebna. Katalog danych pluginów nie musi być katalogiem plików profili.
+```csharp
+Path.Combine(ConfigurationContext.DirectoryPath, "Plugins")
+```
 
-Wbudowane paczki dystrybuuj w osobnym, tylko do odczytu katalogu aplikacji:
+Host przekazuje tę ścieżkę do runtime; runtime nie referencjonuje konfiguracji aplikacji
+i nie wyznacza ponownie jej lokalizacji. Nie zmieniaj lokalizacji ustawień i profili.
+Zastąp wcześniejsze niezależne ścieżki `%LOCALAPPDATA%` / `$XDG_DATA_HOME` ścieżką
+wyprowadzoną z katalogu ustawień. Na Windows oznacza to `%APPDATA%/VisualPlayer/Plugins`;
+opisy Linux/macOS w README mają odpowiadać rzeczywistej lokalizacji ustawień aplikacji,
+a nie nowej, osobnej konwencji katalogów danych. Jeśli dotychczasowy katalog dodatków
+użytkownika zawiera pliki, opisz ich ręczne przeniesienie do nowego miejsca.
+
+Docelowy układ (manifest bez dodatkowego poziomu zagnieżdżenia):
+
+```text
+<katalog ustawień>/Plugins/
+  visualplayer.peaks/
+    manifest.json
+    VisualPlayer.Visualizations.Peaks.dll
+    VisualPlayer.Visualizations.Peaks.deps.json
+    Lang/pl-PL.json
+    ...prywatne zależności paczki
+```
+
+Wbudowane paczki są automatycznie dostarczane przez build/publish w katalogu aplikacji:
 `Plugins` obok programu na Windows/Linux oraz `Contents/Resources/Plugins` w macOS.
-Nie zapisuj dodatków użytkownika wewnątrz `.app` ani nie modyfikuj paczek dostawcy
-podczas normalnej pracy. Uwzględnij instalacje Linux w katalogach bez prawa zapisu.
-W trybie deweloperskim używaj jawnej ścieżki pod outputem aplikacji.
+Ta obsługa istnieje od etapów D/E; etap F ma ją zachować i sprawdzić, bez dodawania
+nowej lokalizacji w `.app` ani kopiowania tam dodatków użytkownika. Nie kopiuj też
+automatycznie paczek wbudowanych do katalogu ustawień. Użytkownik nie musi edytować
+bundle ani katalogu instalacyjnego. Uwzględnij instalacje bez prawa zapisu do nich.
 
 Przy powtórzonym ID wybierz dokładnie jedną paczkę przed załadowaniem assembly.
 Poprawna, zgodna paczka użytkownika może zastąpić wbudowaną. Niezgodna/uszkodzona
 paczka użytkownika daje diagnostykę; wbudowana może pozostać dostępna. Nie wybieraj
 wyniku według przypadkowej kolejności plików. W katalogu użytkownika przechowuj jedną
-aktywną wersję danego ID. Lista wyłączonych ID jest ustawieniem hosta, więc można
-wyłączyć również plugin wbudowany bez usuwania plików aplikacji.
+aktywną wersję danego ID. Usunięcie nadpisującej paczki użytkownika ponownie udostępnia
+wersję wbudowaną, jeśli jest dostarczona z aplikacją; opisz to w README.
 
-Instalator rozpakowuje ZIP do katalogu staging poza skanowanymi aktywnymi paczkami.
-Sprawdza schemat manifestu, ID, zgodność, rozmiary oraz lokalne ścieżki. Odrzuca wyjście
-poza katalog staging, ścieżki absolutne, linki i niejednoznaczne duplikaty ścieżek.
-Ustal limity liczby plików i sumarycznego rozmiaru po rozpakowaniu. Walidacja instalacji
-nie uruchamia kodu DLL. Dopiero kompletna paczka zostaje atomowo opublikowana.
+Aktualizacja polega na ręcznej wymianie całego folderu paczki przy zamkniętej aplikacji,
+bez mieszania plików dwóch wersji. Kopię poprzedniej wersji przechowuj poza skanowanym
+`Plugins`. Usunięcie polega na ręcznym usunięciu folderu paczki użytkownika; nie usuwa
+jej profili. Brakująca paczka nadal zachowuje zapisane ID i surową konfigurację.
 
-Nie zastępuj ani nie usuwaj plików używanych przez bieżący proces. Aktualizacje i
-usunięcia zapisz jako operacje oczekujące; zastosuj przy następnym starcie przed
-ładowaniem pluginów. Przechowaj poprzednią wersję poza skanowanym katalogiem do czasu
-udanej aktywacji nowej. Usunięcie/wyłączenie dodatku nie usuwa jego profili.
+Nie implementuj rozpakowywania ZIP, staging, kolejki operacji po restarcie, automatycznych
+aktualizacji, rollbacku ani przełączników trwałego włączania/wyłączania. Walidacja
+manifestów, zgodności i ścieżek oraz diagnostyka błędów przy starcie pozostają zadaniem
+loadera. Częściowa lub błędna paczka nie może blokować pozostałych wizualizacji.
+
+Listę pluginów pokaż jako sekcję istniejącego widoku informacji: nazwa/ID, wersja,
+źródło i status ładowania oraz ewentualna diagnostyka. Lista służy do odczytu;
+bez przycisków instalowania, aktualizacji, usuwania lub wyłączania. Wskaż też faktyczny
+katalog `Plugins` użytkownika, aby ułatwić skorzystanie z instrukcji README.
 
 ## Budowanie, publikowanie i NuGet
 
@@ -388,9 +411,10 @@ pozostać, ale biblioteki pluginów i ich pliki to zewnętrzne paczki.
 
 Proces budowania musi najpierw zbudować biblioteki wspólne oraz pluginy, a następnie
 umieścić paczki w odpowiednim output/publish. Nie wystarcza zbudowanie rozwiązania:
-przetestuj też `dotnet publish` i istniejące skrypty. W `build_macos.sh` obecnie
-przenoszone są plik wykonywalny i `Lang`; dodaj kopiowanie katalogu pluginów do
-`Contents/Resources/Plugins` przed podpisywaniem gotowej aplikacji.
+przetestuj też `dotnet publish` i istniejące skrypty. `build_macos.sh` już przenosi
+paczki wbudowane do `Contents/Resources/Plugins` przed podpisaniem. Zachowaj istniejący
+mechanizm i sprawdź kompletność paczek; nie dodawaj drugiej lokalizacji ani instalowania
+paczek użytkownika wewnątrz `.app`.
 
 NuGet SDK/UI powinien zawierać potrzebne assemblies, zasoby i deklaracje zależności.
 Przykładowy zewnętrzny plugin buduj z tych NuGetów, bez referencji do kodu aplikacji
@@ -597,7 +621,8 @@ Opis pakowania: `Visualizations/README.md`; polityka loadera:
 Single-file publish nie został zweryfikowany: offline brakuje pakietu
 `Microsoft.NET.ILLink.Tasks`. Nie uruchomiono wydań macOS/Linux ani rzeczywistego
 odtwarzania audio. Skrypt macOS przenosi już paczki do `Contents/Resources/Plugins`,
-lecz walidacja bundle/podpisu, instalator ZIP i zarządzanie dodatkami pozostają w F/G.
+lecz walidacja bundle/podpisu i końcowy sposób udostępniania paczek pozostają w F/G.
+Aktualny zakres F poniżej zastępuje wcześniejszy pomysł instalatora ZIP i zarządzania.
 
 Kryterium etapu: pełna pionowa ścieżka działa dla jednego dodatku. Dopiero teraz
 utrwal API i rozpocznij migrację pozostałych wizualizacji.
@@ -679,26 +704,31 @@ Walidacja etapu E:
 Dokumentacja projektów i paczek: `Visualizations/README.md`.
 Nie przeprowadzono jeszcze testów rzeczywistego odtwarzania ani uruchomienia wydań
 Linux/macOS. Ograniczenie walidacji single-file z etapu D nadal obowiązuje.
-Instalowanie ZIP i zarządzanie paczkami pozostają zadaniami etapu F.
+Instrukcja ręcznego instalowania paczek i lista w widoku informacji pozostają
+zadaniami etapu F, zgodnie z doprecyzowanym poniżej zakresem.
 
-### Etap F — instalowanie i dystrybucja
+### Etap F — katalog użytkownika, instalacja ręczna, informacje i dystrybucja
 
-[ ] 40. Zaimplementuj katalogi paczek wbudowanych i użytkownika na trzech systemach, w tym lokalizację wewnątrz zasobów `.app`.
+[ ] 40. Ujednolić lokalizację paczek użytkownika jako `Path.Combine(ConfigurationContext.DirectoryPath, "Plugins")` na wszystkich systemach i przekazać ją z hosta do loadera. Zachować istniejące katalogi paczek wbudowanych z build/publish; nie dodawać nowej lokalizacji w `.app` ani automatycznego kopiowania do ustawień.
 
-[ ] 41. Dodaj instalowanie ZIP z walidacją manifestu, ścieżek i rozmiarów, katalogiem staging oraz publikowaniem dopiero kompletnej paczki.
+[ ] 41. Dodać do `README.md` i `README_pl-PL.md` instrukcję ręcznej instalacji: zamknąć aplikację, rozpakować ZIP, przenieść cały folder paczki do `<katalog ustawień>/Plugins/<pluginId>/` i ponownie uruchomić aplikację. Podać rzeczywiste ścieżki dla trzech systemów i przykład drzewa plików z manifestem, DLL, `.deps.json`, językami i zależnościami; sam ZIP nie jest wykrywany przez loader.
 
-[ ] 42. Zaimplementuj aktualizacje i usuwanie po restarcie, odzyskanie poprzedniej wersji oraz trwałe włączanie/wyłączanie ID pluginów.
+[ ] 42. Opisać i sprawdzić ręczną aktualizację oraz usuwanie przy zamkniętej aplikacji: wymiana kompletnego folderu, kopia poprzedniej wersji poza `Plugins`, usunięcie folderu bez usuwania profili. Wyjaśnić pierwszeństwo paczki użytkownika i powrót wersji wbudowanej po usunięciu nadpisania. Bez kolejki operacji, automatycznych aktualizacji/rollbacku i przełączników wyłączania.
 
-[ ] 43. Dodaj widok zarządzania pluginami: lista, wersje, zgodność, źródło, błędy, instalacja, wyłączenie, usuwanie i stan oczekiwania na restart.
+[ ] 43. Dodać do istniejącego widoku informacji sekcję pluginów tylko do odczytu: nazwa/ID, wersja, źródło, status/błąd ładowania oraz faktyczny katalog paczek użytkownika. Bez osobnego widoku instalacji lub zarządzania i bez akcji zmieniających paczki.
 
-[ ] 44. Uzupełnij wszystkie teksty zarządzania dodatkami w języku angielskim i polskim; rozszerz audyt słowników o zakresy UI i pluginów.
+[ ] 44. Uzupełnić teksty sekcji pluginów w widoku informacji w języku angielskim i polskim; zachować audyt osobnych słowników aplikacji, UI i wszystkich pluginów. Nie dodawać tekstów nieistniejącego instalatora/menedżera.
 
-[ ] 45. Zaktualizuj budowanie i publish aplikacji oraz pluginów na Windows/Linux/macOS, kopiowanie zasobów i pakowanie podpisywanej aplikacji macOS.
+[ ] 45. Zweryfikować istniejący build/publish: 16 kompletnych paczek wbudowanych trafia automatycznie do output/publish, a skrypt macOS umieszcza je w już obsługiwanych zasobach bundle przed podpisaniem. Sprawdzić skrypty trzech systemów i zgodność instrukcji README z układem ZIP; nie wymagać od użytkownika ręcznego dodawania bibliotek wbudowanych do `.app`.
 
 [ ] 46. Spakuj SDK oraz UI do lokalnego feedu NuGet i zbuduj z nich przykładowy plugin spoza rozwiązania, bez dostępu do typów aplikacji/runtime.
 
 Kryterium etapu: zewnętrzny autor może zbudować paczkę, a użytkownik zainstalować ją
-bez ręcznej zmiany `.app`, katalogu instalacyjnego ani głównych plików językowych.
+ręcznie według README w `Plugins` obok ustawień, bez zmiany `.app`, katalogu
+instalacyjnego ani głównych plików językowych. Po restarcie paczka jest wykrywana,
+a lista w widoku informacji pokazuje jej źródło i stan. Ręczne usunięcie zachowuje
+profile. Wbudowane wizualizacje pojawiają się automatycznie po build/publish.
+Etap nie obejmuje instalatora ZIP ani osobnego interfejsu zarządzania pluginami.
 
 ### Etap G — walidacja i zakończenie migracji
 
@@ -708,7 +738,7 @@ bez ręcznej zmiany `.app`, katalogu instalacyjnego ani głównych plików języ
 
 [ ] 49. Dodaj testy lokalizacji: brak polskiego wpisu, brak pliku języka, kolizje kluczy między pluginami, wspólne napisy, zmiana języka w otwartym edytorze.
 
-[ ] 50. Dodaj testy instalatora: błędny ZIP, wyjście poza katalog, linki, zduplikowane ścieżki, przekroczone limity, przerwana instalacja, aktualizacja i usunięcie po restarcie.
+[ ] 50. Dodać testy ręcznego umieszczenia, wymiany i usunięcia paczek między uruchomieniami: katalog ustawień/Plugins, poprawna i częściowo skopiowana paczka, błędny manifest/ścieżki/zależności, nadpisanie wersji wbudowanej i fallback po usunięciu. Sprawdzić zachowanie profili oraz zgodność listy w widoku informacji. Bez testów nieimplementowanego instalatora ZIP.
 
 [ ] 51. Sprawdź błędy konstruktora, konfiguracji, edytora i rysowania pluginu; odtwarzanie audio ma działać nadal, a profil ma pozostać zapisany.
 
@@ -716,15 +746,15 @@ bez ręcznej zmiany `.app`, katalogu instalacyjnego ani głównych plików języ
 
 [ ] 53. Sprawdź regresje mini odtwarzacza, jego wizualizacji i logo po przeniesieniu dostępu do danych audio; sprawdź wygląd współdzielonych komponentów w pozostałych widokach.
 
-[ ] 54. Uruchom wydanie publikowane na Windows: wykrywanie pluginów, instalacja ZIP, restart i zapis profili.
+[ ] 54. Uruchom wydanie publikowane na Windows: ręczne rozpakowanie/przeniesienie paczki do `Plugins` w katalogu ustawień, wykrywanie pluginów i lista informacji, ponowny start, aktualizacja/usunięcie ręczne oraz zachowanie profili.
 
-[ ] 55. Uruchom wydanie publikowane na Linux: katalog danych użytkownika, start z katalogu instalacji bez prawa zapisu, wykrywanie paczek i restart.
+[ ] 55. Uruchom wydanie publikowane na Linux: `Plugins` w rzeczywistym katalogu ustawień, start z katalogu instalacji bez prawa zapisu, ręczne dodanie/wymiana/usunięcie paczki, wykrywanie, lista informacji i restart.
 
-[ ] 56. Uruchom gotowy `.app` na macOS: zasoby, DLL spoza single-file, podpis, paczki użytkownika, instalowanie bez modyfikowania bundle i ponowny start.
+[ ] 56. Uruchom gotowy `.app` na macOS: automatycznie dołączone wizualizacje wbudowane, DLL spoza single-file, podpis, ręczne dodanie/wymiana/usunięcie paczki w `Plugins` obok ustawień bez modyfikowania bundle, lista informacji i ponowny start.
 
 [ ] 57. Usuń przejściowe fabryki i typowane zależności aplikacji od pluginów, stary enum poza adapterem migracji oraz nieużywane kopie konfiguracji, widoków i tłumaczeń.
 
-[ ] 58. Uzupełnij dokumentację tworzenia dodatku, przykład projektu, politykę zgodności API i instrukcję pakowania oraz instalowania ZIP.
+[ ] 58. Uzupełnij dokumentację tworzenia dodatku, przykład projektu, politykę zgodności API i instrukcję pakowania ZIP oraz ręcznego rozpakowania/przeniesienia, aktualizacji i usuwania paczek według README.
 
 [ ] 59. Wykonaj końcowy przegląd grafu zależności, budowanie rozwiązania/publish, audyt tłumaczeń i podsumuj rzeczywiście wykonane testy oraz pozostałe ograniczenia.
 
@@ -735,10 +765,14 @@ wizualizację można dodać bez zmiany aplikacji, enuma, głównego słownika an
 wybierającego edytor. Wszystkie obecne 16 wizualizacji ma osobny DLL i własne słowniki.
 Host uruchamia się bez nich. Stare profile działają po migracji, a profile brakujących
 pluginów zachowują dane. Przykład spoza repozytorium potwierdza użyteczność NuGetów.
-Instalowanie i publikacja są sprawdzone na wszystkich trzech systemach.
+Ręczna instalacja według README, aktualizacja/usuwanie i publikacja są sprawdzone
+na wszystkich trzech systemach. Wbudowane paczki dołącza build/publish, a dodatki
+użytkownika są w `Plugins` wewnątrz katalogu ustawień. Lista w widoku informacji
+nie służy do zmieniania paczek.
 
 Nie wliczaj do pierwszego wydania: hot reload, gwarantowane wyładowywanie assembly,
-sklepu dodatków, automatycznego pobierania z internetu, izolacji procesowej, obsługi
+instalatora ZIP, osobnego menedżera pluginów, kolejek aktualizacji/usuwania, sklepu
+dodatków, automatycznego pobierania z internetu, izolacji procesowej, obsługi
 arbitralnych wersji Avalonia ani publikacji hosta przez NativeAOT.
 
 ## Dokumentacja referencyjna do implementacji
