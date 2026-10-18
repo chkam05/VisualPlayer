@@ -8,6 +8,7 @@ using Avalonia;
 using Avalonia.Platform;
 using VisualPlayer.Attributes;
 using VisualPlayer.Core;
+using VisualPlayer.Models.Player;
 using VisualPlayer.Utils;
 using VisualPlayer.Utils.Platform;
 using VisualPlayer.ViewModels;
@@ -235,32 +236,57 @@ public class ApplicationContext : ViewModelBase
 
     #region FILES MANAGEMENT
 
+    public void AddTracks(IEnumerable<Track> tracks, bool? startPlayback = null)
+    {
+        var requestedTracks = tracks.ToArray();
+        PlayListCore.AddStoredTracks(requestedTracks);
+        PlayFirstRequestedFile(requestedTracks.Select(track => track.FilePath), startPlayback);
+    }
+
     public void AddFiles(IEnumerable<string> filePaths)
     {
-        var addedTracks = PlayListCore.AddFiles(filePaths);
-
-        if (Config.Player.PlayAfterAddingFiles && addedTracks.Count > 0)
-            PlayerCore.Play(addedTracks[0]);
+        var paths = filePaths.ToArray();
+        PlayListCore.AddFiles(paths);
+        PlayFirstRequestedFile(paths);
     }
 
     public async Task AddFilesAsync(IEnumerable<string> filePaths)
     {
-        var addedTracks = await PlayListCore.AddFilesAsync(filePaths);
-
-        if (Config.Player.PlayAfterAddingFiles && addedTracks.Count > 0)
-            PlayerCore.Play(addedTracks[0]);
+        var paths = filePaths.ToArray();
+        await PlayListCore.AddFilesAsync(paths);
+        PlayFirstRequestedFile(paths);
     }
 
     public void InitializeStartupFiles(IEnumerable<string> filePaths)
     {
-        var addedTracks = PlayListCore.AddFiles(filePaths);
+        var paths = filePaths.ToArray();
+        if (paths.Length > 0)
+        {
+            AddFiles(paths);
+            return;
+        }
 
-        if (!Config.Player.PlayOnStartup)
+        if (Config.Player.PlayOnStartup && Config.Player.RememberLastPlayList
+            && PlayListCore.RestoredTrack is { } track)
+        {
+            PlayerCore.Play(track);
+        }
+    }
+
+    private void PlayFirstRequestedFile(IEnumerable<string> filePaths, bool? startPlayback = null)
+    {
+        if (!(startPlayback ?? Config.Player.PlayAfterAddingFiles))
             return;
 
-        var track = addedTracks.FirstOrDefault()
-            ?? PlayListCore.RestoredTrack
-            ?? PlayListCore.PlayList.Tracks.FirstOrDefault();
+        var comparison = OperatingSystem.IsLinux()
+            ? StringComparison.Ordinal
+            : StringComparison.OrdinalIgnoreCase;
+        var track = filePaths
+            .Select(AudioFileUtils.NormalizePath)
+            .Where(path => path is not null && AudioFileUtils.IsSupported(path))
+            .Select(path => PlayListCore.PlayList.Tracks.FirstOrDefault(
+                item => string.Equals(item.FilePath, path, comparison)))
+            .FirstOrDefault(item => item is not null);
 
         if (track is not null)
             PlayerCore.Play(track);

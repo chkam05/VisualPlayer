@@ -6,10 +6,14 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Lucide.Avalonia;
 using VisualPlayer.Contexts;
+using VisualPlayer.Enums.UI;
 using VisualPlayer.Resources;
 using VisualPlayer.ViewModels.Equalizer;
 using VisualPlayer.Views.Base;
+using VisualPlayer.Views.Dialogs;
+using VisualPlayer.Windows;
 
 namespace VisualPlayer.Views;
 
@@ -182,12 +186,23 @@ public partial class InternalViewEqualizer : InternalViewBase
         CreateProfile();
     }
 
-    private void DeleteProfileButton_Click(object? sender, RoutedEventArgs e)
+    private async void DeleteProfileButton_Click(object? sender, RoutedEventArgs e)
     {
-        if (sender is Control { DataContext: EqualizerProfile profile })
-            DeleteProfile(profile);
-
         e.Handled = true;
+        if (sender is not Control { DataContext: EqualizerProfile { IsDefault: false } profile }
+            || TopLevel.GetTopLevel(this) is not MainWindow window)
+        {
+            return;
+        }
+
+        var dialog = new InternalMessageDialog(
+            T["VIEW_EQUALIZER_DELETE_TITLE"],
+            T.Format("VIEW_EQUALIZER_DELETE_MESSAGE", profile.DisplayName),
+            InternalDialogButtons.YesNo,
+            LucideIconKind.Trash);
+
+        if (await window.ShowDialogAsync(dialog) == InternalDialogResult.Yes)
+            DeleteProfile(profile);
     }
 
     #endregion BUTTON ACTIONS

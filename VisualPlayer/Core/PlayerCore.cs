@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using MiniAudioEx.Core.AdvancedAPI;
 using MiniAudioEx.Native;
 using VisualPlayer.Contexts;
@@ -33,12 +34,14 @@ public class PlayerCore : IDisposable
     
     private MaSound? _fadingSound;
     private bool _isDisposed;
+    private bool _automaticCrossfadeAttempted;
     private MaSound? _sound;
     private uint _outputChannels;
 
     #region EVENTS
 
     public event EventHandler? CurrentTrackChanged;
+    public event EventHandler<PlaybackErrorEventArgs>? PlaybackFailed;
 
     #endregion EVENTS
 
@@ -238,10 +241,15 @@ public class PlayerCore : IDisposable
     {
         ArgumentNullException.ThrowIfNull(track);
 
-        TryPlayTracks(_playListCore.GetTracksFrom(
-            track,
-            IsShuffleEnabled,
-            RepeatMode == RepeatMode.All));
+        if (!_playListCore.PlayList.Tracks.Contains(track))
+            return;
+
+        if (IsShuffleEnabled)
+            _playListCore.ResetShuffle(track);
+
+        // An explicit selection must report its failure instead of silently
+        // starting another track from the playlist.
+        TryPlayTracks([track]);
     }
 
     public void TogglePlayPause()
@@ -259,7 +267,10 @@ public class PlayerCore : IDisposable
         var result = IsPlaying ? _sound.Stop() : _sound.Start();
 
         if (result != ma_result.success)
-            throw new InvalidOperationException($"Nie udało się zmienić stanu odtwarzania: {result}.");
+        {
+            ReportPlaybackError(CurrentTrack, $"Play/Pause: {result} ({(int)result})");
+            return;
+        }
 
         IsPlaying = !IsPlaying;
     }
@@ -280,13 +291,19 @@ public class PlayerCore : IDisposable
         var result = _sound.Stop();
         
         if (result != ma_result.success)
-            throw new InvalidOperationException($"Nie udało się zatrzymać odtwarzania: {result}.");
+        {
+            ReportPlaybackError(CurrentTrack, $"Stop: {result} ({(int)result})");
+            return;
+        }
 
         IsPlaying = false;
         result = MiniAudioNative.ma_sound_seek_to_second(_sound.Handle, 0);
 
         if (result != ma_result.success)
-            throw new InvalidOperationException($"Nie udało się przewinąć nagrania na początek: {result}.");
+        {
+            ReportPlaybackError(CurrentTrack, $"Seek: {result} ({(int)result})");
+            return;
+        }
 
         Position = 0;
     }
@@ -300,6 +317,7 @@ public class PlayerCore : IDisposable
         IsPlaying = false;
         Position = 0;
         Duration = 0;
+        _automaticCrossfadeAttempted = false;
         _playListCore.ResetShuffle();
 
         if (hadTrack)
@@ -355,9 +373,10 @@ public class PlayerCore : IDisposable
 
         if (ShouldStartAutomaticCrossfade())
         {
+            _automaticCrossfadeAttempted = true;
             TryPlayTracks(_playListCore.GetNextTracks(
                 IsShuffleEnabled,
-                RepeatMode == RepeatMode.All));
+                RepeatMode == RepeatMode.All), reportErrors: false);
             return;
         }
 
@@ -395,9 +414,13 @@ public class PlayerCore : IDisposable
         var result = MiniAudioNative.ma_sound_seek_to_second(_sound.Handle, (float)target);
         
         if (result != ma_result.success)
-            throw new InvalidOperationException($"Nie udało się przewinąć nagrania: {result}.");
+        {
+            ReportPlaybackError(CurrentTrack, $"Seek: {result} ({(int)result})");
+            return;
+        }
 
         Position = target;
+        _automaticCrossfadeAttempted = false;
     }
 
     #endregion PLAYER METHODS
@@ -419,42 +442,74 @@ public class PlayerCore : IDisposable
 
         Position = 0;
         IsPlaying = true;
+        _automaticCrossfadeAttempted = false;
         return true;
     }
 
-    private bool TryPlayTracks(IEnumerable<Track> tracks)
+    private void ReportPlaybackError(Track? track, string details, int failedTrackCount = 1)
     {
-        foreach (var track in tracks)
-        {
-            if (TryStartTrack(track))
-                return true;
-        }
-
-        return false;
+        Debug.WriteLine($"Playback failed for '{track?.FilePath}': {details}");
+        PlaybackFailed?.Invoke(this, new PlaybackErrorEventArgs(track, details, failedTrackCount));
     }
 
-    private bool TryStartTrack(Track track)
+    private bool TryPlayTracks(IEnumerable<Track> tracks, bool reportErrors = true)
     {
+        Track? firstFailedTrack = null;
+        var firstError = string.Empty;
+        var failedTrackCount = 0;
+        var started = false;
+        foreach (var track in tracks)
+        {
+            if (TryStartTrack(track, out var error))
+            {
+                started = true;
+                break;
+            }
+
+            if (firstFailedTrack is null)
+            {
+                firstFailedTrack = track;
+                firstError = error;
+            }
+            failedTrackCount++;
+        }
+
+        if (reportErrors && firstFailedTrack is not null)
+            ReportPlaybackError(firstFailedTrack, firstError, failedTrackCount);
+
+        return started;
+    }
+
+    private bool TryStartTrack(Track track, out string error)
+    {
+        error = string.Empty;
         var newSound = new MaSound();
         double duration;
 
         try
         {
+            var isMp3 = string.Equals(Path.GetExtension(track.FilePath), ".mp3", StringComparison.OrdinalIgnoreCase);
+            var flags = ma_sound_flags.stream;
+            // The MP3 decoder may scan the entire file to calculate its length
+            // during initialization. TagLib has already supplied the duration.
+            if (isMp3)
+                flags |= ma_sound_flags.unknown_length;
+
             var result = newSound.InitializeFromFile(
                 _engine,
                 track.FilePath,
-                ma_sound_flags.stream | ma_sound_flags.decode);
+                flags);
             
             if (result != ma_result.success)
             {
-                Debug.WriteLine($"Nie udało się otworzyć '{track.FilePath}': {result}.");
+                error = $"Open: {result} ({(int)result})";
                 newSound.Dispose();
                 return false;
             }
 
             duration = track.Duration.TotalSeconds;
             
-            if (newSound.GetLengthInSeconds(out var length) == ma_result.success
+            if (!isMp3 && newSound.GetLengthInSeconds(out var length) == ma_result.success
                 && float.IsFinite(length) && length > 0)
             {
                 duration = length;
@@ -465,6 +520,7 @@ public class PlayerCore : IDisposable
         catch (Exception exception)
         {
             newSound.Dispose();
+            error = exception.Message;
             Debug.WriteLine($"Nie udało się wczytać '{track.FilePath}': {exception}");
             return false;
         }
@@ -481,7 +537,7 @@ public class PlayerCore : IDisposable
 
             if (stopResult != ma_result.success)
             {
-                Debug.WriteLine($"Nie udało się zatrzymać poprzedniego nagrania: {stopResult}.");
+                error = $"Stop previous track: {stopResult} ({(int)stopResult})";
                 newSound.Dispose();
                 return false;
             }
@@ -496,7 +552,7 @@ public class PlayerCore : IDisposable
 
             if (result != ma_result.success)
             {
-                Debug.WriteLine($"Nie udało się rozpocząć odtwarzania '{track.FilePath}': {result}.");
+                error = $"Start: {result} ({(int)result})";
                 
                 if (previousWasPlaying)
                     previousSound?.Start();
@@ -511,6 +567,7 @@ public class PlayerCore : IDisposable
                 previousSound?.Start();
             
             newSound.Dispose();
+            error = exception.Message;
             Debug.WriteLine($"Nie udało się rozpocząć odtwarzania '{track.FilePath}': {exception}");
             return false;
         }
@@ -533,6 +590,7 @@ public class PlayerCore : IDisposable
         Duration = duration;
         Position = 0;
         IsPlaying = true;
+        _automaticCrossfadeAttempted = false;
 
         if (trackChanged)
             CurrentTrackChanged?.Invoke(this, EventArgs.Empty);
@@ -556,6 +614,7 @@ public class PlayerCore : IDisposable
     private bool ShouldStartAutomaticCrossfade()
     {
         if (!_config.CrossfadeEnabled
+            || _automaticCrossfadeAttempted
             || _fadingSound is not null
             || !IsPlaying
             || RepeatMode == RepeatMode.One

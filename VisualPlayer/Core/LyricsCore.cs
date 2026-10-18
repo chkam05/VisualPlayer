@@ -495,6 +495,10 @@ public class LyricsCore : ViewModelBase, IDisposable
         {
             // An automatic network failure must not interrupt playback.
         }
+        catch (JsonException)
+        {
+            // An invalid provider response must not interrupt playback.
+        }
     }
 
     private bool HasLyricsForPreferredType(LyricsProviderResult result)

@@ -415,9 +415,21 @@ public partial class InternalViewPlayListManager : InternalViewBase, IInternalCl
         AppendTracks(SelectedTracksSource.ToList());
     }
 
-    private void DeletePlayList_Click(object? sender, RoutedEventArgs e)
+    private async void DeletePlayList_Click(object? sender, RoutedEventArgs e)
     {
-        if (sender is not MenuItem { DataContext: SavedPlayListViewModel item })
+        if (sender is not MenuItem { DataContext: SavedPlayListViewModel item }
+            || TopLevel.GetTopLevel(this) is not MainWindow window)
+        {
+            return;
+        }
+
+        var dialog = new InternalMessageDialog(
+            T["VIEW_PLAYLIST_MANAGER_DELETE_TITLE"],
+            T.Format("VIEW_PLAYLIST_MANAGER_DELETE_MESSAGE", item.Name),
+            InternalDialogButtons.YesNo,
+            LucideIconKind.Trash);
+
+        if (await window.ShowDialogAsync(dialog) != InternalDialogResult.Yes)
             return;
 
         ApplicationContext.Instance.PlayListLibraryCore.Delete(item);

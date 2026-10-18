@@ -35,7 +35,8 @@
         <!-- DATA TEMPLATE - DetailsView -->
         <DataTemplate x:Key="LibraryDetailsItemTemplate" x:DataType="viewModels:LibraryItemViewModel">
             <Grid
-                ColumnDefinitions="Auto,48,*,Auto"
+                Background="Transparent"
+                ColumnDefinitions="Auto,48,*"
                 ColumnSpacing="10"
                 DoubleTapped="LibraryItem_DoubleTapped"
                 PointerPressed="LibraryItem_PointerPressed">
@@ -84,53 +85,43 @@
                         TextTrimming="CharacterEllipsis"/>
                 </StackPanel>
 
-                <components:ButtonWithIcon
-                    Click="ItemMoreButton_Click"
-                    CornerRadius="24"
-                    Grid.Column="3"
-                    Height="36"
-                    Kind="Ellipsis"
-                    Theme="{StaticResource ThemeButtonWithIconTheme}"
-                    Width="36">
+                <Grid.ContextMenu>
+                    <ContextMenu
+                        Theme="{StaticResource ContextMenuTheme}">
+                        <MenuItem
+                            Click="PlayItemMenuItem_Click"
+                            Header="{ReflectionBinding Translations[COMMON_BUTTON_PLAY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
-                    <components:ButtonWithIcon.ContextMenu>
-                        <ContextMenu
-                            Theme="{StaticResource ContextMenuTheme}">
-                            <MenuItem
-                                Click="PlayItemMenuItem_Click"
-                                Header="{ReflectionBinding Translations[COMMON_BUTTON_PLAY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="Play"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
 
-                                <MenuItem.Icon>
-                                    <LucideIcon
-                                        Kind="Play"
-                                        Size="16"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
+                        <MenuItem
+                            Click="AppendItemMenuItem_Click"
+                            Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ADD_TO_QUEUE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
-                            <MenuItem
-                                Click="AppendItemMenuItem_Click"
-                                Header="{ReflectionBinding Translations[VIEW_PLAYLISTS_ADD_TO_QUEUE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="ListPlus"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
 
-                                <MenuItem.Icon>
-                                    <LucideIcon
-                                        Kind="ListPlus"
-                                        Size="16"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
+                        <MenuItem
+                            Click="AddItemToPlayListMenuItem_Click"
+                            Header="{ReflectionBinding Translations[VIEW_LIBRARY_MANAGER_ITEM_ADD_TO_PLAYLIST], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
-                            <MenuItem
-                                Click="AddItemToPlayListMenuItem_Click"
-                                Header="{ReflectionBinding Translations[VIEW_LIBRARY_MANAGER_ITEM_ADD_TO_PLAYLIST], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
-
-                                <MenuItem.Icon>
-                                    <LucideIcon
-                                        Kind="ListMusic"
-                                        Size="16"/>
-                                </MenuItem.Icon>
-                            </MenuItem>
-                        </ContextMenu>
-                    </components:ButtonWithIcon.ContextMenu>
-                </components:ButtonWithIcon>
+                            <MenuItem.Icon>
+                                <LucideIcon
+                                    Kind="ListMusic"
+                                    Size="16"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </Grid.ContextMenu>
             </Grid>
         </DataTemplate>
 
@@ -640,7 +631,7 @@
 
                 <!-- Details View -->
                 <ListBox
-                    ItemContainerTheme="{StaticResource LibraryItemsListBoxItemTheme}"
+                    ItemContainerTheme="{StaticResource LibraryItems.ListBoxItemTheme}"
                     ItemTemplate="{StaticResource LibraryDetailsItemTemplate}"
                     ItemsSource="{Binding VisibleItems, ElementName=Root}"
                     IsVisible="{Binding IsDetailsLayout, ElementName=Root}"
@@ -648,7 +639,7 @@
 
                 <!-- List View -->
                 <ListBox
-                    ItemContainerTheme="{StaticResource LibraryItemsListBoxItemTheme}"
+                    ItemContainerTheme="{StaticResource LibraryItems.ListBoxItemTheme}"
                     ItemTemplate="{StaticResource LibraryListItemTemplate}"
                     ItemsSource="{Binding VisibleItems, ElementName=Root}"
                     IsVisible="{Binding IsListLayout, ElementName=Root}"
@@ -666,7 +657,7 @@
 
                 <!-- Icons View -->
                 <ListBox
-                    ItemContainerTheme="{StaticResource LibraryItemsListBoxItemTheme}"
+                    ItemContainerTheme="{StaticResource LibraryItems.ListBoxItemTheme}"
                     ItemTemplate="{StaticResource LibraryIconItemTemplate}"
                     ItemsSource="{Binding VisibleItems, ElementName=Root}"
                     IsVisible="{Binding IsIconLayout, ElementName=Root}"

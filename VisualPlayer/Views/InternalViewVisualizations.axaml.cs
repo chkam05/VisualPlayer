@@ -7,14 +7,18 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using Lucide.Avalonia;
 using VisualPlayer.Contexts;
 using VisualPlayer.Enums;
+using VisualPlayer.Enums.UI;
 using VisualPlayer.Events;
 using VisualPlayer.Resources;
 using VisualPlayer.Visualizations.Config;
 using VisualPlayer.Visualizations.Config.Base;
 using VisualPlayer.Views.Base;
+using VisualPlayer.Views.Dialogs;
 using VisualPlayer.Views.Visualisations;
+using VisualPlayer.Windows;
 
 namespace VisualPlayer.Views;
 
@@ -347,12 +351,23 @@ public partial class InternalViewVisualizations : InternalViewBase
 
     #region BUTTON ACTIONS
 
-    private void DeleteProfileButton_Click(object? sender, RoutedEventArgs e)
+    private async void DeleteProfileButton_Click(object? sender, RoutedEventArgs e)
     {
-        if (sender is Control { DataContext: VisualisationProfile profile })
-            DeleteProfile(profile);
-
         e.Handled = true;
+        if (sender is not Control { DataContext: VisualisationProfile { IsDefault: false } profile }
+            || TopLevel.GetTopLevel(this) is not MainWindow window)
+        {
+            return;
+        }
+
+        var dialog = new InternalMessageDialog(
+            T["VIEW_VISUALIZATIONS_DELETE_TITLE"],
+            T.Format("VIEW_VISUALIZATIONS_DELETE_MESSAGE", profile.Name),
+            InternalDialogButtons.YesNo,
+            LucideIconKind.Trash);
+
+        if (await window.ShowDialogAsync(dialog) == InternalDialogResult.Yes)
+            DeleteProfile(profile);
     }
 
     private void SaveProfileButton_Click(object? sender, RoutedEventArgs e)

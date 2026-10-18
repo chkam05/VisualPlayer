@@ -1,7 +1,9 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
@@ -99,12 +101,14 @@ public partial class LyricsDownloaderView : UserControl
         _searchCancellation?.Cancel();
         _searchCancellation?.Dispose();
         _searchCancellation = new CancellationTokenSource();
+        var cancellationToken = _searchCancellation.Token;
         Results.Clear();
         Status = T["VIEW_LYRICS_DOWNLOADER_STATUS_SEARCHING"];
 
         try
         {
-            var results = await search(_searchCancellation.Token);
+            var results = await search(cancellationToken);
+            cancellationToken.ThrowIfCancellationRequested();
 
             foreach (var result in results.Where(result => !result.Instrumental
                          && (!string.IsNullOrWhiteSpace(result.SyncedLyrics)
@@ -117,13 +121,32 @@ public partial class LyricsDownloaderView : UserControl
                 ? T["VIEW_LYRICS_DOWNLOADER_STATUS_NOT_FOUND"]
                 : T.Format("VIEW_LYRICS_DOWNLOADER_STATUS_RESULTS", Results.Count);
         }
-        catch (OperationCanceledException)
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
             // A newer search replaced this request.
         }
+        catch (OperationCanceledException)
+        {
+            Status = T["VIEW_LYRICS_DOWNLOADER_STATUS_TIMEOUT"];
+        }
         catch (HttpRequestException exception)
         {
-            Status = T.Format("VIEW_LYRICS_DOWNLOADER_STATUS_ERROR", exception.Message);
+            if (cancellationToken.IsCancellationRequested)
+                return;
+
+            Status = exception.StatusCode switch
+            {
+                HttpStatusCode.ServiceUnavailable or HttpStatusCode.BadGateway or HttpStatusCode.GatewayTimeout
+                    => T["VIEW_LYRICS_DOWNLOADER_STATUS_UNAVAILABLE"],
+                HttpStatusCode.TooManyRequests => T["VIEW_LYRICS_DOWNLOADER_STATUS_RATE_LIMITED"],
+                HttpStatusCode.RequestTimeout => T["VIEW_LYRICS_DOWNLOADER_STATUS_TIMEOUT"],
+                _ => T.Format("VIEW_LYRICS_DOWNLOADER_STATUS_ERROR", exception.Message)
+            };
+        }
+        catch (JsonException)
+        {
+            if (!cancellationToken.IsCancellationRequested)
+                Status = T["VIEW_LYRICS_DOWNLOADER_STATUS_INVALID_RESPONSE"];
         }
 
     }

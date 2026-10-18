@@ -324,12 +324,6 @@ public partial class InternalViewLibraryManager : InternalViewBase
 
     #region BUTTON ACTIONS
 
-    private static void ItemMoreButton_Click(object? sender, RoutedEventArgs e)
-    {
-        if (sender is Button { ContextMenu: { } menu } button)
-            menu.Open(button);
-    }
-
     private static void SelectedMoreButton_Click(object? sender, RoutedEventArgs e)
     {
         if (sender is Button { ContextMenu: { } menu } button)
@@ -913,7 +907,7 @@ public partial class InternalViewLibraryManager : InternalViewBase
 
     private static void AppendTracks(IEnumerable<Track> tracks)
     {
-        ApplicationContext.Instance.PlayListCore.AddStoredTracks(tracks);
+        ApplicationContext.Instance.AddTracks(tracks, startPlayback: false);
     }
 
     private async System.Threading.Tasks.Task<bool> AddTracksToPlayListAsync(IEnumerable<Track> tracks)
@@ -943,11 +937,7 @@ public partial class InternalViewLibraryManager : InternalViewBase
 
     private static void PlayTracks(IEnumerable<Track> tracks)
     {
-        var context = ApplicationContext.Instance;
-        var first = context.PlayListCore.ReplaceWith(tracks).FirstOrDefault();
-
-        if (first is not null)
-            context.PlayerCore.Play(first);
+        ApplicationContext.Instance.AddTracks(tracks, startPlayback: true);
     }
 
     #endregion PLAYLIST ACTIONS

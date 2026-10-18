@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Avalonia;
@@ -51,6 +52,9 @@ public partial class MainWindow : Window
     private Avalonia.Controls.WindowDecorations _restoreWindowDecorations;
     private WindowState _restoreWindowState;
     private bool _wasPlaying;
+    private readonly Queue<PlaybackErrorEventArgs> _playbackErrors = new();
+    private bool _showingPlaybackError;
+    private bool _isWindowClosed;
     private readonly IDisposable? _taskbarControls;
 
     public static readonly DirectProperty<MainWindow, bool> IsMiniModeProperty
@@ -184,6 +188,7 @@ public partial class MainWindow : Window
     {
         _applicationContext.PlayerDataContext.PropertyChanged += PlayerDataContext_PropertyChanged;
         _applicationContext.PlayerCore.CurrentTrackChanged += PlayerCore_CurrentTrackChanged;
+        _applicationContext.PlayerCore.PlaybackFailed += PlayerCore_PlaybackFailed;
 
         _wasPlaying = _applicationContext.PlayerDataContext.IsPlaying;
 
@@ -349,6 +354,55 @@ public partial class MainWindow : Window
             windowConfig.Width = ClientSize.Width;
             windowConfig.Height = ClientSize.Height;
         }
+    }
+
+    private void PlayerCore_PlaybackFailed(object? sender, PlaybackErrorEventArgs e)
+    {
+        // Also handles failures during startup, before the window is first shown.
+        Dispatcher.UIThread.Post(async () =>
+        {
+            if (_isWindowClosed)
+                return;
+
+            _playbackErrors.Enqueue(e);
+            if (_showingPlaybackError)
+                return;
+
+            _showingPlaybackError = true;
+            try
+            {
+                while (!_isWindowClosed && _playbackErrors.TryDequeue(out var error))
+                {
+                    if (IsMiniMode)
+                    {
+                        IsMiniMode = false;
+                        // ExitMiniMode restores the full window size at Loaded priority.
+                        await Dispatcher.UIThread.InvokeAsync(() => { }, DispatcherPriority.Loaded);
+                        if (_isWindowClosed)
+                            break;
+                    }
+
+                    var translations = _applicationContext.Translations;
+                    var content = translations.Format("DIALOG_PLAYBACK_ERROR_MESSAGE",
+                        error.Track?.DisplayTitle ?? string.Empty,
+                        error.Track?.FilePath ?? string.Empty,
+                        error.Details);
+                    if (error.FailedTrackCount > 1)
+                        content += "\n\n" + translations.Format("DIALOG_PLAYBACK_ERROR_MORE", error.FailedTrackCount - 1);
+
+                    var dialog = new InternalMessageDialog(
+                        translations["DIALOG_PLAYBACK_ERROR_TITLE"],
+                        content,
+                        InternalDialogButtons.Ok,
+                        LucideIconKind.TriangleAlert);
+                    await InternalMessages.ShowDialogAsync(dialog);
+                }
+            }
+            finally
+            {
+                _showingPlaybackError = false;
+            }
+        });
     }
 
     private void PlayerCore_CurrentTrackChanged(object? sender, EventArgs e)
@@ -755,12 +809,15 @@ public partial class MainWindow : Window
 
     private void MainWindow_Closed(object? sender, EventArgs e)
     {
+        _isWindowClosed = true;
+        _playbackErrors.Clear();
         SaveCurrentWindowSize(IsMiniMode);
         _taskbarControls?.Dispose();
         _hamburgerMenuContext.Dispose();
         _applicationContext.Config.MiniPlayer.PropertyChanged -= MiniPlayerConfig_PropertyChanged;
         _applicationContext.PlayerDataContext.PropertyChanged -= PlayerDataContext_PropertyChanged;
         _applicationContext.PlayerCore.CurrentTrackChanged -= PlayerCore_CurrentTrackChanged;
+        _applicationContext.PlayerCore.PlaybackFailed -= PlayerCore_PlaybackFailed;
     }
 
     private void MainWindow_KeyDown(object? sender, KeyEventArgs e)

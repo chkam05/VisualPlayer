@@ -21,6 +21,8 @@ public class LrcLibLyricsProvider : ILyricsProvider, IDisposable
     private const string API_URL = "https://lrclib.net/api/search";
     private const int CACHE_LIFETIME_HOURS = 24;
     private const int REQUEST_TIMEOUT_SECONDS = 15;
+    private const int MAX_REQUEST_ATTEMPTS = 3;
+    private const int MAX_RETRY_DELAY_SECONDS = 5;
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
@@ -44,13 +46,11 @@ public class LrcLibLyricsProvider : ILyricsProvider, IDisposable
 
     #region CONSTRUCTORS
 
-    public LrcLibLyricsProvider(string cacheDirectoryPath)
+    public LrcLibLyricsProvider(string cacheDirectoryPath, HttpMessageHandler? httpMessageHandler = null)
     {
         _cacheDirectoryPath = cacheDirectoryPath;
-        _httpClient = new HttpClient
-        {
-            Timeout = TimeSpan.FromSeconds(REQUEST_TIMEOUT_SECONDS)
-        };
+        _httpClient = httpMessageHandler is null ? new HttpClient() : new HttpClient(httpMessageHandler);
+        _httpClient.Timeout = TimeSpan.FromSeconds(REQUEST_TIMEOUT_SECONDS);
         _httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(
             $"{AppInfoGetter.AppName}/{AppInfoGetter.AppVersion} (https://github.com/chkam05/VisualPlayer)");
     }
@@ -104,22 +104,43 @@ public class LrcLibLyricsProvider : ILyricsProvider, IDisposable
         if (cached is not null)
             return cached;
 
-        using var response = await _httpClient.GetAsync(url, cancellationToken);
-
-        if (response.StatusCode == HttpStatusCode.TooManyRequests)
-        {
-            var retryAfter = response.Headers.RetryAfter?.Delta;
-            throw new HttpRequestException(retryAfter.HasValue
-                ? $"LRCLIB ograniczył liczbę zapytań. Spróbuj ponownie za {Math.Ceiling(retryAfter.Value.TotalSeconds)} s."
-                : "LRCLIB ograniczył liczbę zapytań. Spróbuj ponownie później.");
-        }
-
+        using var response = await SendWithRetryAsync(url, cancellationToken);
         response.EnsureSuccessStatusCode();
         var json = await response.Content.ReadAsStringAsync(cancellationToken);
         var results = JsonSerializer.Deserialize<LyricsProviderResult[]>(json, JsonOptions) ?? [];
 
         await WriteCacheAsync(url, json, cancellationToken);
         return results;
+    }
+
+    private async Task<HttpResponseMessage> SendWithRetryAsync(string url, CancellationToken cancellationToken)
+    {
+        for (var attempt = 1; ; attempt++)
+        {
+            var response = await _httpClient.GetAsync(url, cancellationToken);
+            var isTransient = response.StatusCode is HttpStatusCode.RequestTimeout
+                or HttpStatusCode.TooManyRequests
+                or HttpStatusCode.BadGateway
+                or HttpStatusCode.ServiceUnavailable
+                or HttpStatusCode.GatewayTimeout;
+
+            if (!isTransient || attempt >= MAX_REQUEST_ATTEMPTS)
+                return response;
+
+            var retryAfter = response.Headers.RetryAfter;
+            var delay = retryAfter?.Delta
+                ?? (retryAfter?.Date - DateTimeOffset.UtcNow)
+                ?? TimeSpan.FromSeconds(attempt);
+
+            // A long Retry-After should be reported to the user rather than
+            // blocking the search or retrying earlier than the server permits.
+            if (delay > TimeSpan.FromSeconds(MAX_RETRY_DELAY_SECONDS))
+                return response;
+
+            response.Dispose();
+            if (delay > TimeSpan.Zero)
+                await Task.Delay(delay, cancellationToken);
+        }
     }
 
     #endregion SEARCH

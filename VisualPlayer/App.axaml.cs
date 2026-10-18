@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using VisualPlayer.Contexts;
 using VisualPlayer.Utils;
 using VisualPlayer.Windows;
@@ -40,10 +41,20 @@ public partial class App : Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            ApplicationContext.InitializeStartupFiles(desktop.Args ?? []);
-
             desktop.MainWindow = CreateWindow();
             desktop.Exit += Desktop_Exit;
+            ApplicationContext.InitializeStartupFiles(desktop.Args ?? []);
+            Program.SingleInstance?.StartReceiving(files => Dispatcher.UIThread.Post(() =>
+            {
+                ApplicationContext.AddFiles(files);
+                if (desktop.MainWindow is { } window)
+                {
+                    if (window.WindowState == WindowState.Minimized)
+                        window.WindowState = WindowState.Normal;
+                    window.Show();
+                    window.Activate();
+                }
+            }));
         }
 
         base.OnFrameworkInitializationCompleted();
