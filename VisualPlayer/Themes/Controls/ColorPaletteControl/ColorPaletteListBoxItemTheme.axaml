@@ -1,0 +1,61 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts">
+
+    <ControlTheme x:Key="ColorPalette.ListBoxItemTheme" BasedOn="{StaticResource ListBoxItemTheme}" TargetType="ListBoxItem">
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Margin" Value="1" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="Width" Value="48" />
+
+        <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeMouseOverBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        </Style>
+
+        <Style Selector="^:focus-visible /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeMouseOverBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        </Style>
+
+        <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemePressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        </Style>
+
+        <Style Selector="^:selected">
+            <Style Selector="^ /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeSelectedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+                <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            </Style>
+
+            <Style Selector="^:not(:focus) /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeSelectedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+                <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            </Style>
+
+            <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeMouseOverBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+                <Setter Property="BorderBrush" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            </Style>
+
+            <Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+                <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemePressedBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+                <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            </Style>
+        </Style>
+        
+        <Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{ReflectionBinding Config.Appearance.ThemeDisabledBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

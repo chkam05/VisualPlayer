@@ -1,0 +1,34 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    x:Class="VisualPlayer.Controls.VisualizationSurfaceControl"
+    x:Name="Root"
+    x:FieldModifier="private"
+    Classes="internal-layout">
+    
+    <UserControl.Content>
+        <Border
+            Background="{Binding Background, Mode=OneWay, ElementName=Root}"
+            BorderBrush="{Binding BorderBrush, Mode=OneWay, ElementName=Root}"
+            BorderThickness="{Binding BorderThickness, Mode=OneWay, ElementName=Root}">
+            
+            <Grid />
+        </Border>
+    </UserControl.Content>
+
+    <UserControl.Styles>
+        <Style Selector=":is(controls|VisualizationSurfaceControl)">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        </Style>
+
+        <Style Selector=":is(controls|VisualizationSurfaceControl).internal-layout /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </UserControl.Styles>
+</UserControl>

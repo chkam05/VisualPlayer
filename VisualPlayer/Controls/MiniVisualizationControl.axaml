@@ -1,0 +1,43 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    x:Class="VisualPlayer.Controls.MiniVisualizationControl"
+    x:Name="Root"
+    x:FieldModifier="private"
+    Classes="internal-layout">
+    
+    <UserControl.Content>
+        <Border
+            Background="{Binding Background, Mode=OneWay, ElementName=Root}"
+            BorderBrush="{Binding BorderBrush, Mode=OneWay, ElementName=Root}"
+            BorderThickness="{Binding BorderThickness, Mode=OneWay, ElementName=Root}"
+            CornerRadius="{Binding CornerRadius, Mode=OneWay, ElementName=Root}"
+            Padding="{Binding Padding, Mode=OneWay, ElementName=Root}">
+
+            <Canvas
+                x:Name="Canvas"
+                x:FieldModifier="private"
+                ClipToBounds="True"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+        </Border>
+    </UserControl.Content>
+
+    <UserControl.Styles>
+        <Style Selector=":is(controls|MiniVisualizationControl)">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.AccentColorBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        </Style>
+
+        <Style Selector=":is(controls|MiniVisualizationControl).internal-layout /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </UserControl.Styles>
+</UserControl>

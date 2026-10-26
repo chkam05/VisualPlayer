@@ -1,0 +1,21 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTemplate x:Key="HamburgerMenu.ListBoxItemTemplate" TargetType="ListBoxItem">
+        <ContentPresenter
+            x:Name="PART_ContentPresenter"
+            Content="{TemplateBinding Content}"
+            ContentTemplate="{TemplateBinding ContentTemplate}"
+            HorizontalContentAlignment="Stretch" />
+    </ControlTemplate>
+
+    <ControlTheme x:Key="HamburgerMenu.ListBoxItemTheme" TargetType="ListBoxItem">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="IsHitTestVisible" Value="{ReflectionBinding IsButtonVisible}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template" Value="{StaticResource HamburgerMenu.ListBoxItemTemplate}" />
+    </ControlTheme>
+</ResourceDictionary>

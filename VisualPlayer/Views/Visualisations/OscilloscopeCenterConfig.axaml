@@ -24,7 +24,7 @@
         <common:VisualisationColorConfig/>
 
         <!-- Thickness -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_CENTER_LINE_THICKNESS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Minus"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_THICKNESS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -34,20 +34,20 @@
                 Minimum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MINIMUM}"
                 Suffix=" px"
                 Value="{ReflectionBinding Config.LineThickness, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Smooth -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_SMOOTH_LINE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AudioWaveform"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_SMOOTH_LINE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.SmoothLine, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Effects -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_BEAM_EFFECT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Sparkles"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_EFFECT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -64,6 +64,6 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-        </controls:SettingsControl>
+        </components:SettingsControl>
     </StackPanel>
 </UserControl>

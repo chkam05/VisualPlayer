@@ -62,11 +62,13 @@ Stan „zawsze na wierzchu” ustawiany przez `MainWindow` jest koniunkcją zapi
 
 - `Themes/Base`: standardowe kontrolki Avalonia.
 - `Themes/Components`: współdzielone komponenty projektu.
-- `Themes/Controls`: kontrolki aplikacji.
+- `Themes/Controls`: wspólne zasoby kontrolek oraz motywy kontrolerów wewnętrznych.
 - `Themes/Messages`: dialogi wewnętrzne.
 - `Themes/Views`: zasoby wspólne i przeznaczone dla konkretnych widoków.
 
 Klucze motywów i szablonów używają w odpowiednich miejscach notacji z nazwą właściciela, na przykład `PlayerControl.IconButtonTheme` oraz `PlayerControl.SeparatorBorder`.
+
+Większość kontrolek aplikacji to klasy `UserControl` z deklaracją i kodem obok siebie w `Controls`, jako `Nazwa.axaml` i `Nazwa.axaml.cs`. Konstruktory ładują układ przez `InitializeComponent()` i podpinają zdarzenia nazwanych elementów. Układ wiąże właściwości kontrolki przez `ElementName=Root`, a kontekst danych pozostaje dostępny dla modeli widoku. Te pliki nie wymagają wpisu w `Generic.axaml`. `PlayListControl` przechowuje układ wiersza w lokalnym szablonie danych `TrackItemTemplate`, współdzielonym z podglądem przeciągania. Oddzielne motywy `ListBox` i `ListBoxItem` znajdują się w `Themes/Controls/PlayListControl`. `HamburgerMenuControl` współdzieli `HamburgerMenuItemTemplate` między górną i dolną listą; motywy listy, kontenera pozycji i przycisku znajdują się w `Themes/Controls/HamburgerMenuControl`. `SettingsControl` i `SettingsExpandControl` są kontrolkami zawartości w `Components`, a ich szablony i motywy znajdują się w `Themes/Components`. Przyjmują zagnieżdżoną zawartość przez standardową właściwość `Content` i obsługują klasę `darker`. Te motywy oraz oddzielne motywy dla `Controls/InternalViews` są dołączane przez `Generic.axaml`.
 
 ## Skróty klawiszowe
 

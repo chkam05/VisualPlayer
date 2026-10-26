@@ -1,0 +1,114 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:configViewModels="using:VisualPlayer.ViewModels.Config"
+    x:Class="VisualPlayer.Controls.ImageSelectorControl"
+    x:Name="Root"
+    x:FieldModifier="private"
+    Classes="internal-layout">
+
+    <UserControl.Resources>
+        <converters:BackgroundImagePathToBitmapConverter x:Key="BackgroundImagePathToBitmapConverter" />
+        
+        <ItemsPanelTemplate
+            x:Key="BackgroundImageItemsPanel">
+            <WrapPanel
+                Orientation="Horizontal" />
+        </ItemsPanelTemplate>
+
+        <!-- Image DataTemplate -->
+        <DataTemplate x:Key="BackgroundImageItemDataTemplate" DataType="configViewModels:BackgroundImageViewModel" x:DataType="configViewModels:BackgroundImageViewModel">
+            <Grid>
+                <Border
+                    Background="{ReflectionBinding Config.Appearance.ThemeBackgroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    CornerRadius="6"
+                    ClipToBounds="True">
+
+                    <Image
+                        Source="{Binding Path, Converter={StaticResource BackgroundImagePathToBitmapConverter}}"
+                        Stretch="UniformToFill" />
+                </Border>
+
+                <components:ButtonWithIcon
+                    CornerRadius="12"
+                    Height="24"
+                    HorizontalAlignment="Right"
+                    IsVisible="{Binding CanRemove}"
+                    Kind="X"
+                    Margin="4"
+                    Padding="4"
+                    Tag="{Binding}"
+                    Theme="{StaticResource AccentButtonWithIconTheme}"
+                    ToolTip.Tip="{ReflectionBinding Translations[IMAGESELECTOR_TOOLTIP_REMOVE_IMAGE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    VerticalAlignment="Top"
+                    Width="24" />
+                
+                <Border
+                    Background="#99000000"
+                    CornerRadius="0,0,6,6"
+                    VerticalAlignment="Bottom">
+                    
+                    <TextBlock
+                        Foreground="White"
+                        Margin="6,3"
+                        Text="{Binding Name}"
+                        TextTrimming="CharacterEllipsis" />
+                </Border>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <UserControl.Content>
+        <StackPanel
+            Spacing="8">
+
+            <!-- IMAGES LIST -->
+            <ListBox
+                x:Name="ImageList"
+                x:FieldModifier="private"
+                Background="Transparent"
+                BorderThickness="0"
+                ItemContainerTheme="{StaticResource ImageSelector.ListBoxItemTheme}"
+                ItemTemplate="{StaticResource BackgroundImageItemDataTemplate}"
+                ItemsPanel="{StaticResource BackgroundImageItemsPanel}"
+                ItemsSource="{ReflectionBinding Images, ElementName=Root}"
+                Padding="0"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                SelectionMode="Single" />
+
+            <!-- ADD IMAGE BUTTON -->
+            <components:ButtonWithIcon
+                x:Name="AddImageButton"
+                x:FieldModifier="private"
+                Content="{ReflectionBinding Translations[COMMON_BUTTON_ADD_IMAGE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                HorizontalContentAlignment="Center"
+                IconPosition="Top"
+                Height="88"
+                Kind="Plus"
+                Margin="8,4,8,4"
+                Padding="12,8"
+                Theme="{StaticResource ImageSelector.AddButtonWithIconTheme}"
+                ToolTip.Tip="{ReflectionBinding Translations[COMMON_BUTTON_ADD_IMAGE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                VerticalContentAlignment="Center"
+                Width="136" />
+        </StackPanel>
+    </UserControl.Content>
+
+    <UserControl.Styles>
+        <Style Selector=":is(controls|ImageSelectorControl)">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+
+        <Style Selector=":is(controls|ImageSelectorControl).internal-layout /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </UserControl.Styles>
+</UserControl>

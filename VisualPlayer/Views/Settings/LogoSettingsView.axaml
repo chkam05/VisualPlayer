@@ -12,9 +12,17 @@
         <converters:OpacityToPercentageConverter x:Key="OpacityToPercentageConverter"/>
     </UserControl.Resources>
 
-    <StackPanel Spacing="8">
-        <Grid ColumnDefinitions="*,Auto">
-            <StackPanel Spacing="4">
+    <StackPanel
+        Spacing="8">
+
+        <!-- HEADER -->
+        
+        <Grid
+            ColumnDefinitions="*,Auto">
+
+            <StackPanel
+                Spacing="4">
+
                 <TextBlock
                     FontSize="22"
                     FontWeight="SemiBold"
@@ -33,16 +41,20 @@
                 Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
         </Grid>
 
-        <controls:SettingsControl
+        <!-- SETTINGS -->
+
+        <!-- Show Logo -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_ENABLED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Eye"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_ENABLED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Logo.Enabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsExpandControl
+        <!-- Border Color (V) -->
+        <components:SettingsExpandControl
             Icon="PenLine"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_BORDER_COLOR_1], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
@@ -50,9 +62,10 @@
                 RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 SelectedColor="{ReflectionBinding Config.Logo.BorderColor1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
                 Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_BORDER_COLOR_1], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
-        <controls:SettingsExpandControl
+        <!-- Border Color (P) -->
+        <components:SettingsExpandControl
             Icon="PenLine"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_BORDER_COLOR_2], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
@@ -60,9 +73,10 @@
                 RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 SelectedColor="{ReflectionBinding Config.Logo.BorderColor2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
                 Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_BORDER_COLOR_2], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
-        <controls:SettingsExpandControl
+        <!-- Fill Color (V) -->
+        <components:SettingsExpandControl
             Icon="PaintBucket"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_FILL_COLOR_1], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
@@ -70,9 +84,10 @@
                 RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 SelectedColor="{ReflectionBinding Config.Logo.FillColor1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
                 Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_FILL_COLOR_1], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
-        <controls:SettingsExpandControl
+        <!-- Fill Color (P) -->
+        <components:SettingsExpandControl
             Icon="PaintBucket"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_FILL_COLOR_2], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
@@ -80,9 +95,10 @@
                 RecentAccentColors="{ReflectionBinding Config.Appearance.RecentAccentColors, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                 SelectedColor="{ReflectionBinding Config.Logo.FillColor2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
                 Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_TITLE_FILL_COLOR_2], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
-        <controls:SettingsControl
+        <!-- Transparency -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Layers2"
             Title="{ReflectionBinding Translations[COMMON_OPACITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -101,18 +117,20 @@
                     Theme="{StaticResource SliderTheme}"
                     Value="{ReflectionBinding Config.Logo.Opacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
             </Grid>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsControl
+        <!-- Animation (Visualization) -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_ANIMATION_ENABLED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ImagePlay"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_ANIMATION_ENABLED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsControl
+        <!-- Animation (Visualization) Sensitivity -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_SENSITIVITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Gauge"
             IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
@@ -124,9 +142,10 @@
                 Minimum="{x:Static config:LogoConfig.ANIMATION_SENSITIVITY_MINIMUM}"
                 Suffix="%"
                 Value="{ReflectionBinding Config.Logo.Sensitivity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsControl
+        <!-- Animation (Visualization) Scale -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_SCALE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Scaling"
             IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
@@ -138,9 +157,10 @@
                 Minimum="{x:Static config:LogoConfig.ANIMATION_SCALE_MINIMUM}"
                 Suffix="%"
                 Value="{ReflectionBinding Config.Logo.Scale, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsControl
+        <!-- Animation (Visualization) Speed -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_CONTRACTION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ClockFading"
             IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
@@ -152,9 +172,10 @@
                 Minimum="{x:Static config:LogoConfig.ANIMATION_CONTRACTION_MINIMUM}"
                 Suffix=" /s"
                 Value="{ReflectionBinding Config.Logo.Contraction, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsControl
+        <!-- Animation (Visualization) Freq Start -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_MINIMUM_FREQUENCY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AudioWaveform"
             IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
@@ -166,9 +187,10 @@
                 Minimum="{x:Static config:LogoConfig.ANIMATION_FREQUENCY_MINIMUM}"
                 Suffix=" Hz"
                 Value="{ReflectionBinding Config.Logo.MinimumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsControl
+        <!-- Animation (Visualization) Freq End -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_LOGO_MAXIMUM_FREQUENCY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AudioWaveform"
             IsVisible="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
@@ -180,6 +202,6 @@
                 Minimum="{x:Static config:LogoConfig.ANIMATION_FREQUENCY_MINIMUM}"
                 Suffix=" Hz"
                 Value="{ReflectionBinding Config.Logo.MaximumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
     </StackPanel>
 </UserControl>

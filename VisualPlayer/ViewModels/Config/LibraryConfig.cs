@@ -1,5 +1,7 @@
+using System;
 using System.Collections.ObjectModel;
 using VisualPlayer.Attributes;
+using VisualPlayer.Enums.Library;
 
 namespace VisualPlayer.ViewModels.Config;
 
@@ -11,8 +13,16 @@ public class LibraryConfig : ViewModelBase
     private double _artistsLayout;
     private double _directoriesLayout;
     private double _tracksLayout;
+    private LibrarySection _lastSection = LibrarySection.Tracks;
 
     #region PROPERTIES
+
+    [NotifyPropertyUpdate]
+    public LibrarySection LastSection
+    {
+        get => _lastSection;
+        set => UpdateProperty(ref _lastSection, Enum.IsDefined(value) ? value : LibrarySection.Tracks);
+    }
 
     public ObservableCollection<LibraryFolderConfig> Folders
     {

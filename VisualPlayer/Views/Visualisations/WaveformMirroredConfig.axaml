@@ -26,7 +26,7 @@
         <common:VisualisationColorConfig/>
 
         <!-- Number of peaks -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_NUM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ChartNoAxesColumn"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_NUM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -35,10 +35,10 @@
                 Maximum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MAXIMUM}"
                 Minimum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MINIMUM}"
                 Value="{ReflectionBinding Config.PeaksCount, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Direction -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_DIRECTION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ArrowUpDown"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_DIRECTION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -55,10 +55,10 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Thickness -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_LINE_THICKNESS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Minus"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_THICKNESS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -68,10 +68,10 @@
                 Minimum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MINIMUM}"
                 Suffix=" px"
                 Value="{ReflectionBinding Config.LineThickness, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Falling speed -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_DESCENT_RATE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ClockFading"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -82,10 +82,10 @@
                 Minimum="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_MINIMUM}"
                 Suffix=" px/s"
                 Value="{ReflectionBinding Config.DescentRate, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Effects -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_BEAM_EFFECT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Sparkles"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_EFFECT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -102,20 +102,20 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Fill -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_FILL_ENABLED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="PaintBucket"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_FILL_ENABLED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.FillEnabled, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Transparency -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Blend"
             IsVisible="{ReflectionBinding Config.FillEnabled}"
@@ -135,10 +135,10 @@
                     Theme="{StaticResource SliderTheme}"
                     Value="{ReflectionBinding Config.Opacity, Mode=TwoWay}"/>
             </Grid>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Transformation -->
-        <controls:SettingsExpandControl
+        <components:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Move3d"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_TRANSFORM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -146,7 +146,7 @@
             <StackPanel
                 Spacing="8">
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="AudioWaveform"
                     Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -163,10 +163,10 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
                 <!-- Transformation shift -->
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORMATION_MINIMUM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="MoveVertical"
                     IsVisible="{ReflectionBinding Config.IsTransformationEnabled}"
@@ -178,20 +178,20 @@
                         Minimum="{x:Static profile:VisualizationBaseConfig.TRANSFORMATION_MINIMUM_MINIMUM}"
                         Suffix="%"
                         Value="{ReflectionBinding Config.TransformationMinimum, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
                 <!-- Shift -->
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_SHIFT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ArrowLeftRight"
                     Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_SHIFT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.Shift, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
             </StackPanel>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
     </StackPanel>
 </UserControl>

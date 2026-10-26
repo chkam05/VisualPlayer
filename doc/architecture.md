@@ -15,9 +15,9 @@
 | `Assets` | Logo, icons, and bundled background resources. |
 | `Attributes` | Property notification metadata. |
 | `Commands` | Command implementations used by view models. |
-| `Components` | Small reusable UI primitives such as icon buttons and numeric input. |
+| `Components` | Reusable UI components such as icon buttons, numeric input, and templated settings controls. |
 | `Contexts` | Application state, configuration roots, and feature coordination. |
-| `Controls` | Reusable templated controls such as the player, side panel, lyrics, and visualization surface. |
+| `Controls` | Reusable `UserControl` layouts such as the player, side panel, lyrics, and visualization surface; internal controllers remain in `InternalViews`. |
 | `Core` | Playback, analysis, library, playlist, lyrics, equalizer, and visualization services. |
 | `Enums` | Shared domain and UI enumerations. |
 | `Models` | Data-only or processing types grouped by feature. |

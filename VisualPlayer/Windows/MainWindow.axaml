@@ -5,6 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:contexts="using:VisualPlayer.Contexts"
     xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:internalViews="using:VisualPlayer.Controls.InternalViews"
     xmlns:converters="using:VisualPlayer.Converters"
     xmlns:resources="using:VisualPlayer.Resources"
     
@@ -29,7 +30,9 @@
 
             <!-- WINDOW BACKGROUND -->
 
-            <Grid IsVisible="{Binding IsFullMode, ElementName=Root}">
+            <Grid
+                IsVisible="{Binding IsFullMode, ElementName=Root}">
+
                 <Border>
                     <Border.Background>
                         <MultiBinding Converter="{x:Static converters:BrushOpacityConverter.Instance}">
@@ -77,25 +80,27 @@
 
             <!-- LOGO -->
 
-            <Grid IsVisible="{Binding IsFullMode, ElementName=Root}">
-            <controls:LogoControl
-                AnimationContraction="{ReflectionBinding Config.Logo.Contraction, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                AnimationMaximumFrequency="{ReflectionBinding Config.Logo.MaximumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                AnimationMinimumFrequency="{ReflectionBinding Config.Logo.MinimumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                AnimationScale="{ReflectionBinding Config.Logo.Scale, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                AnimationSensitivity="{ReflectionBinding Config.Logo.Sensitivity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                EnableAnimation="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                IsVisible="{ReflectionBinding Config.Logo.Enabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                LogoHeight="{x:Static controls:LogoControl.DEFAULT_HEIGHT}"
-                LogoWidth="{x:Static controls:LogoControl.DEFAULT_WIDTH}"
-                Opacity="{ReflectionBinding Config.Logo.Opacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                PlayerBorder="{ReflectionBinding Config.Logo.BorderBrush2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                PlayerFill="{ReflectionBinding Config.Logo.FillBrush2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                ReferenceHeight="{x:Static controls:LogoControl.DEFAULT_REFERENCE_HEIGHT}"
-                ReferenceWidth="{x:Static controls:LogoControl.DEFAULT_REFERENCE_WIDTH}"
-                VisualBorder="{ReflectionBinding Config.Logo.BorderBrush1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                VisualFill="{ReflectionBinding Config.Logo.FillBrush1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
-                VisualizationCore="{ReflectionBinding VisualizationCore, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+            <Grid
+                IsVisible="{Binding IsFullMode, ElementName=Root}">
+
+                <controls:LogoControl
+                    AnimationContraction="{ReflectionBinding Config.Logo.Contraction, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    AnimationMaximumFrequency="{ReflectionBinding Config.Logo.MaximumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    AnimationMinimumFrequency="{ReflectionBinding Config.Logo.MinimumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    AnimationScale="{ReflectionBinding Config.Logo.Scale, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    AnimationSensitivity="{ReflectionBinding Config.Logo.Sensitivity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    EnableAnimation="{ReflectionBinding Config.Logo.AnimationEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    IsVisible="{ReflectionBinding Config.Logo.Enabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    LogoHeight="{x:Static controls:LogoControl.DEFAULT_HEIGHT}"
+                    LogoWidth="{x:Static controls:LogoControl.DEFAULT_WIDTH}"
+                    Opacity="{ReflectionBinding Config.Logo.Opacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    PlayerBorder="{ReflectionBinding Config.Logo.BorderBrush2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    PlayerFill="{ReflectionBinding Config.Logo.FillBrush2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    ReferenceHeight="{x:Static controls:LogoControl.DEFAULT_REFERENCE_HEIGHT}"
+                    ReferenceWidth="{x:Static controls:LogoControl.DEFAULT_REFERENCE_WIDTH}"
+                    VisualBorder="{ReflectionBinding Config.Logo.BorderBrush1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    VisualFill="{ReflectionBinding Config.Logo.FillBrush1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    VisualizationCore="{ReflectionBinding VisualizationCore, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
             </Grid>
 
             <!-- LAYOUT -->
@@ -186,6 +191,7 @@
                     Grid.Row="2"
                     ZIndex="3">
 
+                    <!-- FULL PLAYER -->
                     <controls:PlayerControl
                         x:Name="PlayPanel"
                         AutoHide="{ReflectionBinding Config.Appearance.AutoHidePlayerControl, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
@@ -212,6 +218,7 @@
                         </controls:PlayerControl.KeepOpen>
                     </controls:PlayerControl>
 
+                    <!-- MINI PLAYER -->
                     <controls:PlayerMiniControl
                         x:Name="MiniPlayPanel"
                         CloseApplicationRequested="MiniPlayPanel_CloseApplicationRequested"
@@ -229,6 +236,7 @@
 
                 </Grid>
 
+                <!-- OVERLAYS: VolumeControl & SpeedControl -->
                 <Canvas
                     Grid.Row="0"
                     Grid.RowSpan="2"
@@ -256,14 +264,17 @@
 
         </Grid>
 
-        <Grid IsVisible="{Binding IsFullMode, ElementName=Root}">
-            <controls:InternalViewController
+        <!-- INTERNAL VIEWS -->
+        <Grid
+            IsVisible="{Binding IsFullMode, ElementName=Root}">
+
+            <internalViews:InternalViewController
                 x:Name="InternalViews"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 ZIndex="100"/>
 
-            <controls:InternalMessageController
+            <internalViews:InternalMessageController
                 x:Name="InternalMessages"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"

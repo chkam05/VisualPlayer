@@ -36,239 +36,243 @@
         <!-- SETTINGS -->
 
         <!-- Panels Visibility -->
-        <controls:SettingsExpandControl
+        <components:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PANELS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="PanelsTopLeft"
-            Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TITLE_INTERFACE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TITLE_INTERFACE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            IsExpanded="True">
 
             <StackPanel
                 Spacing="8">
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_PLAY_LIST_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ListVideo"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_PLAY_LIST_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.TogglePlayList,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_INFO_BAR_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="PanelTop"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_INFO_BAR_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.ToggleInfoBar,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_MENU_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="PanelLeft"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_MENU_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.ToggleMenu,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_PLAYER_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="PanelBottom"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TOGGLE_PLAYER_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.TogglePlayer,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
             </StackPanel>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
         <!-- Player Control -->
-        <controls:SettingsExpandControl
+        <components:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PLAYBACK_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Play"
-            Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TITLE_PLAYBACK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TITLE_PLAYBACK], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            IsExpanded="True">
 
             <StackPanel
                 Spacing="8">
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_USE_SYSTEM_MEDIA_COMMANDS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="KeyboardMusic"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_USE_SYSTEM_MEDIA_COMMANDS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.Keyboard.UseSystemMediaCommands,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_NEXT_TRACK_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="SkipForward"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_NEXT_TRACK_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.NextTrack,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PLAY_PAUSE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Play"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_LYRICS_EDITOR_TOOLTIP_PLAY_PAUSE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.PlayPause,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PREVIOUS_TRACK_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="SkipBack"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PREVIOUS_TRACK_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.PreviousTrack,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
             </StackPanel>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
         <!-- Menu -->
-        <controls:SettingsExpandControl
+        <components:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_VIEWS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Zap"
-            Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TITLE_QUICK_ACTIONS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_TITLE_QUICK_ACTIONS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            IsExpanded="True">
 
             <StackPanel
                 Spacing="8">
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_LIBRARY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Library"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[MENU_LIBRARY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.OpenLibrary,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_PLAYLISTS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ListMusic"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_PLAYLISTS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.OpenPlaylists,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_EQUALIZER_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="SlidersVertical"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[MENU_EQUALIZER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.OpenEqualizer,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_LYRICS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Type"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[MENU_LYRICS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.OpenLyrics,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_VISUALIZATIONS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="AudioLines"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[MENU_VISUALIZATIONS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.OpenVisualizations,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_OPEN_SETTINGS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Settings"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[MENU_SETTINGS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.OpenSettings,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
             </StackPanel>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
         <!-- Visualisations -->
-        <controls:SettingsExpandControl
+        <components:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PROFILES_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AudioLines"
-            Title="{ReflectionBinding Translations[MENU_VISUALIZATIONS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+            Title="{ReflectionBinding Translations[MENU_VISUALIZATIONS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            IsExpanded="True">
 
             <StackPanel
                 Spacing="8">
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_NEXT_VISUALIZATION_PROFILE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ArrowRight"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_NEXT_VISUALIZATION_PROFILE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.NextVisualizationProfile,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PREVIOUS_VISUALIZATION_PROFILE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ArrowLeft"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_KEYBOARD_PREVIOUS_VISUALIZATION_PROFILE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:KeyBindControl
                         Gesture="{ReflectionBinding Config.Keyboard.PreviousVisualizationProfile,
                         Source={x:Static contexts:ApplicationContext.Instance},
                         Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
             </StackPanel>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
     </StackPanel>
 </UserControl>

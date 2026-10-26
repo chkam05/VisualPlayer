@@ -1,0 +1,60 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:viewModels="using:VisualPlayer.ViewModels.Config"
+    x:Class="VisualPlayer.Controls.VolumeControl"
+    x:Name="Root"
+    x:FieldModifier="private"
+    Classes="internal-layout">
+    
+    <UserControl.Content>
+        <Border
+            x:DataType="contexts:PlayerDataContext"
+            Padding="8,16"
+            Theme="{StaticResource ControlBorderTheme}">
+
+            <Grid
+                RowDefinitions="*,Auto"
+                RowSpacing="16">
+
+                <!-- VOLUME SLIDER -->
+                <Slider
+                    HorizontalAlignment="Center"
+                    Maximum="{x:Static viewModels:PlayerConfig.VOLUME_MAXIMUM}"
+                    Minimum="{x:Static viewModels:PlayerConfig.VOLUME_MINIMUM}"
+                    Orientation="Vertical"
+                    Theme="{StaticResource PlayerVolume.SliderTheme}"
+                    Value="{Binding Volume, Mode=TwoWay}"
+                    VerticalAlignment="Stretch" />
+
+                <!-- MUTE BUTTON -->
+                <components:ToggleButtonWithIcon
+                    CheckedKind="VolumeX"
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    IsChecked="{Binding IsMuted, Mode=TwoWay}"
+                    Kind="Volume2"
+                    Theme="{StaticResource ColorizedToggleButtonWithIconTheme}"
+                    ToolTip.Tip="{ReflectionBinding Translations[VOLUME_TOOLTIP_MUTE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            </Grid>
+        </Border>
+    </UserControl.Content>
+
+    <UserControl.Styles>
+        <Style Selector=":is(controls|VolumeControl)">
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+            <Setter Property="Width" Value="{x:Static controls:VolumeControl.WIDTH}" />
+        </Style>
+
+        <Style Selector=":is(controls|VolumeControl).internal-layout /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </UserControl.Styles>
+</UserControl>

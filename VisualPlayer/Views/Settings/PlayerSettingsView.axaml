@@ -10,6 +10,8 @@
     <StackPanel
         Spacing="8">
 
+        <!-- HEADER -->
+
         <Grid
             ColumnDefinitions="*,Auto">
 
@@ -34,25 +36,29 @@
                 Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
         </Grid>
 
-        <controls:SettingsControl
+        <!-- SETTINGS -->
+
+        <!-- Show remaining time -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_SHOW_REMAINING_TIME_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="TimerReset"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_SHOW_REMAINING_TIME_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Player.ShowRemainingTime, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsExpandControl
+        <!-- Playback speed -->
+        <components:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_SPEED_PRESETS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Gauge"
             Title="{ReflectionBinding Translations[PLAYER_TOOLTIP_PLAYBACK_SPEED], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <StackPanel Spacing="8">
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET1_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Gauge"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET1_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
@@ -60,12 +66,12 @@
                         Minimum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MINIMUM}"
                         Suffix="%"
                         Value="{ReflectionBinding Config.Player.PlaybackSpeedPreset1, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET2_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Gauge"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET2_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
@@ -73,12 +79,12 @@
                         Minimum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MINIMUM}"
                         Suffix="%"
                         Value="{ReflectionBinding Config.Player.PlaybackSpeedPreset2, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET3_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Gauge"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET3_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
@@ -86,12 +92,12 @@
                         Minimum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MINIMUM}"
                         Suffix="%"
                         Value="{ReflectionBinding Config.Player.PlaybackSpeedPreset3, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET4_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Gauge"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAYBACK_SPEED_PRESET4_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
@@ -99,30 +105,34 @@
                         Minimum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MINIMUM}"
                         Suffix="%"
                         Value="{ReflectionBinding Config.Player.PlaybackSpeedPreset4, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
             </StackPanel>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
-        <controls:SettingsExpandControl
+        <!-- Crossfade -->
+        <components:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_CROSSFADE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="CassetteTape"
-            Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_TITLE_SMOOTH_TRANSITION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_TITLE_SMOOTH_TRANSITION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            IsExpanded="True">
 
-            <StackPanel Spacing="8">
-                <controls:SettingsControl
+            <StackPanel
+                Spacing="8">
+
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_CROSSFADE_ENABLED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ToggleRight"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_CROSSFADE_ENABLED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.Player.CrossfadeEnabled, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_CROSSFADE_DURATION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ClockFading"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_CROSSFADE_DURATION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
@@ -130,35 +140,38 @@
                         Minimum="{x:Static viewModels:PlayerConfig.CROSSFADE_DURATION_MINIMUM}"
                         Suffix=" s"
                         Value="{ReflectionBinding Config.Player.CrossfadeDuration, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
             </StackPanel>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
-        <controls:SettingsControl
+        <!-- Remember PlayList -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_REMEMBER_LAST_PLAY_LIST_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ListRestart"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_REMEMBER_LAST_PLAY_LIST_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Player.RememberLastPlayList, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsControl
+        <!-- Start playing after launch (without file) -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAY_ON_STARTUP_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="CirclePlay"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAY_ON_STARTUP_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Player.PlayOnStartup, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsControl
+        <!-- Start playing after loading file -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAY_AFTER_ADDING_FILES_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="FilePlus"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_PLAYER_PLAY_AFTER_ADDING_FILES_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.Player.PlayAfterAddingFiles, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
     </StackPanel>
 </UserControl>

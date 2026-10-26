@@ -1,0 +1,100 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:resources="using:VisualPlayer.Resources"
+    xmlns:viewModels="using:VisualPlayer.ViewModels"
+    x:Class="VisualPlayer.Controls.HamburgerMenuControl"
+    x:Name="Root"
+    x:FieldModifier="private"
+    Classes="internal-layout">
+
+    <UserControl.Resources>
+
+        <!-- Item DataTemplate -->
+        <DataTemplate x:Key="HamburgerMenuItemTemplate" x:DataType="viewModels:HamburgerMenuItemViewModel">
+            <Grid>
+                <components:ButtonWithIcon
+                    Classes.collapsed="{ReflectionBinding !IsContentVisible, RelativeSource={RelativeSource AncestorType={x:Type controls:HamburgerMenuControl}}}"
+                    Click="MenuItemButton_Click"
+                    Command="{Binding Action}"
+                    HorizontalAlignment="Stretch"
+                    IsVisible="{Binding IsButtonVisible}"
+                    Kind="{Binding Icon}"
+                    Theme="{StaticResource HamburgerMenu.ItemButtonTheme}" />
+                
+                <Border
+                    Background="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Height="1"
+                    IsVisible="{Binding IsSeparator}"
+                    Margin="8,4"
+                    Opacity="0.3" />
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <UserControl.Content>
+        <Border
+            x:DataType="contexts:HamburgerMenuContext"
+            x:Name="MenuHost"
+            x:FieldModifier="private"
+            Background="Transparent"
+            BorderThickness="0"
+            ClipToBounds="True"
+            HorizontalAlignment="Left"
+            Padding="4,2">
+
+            <Border.Transitions>
+                <Transitions>
+                    <DoubleTransition
+                        Property="Width"
+                        Duration="{x:Static resources:Dimensions.SidePanelAnimationDuration}" />
+                </Transitions>
+            </Border.Transitions>
+
+            <Grid
+                RowDefinitions="Auto,*,Auto">
+
+                <!-- TOP MENU -->
+                <ListBox
+                    x:Name="TopItemsControl"
+                    x:FieldModifier="private"
+                    ItemTemplate="{StaticResource HamburgerMenuItemTemplate}"
+                    ItemsSource="{Binding TopItems}"
+                    Theme="{StaticResource HamburgerMenu.ListBoxTheme}" />
+
+                <!-- BOTTOM MENU -->
+                <ListBox
+                    x:Name="BottomItemsControl"
+                    x:FieldModifier="private"
+                    Grid.Row="2"
+                    ItemTemplate="{StaticResource HamburgerMenuItemTemplate}"
+                    ItemsSource="{Binding BottomItems}"
+                    Theme="{StaticResource HamburgerMenu.ListBoxTheme}" />
+            </Grid>
+        </Border>
+    </UserControl.Content>
+
+    <UserControl.Styles>
+        <Style Selector=":is(controls|HamburgerMenuControl)">
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        </Style>
+
+        <Style Selector=":is(controls|HamburgerMenuControl).internal-layout /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+
+        <Style Selector=":is(controls|HamburgerMenuControl)[IsOpen=True] Border#MenuHost">
+            <Setter Property="Width" Value="240" />
+        </Style>
+
+        <Style Selector=":is(controls|HamburgerMenuControl) Border#MenuHost">
+            <Setter Property="Width" Value="56" />
+        </Style>
+    </UserControl.Styles>
+</UserControl>

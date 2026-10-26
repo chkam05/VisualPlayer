@@ -1,0 +1,102 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:resources="using:VisualPlayer.Resources"
+    x:Class="VisualPlayer.Controls.SidePanelControl"
+    x:Name="Root"
+    x:FieldModifier="private"
+    Classes="internal-layout">
+    
+    <UserControl.Content>
+        <Grid>
+
+            <!-- Invisible trigger stays under the visible panel. -->
+            <Border
+                x:Name="RevealArea"
+                x:FieldModifier="private"
+                Background="Transparent"
+                HorizontalAlignment="Left"
+                Width="{Binding RevealSize, Mode=OneWay, ElementName=Root}" />
+            
+            <!-- The only visible panel surface. -->
+            <Border
+                x:Name="PanelHost"
+                x:FieldModifier="private"
+                ClipToBounds="True"
+                Margin="8,0,0,0"
+                Theme="{StaticResource ControlBorderTheme}">
+
+                <Grid
+                    ColumnDefinitions="Auto,Auto,Auto">
+
+                    <!-- HAMBURGER MENU -->
+                    <controls:HamburgerMenuControl
+                        x:Name="HamburgerMenu"
+                        x:FieldModifier="private"
+                        DataContext="{Binding MenuContext, Mode=OneWay, ElementName=Root}"
+                        IsOpen="{Binding IsMenuOpen, ElementName=Root, Mode=TwoWay}"
+                        VerticalAlignment="Stretch" />
+
+                    <!-- PLAYLIST -->
+                    <Border
+                        x:Name="PlayListHost"
+                        x:FieldModifier="private"
+                        ClipToBounds="True"
+                        Grid.Column="1"
+                        Width="{Binding PlayListHostWidth, Mode=OneWay, ElementName=Root}">
+
+                        <controls:PlayListControl
+                            x:Name="PlayList"
+                            x:FieldModifier="private"
+                            DataContext="{Binding PlayListDataContext, Mode=OneWay, ElementName=Root}"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch" />
+                    </Border>
+
+                    <!-- RESIZE THUMB -->
+                    <Thumb
+                        x:Name="ResizeThumb"
+                        x:FieldModifier="private"
+                        Cursor="SizeWestEast"
+                        Grid.Column="2"
+                        Template="{StaticResource SidePanel.ResizeThumbTemplate}"
+                        VerticalAlignment="Stretch"
+                        Width="{x:Static resources:Dimensions.SidePanelResizeThumbWidth}" />
+                </Grid>
+            </Border>
+        </Grid>
+    </UserControl.Content>
+
+    <UserControl.Styles>
+        <Style Selector=":is(controls|SidePanelControl)">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+
+        <Style Selector=":is(controls|SidePanelControl).internal-layout /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+
+        <Style Selector=":is(controls|SidePanelControl)[IsPlayListOpen=True] Border#PlayListHost">
+            <Setter Property="IsHitTestVisible" Value="True" />
+        </Style>
+
+        <Style Selector=":is(controls|SidePanelControl)[IsPlayListOpen=True] Thumb#ResizeThumb">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <Style Selector=":is(controls|SidePanelControl) Border#PlayListHost">
+            <Setter Property="IsHitTestVisible" Value="False" />
+        </Style>
+
+        <Style Selector=":is(controls|SidePanelControl) Thumb#ResizeThumb">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+    </UserControl.Styles>
+</UserControl>

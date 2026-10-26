@@ -1,0 +1,115 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:visualizationConfig="using:VisualPlayer.Visualizations.Config.Base"
+    x:Class="VisualPlayer.Controls.GradientControl"
+    x:Name="Root"
+    x:FieldModifier="private"
+    Classes="internal-layout">
+
+    <UserControl.Resources>
+        <converters:GradientTypeToTitleConverter x:Key="GradientTypeToTitleConverter" />
+    </UserControl.Resources>
+
+    <UserControl.Content>
+        <StackPanel
+            Orientation="Vertical"
+            Spacing="10">
+
+            <Grid
+                ColumnDefinitions="*,160"
+                ColumnSpacing="8">
+
+                <!-- TYPE -->
+                <ComboBox
+                    Height="38"
+                    ItemsSource="{ReflectionBinding GradientTypes, ElementName=Root}"
+                    SelectedItem="{ReflectionBinding Gradient.Type, ElementName=Root, Mode=TwoWay}"
+                    Theme="{StaticResource ComboBoxTheme}">
+
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                Text="{Binding Converter={StaticResource GradientTypeToTitleConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                
+                <!-- ANGLE -->
+                <components:NumericUpDown
+                    Grid.Column="1"
+                    Height="38"
+                    Maximum="{x:Static visualizationConfig:GradientDefinition.ANGLE_MAXIMUM}"
+                    Minimum="{x:Static visualizationConfig:GradientDefinition.ANGLE_MINIMUM}"
+                    Suffix="°"
+                    Value="{ReflectionBinding Gradient.Angle, ElementName=Root, Mode=TwoWay}" />
+            </Grid>
+
+            <!-- GRADIENT -->
+            <Grid
+                Height="132">
+
+                <Border
+                    x:Name="Preview"
+                    x:FieldModifier="private"
+                    Background="{Binding GradientBrush, Mode=OneWay, ElementName=Root}"
+                    BorderBrush="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Height="96"
+                    VerticalAlignment="Top" />
+                
+                <Canvas
+                    Background="Transparent"
+                    Height="132"
+                    x:Name="StopsCanvas"
+                    x:FieldModifier="private" />
+            </Grid>
+
+            <!-- POINTS MANAGEMENT BUTTONS -->
+            <StackPanel
+                HorizontalAlignment="Right"
+                Orientation="Horizontal"
+                Spacing="8">
+
+                <components:ButtonWithIcon
+                    x:Name="AddPointButton"
+                    x:FieldModifier="private"
+                    Content="{ReflectionBinding Translations[GRADIENT_BUTTON_ADD_A_POINT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Height="40"
+                    Kind="Plus"
+                    Theme="{StaticResource AccentButtonWithIconTheme}" />
+                
+                <components:ButtonWithIcon
+                    x:Name="RemovePointButton"
+                    x:FieldModifier="private"
+                    Content="{ReflectionBinding Translations[GRADIENT_BUTTON_REMOVE_POINT], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Height="40"
+                    Kind="Trash"
+                    Theme="{StaticResource AccentButtonWithIconTheme}" />
+            </StackPanel>
+        </StackPanel>
+    </UserControl.Content>
+
+    <UserControl.Styles>
+        <Style Selector=":is(controls|GradientControl).internal-layout /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+
+        <Style Selector=":is(controls|GradientControl) Thumb.GradientPoint">
+            <Setter Property="Theme" Value="{StaticResource GradientControl.PointThumbTheme}" />
+        </Style>
+
+        <Style Selector=":is(controls|GradientControl) TextBlock.GradientPointPosition">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        </Style>
+    </UserControl.Styles>
+</UserControl>

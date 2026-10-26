@@ -1,0 +1,120 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:controls="using:VisualPlayer.Controls"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:viewModels="using:VisualPlayer.ViewModels.Config"
+    x:Class="VisualPlayer.Controls.SpeedControl"
+    x:Name="Root"
+    x:FieldModifier="private"
+    Classes="internal-layout">
+    
+    <UserControl.Content>
+        <Border
+            x:Name="ContentHost"
+            x:FieldModifier="private"
+            Padding="8"
+            Theme="{StaticResource ControlBorderTheme}">
+
+            <Grid
+                RowDefinitions="Auto,Auto,Auto"
+                RowSpacing="8">
+
+                <!-- SPEED PRESET BUTTONS -->
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="8">
+                    
+                    <components:ButtonWithIcon
+                        x:Name="Preset1Button"
+                        x:FieldModifier="private"
+                        ContentAlignmentMode="Manual"
+                        Gap="0"
+                        Height="38"
+                        HorizontalContentAlignment="Center"
+                        IconSize="0"
+                        Theme="{StaticResource ColorizedButtonWithIconTheme}">
+
+                        <TextBlock
+                            Text="{ReflectionBinding Preset1, ElementName=Root, StringFormat={}{0}%}" />
+                    </components:ButtonWithIcon>
+
+                    <components:ButtonWithIcon
+                        x:Name="Preset2Button"
+                        x:FieldModifier="private"
+                        ContentAlignmentMode="Manual"
+                        Gap="0"
+                        Height="38"
+                        HorizontalContentAlignment="Center"
+                        IconSize="0"
+                        Theme="{StaticResource ColorizedButtonWithIconTheme}">
+
+                        <TextBlock
+                            Text="{ReflectionBinding Preset2, ElementName=Root, StringFormat={}{0}%}" />
+                    </components:ButtonWithIcon>
+
+                    <components:ButtonWithIcon
+                        x:Name="Preset3Button"
+                        x:FieldModifier="private"
+                        ContentAlignmentMode="Manual"
+                        Gap="0"
+                        Height="38"
+                        HorizontalContentAlignment="Center"
+                        IconSize="0"
+                        Theme="{StaticResource ColorizedButtonWithIconTheme}">
+
+                        <TextBlock
+                            Text="{ReflectionBinding Preset3, ElementName=Root, StringFormat={}{0}%}" />
+                    </components:ButtonWithIcon>
+
+                    <components:ButtonWithIcon
+                        x:Name="Preset4Button"
+                        x:FieldModifier="private"
+                        ContentAlignmentMode="Manual"
+                        Gap="0"
+                        Height="38"
+                        HorizontalContentAlignment="Center"
+                        IconSize="0"
+                        Theme="{StaticResource ColorizedButtonWithIconTheme}">
+                        <TextBlock
+                            Text="{ReflectionBinding Preset4, ElementName=Root, StringFormat={}{0}%}" />
+                    </components:ButtonWithIcon>
+                </StackPanel>
+
+                <!-- SPEED CONTROL -->
+                <components:NumericUpDown
+                    Grid.Row="1"
+                    Maximum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MAXIMUM}"
+                    Minimum="{x:Static viewModels:PlayerConfig.PLAYBACK_SPEED_MINIMUM}"
+                    Suffix="%"
+                    Value="{Binding SpeedPercent, Mode=TwoWay, ElementName=Root}" />
+                
+                <!-- RESET BUTTON -->
+                <components:ButtonWithIcon
+                    x:Name="ResetButton"
+                    x:FieldModifier="private"
+                    Content="{ReflectionBinding Translations[COMMON_BUTTON_RESET], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Grid.Row="2"
+                    HorizontalAlignment="Stretch"
+                    Kind="RotateCcw"
+                    Theme="{StaticResource ColorizedButtonWithIconTheme}" />
+            </Grid>
+        </Border>
+    </UserControl.Content>
+
+    <UserControl.Styles>
+        <Style Selector=":is(controls|SpeedControl)">
+            <Setter Property="Foreground" Value="{ReflectionBinding Config.Appearance.ThemeForegroundBrush, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}" />
+        </Style>
+
+        <Style Selector=":is(controls|SpeedControl).internal-layout /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </UserControl.Styles>
+</UserControl>

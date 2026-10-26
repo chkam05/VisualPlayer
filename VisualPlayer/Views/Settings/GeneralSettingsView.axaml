@@ -156,7 +156,8 @@
 
         <!-- SETTINGS -->
 
-        <controls:SettingsControl
+        <!-- Language -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_LANGUAGE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Languages"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_TITLE_LANGUAGE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -173,9 +174,10 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsExpandControl
+        <!-- Library / Folders -->
+        <components:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_LIBRARY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Library"
             IsExpanded="False"
@@ -198,10 +200,10 @@
                         Theme="{StaticResource AccentButtonWithIconTheme}"/>
                 </Grid>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_LIBRARY_REFRESH_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="RefreshCw"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_TITLE_REFRESH_LIBRARY], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:ButtonWithIcon
@@ -209,18 +211,18 @@
                         Content="{ReflectionBinding Translations[COMMON_BUTTON_REFRESH], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         Kind="RefreshCw"
                         Theme="{StaticResource AccentButtonWithIconTheme}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_SHOW_ARTIST_ALBUMS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="DiscAlbum"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_SHOW_ARTIST_ALBUMS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.Library.ShowArtistAlbums, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
             </StackPanel>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
     </StackPanel>
 </UserControl>

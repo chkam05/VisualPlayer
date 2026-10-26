@@ -13,7 +13,7 @@
     <StackPanel Spacing="8">
         <common:VisualisationColorConfig/>
 
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PEAKS_NUM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ChartNoAxesColumn"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_NUM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -22,9 +22,9 @@
                 Maximum="{x:Static visualizationConfig:VisualizationBaseConfig.BARS_COUNT_MAXIMUM}"
                 Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.BARS_COUNT_MINIMUM}"
                 Value="{ReflectionBinding Config.StripesCount, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_STRIPES_HORIZONTAL_BAR_SPACE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="BetweenVerticalStart"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_STRIPES_HORIZONTAL_BAR_SPACE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -34,9 +34,9 @@
                 Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.BAR_SPACE_MINIMUM}"
                 Suffix=" px"
                 Value="{ReflectionBinding Config.HorizontalBarSpace, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_BOUNCING_DESCENT_RATE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ClockFading"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -47,9 +47,9 @@
                 Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_MINIMUM}"
                 Suffix=" px/s"
                 Value="{ReflectionBinding Config.DescentRate, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_BOUNCING_UPPER_EDGE_DESCENT_RATE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ClockFading"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_BOUNCING_UPPER_EDGE_DESCENT_RATE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -60,6 +60,6 @@
                 Minimum="{x:Static visualizationConfig:VisualizationBaseConfig.DESCENT_RATE_MINIMUM}"
                 Suffix=" px/s"
                 Value="{ReflectionBinding Config.UpperEdgeDescentRate, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
     </StackPanel>
 </UserControl>

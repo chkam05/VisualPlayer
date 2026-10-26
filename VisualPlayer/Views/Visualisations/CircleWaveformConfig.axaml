@@ -24,7 +24,7 @@
         <common:VisualisationColorConfig/>
 
         <!-- Number of peaks -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_NUM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ChartNoAxesColumn"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_NUM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -33,10 +33,10 @@
                 Maximum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MAXIMUM}"
                 Minimum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MINIMUM}"
                 Value="{ReflectionBinding Config.PeaksCount, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Thickness -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_LINE_THICKNESS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Minus"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_THICKNESS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -46,10 +46,10 @@
                 Minimum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MINIMUM}"
                 Suffix=" px"
                 Value="{ReflectionBinding Config.LineThickness, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Radius -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_INNER_RADIUS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Circle"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_INNER_RADIUS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -60,10 +60,10 @@
                 Minimum="{x:Static profile:VisualizationBaseConfig.INNER_RADIUS_MINIMUM}"
                 Suffix=" px"
                 Value="{ReflectionBinding Config.InnerRadius, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Falling speed -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_DESCENT_RATE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ClockFading"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -74,10 +74,10 @@
                 Minimum="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_MINIMUM}"
                 Suffix=" px/s"
                 Value="{ReflectionBinding Config.DescentRate, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
         
         <!-- Effects -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_BEAM_EFFECT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Sparkles"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_EFFECT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -94,20 +94,20 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Fill -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_FILL_ENABLED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="PaintBucket"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_FILL_ENABLED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.FillEnabled, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
         <!-- Transparency -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Blend"
             IsVisible="{ReflectionBinding Config.FillEnabled}"
@@ -127,9 +127,9 @@
                     Theme="{StaticResource SliderTheme}"
                     Value="{ReflectionBinding Config.Opacity, Mode=TwoWay}"/>
             </Grid>
-        </controls:SettingsControl>
+        </components:SettingsControl>
         <!-- Transformation -->
-        <controls:SettingsExpandControl
+        <components:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_WAVEFORM_TRANSFORM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Move3d"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_TRANSFORM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -138,17 +138,17 @@
                 Spacing="8">
 
                 <!-- Mirror -->
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_MIRROR_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ArrowLeftRight"
                     Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_MIRROR_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.Mirror, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
                 
                 <!-- Move X -->
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_CENTER_OFFSET_X_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="MoveHorizontal"
                     Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_CENTER_OFFSET_X_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -159,10 +159,10 @@
                         Minimum="{x:Static profile:VisualizationBaseConfig.CENTER_OFFSET_MINIMUM}"
                         Suffix=" px"
                         Value="{ReflectionBinding Config.CenterOffsetX, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
                 
                 <!-- Move Y -->
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_CENTER_OFFSET_Y_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="MoveVertical"
                     Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_CENTER_OFFSET_Y_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -173,12 +173,12 @@
                         Minimum="{x:Static profile:VisualizationBaseConfig.CENTER_OFFSET_MINIMUM}"
                         Suffix=" px"
                         Value="{ReflectionBinding Config.CenterOffsetY, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
             </StackPanel>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
         <!-- Angle -->
-        <controls:SettingsControl
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="RotateCw"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -190,10 +190,10 @@
                 Minimum="{x:Static profile:VisualizationBaseConfig.ROTATION_MINIMUM}"
                 Suffix="°"
                 Value="{ReflectionBinding Config.Rotation, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
         
         <!-- Animation -->
-        <controls:SettingsExpandControl
+        <components:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_ANIMATION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ImagePlay"
             Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_ANIMATION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -201,20 +201,20 @@
             <StackPanel
                 Spacing="8">
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_ENABLED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ToggleRight"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_WAVEFORM_ROTATION_ENABLED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:Switch
                         IsChecked="{ReflectionBinding Config.RotationAnimationEnabled, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_DIRECTION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="RotateCw"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_DIRECTION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
@@ -229,12 +229,12 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_SPEED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Gauge"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_CIRCLE_STRIPES_ROTATION_SPEED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
@@ -243,9 +243,9 @@
                         Minimum="{x:Static profile:VisualizationBaseConfig.ROTATION_SPEED_MINIMUM}"
                         Suffix=" °/s"
                         Value="{ReflectionBinding Config.RotationSpeed, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
             </StackPanel>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
     </StackPanel>
 </UserControl>

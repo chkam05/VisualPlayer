@@ -62,11 +62,13 @@ The topmost state applied by `MainWindow` is the conjunction of the saved prefer
 
 - `Themes/Base`: standard Avalonia controls.
 - `Themes/Components`: reusable project components.
-- `Themes/Controls`: application controls.
+- `Themes/Controls`: shared control resources and internal controller themes.
 - `Themes/Messages`: internal dialogs.
 - `Themes/Views`: shared and view-specific resources.
 
 Theme and template keys use a dotted owner convention where appropriate, for example `PlayerControl.IconButtonTheme` and `PlayerControl.SeparatorBorder`.
+
+Most application controls are `UserControl` classes with markup and code together in `Controls` as `Name.axaml` and `Name.axaml.cs`. Constructors load the layout through `InitializeComponent()` and connect handlers to named elements. The layout binds to control properties through `ElementName=Root`, while its data context remains available for view models. These files do not need an entry in `Generic.axaml`. `PlayListControl` keeps its row layout in the local `TrackItemTemplate` data template, shared with the drag preview. Its separate `ListBox` and `ListBoxItem` themes are in `Themes/Controls/PlayListControl`. `HamburgerMenuControl` shares `HamburgerMenuItemTemplate` between its top and bottom lists; list, item-container, and button themes are in `Themes/Controls/HamburgerMenuControl`. `SettingsControl` and `SettingsExpandControl` are content controls in `Components`, with their templates and themes in `Themes/Components`. They accept nested content through the standard `Content` property and support the `darker` class. These themes and the separate themes for `Controls/InternalViews` are included by `Generic.axaml`.
 
 ## Keyboard shortcuts
 

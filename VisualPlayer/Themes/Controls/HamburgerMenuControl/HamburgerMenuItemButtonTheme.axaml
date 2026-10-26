@@ -1,0 +1,66 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:media="using:Avalonia.Media">
+
+    <ControlTheme x:Key="HamburgerMenu.ItemButtonTheme" TargetType="components:ButtonWithIcon" BasedOn="{StaticResource ThemeButtonWithIconTheme}">
+        <Setter Property="Background" Value="{x:Static media:Brushes.Transparent}" />
+        <Setter Property="BorderBrush" Value="{x:Static media:Brushes.Transparent}" />
+        <Setter Property="Content" Value="{ReflectionBinding Title}" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Gap" Value="6" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="IconPosition" Value="Left" />
+        <Setter Property="Margin" Value="0,2" />
+        <Setter Property="Padding" Value="10" />
+
+        <Style Selector="^:pointerover, ^:focus-visible">
+            <Setter Property="Background">
+                <MultiBinding
+                    Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+
+                    <Binding
+                        Path="Config.Appearance.ColorizationLevel"
+                        Source="{x:Static contexts:ApplicationContext.Instance}" />
+
+                    <Binding
+                        Path="Config.Appearance.ThemeMouseOverBrush"
+                        Source="{x:Static contexts:ApplicationContext.Instance}" />
+
+                    <Binding
+                        Path="Config.Appearance.AccentMouseOverColorBrush"
+                        Source="{x:Static contexts:ApplicationContext.Instance}" />
+
+                </MultiBinding>
+            </Setter>
+        </Style>
+
+        <Style Selector="^:pressed">
+            <Setter Property="Background">
+                <MultiBinding
+                    Converter="{x:Static converters:ColorizationBrushConverter.Instance}">
+
+                    <Binding
+                        Path="Config.Appearance.ColorizationLevel"
+                        Source="{x:Static contexts:ApplicationContext.Instance}" />
+
+                    <Binding
+                        Path="Config.Appearance.ThemePressedBrush"
+                        Source="{x:Static contexts:ApplicationContext.Instance}" />
+
+                    <Binding
+                        Path="Config.Appearance.AccentPressedBrush"
+                        Source="{x:Static contexts:ApplicationContext.Instance}" />
+                </MultiBinding>
+            </Setter>
+        </Style>
+        
+        <Style Selector="^.collapsed">
+            <Setter Property="Content" Value="{x:Null}" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

@@ -44,38 +44,40 @@
                 Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
         </Grid>
 
-        <!-- STAY ON TOP -->
-        <controls:SettingsControl
+        <!-- SETTINGS -->
+
+        <!-- Stay on top -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_MINI_STAY_ON_TOP_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Pin"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_GENERAL_MINI_STAY_ON_TOP_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.MiniPlayer.StayOnTop, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <!-- SHOW COVER -->
-        <controls:SettingsControl
+        <!-- Show Cover -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_MINI_PLAYER_SHOW_COVER_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Image"
             Title="{ReflectionBinding Translations[PLAYER_MINI_CONTEXT_SHOW_COVER], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.MiniPlayer.ShowCover, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <!-- SHOW VISUALIZATION -->
-        <controls:SettingsControl
+        <!-- Show Visualization -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINI_SHOW_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AudioLines"
             Title="{ReflectionBinding Translations[PLAYER_MINI_CONTEXT_SHOW_VISUALIZATION], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <components:Switch
                 IsChecked="{ReflectionBinding Config.MiniPlayer.ShowVisualization, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <!-- VISUALIZATION TYPE -->
-        <controls:SettingsControl
+        <!-- Visualization Type -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINI_TYPE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="ChartNoAxesColumn"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINI_TYPE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -91,10 +93,10 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
-        <!-- OPACITY -->
-        <controls:SettingsControl
+        <!-- Opacity -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_APPEARANCE_MINI_PLAYER_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Blend"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_MINI_PLAYER_OPACITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -113,6 +115,6 @@
                     Theme="{StaticResource SliderTheme}"
                     Value="{ReflectionBinding Config.MiniPlayer.Opacity, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
             </Grid>
-        </controls:SettingsControl>
+        </components:SettingsControl>
     </StackPanel>
 </UserControl>

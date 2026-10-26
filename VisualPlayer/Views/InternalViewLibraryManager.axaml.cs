@@ -285,7 +285,7 @@ public partial class InternalViewLibraryManager : InternalViewBase
         InitializeComponent();
         ApplicationContext.Instance.LibraryCore.Refreshed += LibraryCore_Refreshed;
         T.LanguageChanged += Translations_LanguageChanged;
-        PART_NavigationList.SelectedIndex = 0;
+        PART_NavigationList.SelectedIndex = (int)ApplicationContext.Instance.Config.Library.LastSection;
         LoadLayoutForCurrentContent();
         RefreshVisibleItems();
     }
@@ -450,6 +450,7 @@ public partial class InternalViewLibraryManager : InternalViewBase
     private void SetSection(LibrarySection section)
     {
         _section = section;
+        ApplicationContext.Instance.Config.Library.LastSection = section;
         _openedAlbum = null;
         _openedArtist = null;
         _openedDirectory = null;

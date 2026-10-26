@@ -1,0 +1,53 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:VisualPlayer.Controls"
+    x:Class="VisualPlayer.Controls.LogoControl"
+    x:Name="Root"
+    x:FieldModifier="private"
+    Classes="internal-layout">
+    
+    <UserControl.Content>
+        <Viewbox
+            x:Name="Logo"
+            x:FieldModifier="private"
+            Height="{Binding RenderedLogoHeight, Mode=OneWay, ElementName=Root}"
+            Stretch="Uniform"
+            Width="{Binding RenderedLogoWidth, Mode=OneWay, ElementName=Root}" >
+
+            <Canvas
+                Height="45.827179"
+                Width="52.917084">
+
+                <!-- P -->
+                <Path
+                    Data="M 12.135386,0.132291 L 15.571869,6.085416 41.313451,6.085416 30.438145,24.921993 34.406895,31.795992 42.351018,45.562593 50.299650,45.562593 38.382291,24.910058 52.687949,0.132291 Z"
+                    Fill="{Binding PlayerFill, Mode=OneWay, ElementName=Root}"
+                    Stroke="{Binding PlayerBorder, Mode=OneWay, ElementName=Root}"
+                    StrokeThickness="0.45" />
+                
+                <!-- V -->
+                <Path
+                    Data="M 0.229136,0.132291 L 26.458543,45.562593 32.411668,35.251595 28.442918,28.377595 26.458543,31.814595 12.640265,7.880655 11.603636,6.085416 8.166636,0.132291 Z"
+                    Fill="{Binding VisualFill, Mode=OneWay, ElementName=Root}"
+                    Stroke="{Binding VisualBorder, Mode=OneWay, ElementName=Root}"
+                    StrokeThickness="0.45" />
+            </Canvas>
+        </Viewbox>
+    </UserControl.Content>
+
+    <UserControl.Styles>
+        <Style Selector=":is(controls|LogoControl)">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="IsHitTestVisible" Value="False" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+
+        <Style Selector=":is(controls|LogoControl).internal-layout /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+    </UserControl.Styles>
+</UserControl>

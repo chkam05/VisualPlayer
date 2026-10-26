@@ -1,0 +1,12 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:components="using:VisualPlayer.Components">
+
+    <ControlTheme x:Key="ImageSelector.AddButtonWithIconTheme" TargetType="components:ButtonWithIcon" BasedOn="{StaticResource AccentButtonWithIconTheme}">
+        <Style Selector="^:has-content /template/ DockPanel#PART_Layout">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </ControlTheme>
+</ResourceDictionary>

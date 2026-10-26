@@ -15,9 +15,9 @@
 | `Assets` | Logo, ikony i dołączone zasoby tła. |
 | `Attributes` | Metadane powiadomień właściwości. |
 | `Commands` | Implementacje poleceń używane przez ViewModele. |
-| `Components` | Małe elementy UI, między innymi przyciski z ikoną i pola numeryczne. |
+| `Components` | Współdzielone elementy UI, między innymi przyciski z ikoną, pola numeryczne i szablonowe kontrolki ustawień. |
 | `Contexts` | Stan aplikacji, główne konfiguracje i koordynacja funkcji. |
-| `Controls` | Kontrolki szablonowe, między innymi odtwarzacz, panel boczny, tekst i powierzchnia wizualizacji. |
+| `Controls` | Kontrolki `UserControl`, między innymi odtwarzacz, panel boczny, tekst i powierzchnia wizualizacji; kontrolery wewnętrzne pozostają w `InternalViews`. |
 | `Core` | Odtwarzanie, analiza, biblioteka, playlisty, teksty, equalizer i wizualizacje. |
 | `Enums` | Wspólne enumeracje domeny i interfejsu. |
 | `Models` | Typy danych i przetwarzania pogrupowane według funkcji. |

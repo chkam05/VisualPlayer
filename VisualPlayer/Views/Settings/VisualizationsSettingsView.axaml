@@ -19,6 +19,7 @@
         Spacing="8">
 
         <!-- HEADER -->
+        
         <Grid
             ColumnDefinitions="*,Auto">
 
@@ -43,17 +44,20 @@
                 Theme="{StaticResource InternalView.ResetButtonWithIconTheme}"/>
         </Grid>
 
-        <!-- FREQUENCY RANGE -->
-        <controls:SettingsExpandControl
+        <!-- SETTINGS -->
+
+        <!-- Frequency range -->
+        <components:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FREQUENCY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AudioLines"
-            Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_TITLE_FREQUENCY_RANGE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_TITLE_FREQUENCY_RANGE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            IsExpanded="True">
 
             <StackPanel Spacing="4">
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINIMUM_FREQUENCY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ArrowDownToLine"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINIMUM_FREQUENCY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
@@ -62,12 +66,12 @@
                         Minimum="{x:Static config:VisualizationGlobalConfig.MINIMUM_FREQUENCY_MINIMUM}"
                         Suffix=" Hz"
                         Value="{ReflectionBinding VisualizationConfig.Global.MinimumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MAXIMUM_FREQUENCY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ArrowUpToLine"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MAXIMUM_FREQUENCY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
@@ -76,12 +80,12 @@
                         Minimum="{x:Static config:VisualizationGlobalConfig.MAXIMUM_FREQUENCY_MINIMUM}"
                         Suffix=" Hz"
                         Value="{ReflectionBinding VisualizationConfig.Global.MaximumFrequency, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_SCALING_STRATEGY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ChartNoAxesColumnIncreasing"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_SCALING_STRATEGY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
@@ -96,21 +100,22 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                </controls:SettingsControl>
+                </components:SettingsControl>
             </StackPanel>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
-        <!-- FFT ANALYSIS -->
-        <controls:SettingsExpandControl
+        <!-- FFT Analysis -->
+        <components:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FFT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="AudioWaveform"
-            Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_TITLE_FFT_ANALYSIS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_TITLE_FFT_ANALYSIS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            IsExpanded="True">
 
             <StackPanel Spacing="4">
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FFT_SIZE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Binary"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FFT_SIZE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
@@ -125,12 +130,12 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FFT_WINDOW_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="ScanLine"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FFT_WINDOW_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
@@ -145,12 +150,12 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_CHANNEL_MODE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="AudioWaveform"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_CHANNEL_MODE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <ComboBox
@@ -165,21 +170,22 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                </controls:SettingsControl>
+                </components:SettingsControl>
             </StackPanel>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
-        <!-- SIGNAL DYNAMICS -->
-        <controls:SettingsExpandControl
+        <!-- Signal dynamics -->
+        <components:SettingsExpandControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_DYNAMICS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Gauge"
-            Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_TITLE_SIGNAL_DYNAMICS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+            Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_TITLE_SIGNAL_DYNAMICS], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            IsExpanded="True">
 
             <StackPanel Spacing="4">
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINIMUM_DECIBELS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Volume1"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MINIMUM_DECIBELS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
@@ -187,12 +193,12 @@
                         Minimum="{x:Static config:VisualizationGlobalConfig.MINIMUM_DECIBELS_MINIMUM}"
                         Suffix=" dB"
                         Value="{ReflectionBinding VisualizationConfig.Global.MinimumDecibels, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MAXIMUM_DECIBELS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="Volume2"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_MAXIMUM_DECIBELS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
@@ -200,12 +206,12 @@
                         Minimum="{x:Static config:VisualizationGlobalConfig.MAXIMUM_DECIBELS_MINIMUM}"
                         Suffix=" dB"
                         Value="{ReflectionBinding VisualizationConfig.Global.MaximumDecibels, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_ATTACK_TIME_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="TrendingUp"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_ATTACK_TIME_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
@@ -214,12 +220,12 @@
                         Minimum="{x:Static config:VisualizationGlobalConfig.ATTACK_TIME_MINIMUM}"
                         Suffix=" ms"
                         Value="{ReflectionBinding VisualizationConfig.Global.AttackTime, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
 
-                <controls:SettingsControl
+                <components:SettingsControl
                     Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_RELEASE_TIME_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Icon="TrendingDown"
-                    Theme="{StaticResource SettingsControlDarkerControl}"
+                    Classes="darker"
                     Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_RELEASE_TIME_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
                     <components:NumericUpDown
@@ -228,12 +234,12 @@
                         Minimum="{x:Static config:VisualizationGlobalConfig.RELEASE_TIME_MINIMUM}"
                         Suffix=" ms"
                         Value="{ReflectionBinding VisualizationConfig.Global.ReleaseTime, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-                </controls:SettingsControl>
+                </components:SettingsControl>
             </StackPanel>
-        </controls:SettingsExpandControl>
+        </components:SettingsExpandControl>
 
-        <!-- RENDERING -->
-        <controls:SettingsControl
+        <!-- Framerate -->
+        <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FRAME_RATE_LIMIT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="MonitorUp"
             Title="{ReflectionBinding Translations[VIEW_SETTINGS_VISUALIZATIONS_FRAME_RATE_LIMIT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
@@ -244,7 +250,7 @@
                 Minimum="{x:Static config:VisualizationGlobalConfig.FRAME_RATE_MINIMUM}"
                 Suffix=" FPS"
                 Value="{ReflectionBinding VisualizationConfig.Global.FrameRateLimit, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"/>
-        </controls:SettingsControl>
+        </components:SettingsControl>
 
     </StackPanel>
 </UserControl>

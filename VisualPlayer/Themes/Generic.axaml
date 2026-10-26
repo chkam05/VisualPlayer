@@ -29,39 +29,37 @@
         <ResourceInclude Source="/Themes/Components/Switch.axaml" />
         <ResourceInclude Source="/Themes/Components/ToggleButtonWithIcon.axaml" />
         <ResourceInclude Source="/Themes/Components/ColorizedButtonThemes.axaml" />
-        <ResourceInclude Source="/Themes/Controls/PlayListItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/ColorPaletteControl/ColorPaletteListBoxItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/GradientControl/GradientControlPointThumbTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/ImageSelectorControl/ImageSelectorListBoxItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/ImageSelectorControl/ImageSelectorAddButtonWithIconTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayerMiniControl/PlayerMiniResizeBorderTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayerMiniControl/PlayerMiniResizeGripTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayListControl/PlayListIconButtonTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayListControl/PlayListTextButtonTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/SidePanelControl/SidePanelResizeThumbTemplate.axaml" />
+        <ResourceInclude Source="/Themes/Controls/HamburgerMenuControl/HamburgerMenuItemButtonTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/HamburgerMenuControl/HamburgerMenuListBoxItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/HamburgerMenuControl/HamburgerMenuListBoxTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayListControl/TracksListBoxItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Controls/PlayListControl/TracksListBoxTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/ControlBorderTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlIconButtonTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlMiniButtonWithIconTheme.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerMiniControlButtonTheme.axaml" />
-        <ResourceInclude Source="/Themes/Controls/PlayerMiniControl.axaml" />
         <ResourceInclude Source="/Themes/Controls/PlayerControl/PlayerControlSeparatorBorder.axaml" />
 
         <!-- INTERNAL MESSAGES -->
         <ResourceInclude Source="/Themes/Messages/InternalMessageButtonTheme.axaml" />
         <ResourceInclude Source="/Themes/Messages/InternalMessageButtonWithIconTheme.axaml" />
 
-        <!-- CONTROLS -->
-        <ResourceInclude Source="/Themes/Controls/ColorPaletteControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/GradientControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/HamburgerMenuItemControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/HamburgerMenuControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/InfoBarControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/ImageSelectorControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/InternalViewController.axaml" />
-        <ResourceInclude Source="/Themes/Controls/InternalMessageController.axaml" />
-        <ResourceInclude Source="/Themes/Controls/LogoControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/LyricsControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/MiniVisualizationControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/PlayerControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/PlayListItemControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/PlayListControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/SettingsControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/SidePanelControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/SettingsExpandControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/SpeedControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/VolumeControl.axaml" />
-        <ResourceInclude Source="/Themes/Controls/VisualizationSurfaceControl.axaml" />
+        <!-- SETTINGS COMPONENTS -->
+        <ResourceInclude Source="/Themes/Components/SettingsControl.axaml" />
+        <ResourceInclude Source="/Themes/Components/SettingsExpandControl.axaml" />
+
+        <!-- INTERNAL VIEW CONTROLLERS -->
+        <ResourceInclude Source="/Themes/Controls/InternalViews/InternalViewController.axaml" />
+        <ResourceInclude Source="/Themes/Controls/InternalViews/InternalMessageController.axaml" />
 
         <!-- VIEWS CONTROLS -->
         <ResourceInclude Source="/Themes/Views/InternalViewBackButtonWithIconTheme.axaml" />
