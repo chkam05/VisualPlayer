@@ -5,8 +5,7 @@
     xmlns:controls="using:VisualPlayer.Controls"
     xmlns:contexts="using:VisualPlayer.Contexts"
     xmlns:converters="using:VisualPlayer.Converters"
-    xmlns:resources="using:VisualPlayer.Resources"
-    xmlns:viewModelConfig="using:VisualPlayer.ViewModels.Config">
+    xmlns:resources="using:VisualPlayer.Resources">
 
     <converters:PlayingToIconConverter x:Key="PlayingToIconConverter"/>
     <converters:RepeatModeToIconConverter x:Key="RepeatModeToIconConverter"/>

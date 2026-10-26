@@ -32,10 +32,10 @@ public class PlayerCore : IDisposable
     private readonly PlayListCore _playListCore;
     private readonly Stopwatch _crossfadeStopwatch = new();
     
-    private MaSound? _fadingSound;
+    private PlaybackSound? _fadingSound;
     private bool _isDisposed;
     private bool _automaticCrossfadeAttempted;
-    private MaSound? _sound;
+    private PlaybackSound? _sound;
     private uint _outputChannels;
 
     #region EVENTS
@@ -483,7 +483,7 @@ public class PlayerCore : IDisposable
     private bool TryStartTrack(Track track, out string error)
     {
         error = string.Empty;
-        var newSound = new MaSound();
+        var newSound = new PlaybackSound();
         double duration;
 
         try
