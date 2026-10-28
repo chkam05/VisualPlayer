@@ -36,6 +36,9 @@ public partial class InfoBarControl : UserControl
     public static readonly DirectProperty<InfoBarControl, bool> IsHiddenProperty
         = AvaloniaProperty.RegisterDirect<InfoBarControl, bool>(nameof(IsHidden), control => control.IsHidden);
 
+    public static readonly StyledProperty<bool> IsManuallyHiddenProperty
+        = AvaloniaProperty.Register<InfoBarControl, bool>(nameof(IsManuallyHidden));
+
     public static readonly StyledProperty<double> RevealSizeProperty
         = AvaloniaProperty.Register<InfoBarControl, double>(nameof(RevealSize), Dimensions.AutoHideRevealSize);
 
@@ -59,6 +62,12 @@ public partial class InfoBarControl : UserControl
     {
         get => _isHidden;
         private set => SetAndRaise(IsHiddenProperty, ref _isHidden, value);
+    }
+
+    public bool IsManuallyHidden
+    {
+        get => GetValue(IsManuallyHiddenProperty);
+        set => SetValue(IsManuallyHiddenProperty, value);
     }
 
     public double RevealSize
@@ -118,7 +127,19 @@ public partial class InfoBarControl : UserControl
             return;
         }
 
-        if (change.Property == AutoHideProperty || change.Property == RevealSizeProperty)
+        if (change.Property == IsManuallyHiddenProperty)
+        {
+            Dispatcher.UIThread.Post(
+                () =>
+                {
+                    if (IsManuallyHidden)
+                        HideControl();
+                    else
+                        ShowControl();
+                },
+                DispatcherPriority.Loaded);
+        }
+        else if (change.Property == AutoHideProperty || change.Property == RevealSizeProperty)
             Dispatcher.UIThread.Post(ApplyAutoHideState, DispatcherPriority.Loaded);
     }
 
@@ -131,7 +152,12 @@ public partial class InfoBarControl : UserControl
         if (!_isAutoHideInitialized)
             return;
 
-        if (!AutoHide || IsPointerOver)
+        if (IsManuallyHidden)
+        {
+            _hideTimer.Stop();
+            HideControl();
+        }
+        else if (!AutoHide || IsPointerOver)
         {
             _hideTimer.Stop();
             ShowControl();
@@ -144,7 +170,10 @@ public partial class InfoBarControl : UserControl
 
     private void HideControl()
     {
-        if (!AutoHide || !_isAutoHideInitialized || _contentHost is null || IsHidden)
+        if ((!AutoHide && !IsManuallyHidden)
+            || !_isAutoHideInitialized
+            || _contentHost is null
+            || IsHidden)
             return;
 
         _hideTimer.Stop();
@@ -192,7 +221,7 @@ public partial class InfoBarControl : UserControl
 
     public void ShowTemporarily()
     {
-        if (!AutoHide || !_isAutoHideInitialized)
+        if (IsManuallyHidden || !AutoHide || !_isAutoHideInitialized)
             return;
 
         ShowControl();
@@ -203,7 +232,7 @@ public partial class InfoBarControl : UserControl
 
     private void ShowControl()
     {
-        if (!_isAutoHideInitialized || _contentHost is null)
+        if (IsManuallyHidden || !_isAutoHideInitialized || _contentHost is null)
             return;
 
         IsHidden = false;

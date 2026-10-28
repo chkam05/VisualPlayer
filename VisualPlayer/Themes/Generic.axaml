@@ -81,6 +81,8 @@
         <ResourceInclude Source="/Themes/Views/PlayListManager/NowPlayingButtonWithIconTheme.axaml" />
         <ResourceInclude Source="/Themes/Views/PlayListManager/TracksListBoxItemTheme.axaml" />
         <ResourceInclude Source="/Themes/Views/PlayListManager/TracksListBoxTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/Visualizations/TrianglesLayerOrderListBoxItemTheme.axaml" />
+        <ResourceInclude Source="/Themes/Views/Visualizations/TrianglesLayerOrderListBoxTheme.axaml" />
 
         <!-- VIEWS -->
         <ResourceInclude Source="/Themes/Views/InternalViewBase.axaml" />

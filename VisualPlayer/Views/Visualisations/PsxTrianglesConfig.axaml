@@ -1,0 +1,292 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:VisualPlayer.Views.Visualisations.Common"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:config="using:VisualPlayer.Visualizations.Config"
+    xmlns:profile="using:VisualPlayer.Visualizations.Config.Base"
+    xmlns:data="using:VisualPlayer.Visualizations.Data"
+    x:Class="VisualPlayer.Views.Visualisations.PsxTrianglesConfig"
+    x:DataType="profile:VisualisationProfile"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:BeamEffectToTitleConverter x:Key="BeamEffectToTitleConverter"/>
+        <converters:OpacityToPercentageConverter x:Key="OpacityToPercentageConverter"/>
+
+        <DataTemplate x:Key="PsxTriangleLayerItemDataTemplate" x:DataType="data:PsxTriangleLayerItem">
+            <Border
+                Background="Transparent"
+                CornerRadius="6"
+                Padding="6">
+
+                <Grid
+                    ColumnDefinitions="Auto,*,240"
+                    ColumnSpacing="12">
+
+                    <!-- Triangle Handler -->
+                    <Border
+                        x:Name="PART_ReorderHandle"
+                        Background="Transparent"
+                        Cursor="Hand"
+                        Grid.Column="0"
+                        Width="24">
+
+                        <LucideIcon
+                            HorizontalAlignment="Center"
+                            IsHitTestVisible="False"
+                            Kind="GripVertical"
+                            Opacity="0.55"
+                            Size="18"
+                            VerticalAlignment="Center"/>
+                    </Border>
+                    
+                    <!-- Title & Description -->
+                    <StackPanel
+                        Grid.Column="1"
+                        VerticalAlignment="Center">
+
+                        <TextBlock
+                            FontWeight="SemiBold"
+                            Text="{Binding Title}"/>
+
+                        <TextBlock
+                            Opacity="0.65"
+                            Text="{Binding Description}"
+                            TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                    <!-- Triangle Settings -->
+                    <StackPanel
+                        Grid.Column="2"
+                        Orientation="Vertical"
+                        Spacing="12">
+
+                        <!-- Triangle Max Width -->
+                        <StackPanel
+                            Orientation="Vertical"
+                            Spacing="6">
+                        
+                            <TextBlock
+                                Grid.Row="0"
+                                Text="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_COUNTS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+                            <components:NumericUpDown
+                                Grid.Row="1"
+                                Maximum="{x:Static config:PsxTrianglesVisualizationConfig.TRIANGLE_COUNT_MAXIMUM}"
+                                Minimum="{x:Static config:PsxTrianglesVisualizationConfig.TRIANGLE_COUNT_MINIMUM}"
+                            Value="{ReflectionBinding TriangleCount, Mode=TwoWay}"/>
+                        </StackPanel>
+
+                        <!-- Triangle Transparency -->
+                        <StackPanel
+                            Orientation="Vertical"
+                            Spacing="6">
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Margin="0,4,0,0"
+                                Text="{ReflectionBinding Translations[COMMON_OPACITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"/>
+
+                            <Grid
+                                ColumnDefinitions="48,*"
+                                ColumnSpacing="8"
+                                Grid.Row="1">
+
+                                <TextBlock
+                                    HorizontalAlignment="Right"
+                                Text="{ReflectionBinding Opacity, Converter={StaticResource OpacityToPercentageConverter}, Mode=OneWay}"
+                                    VerticalAlignment="Center"/>
+
+                                <Slider
+                                    Grid.Column="1"
+                                    Maximum="{x:Static config:PsxTrianglesVisualizationConfig.OPACITY_MAXIMUM}"
+                                    Minimum="{x:Static config:PsxTrianglesVisualizationConfig.OPACITY_MINIMUM}"
+                                    SmallChange="{x:Static config:PsxTrianglesVisualizationConfig.OPACITY_SMALL_CHANGE}"
+                                    Theme="{StaticResource SliderTheme}"
+                                Value="{ReflectionBinding Opacity, Mode=TwoWay}"/>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <StackPanel
+        Spacing="8">
+
+        <!-- Colors -->
+        <common:VisualisationColorConfig/>
+
+        <!-- Triangles -->
+        <components:SettingsExpandControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_SECTION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="Triangle"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_SECTION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+            <ListBox
+                x:Name="LayerOrderList"
+                ItemTemplate="{StaticResource PsxTriangleLayerItemDataTemplate}"
+                ItemsSource="{Binding LayerItems, ElementName=Root}"
+                Theme="{StaticResource TrianglesLayerOrder.ListBoxTheme}"/>
+        </components:SettingsExpandControl>
+
+        <!-- Split Band -->
+        <components:SettingsControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_SPLIT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="SeparatorVertical"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_SPLIT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+            
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.SplitBand, Mode=TwoWay}"/>
+        </components:SettingsControl>
+
+        <!-- Center line -->
+        <components:SettingsControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_CENTER_LINE_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="Minus"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_CENTER_LINE_OPACITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+            <Grid
+                ColumnDefinitions="48,180"
+                ColumnSpacing="8">
+
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    Text="{ReflectionBinding Config.CenterLineOpacity, Converter={StaticResource OpacityToPercentageConverter}}"
+                    VerticalAlignment="Center"/>
+
+                <Slider
+                    Grid.Column="1"
+                    Maximum="{x:Static config:PsxTrianglesVisualizationConfig.OPACITY_MAXIMUM}"
+                    Minimum="{x:Static config:PsxTrianglesVisualizationConfig.OPACITY_MINIMUM}"
+                    SmallChange="{x:Static config:PsxTrianglesVisualizationConfig.OPACITY_SMALL_CHANGE}"
+                    Theme="{StaticResource SliderTheme}"
+                    Value="{ReflectionBinding Config.CenterLineOpacity, Mode=TwoWay}"/>
+            </Grid>
+        </components:SettingsControl>
+
+        <!-- Triangle border -->
+        <components:SettingsExpandControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_BORDER_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="TriangleDashed"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_BORDER_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+            <StackPanel
+                Spacing="8">
+
+                <!-- Enabled -->
+                <components:SettingsControl
+                    Classes="darker"
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_BORDER_ENABLED_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Icon="ToggleRight"
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_BORDER_ENABLED_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.BorderEnabled, Mode=TwoWay}"/>
+                </components:SettingsControl>
+
+                <!-- Opacity -->
+                <components:SettingsControl
+                    Classes="darker"
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_BORDER_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Icon="Blend"
+                    IsVisible="{ReflectionBinding Config.BorderEnabled}"
+                    Title="{ReflectionBinding Translations[COMMON_OPACITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                    <Grid
+                        ColumnDefinitions="48,180"
+                        ColumnSpacing="8">
+
+                        <TextBlock
+                            HorizontalAlignment="Right"
+                            Text="{ReflectionBinding Config.BorderOpacity, Converter={StaticResource OpacityToPercentageConverter}}"
+                            VerticalAlignment="Center"/>
+
+                        <Slider
+                            Grid.Column="1"
+                            Maximum="{x:Static config:PsxTrianglesVisualizationConfig.OPACITY_MAXIMUM}"
+                            Minimum="{x:Static config:PsxTrianglesVisualizationConfig.OPACITY_MINIMUM}"
+                            SmallChange="{x:Static config:PsxTrianglesVisualizationConfig.OPACITY_SMALL_CHANGE}"
+                            Theme="{StaticResource SliderTheme}"
+                            Value="{ReflectionBinding Config.BorderOpacity, Mode=TwoWay}"/>
+                    </Grid>
+                </components:SettingsControl>
+
+                <!-- Effect -->
+                <components:SettingsControl
+                    Classes="darker"
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_BORDER_EFFECT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Icon="Sparkles"
+                    IsVisible="{ReflectionBinding Config.BorderEnabled}"
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_EFFECT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                    <ComboBox
+                        ItemsSource="{Binding BeamEffects, ElementName=Root}"
+                        SelectedItem="{ReflectionBinding Config.BorderEffect, Mode=TwoWay}"
+                        Theme="{StaticResource ComboBoxTheme}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding Converter={StaticResource BeamEffectToTitleConverter}}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </components:SettingsControl>
+            </StackPanel>
+        </components:SettingsExpandControl>
+
+        <!-- Triangle Max Width -->
+        <components:SettingsControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_MAX_WIDTH_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="Pyramid"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_MAX_WIDTH_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+            
+            <components:NumericUpDown
+                Maximum="{x:Static config:PsxTrianglesVisualizationConfig.MAX_TRIANGLE_WIDTH_MAXIMUM}"
+                Minimum="{x:Static config:PsxTrianglesVisualizationConfig.MAX_TRIANGLE_WIDTH_MINIMUM}"
+                Suffix=" px"
+                Value="{ReflectionBinding Config.MaximumTriangleWidth, Mode=TwoWay}"/>
+        </components:SettingsControl>
+
+        <!-- Falling speed -->
+        <components:SettingsControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_DESCENT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="ClockFading"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+            
+            <components:NumericUpDown
+                Increment="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_INCREMENT}"
+                Maximum="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_MINIMUM}"
+                Suffix=" px/s"
+                Value="{ReflectionBinding Config.DescentRate, Mode=TwoWay}"/>
+        </components:SettingsControl>
+
+        <!-- Transformation -->
+        <components:SettingsExpandControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_TRANSFORM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="Move3d"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_TRANSFORM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+            
+            <!-- Move X -->
+            <components:SettingsControl
+                Classes="darker"
+                Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_OFFSET_X_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                Icon="MoveHorizontal"
+                Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_PSX_TRIANGLES_OFFSET_X_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+                
+                <components:NumericUpDown
+                    Increment="{x:Static config:PsxTrianglesVisualizationConfig.OFFSET_X_INCREMENT}"
+                    Maximum="{x:Static config:PsxTrianglesVisualizationConfig.OFFSET_X_MAXIMUM}"
+                    Minimum="{x:Static config:PsxTrianglesVisualizationConfig.OFFSET_X_MINIMUM}"
+                    Suffix=" px"
+                    Value="{ReflectionBinding Config.OffsetX, Mode=TwoWay}"/>
+            </components:SettingsControl>
+        </components:SettingsExpandControl>
+    </StackPanel>
+</UserControl>

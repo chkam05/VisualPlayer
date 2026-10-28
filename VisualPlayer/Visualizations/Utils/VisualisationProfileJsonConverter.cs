@@ -21,12 +21,21 @@ public class VisualisationProfileJsonConverter : JsonConverter<VisualisationProf
             : "Profil wizualizacji";
 
         var defaultProfile = DefaultVisualizationProfiles.Create(name);
-        var visualizationType = DeserializeVisualizationType(root, options)
+        var serializedVisualizationType = DeserializeVisualizationType(root, options)
             ?? defaultProfile?.VisualizationType
             ?? VisualizationType.Peaks;
+        var isLegacyOscilloscopeDouble = serializedVisualizationType == VisualizationType.OscilloscopeDouble;
+        var visualizationType = isLegacyOscilloscopeDouble
+            ? VisualizationType.OscilloscopeFilled
+            : serializedVisualizationType;
 
         var config = DeserializeConfig(root, visualizationType, options)
             ?? defaultProfile?.Config;
+        if (isLegacyOscilloscopeDouble
+            && config is OscilloscopeFilledVisualizationConfig filledConfig)
+        {
+            filledConfig.Fill = false;
+        }
         var color = DeserializeColor(root, options)
             ?? defaultProfile?.Color;
 
@@ -113,14 +122,16 @@ public class VisualisationProfileJsonConverter : JsonConverter<VisualisationProf
                 VisualizationType.StripesMirrored => configElement.Deserialize<StripesMirroredVisualizationConfig>(options),
                 VisualizationType.PeaksFloating => configElement.Deserialize<PeaksFloatingVisualizationConfig>(options),
                 VisualizationType.PeaksFloatingMirrored => configElement.Deserialize<PeaksFloatingMirroredVisualizationConfig>(options),
+                VisualizationType.PsxTriangles => configElement.Deserialize<PsxTrianglesVisualizationConfig>(options),
                 VisualizationType.Oscilloscope => configElement.Deserialize<OscilloscopeVisualizationConfig>(options),
-                VisualizationType.OscilloscopeDouble => configElement.Deserialize<OscilloscopeDoubleVisualizationConfig>(options),
                 VisualizationType.OscilloscopeFilled => configElement.Deserialize<OscilloscopeFilledVisualizationConfig>(options),
                 VisualizationType.OscilloscopeCenter => configElement.Deserialize<OscilloscopeCenterVisualizationConfig>(options),
                 VisualizationType.Waveform => configElement.Deserialize<WaveformVisualizationConfig>(options),
                 VisualizationType.WaveformMirrored => configElement.Deserialize<WaveformMirroredVisualizationConfig>(options),
                 VisualizationType.CircleStripes => configElement.Deserialize<CircleStripesVisualizationConfig>(options),
                 VisualizationType.CircleWaveform => configElement.Deserialize<CircleWaveformVisualizationConfig>(options),
+                VisualizationType.Signal => configElement.Deserialize<SignalVisualizationConfig>(options),
+                VisualizationType.SignalMirrored => configElement.Deserialize<SignalMirroredVisualizationConfig>(options),
                 _ => null
             };
         }
@@ -157,14 +168,16 @@ public class VisualisationProfileJsonConverter : JsonConverter<VisualisationProf
             VisualizationType.StripesMirrored => profile.GetConfig<StripesMirroredVisualizationConfig>(),
             VisualizationType.PeaksFloating => profile.GetConfig<PeaksFloatingVisualizationConfig>(),
             VisualizationType.PeaksFloatingMirrored => profile.GetConfig<PeaksFloatingMirroredVisualizationConfig>(),
+            VisualizationType.PsxTriangles => profile.GetConfig<PsxTrianglesVisualizationConfig>(),
             VisualizationType.Oscilloscope => profile.GetConfig<OscilloscopeVisualizationConfig>(),
-            VisualizationType.OscilloscopeDouble => profile.GetConfig<OscilloscopeDoubleVisualizationConfig>(),
             VisualizationType.OscilloscopeFilled => profile.GetConfig<OscilloscopeFilledVisualizationConfig>(),
             VisualizationType.OscilloscopeCenter => profile.GetConfig<OscilloscopeCenterVisualizationConfig>(),
             VisualizationType.Waveform => profile.GetConfig<WaveformVisualizationConfig>(),
             VisualizationType.WaveformMirrored => profile.GetConfig<WaveformMirroredVisualizationConfig>(),
             VisualizationType.CircleStripes => profile.GetConfig<CircleStripesVisualizationConfig>(),
             VisualizationType.CircleWaveform => profile.GetConfig<CircleWaveformVisualizationConfig>(),
+            VisualizationType.Signal => profile.GetConfig<SignalVisualizationConfig>(),
+            VisualizationType.SignalMirrored => profile.GetConfig<SignalMirroredVisualizationConfig>(),
             _ => null
         };
     }

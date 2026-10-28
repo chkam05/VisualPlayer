@@ -130,7 +130,14 @@ public class VisualizationCore : IDisposable
             return;
 
         var elapsed = UpdateSpectrum();
-        var frame = new VisualizationFrame(elapsed, _spectrum, _waveform, _isPlayingProvider());
+        var frame = new VisualizationFrame(
+            elapsed,
+            _spectrum,
+            _waveform,
+            _isPlayingProvider(),
+            _config.Global.MinimumFrequency,
+            _config.Global.MaximumFrequency,
+            _config.Global.ScalingStrategy);
         CurrentVisualization.PreCalculate(frame);
         CurrentVisualization.Draw(drawingContext, brush);
     }
@@ -238,38 +245,42 @@ public class VisualizationCore : IDisposable
         CurrentVisualization?.Dispose();
         CurrentVisualization = visualizationType switch
         {
-            VisualizationType.Peaks when _activeProfile is not null
-                => new PeaksVisualization(_activeProfile.GetConfig<PeaksVisualizationConfig>(), _activeProfile.GetColorConfig()),
-            VisualizationType.Stripes when _activeProfile is not null
-                => new StripesVisualization(_activeProfile.GetConfig<StripesVisualizationConfig>(), _activeProfile.GetColorConfig()),
-            VisualizationType.PeaksBouncing when _activeProfile is not null
-                => new PeaksBouncingVisualization(_activeProfile.GetConfig<PeaksBouncingVisualizationConfig>(), _activeProfile.GetColorConfig()),
-            VisualizationType.StripesBouncing when _activeProfile is not null
-                => new StripesBouncingVisualization(_activeProfile.GetConfig<StripesBouncingVisualizationConfig>(), _activeProfile.GetColorConfig()),
-            VisualizationType.PeaksMirrored when _activeProfile is not null
-                => new PeaksMirroredVisualization(_activeProfile.GetConfig<PeaksMirroredVisualizationConfig>(), _activeProfile.GetColorConfig()),
-            VisualizationType.StripesMirrored when _activeProfile is not null
-                => new StripesMirroredVisualization(_activeProfile.GetConfig<StripesMirroredVisualizationConfig>(), _activeProfile.GetColorConfig()),
-            VisualizationType.PeaksFloating when _activeProfile is not null
-                => new PeaksFloatingVisualization(_activeProfile.GetConfig<PeaksFloatingVisualizationConfig>(), _activeProfile.GetColorConfig()),
-            VisualizationType.PeaksFloatingMirrored when _activeProfile is not null
-                => new PeaksFloatingMirroredVisualization(_activeProfile.GetConfig<PeaksFloatingMirroredVisualizationConfig>(), _activeProfile.GetColorConfig()),
-            VisualizationType.Oscilloscope when _activeProfile is not null
-                => new OscilloscopeVisualization(_activeProfile.GetConfig<OscilloscopeVisualizationConfig>(), _activeProfile.GetColorConfig()),
-            VisualizationType.OscilloscopeDouble when _activeProfile is not null
-                => new OscilloscopeDoubleVisualization(_activeProfile.GetConfig<OscilloscopeDoubleVisualizationConfig>(), _activeProfile.GetColorConfig()),
-            VisualizationType.OscilloscopeFilled when _activeProfile is not null
-                => new OscilloscopeFilledVisualization(_activeProfile.GetConfig<OscilloscopeFilledVisualizationConfig>(), _activeProfile.GetColorConfig()),
-            VisualizationType.OscilloscopeCenter when _activeProfile is not null
-                => new OscilloscopeCenterVisualization(_activeProfile.GetConfig<OscilloscopeCenterVisualizationConfig>(), _activeProfile.GetColorConfig()),
-            VisualizationType.Waveform when _activeProfile is not null
-                => new WaveformVisualization(_activeProfile.GetConfig<WaveformVisualizationConfig>(), _activeProfile.GetColorConfig()),
-            VisualizationType.WaveformMirrored when _activeProfile is not null
-                => new WaveformMirroredVisualization(_activeProfile.GetConfig<WaveformMirroredVisualizationConfig>(), _activeProfile.GetColorConfig()),
             VisualizationType.CircleStripes when _activeProfile is not null
                 => new CircleStripesVisualization(_activeProfile.GetConfig<CircleStripesVisualizationConfig>(), _activeProfile.GetColorConfig()),
             VisualizationType.CircleWaveform when _activeProfile is not null
                 => new CircleWaveformVisualization(_activeProfile.GetConfig<CircleWaveformVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.Oscilloscope when _activeProfile is not null
+                => new OscilloscopeVisualization(_activeProfile.GetConfig<OscilloscopeVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.OscilloscopeCenter when _activeProfile is not null
+                => new OscilloscopeCenterVisualization(_activeProfile.GetConfig<OscilloscopeCenterVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.OscilloscopeFilled when _activeProfile is not null
+                => new OscilloscopeFilledVisualization(_activeProfile.GetConfig<OscilloscopeFilledVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.Peaks when _activeProfile is not null
+                => new PeaksVisualization(_activeProfile.GetConfig<PeaksVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.PeaksBouncing when _activeProfile is not null
+                => new PeaksBouncingVisualization(_activeProfile.GetConfig<PeaksBouncingVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.PeaksFloating when _activeProfile is not null
+                => new PeaksFloatingVisualization(_activeProfile.GetConfig<PeaksFloatingVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.PeaksFloatingMirrored when _activeProfile is not null
+                => new PeaksFloatingMirroredVisualization(_activeProfile.GetConfig<PeaksFloatingMirroredVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.PeaksMirrored when _activeProfile is not null
+                => new PeaksMirroredVisualization(_activeProfile.GetConfig<PeaksMirroredVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.PsxTriangles when _activeProfile is not null
+                => new PsxTrianglesVisualization(_activeProfile.GetConfig<PsxTrianglesVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.Signal when _activeProfile is not null
+                => new SignalVisualization(_activeProfile.GetConfig<SignalVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.SignalMirrored when _activeProfile is not null
+                => new SignalMirroredVisualization(_activeProfile.GetConfig<SignalMirroredVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.Stripes when _activeProfile is not null
+                => new StripesVisualization(_activeProfile.GetConfig<StripesVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.StripesBouncing when _activeProfile is not null
+                => new StripesBouncingVisualization(_activeProfile.GetConfig<StripesBouncingVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.StripesMirrored when _activeProfile is not null
+                => new StripesMirroredVisualization(_activeProfile.GetConfig<StripesMirroredVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.Waveform when _activeProfile is not null
+                => new WaveformVisualization(_activeProfile.GetConfig<WaveformVisualizationConfig>(), _activeProfile.GetColorConfig()),
+            VisualizationType.WaveformMirrored when _activeProfile is not null
+                => new WaveformMirroredVisualization(_activeProfile.GetConfig<WaveformMirroredVisualizationConfig>(), _activeProfile.GetColorConfig()),
             _ => null
         };
 

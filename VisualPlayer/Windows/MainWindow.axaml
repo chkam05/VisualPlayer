@@ -114,7 +114,7 @@
                     Background="Transparent"
                     Grid.Row="0"
                     ClipToBounds="False"
-                    IsVisible="{Binding IsFullMode, ElementName=Root}"
+                    IsVisible="{ReflectionBinding ControlsState.AreFullControlsVisible, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Margin="{Binding InfoBarMargin, ElementName=SidePanel}"
                     Transitions="{Binding InfoBarTransitions, ElementName=SidePanel}"
                     ZIndex="1">
@@ -124,6 +124,7 @@
                         AutoHide="{ReflectionBinding Config.Appearance.AutoHideInfoBarControl, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         DataContext="{ReflectionBinding InfoBarContext, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         DisplayDuration="{ReflectionBinding Config.Appearance.InfoBarDisplayDuration, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                        IsManuallyHidden="{ReflectionBinding ControlsState.AreControlsHiddenByClick, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         VerticalAlignment="Top"/>
 
                 </Grid>
@@ -137,8 +138,9 @@
                     ExportPlaylistRequested="PlayList_ExportPlaylistRequested"
                     Grid.Row="0"
                     Grid.RowSpan="2"
+                    IsManuallyHidden="{ReflectionBinding ControlsState.AreControlsHiddenByClick, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     IsPlayListOpen="{ReflectionBinding Config.Window.PlayListOpen, Source={x:Static contexts:ApplicationContext.Instance}, Mode=TwoWay}"
-                    IsVisible="{Binding IsFullMode, ElementName=Root}"
+                    IsVisible="{ReflectionBinding ControlsState.AreFullControlsVisible, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                     Margin="{Binding IsHidden, ElementName=PlayPanel, Converter={x:Static converters:SidePanelMarginConverter.Instance}}"
                     MaximumPlayListWidth="768"
                     MinimumPlayListWidth="{x:Static resources:Dimensions.SidePanelMinimumPlayListWidth}"
@@ -197,8 +199,9 @@
                         AutoHide="{ReflectionBinding Config.Appearance.AutoHidePlayerControl, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         DataContext="{ReflectionBinding PlayerDataContext, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         HorizontalAlignment="Stretch"
+                        IsManuallyHidden="{ReflectionBinding ControlsState.AreControlsHiddenByClick, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         IsMiniMode="{Binding IsMiniMode, ElementName=Root, Mode=TwoWay}"
-                        IsVisible="{Binding IsFullMode, ElementName=Root}"
+                        IsVisible="{ReflectionBinding ControlsState.AreFullControlsVisible, Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
                         MinWidth="{x:Static resources:Dimensions.PlayerControlMinimumWidth}"
                         VerticalAlignment="Bottom"
                         NextRequested="PlayPanel_NextRequested"

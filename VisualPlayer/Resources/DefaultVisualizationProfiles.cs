@@ -14,14 +14,16 @@ public static class DefaultVisualizationProfiles
     public const string CIRCLE_STRIPES_NAME = "Circle - Stripes";
     public const string CIRCLE_WAVEFORM_NAME = "Circle - Waveform";
     public const string OSCILLOSCOPE_CENTER_NAME = "Oscilloscope - Center";
-    public const string OSCILLOSCOPE_DOUBLE_NAME = "Oscilloscope - Double";
     public const string OSCILLOSCOPE_FILLED_NAME = "Oscilloscope - Filled";
     public const string OSCILLOSCOPE_NAME = "Oscilloscope";
     public const string PEAKS_FLOATING_MIRRORED_NAME = "Peaks - Floating Mirrored";
     public const string PEAKS_FLOATING_NAME = "Peaks - Floating";
     public const string PEAKS_MIRRORED_NAME = "Peaks - Mirrored";
     public const string PEAKS_NAME = "Peaks";
+    public const string PSX_TRIANGLES_NAME = "PSX - Triangles";
     public const string PEAKS_BOUNCING_NAME = "Peaks - Bouncing";
+    public const string SIGNAL_NAME = "Signal";
+    public const string SIGNAL_MIRRORED_NAME = "Signal - Mirrored";
     public const string STRIPES_MIRRORED_NAME = "Stripes - Mirrored";
     public const string STRIPES_NAME = "Stripes";
     public const string STRIPES_BOUNCING_NAME = "Stripes - Bouncing";
@@ -41,13 +43,15 @@ public static class DefaultVisualizationProfiles
             CreateCircleWaveform(),
             CreateOscilloscope(),
             CreateOscilloscopeCenter(),
-            CreateOscilloscopeDouble(),
             CreateOscilloscopeFilled(),
             CreatePeaks(),
             CreatePeaksBouncing(),
             CreatePeaksFloating(),
             CreatePeaksFloatingMirrored(),
             CreatePeaksMirrored(),
+            CreatePsxTriangles(),
+            CreateSignal(),
+            CreateSignalMirrored(),
             CreateStripes(),
             CreateStripesBouncing(),
             CreateStripesMirrored(),
@@ -65,16 +69,18 @@ public static class DefaultVisualizationProfiles
             "CIRCLE - WAVEFORM" => CreateCircleWaveform(),
             "PEAKS" => CreatePeaks(),
             "PEAKS - BOUNCING" => CreatePeaksBouncing(),
-            "STRIPES - BOUNCING" => CreateStripesBouncing(),
-            "STRIPES" => CreateStripes(),
-            "PEAKS - MIRRORED" => CreatePeaksMirrored(),
-            "STRIPES - MIRRORED" => CreateStripesMirrored(),
             "PEAKS - FLOATING" => CreatePeaksFloating(),
             "PEAKS - FLOATING MIRRORED" => CreatePeaksFloatingMirrored(),
+            "PEAKS - MIRRORED" => CreatePeaksMirrored(),
+            "PSX - TRIANGLES" => CreatePsxTriangles(),
             "OSCILLOSCOPE" => CreateOscilloscope(),
-            "OSCILLOSCOPE - DOUBLE" => CreateOscilloscopeDouble(),
-            "OSCILLOSCOPE - FILLED" => CreateOscilloscopeFilled(),
             "OSCILLOSCOPE - CENTER" => CreateOscilloscopeCenter(),
+            "OSCILLOSCOPE - FILLED" => CreateOscilloscopeFilled(),
+            "SIGNAL" => CreateSignal(),
+            "SIGNAL - MIRRORED" => CreateSignalMirrored(),
+            "STRIPES" => CreateStripes(),
+            "STRIPES - BOUNCING" => CreateStripesBouncing(),
+            "STRIPES - MIRRORED" => CreateStripesMirrored(),
             "WAVEFORM" => CreateWaveform(),
             "WAVEFORM - MIRRORED" => CreateWaveformMirrored(),
             _ => null
@@ -96,12 +102,14 @@ public static class DefaultVisualizationProfiles
             VisualizationType.StripesMirrored => profile.Config is StripesMirroredVisualizationConfig,
             VisualizationType.PeaksFloating => profile.Config is PeaksFloatingVisualizationConfig,
             VisualizationType.PeaksFloatingMirrored => profile.Config is PeaksFloatingMirroredVisualizationConfig,
+            VisualizationType.PsxTriangles => profile.Config is PsxTrianglesVisualizationConfig,
             VisualizationType.Oscilloscope => profile.Config is OscilloscopeVisualizationConfig,
-            VisualizationType.OscilloscopeDouble => profile.Config is OscilloscopeDoubleVisualizationConfig,
             VisualizationType.OscilloscopeFilled => profile.Config is OscilloscopeFilledVisualizationConfig,
             VisualizationType.OscilloscopeCenter => profile.Config is OscilloscopeCenterVisualizationConfig,
             VisualizationType.Waveform => profile.Config is WaveformVisualizationConfig,
             VisualizationType.WaveformMirrored => profile.Config is WaveformMirroredVisualizationConfig,
+            VisualizationType.Signal => profile.Config is SignalVisualizationConfig,
+            VisualizationType.SignalMirrored => profile.Config is SignalMirroredVisualizationConfig,
             _ => false
         };
     }
@@ -239,36 +247,6 @@ public static class DefaultVisualizationProfiles
             IsDefault = true,
             Name = OSCILLOSCOPE_CENTER_NAME,
             VisualizationType = VisualizationType.OscilloscopeCenter,
-        };
-    }
-
-    private static VisualisationProfile CreateOscilloscopeDouble()
-    {
-        return new VisualisationProfile
-        {
-            Color = new VisualizationColorConfig
-            {
-                Gradient = new GradientDefinition()
-                {
-                    Angle = 270,
-                    Points =
-                    [
-                        CreateGradientPoint("#E81123", 0),
-                        CreateGradientPoint("#FFB900", 0.166),
-                        CreateGradientPoint("#10893E", 0.332),
-                        CreateGradientPoint("#10893E", 0.668),
-                        CreateGradientPoint("#FFB900", 0.834),
-                        CreateGradientPoint("#E81123", 1),
-                    ],
-                    Type = GradientType.Linear
-                },
-                Mode = VisualizationColorMode.Rainbow,
-                SolidColor = new("#10893E", string.Empty)
-            },
-            Config = new OscilloscopeDoubleVisualizationConfig(),
-            IsDefault = true,
-            Name = OSCILLOSCOPE_DOUBLE_NAME,
-            VisualizationType = VisualizationType.OscilloscopeDouble,
         };
     }
 
@@ -461,6 +439,93 @@ public static class DefaultVisualizationProfiles
             IsDefault = true,
             Name = STRIPES_NAME,
             VisualizationType = VisualizationType.Stripes,
+        };
+    }
+
+    private static VisualisationProfile CreatePsxTriangles()
+    {
+        return new VisualisationProfile
+        {
+            Color = new VisualizationColorConfig
+            {
+                Gradient = new GradientDefinition()
+                {
+                    Angle = 270,
+                    Points =
+                    [
+                        CreateGradientPoint("#10893E", 0),
+                        CreateGradientPoint("#10893E", 0.33),
+                        CreateGradientPoint("#FFB900", 0.66),
+                        CreateGradientPoint("#E81123", 1),
+                    ],
+                    Type = GradientType.Linear
+                },
+                Mode = VisualizationColorMode.Rainbow,
+                RainbowAngle = 90,
+                SolidColor = new("#10893E", string.Empty)
+            },
+            Config = new PsxTrianglesVisualizationConfig(),
+            IsDefault = true,
+            Name = PSX_TRIANGLES_NAME,
+            VisualizationType = VisualizationType.PsxTriangles,
+        };
+    }
+
+    private static VisualisationProfile CreateSignal()
+    {
+        return new VisualisationProfile
+        {
+            Color = new VisualizationColorConfig
+            {
+                Gradient = new GradientDefinition()
+                {
+                    Angle = 270,
+                    Points =
+                    [
+                        CreateGradientPoint("#10893E", 0),
+                        CreateGradientPoint("#10893E", 0.33),
+                        CreateGradientPoint("#FFB900", 0.66),
+                        CreateGradientPoint("#E81123", 1),
+                    ],
+                    Type = GradientType.Linear
+                },
+                Mode = VisualizationColorMode.Rainbow,
+                RainbowAngle = 90,
+                SolidColor = new("#10893E", string.Empty)
+            },
+            Config = new SignalVisualizationConfig(),
+            IsDefault = true,
+            Name = SIGNAL_NAME,
+            VisualizationType = VisualizationType.Signal,
+        };
+    }
+
+    private static VisualisationProfile CreateSignalMirrored()
+    {
+        return new VisualisationProfile
+        {
+            Color = new VisualizationColorConfig
+            {
+                Gradient = new GradientDefinition()
+                {
+                    Angle = 270,
+                    Points =
+                    [
+                        CreateGradientPoint("#10893E", 0),
+                        CreateGradientPoint("#10893E", 0.33),
+                        CreateGradientPoint("#FFB900", 0.66),
+                        CreateGradientPoint("#E81123", 1),
+                    ],
+                    Type = GradientType.Linear
+                },
+                Mode = VisualizationColorMode.Rainbow,
+                RainbowAngle = 0,
+                SolidColor = new("#10893E", string.Empty)
+            },
+            Config = new SignalMirroredVisualizationConfig(),
+            IsDefault = true,
+            Name = SIGNAL_MIRRORED_NAME,
+            VisualizationType = VisualizationType.SignalMirrored,
         };
     }
 

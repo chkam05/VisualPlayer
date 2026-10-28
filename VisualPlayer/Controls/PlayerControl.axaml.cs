@@ -57,6 +57,9 @@ public partial class PlayerControl : UserControl
     public static readonly StyledProperty<bool> IsMiniModeProperty
         = AvaloniaProperty.Register<PlayerControl, bool>(nameof(IsMiniMode), defaultBindingMode: BindingMode.TwoWay);
 
+    public static readonly StyledProperty<bool> IsManuallyHiddenProperty
+        = AvaloniaProperty.Register<PlayerControl, bool>(nameof(IsManuallyHidden));
+
     public static readonly DirectProperty<PlayerControl, double> ExpandedHeightProperty
         = AvaloniaProperty.RegisterDirect<PlayerControl, double>(nameof(ExpandedHeight), control => control.ExpandedHeight);
 
@@ -172,6 +175,12 @@ public partial class PlayerControl : UserControl
     {
         get => GetValue(IsMiniModeProperty);
         set => SetValue(IsMiniModeProperty, value);
+    }
+
+    public bool IsManuallyHidden
+    {
+        get => GetValue(IsManuallyHiddenProperty);
+        set => SetValue(IsManuallyHiddenProperty, value);
     }
 
     public double ExpandedHeight
@@ -345,7 +354,19 @@ public partial class PlayerControl : UserControl
     {
         base.OnPropertyChanged(change);
 
-        if (change.Property == AutoHideProperty
+        if (change.Property == IsManuallyHiddenProperty)
+        {
+            Dispatcher.UIThread.Post(
+                () =>
+                {
+                    if (IsManuallyHidden)
+                        HideControl();
+                    else
+                        ShowControl();
+                },
+                DispatcherPriority.Loaded);
+        }
+        else if (change.Property == AutoHideProperty
             || change.Property == KeepOpenProperty
             || change.Property == IsMiniModeProperty
             || change.Property == RevealSizeProperty)
@@ -402,7 +423,9 @@ public partial class PlayerControl : UserControl
         if (!_isAutoHideInitialized)
             return;
 
-        if (IsMiniMode || !AutoHide || KeepOpen || IsPointerOver)
+        if (IsManuallyHidden)
+            HideControl();
+        else if (IsMiniMode || !AutoHide || KeepOpen || IsPointerOver)
             ShowControl();
         else
             HideControl();
@@ -423,7 +446,11 @@ public partial class PlayerControl : UserControl
 
     private void HideControl()
     {
-        if (IsMiniMode || !AutoHide || KeepOpen || !_isAutoHideInitialized || _contentHost is null || IsHidden)
+        if (IsMiniMode
+            || (!IsManuallyHidden && (!AutoHide || KeepOpen))
+            || !_isAutoHideInitialized
+            || _contentHost is null
+            || IsHidden)
             return;
 
         IsHidden = true;
@@ -479,7 +506,7 @@ public partial class PlayerControl : UserControl
 
     private void ShowControl()
     {
-        if (!_isAutoHideInitialized || _contentHost is null)
+        if (IsManuallyHidden || !_isAutoHideInitialized || _contentHost is null)
             return;
 
         IsHidden = false;

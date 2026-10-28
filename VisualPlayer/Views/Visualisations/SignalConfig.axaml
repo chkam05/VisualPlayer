@@ -1,0 +1,149 @@
+<UserControl
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="using:VisualPlayer.Views.Visualisations.Common"
+    xmlns:components="using:VisualPlayer.Components"
+    xmlns:contexts="using:VisualPlayer.Contexts"
+    xmlns:converters="using:VisualPlayer.Converters"
+    xmlns:config="using:VisualPlayer.Visualizations.Config"
+    xmlns:profile="using:VisualPlayer.Visualizations.Config.Base"
+    x:Class="VisualPlayer.Views.Visualisations.SignalConfig"
+    x:DataType="profile:VisualisationProfile"
+    x:Name="Root">
+
+    <UserControl.Resources>
+        <converters:BeamEffectToTitleConverter x:Key="BeamEffectToTitleConverter"/>
+        <converters:VisualizationDirectionToTitleConverter x:Key="VisualizationDirectionToTitleConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel
+        Spacing="8">
+
+        <common:VisualisationColorConfig/>
+
+        <!-- Number of signal arcs -->
+        <components:SettingsControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_SIGNAL_COUNT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="Wifi"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_NUM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+            <components:NumericUpDown
+                Maximum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.BARS_COUNT_MINIMUM}"
+                Value="{ReflectionBinding Config.StripesCount, Mode=TwoWay}"/>
+        </components:SettingsControl>
+
+        <!-- Direction -->
+        <components:SettingsControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_SIGNAL_DIRECTION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="ArrowUpDown"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_DIRECTION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+            <ComboBox
+                ItemsSource="{Binding Directions, ElementName=Root}"
+                SelectedItem="{ReflectionBinding Config.Direction, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Converter={StaticResource VisualizationDirectionToTitleConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </components:SettingsControl>
+
+        <!-- Thickness -->
+        <components:SettingsControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_SIGNAL_LINE_THICKNESS_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="Minus"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_THICKNESS_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+            <components:NumericUpDown
+                Maximum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.LINE_THICKNESS_MINIMUM}"
+                Suffix=" px"
+                Value="{ReflectionBinding Config.LineThickness, Mode=TwoWay}"/>
+        </components:SettingsControl>
+
+        <!-- Descent -->
+        <components:SettingsControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_SIGNAL_DESCENT_RATE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="ClockFading"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_DESCENT_RATE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+            <components:NumericUpDown
+                Increment="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_INCREMENT}"
+                Maximum="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_MAXIMUM}"
+                Minimum="{x:Static profile:VisualizationBaseConfig.DESCENT_RATE_MINIMUM}"
+                Suffix=" px/s"
+                Value="{ReflectionBinding Config.DescentRate, Mode=TwoWay}"/>
+        </components:SettingsControl>
+
+        <!-- Line effect -->
+        <components:SettingsControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_SIGNAL_BEAM_EFFECT_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="Sparkles"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_LINE_EFFECT_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+            <ComboBox
+                ItemsSource="{Binding BeamEffects, ElementName=Root}"
+                SelectedItem="{ReflectionBinding Config.BeamEffect, Mode=TwoWay}"
+                Theme="{StaticResource ComboBoxTheme}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Text="{Binding Converter={StaticResource BeamEffectToTitleConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </components:SettingsControl>
+
+        <!-- Transformations -->
+        <components:SettingsExpandControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_SIGNAL_TRANSFORM_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="AudioWaveform"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_TRANSFORM_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+            <StackPanel
+                Spacing="8">
+
+                <components:SettingsControl
+                    Classes="darker"
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_SIGNAL_VIBRATION_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Icon="AudioWaveform"
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_SIGNAL_VIBRATION_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.VibrationEnabled, Mode=TwoWay}"/>
+                </components:SettingsControl>
+
+                <components:SettingsControl
+                    Classes="darker"
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_SIGNAL_VIBRATION_RANGE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Icon="AudioLines"
+                    IsEnabled="{ReflectionBinding Config.IsVibrationEnabled}"
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_SIGNAL_VIBRATION_RANGE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                    <components:NumericUpDown
+                        Maximum="{x:Static config:SignalVisualizationConfig.VIBRATION_RANGE_MAXIMUM}"
+                        Minimum="{x:Static config:SignalVisualizationConfig.VIBRATION_RANGE_MINIMUM}"
+                        Value="{ReflectionBinding Config.VibrationRange, Mode=TwoWay}"/>
+                </components:SettingsControl>
+
+                <components:SettingsControl
+                    Classes="darker"
+                    Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_SIGNAL_VIBRATION_REVERSE_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+                    Icon="ArrowUpDown"
+                    IsEnabled="{ReflectionBinding Config.IsVibrationEnabled}"
+                    Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_SIGNAL_VIBRATION_REVERSE_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+                    <components:Switch
+                        IsChecked="{ReflectionBinding Config.ReverseVibration, Mode=TwoWay}"/>
+                </components:SettingsControl>
+            </StackPanel>
+        </components:SettingsExpandControl>
+
+    </StackPanel>
+</UserControl>

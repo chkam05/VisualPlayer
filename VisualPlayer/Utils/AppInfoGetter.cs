@@ -12,7 +12,7 @@ public static class AppInfoGetter
 
     private const string APP_AUTHOR = "Kamil Karpiński";
     private const string APP_NAME = "VisualPlayer";
-    private const string APP_VERSION = "7.1.1-a";
+    private const string APP_VERSION = "7.1.1-b";
     private const string NUGET_PACKAGE_PREFIX = "NuGetPackage:";
 
     #endregion CONST

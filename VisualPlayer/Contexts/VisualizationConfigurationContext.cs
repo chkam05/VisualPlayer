@@ -83,6 +83,7 @@ public class VisualizationConfigurationContext : ConfigurationContextBase
 
     public void EnsureProfiles()
     {
+        RemoveLegacyOscilloscopeDoubleProfile();
         RemoveDuplicateNames();
 
         var defaultProfiles = DefaultVisualizationProfiles.Create();
@@ -154,6 +155,25 @@ public class VisualizationConfigurationContext : ConfigurationContextBase
         }
 
         return -1;
+    }
+
+    private void RemoveLegacyOscilloscopeDoubleProfile()
+    {
+        const string legacyName = "Oscilloscope - Double";
+
+        for (var index = Profiles.Count - 1; index >= 0; index--)
+        {
+            var profile = Profiles[index];
+            if (!profile.IsDefault
+                || !string.Equals(profile.Name, legacyName, StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            Profiles.RemoveAt(index);
+            if (string.Equals(SelectedProfileName, legacyName, StringComparison.OrdinalIgnoreCase))
+                SelectedProfileName = DefaultVisualizationProfiles.OSCILLOSCOPE_FILLED_NAME;
+        }
     }
 
     private void RemoveDuplicateNames()

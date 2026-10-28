@@ -6,10 +6,10 @@
     <Authors>Kamil Karpiński</Authors>
     <Company>Kamil Karpiński</Company>
     <Copyright>Copyright (c) Kamil Karpiński</Copyright>
-    <Version>7.1.1-a</Version>
+    <Version>7.1.1-b</Version>
     <AssemblyVersion>7.1.1.0</AssemblyVersion>
     <FileVersion>7.1.1.0</FileVersion>
-    <InformationalVersion>7.1.1-a</InformationalVersion>
+    <InformationalVersion>7.1.1-b</InformationalVersion>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0</TargetFramework>

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
@@ -34,12 +35,14 @@ public partial class MainWindow : Window
     #region CONST
 
     private const double OVERLAY_BLUR_RADIUS = 18;
+    private static readonly TimeSpan WINDOW_SINGLE_CLICK_DELAY = TimeSpan.FromMilliseconds(300);
 
     #endregion CONST
 
     private readonly ApplicationContext _applicationContext;
     private readonly HamburgerMenuContext _hamburgerMenuContext;
     private readonly DispatcherTimer _positionTimer;
+    private readonly DispatcherTimer _windowSingleClickTimer;
     private bool _allowWindowClose;
     private Size _fullModeSize;
     private bool _hasWindowRestoreState;
@@ -76,6 +79,7 @@ public partial class MainWindow : Window
             var oldFullMode = IsFullMode;
             SetAndRaise(IsMiniModeProperty, ref _isMiniMode, value);
             RaisePropertyChanged(IsFullModeProperty, oldFullMode, IsFullMode);
+            _applicationContext.ControlsState.SetMiniMode(value);
             _applicationContext.Config.Window.IsMiniMode = value;
             ApplyMiniMode();
             UpdateTopmost();
@@ -96,6 +100,12 @@ public partial class MainWindow : Window
 
         InitializeComponent();
 
+        _windowSingleClickTimer = new DispatcherTimer
+        {
+            Interval = WINDOW_SINGLE_CLICK_DELAY
+        };
+        _windowSingleClickTimer.Tick += WindowSingleClickTimer_Tick;
+
         KeyDown += MainWindow_KeyDown;
 
         AddHandler(
@@ -110,6 +120,7 @@ public partial class MainWindow : Window
         SidePanel.MenuContext = _hamburgerMenuContext;
 
         SetupPlaybackVisibilityBehavior();
+        _applicationContext.Config.General.PropertyChanged += GeneralConfig_PropertyChanged;
         _applicationContext.Config.MiniPlayer.PropertyChanged += MiniPlayerConfig_PropertyChanged;
         UpdateTopmost();
 
@@ -576,21 +587,119 @@ public partial class MainWindow : Window
 
     private void MainWindow_PointerPressed(object? sender, PointerPressedEventArgs e)
     {
-        if ((!VolumePanel.IsOpen && !SpeedPanel.IsOpen) || e.Source is not Visual source)
+        if (e.Source is not Visual source)
             return;
 
-        if (VolumePanel.IsOpen && VolumePanel.Contains(e.GetPosition(VolumePanel))
-            || source.FindAncestorOfType<VolumeControl>(includeSelf: true) is not null
-            || SpeedPanel.IsOpen && SpeedPanel.Contains(e.GetPosition(SpeedPanel))
-            || source.FindAncestorOfType<SpeedControl>(includeSelf: true) is not null
-            || PlayPanel.IsVolumeButtonSource(source)
-            || PlayPanel.IsSpeedButtonSource(source))
+        if (VolumePanel.IsOpen || SpeedPanel.IsOpen)
+        {
+            if (VolumePanel.IsOpen && VolumePanel.Contains(e.GetPosition(VolumePanel))
+                || source.FindAncestorOfType<VolumeControl>(includeSelf: true) is not null
+                || SpeedPanel.IsOpen && SpeedPanel.Contains(e.GetPosition(SpeedPanel))
+                || source.FindAncestorOfType<SpeedControl>(includeSelf: true) is not null
+                || PlayPanel.IsVolumeButtonSource(source)
+                || PlayPanel.IsSpeedButtonSource(source))
+            {
+                return;
+            }
+
+            VolumePanel.Close();
+            SpeedPanel.Close();
+            return;
+        }
+
+        HandleWindowPointerPressed(source, e);
+    }
+
+    private void HandleWindowPointerPressed(Visual source, PointerPressedEventArgs e)
+    {
+        var generalConfig = _applicationContext.Config.General;
+        var point = e.GetCurrentPoint(this);
+
+        if (IsMiniMode
+            || InternalViews.CurrentView is not null
+            || InternalMessages.CurrentView is not null
+            || !point.Properties.IsLeftButtonPressed
+            || (!generalConfig.ClickToHideControls && !generalConfig.DoubleClickWindowAction)
+            || (!_applicationContext.ControlsState.AreControlsHiddenByClick
+                && IsInteractiveWindowSource(source)))
         {
             return;
         }
 
-        VolumePanel.Close();
-        SpeedPanel.Close();
+        if (e.ClickCount >= 2)
+        {
+            _windowSingleClickTimer.Stop();
+
+            if (generalConfig.DoubleClickWindowAction)
+                ApplyWindowDoubleClickAction();
+
+            return;
+        }
+
+        if (!generalConfig.ClickToHideControls)
+            return;
+
+        if (!generalConfig.DoubleClickWindowAction)
+        {
+            _applicationContext.ControlsState.ToggleControlsHiddenByClick();
+            return;
+        }
+
+        _windowSingleClickTimer.Stop();
+        _windowSingleClickTimer.Start();
+    }
+
+    private static bool IsInteractiveWindowSource(Visual source)
+    {
+        return source.FindAncestorOfType<Button>(includeSelf: true) is not null
+            || source.FindAncestorOfType<Slider>(includeSelf: true) is not null
+            || source.FindAncestorOfType<TextBox>(includeSelf: true) is not null
+            || source.FindAncestorOfType<ComboBox>(includeSelf: true) is not null
+            || source.FindAncestorOfType<ListBox>(includeSelf: true) is not null
+            || source.FindAncestorOfType<ScrollBar>(includeSelf: true) is not null
+            || source.FindAncestorOfType<Thumb>(includeSelf: true) is not null
+            || source.FindAncestorOfType<MenuItem>(includeSelf: true) is not null
+            || source.FindAncestorOfType<PlayerControl>(includeSelf: true) is not null
+            || source.FindAncestorOfType<InfoBarControl>(includeSelf: true) is not null
+            || source.FindAncestorOfType<SidePanelControl>(includeSelf: true) is not null
+            || source.FindAncestorOfType<LyricsControl>(includeSelf: true) is not null
+            || source.FindAncestorOfType<KeyBindControl>(includeSelf: true) is not null;
+    }
+
+    private void WindowSingleClickTimer_Tick(object? sender, EventArgs e)
+    {
+        _windowSingleClickTimer.Stop();
+
+        if (!IsMiniMode && _applicationContext.Config.General.ClickToHideControls)
+            _applicationContext.ControlsState.ToggleControlsHiddenByClick();
+    }
+
+    private void ApplyWindowDoubleClickAction()
+    {
+        switch (_applicationContext.Config.General.WindowDoubleClickMode)
+        {
+            case WindowDoubleClickMode.Maximize:
+                WindowState = WindowState == WindowState.Maximized
+                    ? WindowState.Normal
+                    : WindowState.Maximized;
+                break;
+
+            case WindowDoubleClickMode.FullScreen:
+                WindowState = WindowState == WindowState.FullScreen
+                    ? WindowState.Normal
+                    : WindowState.FullScreen;
+                break;
+        }
+    }
+
+    private void GeneralConfig_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(GeneralConfig.ClickToHideControls)
+            && !_applicationContext.Config.General.ClickToHideControls)
+        {
+            _windowSingleClickTimer.Stop();
+            _applicationContext.ControlsState.ShowControls();
+        }
     }
 
     private void PlayPanel_NextRequested(object? sender, RoutedEventArgs e)
@@ -813,7 +922,9 @@ public partial class MainWindow : Window
         _playbackErrors.Clear();
         SaveCurrentWindowSize(IsMiniMode);
         _taskbarControls?.Dispose();
+        _windowSingleClickTimer.Stop();
         _hamburgerMenuContext.Dispose();
+        _applicationContext.Config.General.PropertyChanged -= GeneralConfig_PropertyChanged;
         _applicationContext.Config.MiniPlayer.PropertyChanged -= MiniPlayerConfig_PropertyChanged;
         _applicationContext.PlayerDataContext.PropertyChanged -= PlayerDataContext_PropertyChanged;
         _applicationContext.PlayerCore.CurrentTrackChanged -= PlayerCore_CurrentTrackChanged;

@@ -8,8 +8,9 @@ public enum VisualizationType
     CircleWaveform,
     Oscilloscope,
     OscilloscopeCenter,
-    OscilloscopeDouble,
-    OscilloscopeFilled,
+    // Legacy ID retained only for migration of saved profiles.
+    OscilloscopeDouble = 5,
+    OscilloscopeFilled = 6,
     Peaks,
     PeaksBouncing = 15,
     PeaksFloating = 8,
@@ -20,4 +21,7 @@ public enum VisualizationType
     StripesMirrored = 12,
     Waveform,
     WaveformMirrored,
+    Signal = 17,
+    SignalMirrored = 18,
+    PsxTriangles = 19,
 }

@@ -18,6 +18,7 @@ public class OscilloscopeFilledVisualizationConfig : ViewModelBase, IVisualizati
     #endregion CONST
 
     private BeamEffect _beamEffect = BeamEffect.Beam;
+    private bool _fill = true;
     private int _lineThickness = VisualizationBaseConfig.DEFAULT_LINE_THICKNESS;
     private double _opacity = 0.5;
     private bool _smoothLine = true;
@@ -29,6 +30,13 @@ public class OscilloscopeFilledVisualizationConfig : ViewModelBase, IVisualizati
     {
         get => _beamEffect;
         set => UpdateProperty(ref _beamEffect, value);
+    }
+
+    [NotifyPropertyUpdate]
+    public bool Fill
+    {
+        get => _fill;
+        set => UpdateProperty(ref _fill, value);
     }
 
     [NotifyPropertyUpdate]

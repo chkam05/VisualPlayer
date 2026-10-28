@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Lucide.Avalonia;
 using VisualPlayer.Contexts;
+using VisualPlayer.Enums.Config;
 using VisualPlayer.ViewModels.Config;
 
 namespace VisualPlayer.Views.Settings;
@@ -12,6 +14,9 @@ namespace VisualPlayer.Views.Settings;
 public partial class GeneralSettingsView : UserControl
 {
     private static TranslationContext T => ApplicationContext.Instance.Translations;
+
+    public IReadOnlyList<WindowDoubleClickMode> WindowDoubleClickModes { get; }
+        = Enum.GetValues<WindowDoubleClickMode>();
 
     #region CONVERTERS
 

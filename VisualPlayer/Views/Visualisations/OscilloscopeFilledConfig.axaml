@@ -36,10 +36,21 @@
                 Value="{ReflectionBinding Config.LineThickness, Mode=TwoWay}"/>
         </components:SettingsControl>
 
+        <!-- Fill -->
+        <components:SettingsControl
+            Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_FILLED_FILL_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
+            Icon="PaintBucket"
+            Title="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_FILLED_FILL_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
+
+            <components:Switch
+                IsChecked="{ReflectionBinding Config.Fill, Mode=TwoWay}"/>
+        </components:SettingsControl>
+
         <!-- Transparency -->
         <components:SettingsControl
             Description="{ReflectionBinding Translations[VIEW_VISUALIZATIONS_OSCILLOSCOPE_FILLED_OPACITY_DESC], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}"
             Icon="Blend"
+            IsEnabled="{ReflectionBinding Config.Fill}"
             Title="{ReflectionBinding Translations[COMMON_OPACITY_TITLE], Source={x:Static contexts:ApplicationContext.Instance}, Mode=OneWay}">
 
             <Grid ColumnDefinitions="48,180" ColumnSpacing="8">

@@ -9,6 +9,26 @@ namespace VisualPlayer.Utils;
 
 public static class VisualizationColorSampler
 {
+    public static Color GetColorAtPosition(
+        VisualizationColorConfig config,
+        double position,
+        Color fallbackColor)
+    {
+        position = Math.Clamp(position, 0, 1);
+
+        return config.Mode switch
+        {
+            VisualizationColorMode.Solid => config.SolidColor.ToColor(),
+            VisualizationColorMode.Gradient => Interpolate(config.Gradient, position),
+            VisualizationColorMode.Rainbow => new AHSLColor(
+                byte.MaxValue,
+                (int)Math.Round(position * AHSLColor.HUE_MAX),
+                100,
+                50).ToColor(),
+            _ => fallbackColor
+        };
+    }
+
     public static Color GetColor(
         VisualizationColorConfig config,
         double x,

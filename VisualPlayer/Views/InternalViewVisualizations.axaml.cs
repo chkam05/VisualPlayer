@@ -31,7 +31,6 @@ public partial class InternalViewVisualizations : InternalViewBase
     private readonly PeaksFloatingConfig _peaksFloatingConfig = new();
     private readonly OscilloscopeCenterConfig _oscilloscopeCenterConfig = new();
     private readonly OscilloscopeFilledConfig _oscilloscopeFilledConfig = new();
-    private readonly OscilloscopeDoubleConfig _oscilloscopeDoubleConfig = new();
     private readonly PeaksFloatingMirroredConfig _peaksFloatingMirroredConfig = new();
     private readonly PeaksMirroredConfig _peaksMirroredConfig = new();
     private readonly PeaksBouncingConfig _peaksBouncingConfig = new();
@@ -39,7 +38,10 @@ public partial class InternalViewVisualizations : InternalViewBase
     private readonly StripesMirroredConfig _stripesMirroredConfig = new();
     private readonly OscilloscopeConfig _oscilloscopeConfig = new();
     private readonly PeaksConfig _peaksConfig = new();
+    private readonly PsxTrianglesConfig _psxTrianglesConfig = new();
     private readonly StripesConfig _stripesConfig = new();
+    private readonly SignalConfig _signalConfig = new();
+    private readonly SignalMirrored _signalMirrored = new();
     private readonly WaveformConfig _waveformConfig = new();
     private readonly WaveformMirroredConfig _waveformMirroredConfig = new();
     private readonly CircleStripesConfig _circleStripesConfig = new();
@@ -124,6 +126,7 @@ public partial class InternalViewVisualizations : InternalViewBase
 
     public IReadOnlyList<VisualizationType> VisualizationTypes { get; }
         = Enum.GetValues<VisualizationType>()
+            .Where(type => type != VisualizationType.OscilloscopeDouble)
             .OrderBy(type => type.ToString(), StringComparer.Ordinal)
             .ToArray();
 
@@ -256,35 +259,40 @@ public partial class InternalViewVisualizations : InternalViewBase
 
         switch (SelectedProfile.VisualizationType)
         {
-            case VisualizationType.PeaksBouncing:
-                SelectedProfile.GetConfig<PeaksBouncingVisualizationConfig>();
-                _peaksBouncingConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _peaksBouncingConfig;
+            case VisualizationType.CircleStripes:
+                SelectedProfile.GetConfig<CircleStripesVisualizationConfig>();
+                _circleStripesConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _circleStripesConfig;
                 break;
-            case VisualizationType.StripesBouncing:
-                SelectedProfile.GetConfig<StripesBouncingVisualizationConfig>();
-                _stripesBouncingConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _stripesBouncingConfig;
+            case VisualizationType.CircleWaveform:
+                SelectedProfile.GetConfig<CircleWaveformVisualizationConfig>();
+                _circleWaveformConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _circleWaveformConfig;
+                break;
+            case VisualizationType.Oscilloscope:
+                SelectedProfile.GetConfig<OscilloscopeVisualizationConfig>();
+                _oscilloscopeConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _oscilloscopeConfig;
+                break;
+            case VisualizationType.OscilloscopeCenter:
+                SelectedProfile.GetConfig<OscilloscopeCenterVisualizationConfig>();
+                _oscilloscopeCenterConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _oscilloscopeCenterConfig;
+                break;
+            case VisualizationType.OscilloscopeFilled:
+                SelectedProfile.GetConfig<OscilloscopeFilledVisualizationConfig>();
+                _oscilloscopeFilledConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _oscilloscopeFilledConfig;
                 break;
             case VisualizationType.Peaks:
                 SelectedProfile.GetConfig<PeaksVisualizationConfig>();
                 _peaksConfig.DataContext = SelectedProfile;
                 PART_ConfigHost.Content = _peaksConfig;
                 break;
-            case VisualizationType.Stripes:
-                SelectedProfile.GetConfig<StripesVisualizationConfig>();
-                _stripesConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _stripesConfig;
-                break;
-            case VisualizationType.PeaksMirrored:
-                SelectedProfile.GetConfig<PeaksMirroredVisualizationConfig>();
-                _peaksMirroredConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _peaksMirroredConfig;
-                break;
-            case VisualizationType.StripesMirrored:
-                SelectedProfile.GetConfig<StripesMirroredVisualizationConfig>();
-                _stripesMirroredConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _stripesMirroredConfig;
+            case VisualizationType.PeaksBouncing:
+                SelectedProfile.GetConfig<PeaksBouncingVisualizationConfig>();
+                _peaksBouncingConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _peaksBouncingConfig;
                 break;
             case VisualizationType.PeaksFloating:
                 SelectedProfile.GetConfig<PeaksFloatingVisualizationConfig>();
@@ -296,25 +304,40 @@ public partial class InternalViewVisualizations : InternalViewBase
                 _peaksFloatingMirroredConfig.DataContext = SelectedProfile;
                 PART_ConfigHost.Content = _peaksFloatingMirroredConfig;
                 break;
-            case VisualizationType.Oscilloscope:
-                SelectedProfile.GetConfig<OscilloscopeVisualizationConfig>();
-                _oscilloscopeConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _oscilloscopeConfig;
+            case VisualizationType.PeaksMirrored:
+                SelectedProfile.GetConfig<PeaksMirroredVisualizationConfig>();
+                _peaksMirroredConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _peaksMirroredConfig;
                 break;
-            case VisualizationType.OscilloscopeDouble:
-                SelectedProfile.GetConfig<OscilloscopeDoubleVisualizationConfig>();
-                _oscilloscopeDoubleConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _oscilloscopeDoubleConfig;
+            case VisualizationType.PsxTriangles:
+                SelectedProfile.GetConfig<PsxTrianglesVisualizationConfig>();
+                _psxTrianglesConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _psxTrianglesConfig;
                 break;
-            case VisualizationType.OscilloscopeFilled:
-                SelectedProfile.GetConfig<OscilloscopeFilledVisualizationConfig>();
-                _oscilloscopeFilledConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _oscilloscopeFilledConfig;
+            case VisualizationType.Signal:
+                SelectedProfile.GetConfig<SignalVisualizationConfig>();
+                _signalConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _signalConfig;
                 break;
-            case VisualizationType.OscilloscopeCenter:
-                SelectedProfile.GetConfig<OscilloscopeCenterVisualizationConfig>();
-                _oscilloscopeCenterConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _oscilloscopeCenterConfig;
+            case VisualizationType.SignalMirrored:
+                SelectedProfile.GetConfig<SignalMirroredVisualizationConfig>();
+                _signalMirrored.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _signalMirrored;
+                break;
+            case VisualizationType.Stripes:
+                SelectedProfile.GetConfig<StripesVisualizationConfig>();
+                _stripesConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _stripesConfig;
+                break;
+            case VisualizationType.StripesBouncing:
+                SelectedProfile.GetConfig<StripesBouncingVisualizationConfig>();
+                _stripesBouncingConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _stripesBouncingConfig;
+                break;
+            case VisualizationType.StripesMirrored:
+                SelectedProfile.GetConfig<StripesMirroredVisualizationConfig>();
+                _stripesMirroredConfig.DataContext = SelectedProfile;
+                PART_ConfigHost.Content = _stripesMirroredConfig;
                 break;
             case VisualizationType.Waveform:
                 SelectedProfile.GetConfig<WaveformVisualizationConfig>();
@@ -325,16 +348,6 @@ public partial class InternalViewVisualizations : InternalViewBase
                 SelectedProfile.GetConfig<WaveformMirroredVisualizationConfig>();
                 _waveformMirroredConfig.DataContext = SelectedProfile;
                 PART_ConfigHost.Content = _waveformMirroredConfig;
-                break;
-            case VisualizationType.CircleStripes:
-                SelectedProfile.GetConfig<CircleStripesVisualizationConfig>();
-                _circleStripesConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _circleStripesConfig;
-                break;
-            case VisualizationType.CircleWaveform:
-                SelectedProfile.GetConfig<CircleWaveformVisualizationConfig>();
-                _circleWaveformConfig.DataContext = SelectedProfile;
-                PART_ConfigHost.Content = _circleWaveformConfig;
                 break;
             default:
                 PART_ConfigHost.Content = new TextBlock

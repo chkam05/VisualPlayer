@@ -92,6 +92,9 @@ public partial class SidePanelControl : UserControl
     public static readonly StyledProperty<bool> IsMenuOpenProperty
         = AvaloniaProperty.Register<SidePanelControl, bool>(nameof(IsMenuOpen), defaultBindingMode: BindingMode.TwoWay);
 
+    public static readonly StyledProperty<bool> IsManuallyHiddenProperty
+        = AvaloniaProperty.Register<SidePanelControl, bool>(nameof(IsManuallyHidden));
+
     public static readonly StyledProperty<bool> IsPlayListOpenProperty
         = AvaloniaProperty.Register<SidePanelControl, bool>(nameof(IsPlayListOpen), defaultBindingMode: BindingMode.TwoWay);
 
@@ -151,6 +154,12 @@ public partial class SidePanelControl : UserControl
     {
         get => GetValue(IsMenuOpenProperty);
         set => SetValue(IsMenuOpenProperty, value);
+    }
+
+    public bool IsManuallyHidden
+    {
+        get => GetValue(IsManuallyHiddenProperty);
+        set => SetValue(IsManuallyHiddenProperty, value);
     }
 
     public bool IsPlayListOpen
@@ -477,7 +486,14 @@ public partial class SidePanelControl : UserControl
             UpdateOccupiedWidth();
         }
 
-        if (change.Property == AutoHideProperty
+        if (change.Property == IsManuallyHiddenProperty)
+        {
+            if (IsManuallyHidden)
+                HidePanel();
+            else
+                ShowPanel();
+        }
+        else if (change.Property == AutoHideProperty
             || change.Property == IsPlayListOpenProperty
             || change.Property == RevealSizeProperty)
         {
@@ -517,6 +533,9 @@ public partial class SidePanelControl : UserControl
 
     private void ShowPanel()
     {
+        if (IsManuallyHidden)
+            return;
+
         ++_hideTransitionVersion;
         _isMenuCollapsing = false;
         _isPanelHidden = false;
@@ -550,6 +569,12 @@ public partial class SidePanelControl : UserControl
 
     private void UpdateAutoHideState()
     {
+        if (IsManuallyHidden)
+        {
+            HidePanel();
+            return;
+        }
+
         if (_isMenuCollapsing || _isPlayListCollapsing)
         {
             _isPanelHidden = false;

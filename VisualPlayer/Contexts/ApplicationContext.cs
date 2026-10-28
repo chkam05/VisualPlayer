@@ -27,6 +27,7 @@ public class ApplicationContext : ViewModelBase
     private readonly IPlatformSettings? _platformSettings;
 
     public EqualizerConfigurationContext EqualizerConfig { get; private set; }
+    public ControlsState ControlsState { get; private set; }
     public InfoBarContext InfoBarContext { get; private set; }
     public LibraryCore LibraryCore { get; private set; }
     public LyricsCore LyricsCore { get; private set; }
@@ -56,6 +57,7 @@ public class ApplicationContext : ViewModelBase
     private ApplicationContext()
     {
         Config = ConfigurationContext.Load();
+        ControlsState = new ControlsState(Config.Appearance);
         Translations = new TranslationContext(Config.General);
         EqualizerConfig = EqualizerConfigurationContext.Load(Translations);
         VisualizationConfig = VisualizationConfigurationContext.Load();
@@ -124,6 +126,7 @@ public class ApplicationContext : ViewModelBase
             File.Delete(ConfigurationContext.NowPlayingFilePath);
 
         Config.Save();
+        ControlsState.Dispose();
         EqualizerConfig.Save();
         VisualizationConfig.Save();
         Config.PropertyChanged -= Config_PropertyChanged;
